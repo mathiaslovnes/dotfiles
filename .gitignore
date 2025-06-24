@@ -1,5 +1,5 @@
 # Ignore Karabiner automatic backups
-karabiner_elements/private_automatic_backups/
+karabiner/private_automatic_backups/
 # Ignore macOS metadata files
 **/.DS_Store
 **/dot_DS_Store
