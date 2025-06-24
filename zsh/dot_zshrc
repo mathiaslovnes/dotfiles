@@ -1,3 +1,5 @@
+# @chezmoi.target: .zshrc
+
 # Personal custom additions
 echo "Loaded ~/.zshrc"
 export EDITOR="nvim"
