@@ -2,5 +2,9 @@ source ~/.config/nvim/vim-common.vim
 
 " Map <leader>r to Rename (Shift + F6)
 nmap <leader>r <Action>(RenameElement)<C-\><C-N>a
+
+" Quickscope plugin to highlight letters when using f, F, t, and T
+set quickscope
+
 set idearefactormode=keep
 set clipboard^=ideaput

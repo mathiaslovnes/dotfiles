@@ -1,5 +1,4 @@
 # Personal custom additions
-echo "Loaded ~/.zshrc"
 export EDITOR="nvim"
 export VISUAL="nvim"
 bindkey "^[^?" backward-kill-word
