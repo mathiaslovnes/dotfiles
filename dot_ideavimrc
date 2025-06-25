@@ -3,15 +3,5 @@ source ~/.config/nvim/vim-common.vim
 " Map <leader>r to Rename (Shift + F6)
 nmap <leader>r <Action>(RenameElement)<C-\><C-N>a
 
-set sneak
-" Quickscope plugin to highlight letters when using f, F, t, and T
-" Configure quickscope behavior BEFORE enabling it
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-
-" Optional color customization
-" let g:qs_primary_color = '#ff0000'
-" let g:qs_secondary_color = '#00ff00'
-set quickscope
-
 set idearefactormode=keep
 set clipboard^=ideaput
