@@ -1,8 +1,7 @@
-#!/bin/bash
 
 yabai -m space --focus 4
 
-yabai -m space --space --layout float
+yabai -m space --layout float
 
 # Launch apps (or bring to front)
 open -a mpv
@@ -10,7 +9,7 @@ open -a "Google Chrome"
 open -a "ChatGPT"
 open -a "Pycharm" 
 
-sleep 0.5  # wait a bit for apps to launch
+sleep 1  # wait a bit for apps to launch
 
 osascript -e 'tell application "Google Chrome"
     make new window

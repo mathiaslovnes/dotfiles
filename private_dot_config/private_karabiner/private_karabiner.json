@@ -30,14 +30,15 @@
                         ]
                     },
                     {
-                        "description": "Map Ctrl + WASD to Arrow Keys (except in JetBrains apps)",
-                        "enabled": false,
+                        "description": "Map Ctrl + WASD to Arrow Keys (except in JetBrains apps and Terminal)",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.jetbrains\\."
+                                            "^com\\.jetbrains\\.",
+                                            "^com\\.apple\\.Terminal$",
+                                            "^com\\.googlecode\\.iterm2$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
@@ -53,7 +54,9 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.jetbrains\\."
+                                            "^com\\.jetbrains\\.",
+                                            "^com\\.apple\\.Terminal$",
+                                            "^com\\.googlecode\\.iterm2$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
@@ -69,7 +72,9 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.jetbrains\\."
+                                            "^com\\.jetbrains\\.",
+                                            "^com\\.apple\\.Terminal$",
+                                            "^com\\.googlecode\\.iterm2$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
@@ -85,7 +90,9 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.jetbrains\\."
+                                            "^com\\.jetbrains\\.",
+                                            "^com\\.apple\\.Terminal$",
+                                            "^com\\.googlecode\\.iterm2$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
