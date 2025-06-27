@@ -5,3 +5,22 @@ nmap <leader>r <Action>(RenameElement)<C-\><C-N>a
 
 set idearefactormode=keep
 set clipboard^=ideaput
+
+" which-key
+set which-key
+set timeoutlen=-1
+
+" vim-surround
+" how? https://github.com/tpope/vim-surround
+Plug 'tpope/vim-surround'
+
+" highlighted-yank
+Plug 'machakann/vim-highlightedyank'
+let g:highlightedyank_highlight_duration = "100"
+
+" vim-commentary - quickly comment out lines using keybinds
+" Summary - Comment stuff out. Use gcc to comment out a line (takes a count), gc to comment out the target of a motion (for example, gcap to comment out a paragraph), gc in visual mode to comment out the selection, and gc in operator pending mode to target a comment. 
+" You can also use it as a command, either with a range like :7,17Commentary, or as part of a :global invocation like with :g/TODO/Commentary. That's it.
+Plug 'tpope/vim-commentary'
+
+
