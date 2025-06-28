@@ -4,11 +4,11 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Caps Lock + < to open Finder",
+                        "description": "Caps Lock + X to open Finder",
                         "manipulators": [
                             {
                                 "from": {
-                                    "key_code": "international1",
+                                    "key_code": "x",
                                     "modifiers": { "mandatory": ["left_command", "left_option", "left_shift", "left_control"] }
                                 },
                                 "to": [{ "shell_command": "open -a 'Finder'" }],
