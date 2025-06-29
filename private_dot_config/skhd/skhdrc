@@ -83,15 +83,15 @@ shift + alt - 7 : yabai -m window --space 7; yabai -m space --focus 7
 
 
 # -- Moving Between Spaces --
-shift + ctrl + alt + cmd - 1 : yabai -m space --focus 1
-shift + ctrl + alt + cmd - 2 : yabai -m space --focus 2
-shift + ctrl + alt + cmd - 3 : yabai -m space --focus 3
-shift + ctrl + alt + cmd - 4 : yabai -m space --focus 4
-shift + ctrl + alt + cmd - 5 : yabai -m space --focus 5
-shift + ctrl + alt + cmd - 6 : yabai -m space --focus 6
-shift + ctrl + alt + cmd - 7 : yabai -m space --focus 7
-shift + ctrl + alt + cmd - 7 : yabai -m space --focus 8
-shift + ctrl + alt + cmd - 7 : yabai -m space --focus 9
+shift + alt + ctrl - 1 : yabai -m space --focus 1
+shift + alt + ctrl - 2 : yabai -m space --focus 2
+shift + alt + ctrl - 3 : yabai -m space --focus 3
+shift + alt + ctrl - 4 : yabai -m space --focus 4
+shift + alt + ctrl - 5 : yabai -m space --focus 5
+shift + alt + ctrl - 6 : yabai -m space --focus 6
+shift + alt + ctrl - 7 : yabai -m space --focus 7
+shift + alt + ctrl - 7 : yabai -m space --focus 8
+shift + alt + ctrl - 7 : yabai -m space --focus 9
 
 
 # Toggle between vertical and horizontal split for an application

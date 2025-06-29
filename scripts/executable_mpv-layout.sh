@@ -10,16 +10,6 @@ open -na "Brave Browser"
 open -a "ChatGPT"
 # open -a "Pycharm"
 
-# Wait for Brave window to exist before continuing
-while true; do
-  brave_id=$(yabai -m query --windows 2>/dev/null | jq '.[] | select(.app == "Brave Browser") | .id' | head -n 1)
-  if [ -n "$brave_id" ]; then
-    break
-  fi
-  sleep 0.2
-done
-
-# Now Brave is open and visible — run AppleScript
 osascript <<EOF
 tell application "Brave Browser"
     activate
@@ -37,6 +27,7 @@ sleep 0.5
 # Get window IDs
 mpv_id=$(yabai -m query --windows | jq '.[] | select(.app == "mpv") | .id')
 gpt_id=$(yabai -m query --windows | jq '.[] | select(.app == "ChatGPT") | .id')
+brave_id=$(yabai -m query --windows | jq '.[] | select(.app == "Brave Browser") | .id')
 # pycharm_id=$(yabai -m query --windows | jq '.[] | select(.app == "Pycharm") | .id')
 
 # Move mpv 
