@@ -11,7 +11,7 @@
                                     "key_code": "x",
                                     "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "osascript -e 'tell application \"Finder\" to activate'" }],
+                                "to": [{ "shell_command": "open -a 'Finder'" }],
                                 "type": "basic"
                             }
                         ]
@@ -24,7 +24,7 @@
                                     "key_code": "period",
                                     "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "osascript -e 'tell application \"Cold Turkey Blocker\" to activate'" }],
+                                "to": [{ "shell_command": "open -a 'Cold Turkey Blocker'" }],
                                 "type": "basic"
                             }
                         ]
@@ -355,7 +355,7 @@
                                     "key_code": "n",
                                     "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "osascript -e 'tell application \"notes\" to activate'" }],
+                                "to": [{ "shell_command": "open -a 'notes'" }],
                                 "type": "basic"
                             }
                         ]
@@ -399,7 +399,7 @@
                                     "key_code": "slash",
                                     "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "osascript -e 'tell application \"Things3\" to activate'" }],
+                                "to": [{ "shell_command": "open -a 'Things3'" }],
                                 "type": "basic"
                             }
                         ]
@@ -640,7 +640,7 @@
                                     "key_code": "r",
                                     "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "osascript -e 'tell application \"Calculator\" to activate'" }],
+                                "to": [{ "shell_command": "open -a 'Calculator'" }],
                                 "type": "basic"
                             }
                         ]
@@ -653,7 +653,7 @@
                                     "key_code": "o",
                                     "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "osascript -e 'tell application \"Obsidian\" to activate'" }],
+                                "to": [{ "shell_command": "open -a 'Obsidian'" }],
                                 "type": "basic"
                             }
                         ]
@@ -708,7 +708,7 @@
                                     "key_code": "d",
                                     "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "osascript -e 'tell application \"discord\" to activate'" }],
+                                "to": [{ "shell_command": "open -a 'discord'" }],
                                 "type": "basic"
                             }
                         ]
@@ -721,7 +721,7 @@
                                     "key_code": "f",
                                     "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "osascript -e 'tell application \"Jisho.org.app\" to activate'" }],
+                                "to": [{ "shell_command": "open -a 'Jisho.org.app'" }],
                                 "type": "basic"
                             }
                         ]
@@ -752,7 +752,7 @@
                                     "key_code": "l",
                                     "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "osascript -e 'tell application \"Apple Music\" to activate'" }],
+                                "to": [{ "shell_command": "open -a 'Apple Music'" }],
                                 "type": "basic"
                             }
                         ]
@@ -765,7 +765,7 @@
                                     "key_code": "s",
                                     "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "osascript -e 'tell application \"System Settings\" to activate'" }],
+                                "to": [{ "shell_command": "open -a 'System Settings'" }],
                                 "type": "basic"
                             }
                         ]
@@ -796,7 +796,7 @@
                                     "key_code": "t",
                                     "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "osascript -e 'tell application \"iterm\" to activate'" }],
+                                "to": [{ "shell_command": "open -a 'iterm'" }],
                                 "type": "basic"
                             }
                         ]
@@ -809,7 +809,7 @@
                                     "key_code": "m",
                                     "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "osascript -e 'tell application \"mail\" to activate'" }],
+                                "to": [{ "shell_command": "open -a 'mail'" }],
                                 "type": "basic"
                             }
                         ]
@@ -822,7 +822,7 @@
                                     "key_code": "p",
                                     "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "osascript -e 'tell application \"NordPass\" to activate'" }],
+                                "to": [{ "shell_command": "open -a 'NordPass'" }],
                                 "type": "basic"
                             }
                         ]
@@ -835,7 +835,7 @@
                                     "key_code": "v",
                                     "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "osascript -e 'tell application \"MPV\" to activate'" }],
+                                "to": [{ "shell_command": "open -a 'MPV'" }],
                                 "type": "basic"
                             }
                         ]
@@ -848,7 +848,7 @@
                                     "key_code": "w",
                                     "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "osascript -e 'tell application \"Webstorm\" to activate'" }],
+                                "to": [{ "shell_command": "open -a 'Webstorm'" }],
                                 "type": "basic"
                             }
                         ]
@@ -861,7 +861,7 @@
                                     "key_code": "i",
                                     "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "osascript -e 'tell application \"IntelliJ IDEA\" to activate'" }],
+                                "to": [{ "shell_command": "open -a 'IntelliJ IDEA'" }],
                                 "type": "basic"
                             }
                         ]
@@ -874,7 +874,7 @@
                                     "key_code": "k",
                                     "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "osascript -e 'tell application \"Karabiner-Elements\" to activate'" }],
+                                "to": [{ "shell_command": "open -a 'Karabiner-Elements'" }],
                                 "type": "basic"
                             }
                         ]
@@ -887,7 +887,7 @@
                                     "key_code": "q",
                                     "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "osascript -e 'tell application \"ChatGPT\" to activate'" }],
+                                "to": [{ "shell_command": "open -a 'ChatGPT'" }],
                                 "type": "basic"
                             }
                         ]
@@ -900,7 +900,7 @@
                                     "key_code": "a",
                                     "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "osascript -e 'tell application \"Anki\" to activate'" }],
+                                "to": [{ "shell_command": "open -a 'Anki'" }],
                                 "type": "basic"
                             }
                         ]
@@ -913,7 +913,7 @@
                                     "key_code": "c",
                                     "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "osascript -e 'tell application \"Brave Browser\" to activate'" }],
+                                "to": [{ "shell_command": "open -a 'Brave Browser'" }],
                                 "type": "basic"
                             }
                         ]
@@ -926,7 +926,7 @@
                                     "key_code": "c",
                                     "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "osascript -e 'tell application \"Google Chrome\" to activate'" }],
+                                "to": [{ "shell_command": "open -a 'Google Chrome'" }],
                                 "type": "basic"
                             }
                         ]
@@ -1179,3 +1179,4 @@
         }
     ]
 }
+
