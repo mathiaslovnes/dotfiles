@@ -8,6 +8,8 @@ yabai -m space --layout float
 open -a mpv
 open -na "Brave Browser"
 open -a "ChatGPT"
+open -na "Finder" ~/日本語/Subtitles
+open -na "Finder" ~/Torrents
 # open -a "Pycharm"
 
 osascript <<EOF
@@ -28,6 +30,7 @@ sleep 0.5
 mpv_id=$(yabai -m query --windows | jq '.[] | select(.app == "mpv") | .id')
 gpt_id=$(yabai -m query --windows | jq '.[] | select(.app == "ChatGPT") | .id')
 brave_id=$(yabai -m query --windows | jq '.[] | select(.app == "Brave Browser") | .id')
+finder_ids=($(yabai -m query --windows | jq '.[] | select(.app == "Finder") | .id'))
 # pycharm_id=$(yabai -m query --windows | jq '.[] | select(.app == "Pycharm") | .id')
 
 # Move mpv 
@@ -49,6 +52,19 @@ if [ -n "$gpt_id" ]; then
   yabai -m window "$gpt_id" --space 4
   yabai -m window "$gpt_id" --move abs:325:125
   yabai -m window "$gpt_id" --resize abs:1575:1200
+fi
+#
+# Move Finder windows
+if [ -n "${finder_ids[0]}" ]; then
+  yabai -m window "${finder_ids[0]}" --space 4
+  yabai -m window "${finder_ids[0]}" --move abs:1600:0
+  yabai -m window "${finder_ids[0]}" --resize abs:900:700
+fi
+
+if [ -n "${finder_ids[1]}" ]; then
+  yabai -m window "${finder_ids[1]}" --space 4
+  yabai -m window "${finder_ids[1]}" --move abs:2550:0
+  yabai -m window "${finder_ids[1]}" --resize abs:800:700
 fi
 
 # Move Pycharm

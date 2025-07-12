@@ -35,6 +35,7 @@ shift + alt - e : yabai -m space --balance
 
 # -- Moving Windows Around --
 
+
 # swap windows
 shift + alt - j : yabai -m window --swap south
 shift + alt - k : yabai -m window --swap north
@@ -64,10 +65,10 @@ ctrl + cmd - s : yabai -m window --resize bottom:0:-50
 ctrl + cmd - w : yabai -m window --resize top:0:50
 ctrl + cmd - d : yabai -m window --resize right:-50:0 
 
-# Change Padding
-# Increase padding
+# Minimize window
+alt - w : yabai -m window --minimize
 
-# move window to prev and next spac
+# move window to prev and next space
 shift + alt - p : yabai -m window --space prev;
 shift + alt - n : yabai -m window --space next;
 
@@ -78,7 +79,6 @@ shift + alt - 3 : yabai -m window --space 3; yabai -m space --focus 3
 shift + alt - 4 : yabai -m window --space 4; yabai -m space --focus 4
 shift + alt - 5 : yabai -m window --space 5; yabai -m space --focus 5
 shift + alt - 6 : yabai -m window --space 6; yabai -m space --focus 6
-shift + alt - 7 : yabai -m window --space 7; yabai -m space --focus 7
 
 
 
