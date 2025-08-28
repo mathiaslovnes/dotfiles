@@ -4,6 +4,76 @@
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "Map Command + < to Command + I",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "non_us_backslash",
+                                    "modifiers": { "mandatory": ["command"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "i",
+                                        "modifiers": ["command"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Bind Hyper + Command + A to English",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "a",
+                                    "modifiers": { "mandatory": ["left_option", "left_control", "left_shift", "left_command"] }
+                                },
+                                "to": [{ "key_code": "lang2" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Bind Hyper + Command + D to Japanese",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "d",
+                                    "modifiers": { "mandatory": ["left_option", "left_shift", "left_control", "left_command"] }
+                                },
+                                "to": [{ "key_code": "lang1" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Bind Option + F to Japanese",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "f",
+                                    "modifiers": { "mandatory": ["left_option"] }
+                                },
+                                "to": [{ "key_code": "lang1" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Bind Option + S to English",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "s",
+                                    "modifiers": { "mandatory": ["left_option"] }
+                                },
+                                "to": [{ "key_code": "lang2" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Caps Lock + X to open Finder",
                         "manipulators": [
                             {
@@ -31,6 +101,7 @@
                     },
                     {
                         "description": "Map Ctrl + WASD to Arrow Keys (except in JetBrains apps and Terminal)",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "conditions": [
@@ -947,7 +1018,7 @@
                     {
                         "manipulators": [
                             {
-                                "description": "Change caps_lock to command+control+option+shift.",
+                                "description": "Change caps_lock to control+option+shift.",
                                 "from": {
                                     "key_code": "caps_lock",
                                     "modifiers": { "optional": ["any"] }
@@ -964,6 +1035,7 @@
                     },
                     {
                         "description": "Bind Control + X to Japanese",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
@@ -977,6 +1049,7 @@
                     },
                     {
                         "description": "Bind Control + Z to English",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
@@ -994,7 +1067,7 @@
                             {
                                 "from": {
                                     "key_code": "return_or_enter",
-                                    "modifiers": { "mandatory": ["left_control"] }
+                                    "modifiers": { "mandatory": ["right_control"] }
                                 },
                                 "to": [{ "key_code": "play_or_pause" }],
                                 "type": "basic"
@@ -1099,36 +1172,6 @@
                                 "type": "basic"
                             }
                         ]
-                    },
-                    {
-                        "description": "Remap `~` key to `<` and `Shift + ~` to `>`",
-                        "enabled": false,
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "f23",
-                                    "modifiers": { "optional": ["any"] }
-                                },
-                                "to": [{ "key_code": "non_us_backslash" }],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "f23",
-                                    "modifiers": {
-                                        "mandatory": ["shift"],
-                                        "optional": ["any"]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "non_us_backslash",
-                                        "modifiers": ["shift"]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
                     }
                 ]
             },
@@ -1179,4 +1222,3 @@
         }
     ]
 }
-

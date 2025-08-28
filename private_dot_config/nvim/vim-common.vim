@@ -101,8 +101,11 @@ nnoremap <leader>w <C-w>w
 nnoremap <BS> a<BS><Esc>
 nnoremap <C-x> a<BS><Esc>
 
-" Shift + Enter makes a new line without moving cursor
-nnoremap <S-CR> :call append(line('.') - 1, '')<CR>
+" Shift+Enter: insert new line below without moving the cursor
+nnoremap <S-CR> :call append(line('.'), '')<CR>
+
+" Ctrl+Enter: insert new line above without moving the cursor
+nnoremap <C-CR> :call append(line('.')-1, '')<CR>
 
 " === END ===
 
