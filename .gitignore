@@ -6,3 +6,7 @@
 **/dot_DS_Store
 # Ignore backup config files
 **/*.bak
+
+
+**/private_mpv/fonts/
+**/private_mpv/private_watch_later/
