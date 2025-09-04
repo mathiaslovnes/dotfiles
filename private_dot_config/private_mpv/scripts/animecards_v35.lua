@@ -41,7 +41,7 @@ local prefix = utils.join_path(os.getenv('HOME'), [[Library/Application Support/
 -- Padding grabs extra audio around your selected subs.
 -- Fade does a volume fade effect at the beginning and end of the resulting audio.
 local AUDIO_CLIP_FADE = 0
-local AUDIO_CLIP_PADDING = 0.2
+local AUDIO_CLIP_PADDING = 0.3333
 -- Optional fetch Forvo word audio if word audio field is empty in Anki.
 local WORD_AUDIO_FIELD = "wordAudio"
 -- Optional play sentence and forvo audio automatically after card update
