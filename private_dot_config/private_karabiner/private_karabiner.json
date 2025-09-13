@@ -718,6 +718,7 @@
                     },
                     {
                         "description": "Remap Shift + q to Control + Tab (Focus Previous Tab)",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
@@ -736,6 +737,7 @@
                     },
                     {
                         "description": "Remap Shift + q to Shift + Tab (Focus Next Tab)",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
