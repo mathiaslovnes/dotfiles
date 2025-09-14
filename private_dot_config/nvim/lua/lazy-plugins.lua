@@ -24,7 +24,7 @@ require('lazy').setup({
   -- include a plugin definition from file lua/path/name.lua
 
   require 'plugins.gitsigns',
-  --
+
   require 'plugins.which-key',
 
   require 'plugins.telescope',
@@ -67,6 +67,15 @@ require('lazy').setup({
   -- require 'plugins.pyworks',
   require 'plugins.vim-jukit',
   require 'plugins.vim-markdown',
+  require 'plugins.neoscroll',
+  require 'plugins.sneak',
+  require 'plugins.incline',
+  require 'plugins.dadbod',
+  require 'plugins.diffview',
+  require 'plugins.tmux-navigator',
+  require 'plugins.undotree',
+  require 'plugins.code-runner',
+  require 'plugins.markview',
 
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!

@@ -15,6 +15,10 @@ opt.smartindent = true
 opt.autoindent = true
 opt.textwidth = 100
 opt.scrolloff = 15
+opt.cursorline = false
+vim.o.foldenable = false -- don't fold automatically
+vim.o.foldmethod = 'manual' -- only fold manually
+vim.o.foldlevel = 99 -- open all folds
 
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
@@ -70,9 +74,6 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 -- Preview substitutions live, as you type!
 vim.o.inccommand = 'split'
-
--- Show which line your cursor is on
-vim.o.cursorline = true
 
 -- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
 -- instead raise a dialog asking if you wish to save the current file(s)

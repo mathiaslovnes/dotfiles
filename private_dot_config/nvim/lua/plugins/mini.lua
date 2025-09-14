@@ -30,17 +30,17 @@ return {
         mappings = {
           -- Toggle comment (like `gcip` - comment inner paragraph) for both
           -- Normal and Visual modes
-          comment = 'D-k',
+          comment = '<C-c>',
 
           -- Toggle comment on current line
-          comment_line = '<A-k>',
+          comment_line = '<C-c>',
 
           -- Toggle comment on visual selection
-          comment_visual = '<A-k>',
+          comment_visual = '<C-c>',
 
           -- Define 'comment' textobject (like `dgc` - delete whole comment block)
           -- Works also in Visual mode if mapping differs from `comment_visual`
-          textobject = '<A-k>',
+          textobject = '<C-c>',
         },
 
         -- Hook functions to be executed at certain stage of commenting

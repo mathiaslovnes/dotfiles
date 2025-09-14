@@ -1,5 +1,4 @@
 -- [[ Basic Keymaps ]]
---
 
 -- === Leader key ===
 vim.g.mapleader = ' '
@@ -21,7 +20,7 @@ vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 
 -- Open terminal window
-vim.keymap.set('n', '<M-t>', '<cmd>lua Snacks.terminal.toggle()<CR>')
+vim.keymap.set('n', '<C-t>', '<cmd>lua Snacks.terminal.toggle()<CR>')
 
 -- Run python code
 vim.keymap.set('n', '<leader>rp', '<cmd>w | term python3 "%"<CR>')
@@ -32,6 +31,12 @@ vim.keymap.set('n', 'x', '"_x')
 vim.keymap.set('v', 'p', '"_dP')
 vim.keymap.set('n', 'db', 'vb"_d')
 vim.keymap.set('n', 'dw', 'vw"_d')
+vim.keymap.set('n', 'ch', '"_ch')
+vim.keymap.set('n', 'cl', '"_cl')
+
+-- Scrolling speed
+vim.keymap.set('n', '<ScrollWheelUp>', '<C-Y>') -- Scroll up 1 line
+vim.keymap.set('n', '<ScrollWheelDown>', '<C-E>') -- Scroll down 1 line
 
 -- Toggle line wrapping
 vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>')
@@ -40,16 +45,35 @@ vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>')
 vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('v', '>', '>gv')
 
--- Increment/decrement
-vim.keymap.set('n', '+', '<C-a>')
-vim.keymap.set('n', '-', '<C-x>')
-
 -- Shift + backspace to delete prev word
 vim.keymap.set('i', '<M-BS>', '<C-w>')
 
+-- === Split navigation ===
+vim.keymap.set('n', '<C-w><C-h>', '<C-w>h')
+vim.keymap.set('n', '<C-w><C-j>', '<C-w>j')
+vim.keymap.set('n', '<C-w><C-k>', '<C-w>k')
+vim.keymap.set('n', '<C-w><C-l>', '<C-w>l')
+
+-- Adjust window size
+vim.keymap.set('n', '<C-w><C-s>', '<C-w>-')
+vim.keymap.set('n', '<C-w><C-w>', '<C-w>+')
+vim.keymap.set('n', '<C-w><C-a>', '<C-w>5>')
+vim.keymap.set('n', '<C-w>>C-d>', '<C-w>5<')
+-- Split windows
+vim.keymap.set('n', '<leader>hs', ':split<CR>')
+vim.keymap.set('n', '<leader>vs', ':vsplit<CR>')
+-- vim.keymap.set('n', '-', '<C-w>-')
+-- vim.keymap.set('n', '+', '<C-w>+')
+-- vim.keymap.set('n', '?', '<C-w>5<')
+-- vim.keymap.set('n', '_', '<C-w>5>')
+-- vim.keymap.set('n', '<M-w>', '<C-w>+')
+-- vim.keymap.set('n', '<M-s>', '<C-w>-')
+-- vim.keymap.set('n', '<M-a>', '<C-w>5>')
+-- vim.keymap.set('n', '<M-d>', '<C-w>5<')
+
 -- Tabs
 -- Bufferline: Switch to specific buffers with CMD + number
-vim.keymap.set('n', '<C-c>', '<cmd>bd<CR>', { desc = 'Close current buffer' })
+vim.keymap.set('n', '<C-x>', '<cmd>bd<CR>', { desc = 'Close current buffer' })
 vim.keymap.set('n', '<Tab>', '<cmd>enew<CR>', { desc = 'Create a new buffer' })
 vim.keymap.set('n', '<C-1>', '<cmd>BufferLineGoToBuffer 1<CR>', { desc = 'Go to buffer 1' })
 vim.keymap.set('n', '<C-2>', '<cmd>BufferLineGoToBuffer 2<CR>', { desc = 'Go to buffer 2' })
@@ -63,7 +87,7 @@ vim.keymap.set('n', '<C-e>', '<cmd>BufferLineCycleNext<CR>', { desc = 'Next buff
 vim.keymap.set('n', '<C-q>', '<cmd>BufferLineCyclePrev<CR>', { desc = 'Previous buffer' })
 
 -- Mark entire file
-vim.keymap.set('n', '<D-a>', 'ggVG')
+vim.keymap.set('n', '<C-s>', 'ggVG')
 
 -- === Leader bindings ===
 vim.keymap.set('n', '<leader>d', '"_d')
@@ -84,12 +108,6 @@ vim.keymap.set('n', '<C-k>', '5k')
 vim.keymap.set('n', 'H', '^')
 vim.keymap.set('n', 'L', '$')
 
--- === Split navigation ===
-vim.keymap.set('n', '<C-h>', '<C-w>h')
-vim.keymap.set('n', '<C-j>', '<C-w>j')
-vim.keymap.set('n', '<C-k>', '<C-w>k')
-vim.keymap.set('n', '<C-l>', '<C-w>l')
-
 -- === Visual mode indents ===
 vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('v', '>', '>gv')
@@ -99,6 +117,27 @@ vim.keymap.set('n', '<leader>cv', '<cmd>CsvViewToggle delimiter=, display_mode=b
 
 -- LazyGit
 vim.keymap.set('n', '<leader>g', '<cmd>LazyGit<CR>')
+
+-- Git diffview
+vim.keymap.set('n', '<leader>gdo', ':DiffviewOpen<CR>', { desc = 'Open Diffview' })
+vim.keymap.set('n', '<leader>gdc', ':DiffviewClose<CR>', { desc = 'Close Diffview' })
+vim.keymap.set('n', '<leader>gdh', ':DiffviewFileHistory %<CR>', { desc = 'File History' })
+vim.keymap.set('n', '<leader>gdr', ':DiffviewRefresh<CR>', { desc = 'Refresh Diffview' })
+
+-- Sneak
+vim.keymap.set('n', 'f', '<Plug>Sneak_f')
+vim.keymap.set('n', 'F', '<Plug>Sneak_F')
+vim.keymap.set('n', 't', '<Plug>Sneak_t')
+vim.keymap.set('n', 'T', '<Plug>Sneak_T')
+vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>Sneak_s', { noremap = false })
+vim.keymap.set({ 'n', 'x', 'o' }, 'S', '<Plug>Sneak_S', { noremap = false })
+
+-- Inc-Rename
+vim.keymap.set('n', '<leader>rn', ':IncRename ')
+-- If you want to fill in the word under the cursor you can use the following:
+-- vim.keymap.set("n", "<leader>rn", function()
+-- return ":IncRename " .. vim.fn.expand("<cword>")
+-- end, { expr = true })
 
 -- === Enter key remaps ===
 vim.keymap.set('n', '<CR>', 'o<ESC>')
@@ -137,10 +176,10 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 --  Use CTRL+<hjkl> to switch between windows
 --
 --  See `:help wincmd` for a list of all window commands
-vim.keymap.set('n', '<Up>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-vim.keymap.set('n', '<Down>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<Left>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<Right>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
+-- vim.keymap.set('n', '<Up>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+-- vim.keymap.set('n', '<Down>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+-- vim.keymap.set('n', '<Left>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
+-- vim.keymap.set('n', '<Right>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`

@@ -2,7 +2,7 @@ return {
   'luk400/vim-jukit',
   ft = { 'python', 'ipynb' },
   config = function()
-    vim.g.jukit_terminal = 'kitty' -- Optional: Set terminal for plotting
+    vim.g.jukit_terminal = 'tmux' -- Optional: Set terminal for plotting
     vim.g.jukit_use_uberzug = 1
     vim.g.jukit_python_os_cmd = 'ipython'
 
@@ -10,7 +10,7 @@ return {
     -- vim.g.jukit_highlight_markers = 1
     -- You can define the colors after loading your colorscheme:
     -- vim.cmd 'highlight jukit_cellmarker_colors guifg=#0000ff guibg=NONE'
-
+    vim.g.jukit_custom_backend = -1
     -- Highlight background of textcells
     vim.g.jukit_enable_textcell_bg_hl = 1
     -- You can define the background color like this:
