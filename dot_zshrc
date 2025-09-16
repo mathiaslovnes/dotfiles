@@ -4,7 +4,10 @@ export VISUAL="nvim"
 bindkey "^[^?" backward-kill-word
 export PATH="$HOME/Library/Python/3.11/bin:$PATH"
 
-
+# Run neofetch on terminal start
+if command -v neofetch &> /dev/null; then
+    neofetch
+fi
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
