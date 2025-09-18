@@ -24,51 +24,38 @@ require('lazy').setup({
   -- include a plugin definition from file lua/path/name.lua
 
   require 'plugins.gitsigns',
-
   require 'plugins.which-key',
-
   require 'plugins.telescope',
-
   require 'plugins.lspconfig',
-
   require 'plugins.conform',
-
   require 'plugins.blink-cmp',
-
   -- Colorscheme
   -- require 'plugins.tokyonight',
   -- require 'plugins.nightfox',
   require 'plugins.catppuccin',
-
   require 'plugins.todo-comments',
-
   require 'plugins.mini',
-
   require 'plugins.treesitter',
-
   require 'plugins.accelerated-jk',
-
   require 'plugins.bufferline',
-
   require 'plugins.lualine',
-
   require 'plugins.debug',
   -- require 'plugins.indent_line',
   require 'plugins.lint',
   require 'plugins.autopairs',
-  require 'plugins.neo-tree',
+  -- require 'plugins.neo-tree',
   require 'plugins.snacks',
   require 'plugins.csvview',
   require 'plugins.lazygit',
   require 'plugins.noice',
-  require 'plugins.venv-selector',
+  -- require 'plugins.venv-selector',
   -- require 'plugins.molten',
   -- require 'plugins.image',
   -- require 'plugins.pyworks',
   require 'plugins.vim-jukit',
   require 'plugins.vim-markdown',
   require 'plugins.neoscroll',
-  require 'plugins.sneak',
+  -- require 'plugins.sneak',
   require 'plugins.incline',
   require 'plugins.dadbod',
   require 'plugins.diffview',
@@ -76,6 +63,17 @@ require('lazy').setup({
   require 'plugins.undotree',
   require 'plugins.code-runner',
   require 'plugins.markview',
+  require 'plugins.zoxide',
+  require 'plugins.yazi',
+  require 'plugins.harpoon',
+  -- require 'plugins.treesj',
+  require 'plugins.colorizer',
+  require 'plugins.tabout',
+  require 'plugins.flash',
+  require 'plugins.quick-todo',
+  require 'plugins.alpha',
+
+  require 'plugins.devicons', -- Needs to be added last
 
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!

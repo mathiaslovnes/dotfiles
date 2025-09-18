@@ -8,6 +8,7 @@ return {
         '<leader>F',
         function()
           require('conform').format { async = true, lsp_format = 'fallback' }
+          require('mini.trailspace').trim()
         end,
         mode = '',
         desc = 'Auto-indent',

@@ -3,9 +3,6 @@
 -- === Leader key ===
 vim.g.mapleader = ' '
 
--- Ø for exit normal mode
-vim.keymap.set('i', 'ø', '<ESC>')
-
 -- Accelerated J & K motions
 vim.api.nvim_set_keymap('n', 'j', '<Plug>(accelerated_jk_gj)', {})
 vim.api.nvim_set_keymap('n', 'k', '<Plug>(accelerated_jk_gk)', {})
@@ -33,6 +30,10 @@ vim.keymap.set('n', 'db', 'vb"_d')
 vim.keymap.set('n', 'dw', 'vw"_d')
 vim.keymap.set('n', 'ch', '"_ch')
 vim.keymap.set('n', 'cl', '"_cl')
+vim.keymap.set('n', '<leader>d', '"_d')
+vim.keymap.set('v', '<leader>d', '"_d')
+vim.keymap.set('n', '<leader>dd', '"_dd')
+vim.keymap.set('v', '<leader>dd', '"_dd')
 
 -- Scrolling speed
 vim.keymap.set('n', '<ScrollWheelUp>', '<C-Y>') -- Scroll up 1 line
@@ -62,19 +63,28 @@ vim.keymap.set('n', '<C-w>>C-d>', '<C-w>5<')
 -- Split windows
 vim.keymap.set('n', '<leader>hs', ':split<CR>')
 vim.keymap.set('n', '<leader>vs', ':vsplit<CR>')
--- vim.keymap.set('n', '-', '<C-w>-')
--- vim.keymap.set('n', '+', '<C-w>+')
--- vim.keymap.set('n', '?', '<C-w>5<')
--- vim.keymap.set('n', '_', '<C-w>5>')
--- vim.keymap.set('n', '<M-w>', '<C-w>+')
--- vim.keymap.set('n', '<M-s>', '<C-w>-')
--- vim.keymap.set('n', '<M-a>', '<C-w>5>')
--- vim.keymap.set('n', '<M-d>', '<C-w>5<')
+
+vim.keymap.set('n', '<leader>zz', function()
+  local win = vim.api.nvim_get_current_win()
+  local wwidth = vim.api.nvim_win_get_width(win)
+  local wheight = vim.api.nvim_win_get_height(win)
+
+  local tab_width = vim.o.columns
+  local tab_height = vim.o.lines - vim.o.cmdheight
+
+  local focused = wwidth >= tab_width * 0.9 and wheight >= tab_height * 0.9
+  if focused then
+    vim.cmd 'wincmd =' --equalize all win size
+  else
+    vim.cmd 'wincmd |'
+    vim.cmd 'wincmd _'
+  end
+end)
 
 -- Tabs
 -- Bufferline: Switch to specific buffers with CMD + number
 vim.keymap.set('n', '<C-x>', '<cmd>bd<CR>', { desc = 'Close current buffer' })
-vim.keymap.set('n', '<Tab>', '<cmd>enew<CR>', { desc = 'Create a new buffer' })
+-- vim.keymap.set('n', '<Tab>', '<cmd>enew<CR>', { desc = 'Create a new buffer' })
 vim.keymap.set('n', '<C-1>', '<cmd>BufferLineGoToBuffer 1<CR>', { desc = 'Go to buffer 1' })
 vim.keymap.set('n', '<C-2>', '<cmd>BufferLineGoToBuffer 2<CR>', { desc = 'Go to buffer 2' })
 vim.keymap.set('n', '<C-3>', '<cmd>BufferLineGoToBuffer 3<CR>', { desc = 'Go to buffer 3' })
@@ -90,8 +100,6 @@ vim.keymap.set('n', '<C-q>', '<cmd>BufferLineCyclePrev<CR>', { desc = 'Previous 
 vim.keymap.set('n', '<C-s>', 'ggVG')
 
 -- === Leader bindings ===
-vim.keymap.set('n', '<leader>d', '"_d')
-vim.keymap.set('n', '<leader>af', '{V')
 
 -- === Movement and scrolling ==
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
@@ -112,6 +120,8 @@ vim.keymap.set('n', 'L', '$')
 vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('v', '>', '>gv')
 
+-- ==== Plugin-specific bindings ===
+
 -- CsvView
 vim.keymap.set('n', '<leader>cv', '<cmd>CsvViewToggle delimiter=, display_mode=border header_lnum=1<CR>')
 
@@ -129,8 +139,11 @@ vim.keymap.set('n', 'f', '<Plug>Sneak_f')
 vim.keymap.set('n', 'F', '<Plug>Sneak_F')
 vim.keymap.set('n', 't', '<Plug>Sneak_t')
 vim.keymap.set('n', 'T', '<Plug>Sneak_T')
-vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>Sneak_s', { noremap = false })
-vim.keymap.set({ 'n', 'x', 'o' }, 'S', '<Plug>Sneak_S', { noremap = false })
+vim.keymap.set({ 'n', 'x', 'o' }, 'ø', '<Plug>Sneak_s', { noremap = false })
+vim.keymap.set({ 'n', 'x', 'o' }, 'Ø', '<Plug>Sneak_S', { noremap = false })
+
+-- Yazi
+vim.keymap.set('n', '<leader>y', '<cmd>Yazi<CR>')
 
 -- Inc-Rename
 vim.keymap.set('n', '<leader>rn', ':IncRename ')
@@ -144,7 +157,8 @@ vim.keymap.set('n', '<CR>', 'o<ESC>')
 vim.keymap.set('n', '<leader><CR>', 'O<ESC>')
 
 -- === Backspace remap ===
-vim.keymap.set('n', '<BS>', 'a<BS><ESC>')
+vim.keymap.set('n', '<BS>', 'i<BS><right><ESC>')
+vim.keymap.set('n', '<M-BS>', 'a<C-w><ESC>')
 
 -- === Insert new line without moving cursor ===
 vim.keymap.set('n', '<S-CR>', ":call append(line('.'), '')<CR>")

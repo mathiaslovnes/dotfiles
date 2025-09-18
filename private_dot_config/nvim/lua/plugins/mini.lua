@@ -69,19 +69,19 @@ return {
 
           -- Module mappings. Use `''` (empty string) to disable one.
           mappings = {
-            add = 'za', -- Add surrounding in Normal and Visual modes
-            delete = 'zd', -- Delete surrounding
-            find = 'zf', -- Find surrounding (to the right)
-            find_left = 'ZF', -- Find surrounding (to the left)
-            highlight = 'zh', -- Highlight surrounding
-            replace = 'zr', -- Replace surrounding
+            add = 'sa', -- Add surrounding in Normal and Visual modes
+            delete = 'sd', -- Delete surrounding
+            find = 'sf', -- Find surrounding (to the right)
+            find_left = 'sF', -- Find surrounding (to the left)
+            highlight = 'sh', -- Highlight surrounding
+            replace = 'sr', -- Replace surrounding
 
             suffix_last = 'p', -- Suffix to search with "prev" method
             suffix_next = 'n', -- Suffix to search with "next" method
           },
 
           -- Number of lines within which surrounding is searched
-          n_lines = 20,
+          n_lines = 30,
 
           -- Whether to respect selection type:
           -- - Place surroundings on separate lines in linewise mode.

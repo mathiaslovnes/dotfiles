@@ -2,19 +2,27 @@
 export EDITOR="nvim"
 export VISUAL="nvim"
 bindkey "^[^?" backward-kill-word
-export PATH="$HOME/Library/Python/3.11/bin:$PATH"
+export MPLBACKEND="module://matplotlib-backend-kitty"
+
+bindkey -v
+
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=~/.zsh_history
+setopt hist_ignore_dups       # optional, avoids duplicates
+setopt hist_find_no_dups      # optional, avoids duplicate matches when searching
+
+# Plain history scrolling (ignores what you typed)
+bindkey '^[[A' history-search-backward
+bindkey '^[[B' history-search-forward
+
+bindkey '\e[A' history-search-backward
+bindkey '\[B' history-search-forward
 
 # Run neofetch on terminal start
-if command -v neofetch &> /dev/null; then
-    neofetch
-fi
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# if command -v neofetch &> /dev/null; then
+#     neofetch
+# fi
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
@@ -91,7 +99,7 @@ source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git direnv zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -127,4 +135,16 @@ source $ZSH/oh-my-zsh.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
+
 eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
+eval "$(fzf --zsh)"
+eval "$(direnv hook zsh)"
+source <(fzf --zsh)

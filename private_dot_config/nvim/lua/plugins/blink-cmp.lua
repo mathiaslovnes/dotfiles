@@ -58,6 +58,9 @@ return {
         --
         -- See :h blink-cmp-config-keymap for defining your own keymap
         preset = 'default',
+        ['<up>'] = false, -- unbind arrow up
+        ['<down>'] = false, -- unbind arrow down
+        -- ['<Tab>'] = { 'accept', 'fallback' }, -- use tab for tabout
 
         -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps

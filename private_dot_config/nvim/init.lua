@@ -1,5 +1,4 @@
 --[[
-
   Next, run AND READ `:help`.
     This will open up a help window with some basic information
     about reading, navigating and searching the builtin help documentation.
@@ -49,62 +48,4 @@ require 'lazy-bootstrap'
 -- [[ Configure and install plugins ]]
 require 'lazy-plugins'
 
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
-
-local ns = vim.api.nvim_create_namespace 'pyworks_divider'
-
--- Define custom highlight group for light blue, bold divider
-vim.api.nvim_set_hl(0, 'PyworksDivider', { fg = '#FFFFFF', bold = true })
-
--- Treesitter query for Python comments
-local query_str = [[
-  (comment) @divider
-]]
-local query = vim.treesitter.query.parse('python', query_str)
-
-local function update_dividers(buf)
-  -- Clear old extmarks
-  vim.api.nvim_buf_clear_namespace(buf, ns, 0, -1)
-
-  -- Get window width for dynamic divider length (minus padding)
-  local win_width = vim.api.nvim_win_get_width(0) - 5
-  local divider = string.rep('━', math.max(10, win_width)) -- Thicker line character
-
-  -- Get the latest parse tree
-  local ok, parser = pcall(vim.treesitter.get_parser, buf, 'python')
-  if not ok then
-    return
-  end
-
-  local tree = parser:parse()[1]
-
-  -- Iterate over comment nodes
-  for _, node, _ in query:iter_captures(tree:root(), buf, 0, -1) do
-    local start_row, _, _, _ = node:range()
-    local text = vim.treesitter.get_node_text(node, buf)
-    if text and text:match '^#|' then
-      vim.api.nvim_buf_set_extmark(buf, ns, start_row, 0, {
-        virt_text = { { divider, 'PyworksDivider' } },
-        virt_text_pos = 'overlay',
-      })
-    end
-  end
-end
-
--- Auto-attach on Python filetype and handle window resize
-vim.api.nvim_create_autocmd({ 'FileType', 'WinResized' }, {
-  pattern = { 'python', '*' },
-  callback = function(args)
-    local buf = args.buf
-    if vim.bo[buf].filetype ~= 'python' then
-      return
-    end
-    vim.api.nvim_buf_attach(buf, false, {
-      on_lines = function()
-        update_dividers(buf)
-      end,
-    })
-    update_dividers(buf)
-  end,
-})
+require('pyworks_divider').setup()
