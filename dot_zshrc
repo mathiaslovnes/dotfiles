@@ -2,7 +2,8 @@
 export EDITOR="nvim"
 export VISUAL="nvim"
 bindkey "^[^?" backward-kill-word
-export MPLBACKEND="module://matplotlib-backend-kitty"
+export MPLBACKEND_KITTY_SIZING=manual
+
 
 bindkey -v
 
