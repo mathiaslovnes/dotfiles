@@ -10,7 +10,7 @@
 - <C-o> and <C-i>
 - Use marks - lower-case for line, upper-case for file (cheatsheet)
 - Surround - { leaves a space, } does not
-
+- gd to jump to def
 - Ctrl-v for visual block mode, for example:
 if you have a vertical list of numbers, select them all, and hit g-ctrl-a/x to increment/decrement
 them proportional to their line height
@@ -21,9 +21,9 @@ you want by hitting I, hit escape and then it will apply to all lines
 - !
 - '-'
 - '+'
-- ø (søk?)
 - '*'
 - numbers
+- capital x
 
 
 ## telescope

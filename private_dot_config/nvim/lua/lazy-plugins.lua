@@ -72,6 +72,8 @@ require('lazy').setup({
   require 'plugins.flash',
   require 'plugins.quick-todo',
   require 'plugins.alpha',
+  require 'plugins.vim-visual-multi',
+  require 'plugins.treesitter-context',
 
   require 'plugins.devicons', -- Needs to be added last
 

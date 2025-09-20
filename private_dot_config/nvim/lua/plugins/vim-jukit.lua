@@ -3,12 +3,6 @@ return {
   ft = { 'python', 'ipynb' },
   config = function()
     vim.g.jukit_terminal = 'tmux' -- Optional: Set terminal for plotting
-    vim.g.jukit_use_uberzug = 1
-    vim.g.jukit_python_os_cmd = 'ipython3'
-
-    -- trying this out
-
-    ----------
 
     vim.g.jukit_layout = {
       split = 'horizontal',

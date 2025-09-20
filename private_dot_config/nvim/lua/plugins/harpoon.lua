@@ -1,7 +1,8 @@
+-- This is the file that is actually read
 return {
   'ThePrimeagen/harpoon',
   branch = 'harpoon2',
-  dependencies = { 'nvim-lua/plenary.nvim', 'nvm-telescope/telescope.nvim' },
+  dependencies = { 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope.nvim' },
   opts = {
     settings = {
       save_on_toggle = true,
@@ -21,7 +22,7 @@ return {
     vim.keymap.set('n', '<leader>a', function()
       harpoon:list():add()
     end)
-    vim.keymap.set('n', '<leader>h', function()
+    vim.keymap.set('n', '<leader>ha', function()
       harpoon.ui:toggle_quick_menu(harpoon:list())
     end)
 
@@ -38,10 +39,10 @@ return {
       harpoon:list():select(4)
     end)
 
-    vim.keymap.set('n', '<leader>p', function()
+    vim.keymap.set('n', '<leader>q', function()
       harpoon:list():prev()
     end)
-    vim.keymap.set('n', '<leader>n', function()
+    vim.keymap.set('n', '<leader>e', function()
       harpoon:list():next()
     end)
   end,

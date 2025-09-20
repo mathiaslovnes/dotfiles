@@ -16,12 +16,6 @@ vim.keymap.set('n', 'K', ':m .-2<CR>==')
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 
--- Open terminal window
-vim.keymap.set('n', '<C-t>', '<cmd>lua Snacks.terminal.toggle()<CR>')
-
--- Run python code
-vim.keymap.set('n', '<leader>rp', '<cmd>w | term python3 "%"<CR>')
-
 -- === Clipboard behavious ===
 vim.keymap.set('x', 'x', '"_x')
 vim.keymap.set('n', 'x', '"_x')
@@ -34,6 +28,10 @@ vim.keymap.set('n', '<leader>d', '"_d')
 vim.keymap.set('v', '<leader>d', '"_d')
 vim.keymap.set('n', '<leader>dd', '"_dd')
 vim.keymap.set('v', '<leader>dd', '"_dd')
+
+-- Rebind for effective replacing / pasting
+vim.keymap.set('n', '<leader>p', 'viwp')
+vim.keymap.set('n', '<leader>P', 'viWp')
 
 -- Scrolling speed
 vim.keymap.set('n', '<ScrollWheelUp>', '<C-Y>') -- Scroll up 1 line
@@ -60,6 +58,8 @@ vim.keymap.set('n', '<C-w><C-s>', '<C-w>-')
 vim.keymap.set('n', '<C-w><C-w>', '<C-w>+')
 vim.keymap.set('n', '<C-w><C-a>', '<C-w>5>')
 vim.keymap.set('n', '<C-w>>C-d>', '<C-w>5<')
+vim.keymap.set('n', '<leader>=', '<cmd>wincmd=<CR>')
+
 -- Split windows
 vim.keymap.set('n', '<leader>hs', ':split<CR>')
 vim.keymap.set('n', '<leader>vs', ':vsplit<CR>')
@@ -83,7 +83,8 @@ end)
 
 -- Tabs
 -- Bufferline: Switch to specific buffers with CMD + number
-vim.keymap.set('n', '<C-x>', '<cmd>bd<CR>', { desc = 'Close current buffer' })
+vim.keymap.set('n', '<C-t>', '<Nop>', { noremap = true, silent = true, desc = 'Unbind C-b' })
+vim.keymap.set('n', 'Q', '<cmd>bd<CR>', { desc = 'Close current buffer' })
 -- vim.keymap.set('n', '<Tab>', '<cmd>enew<CR>', { desc = 'Create a new buffer' })
 vim.keymap.set('n', '<C-1>', '<cmd>BufferLineGoToBuffer 1<CR>', { desc = 'Go to buffer 1' })
 vim.keymap.set('n', '<C-2>', '<cmd>BufferLineGoToBuffer 2<CR>', { desc = 'Go to buffer 2' })
@@ -97,9 +98,7 @@ vim.keymap.set('n', '<C-e>', '<cmd>BufferLineCycleNext<CR>', { desc = 'Next buff
 vim.keymap.set('n', '<C-q>', '<cmd>BufferLineCyclePrev<CR>', { desc = 'Previous buffer' })
 
 -- Mark entire file
-vim.keymap.set('n', '<C-s>', 'ggVG')
-
--- === Leader bindings ===
+vim.keymap.set({ 'n', 'x' }, '<C-s>', 'ggVG')
 
 -- === Movement and scrolling ==
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
@@ -119,6 +118,21 @@ vim.keymap.set('n', 'L', '$')
 -- === Visual mode indents ===
 vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('v', '>', '>gv')
+
+-- === Enter key remaps ===-
+vim.keymap.set('n', '<CR>', 'o<ESC>')
+vim.keymap.set('n', '<leader><CR>', 'O<ESC>')
+
+-- === Backspace remap ===
+vim.keymap.set('n', '<BS>', 'i<BS><right><ESC>')
+vim.keymap.set('n', '<M-BS>', 'a<C-w><ESC>')
+
+-- === Insert new line without moving cursor ===
+vim.keymap.set('n', '<S-CR>', ":call append(line('.'), '')<CR>")
+vim.keymap.set('n', '<C-CR>', ":call append(line('.')-1, '')<CR>")
+
+-- vim.keymap.set('n', ']<Space>', 'x', { noremap = false }) -- Triggers the plugin's mapping for below
+-- vim.keymap.set('n', '[<Space>', 'X',  { noremap = false }) -- Triggers the plugin's mapping for above
 
 -- ==== Plugin-specific bindings ===
 
@@ -147,22 +161,6 @@ vim.keymap.set('n', '<leader>y', '<cmd>Yazi<CR>')
 
 -- Inc-Rename
 vim.keymap.set('n', '<leader>rn', ':IncRename ')
--- If you want to fill in the word under the cursor you can use the following:
--- vim.keymap.set("n", "<leader>rn", function()
--- return ":IncRename " .. vim.fn.expand("<cword>")
--- end, { expr = true })
-
--- === Enter key remaps ===
-vim.keymap.set('n', '<CR>', 'o<ESC>')
-vim.keymap.set('n', '<leader><CR>', 'O<ESC>')
-
--- === Backspace remap ===
-vim.keymap.set('n', '<BS>', 'i<BS><right><ESC>')
-vim.keymap.set('n', '<M-BS>', 'a<C-w><ESC>')
-
--- === Insert new line without moving cursor ===
-vim.keymap.set('n', '<S-CR>', ":call append(line('.'), '')<CR>")
-vim.keymap.set('n', '<C-CR>', ":call append(line('.')-1, '')<CR>")
 
 -- === Default keybindings from kickstart ===
 -- Clear highlights on search when pressing <Esc> in normal mode
@@ -175,25 +173,9 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
---
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
-
--- TIP: Disable arrow keys in normal mode
--- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
--- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
--- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
--- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
-
--- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
---
---  See `:help wincmd` for a list of all window commands
--- vim.keymap.set('n', '<Up>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
--- vim.keymap.set('n', '<Down>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
--- vim.keymap.set('n', '<Left>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
--- vim.keymap.set('n', '<Right>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
