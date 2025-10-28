@@ -16,6 +16,7 @@ opt.autoindent = true
 opt.textwidth = 100
 opt.scrolloff = 15
 opt.cursorline = false
+opt.guicursor = 'n-v-c:block,i:ver25,r-cr:hor20'
 vim.o.foldenable = false -- don't fold automatically
 vim.o.foldmethod = 'manual' -- only fold manually
 vim.o.foldlevel = 99 -- open all folds

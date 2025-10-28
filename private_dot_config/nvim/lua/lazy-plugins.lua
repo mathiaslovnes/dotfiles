@@ -74,6 +74,8 @@ require('lazy').setup({
   require 'plugins.alpha',
   require 'plugins.vim-visual-multi',
   require 'plugins.treesitter-context',
+  require 'plugins.unimpaired',
+  require 'plugins.aerial',
 
   require 'plugins.devicons', -- Needs to be added last
 

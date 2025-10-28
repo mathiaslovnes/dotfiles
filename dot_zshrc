@@ -4,8 +4,7 @@
 export PATH="$HOME/bin:$PATH"
 export EDITOR="nvim"
 export VISUAL="nvim"
-export MPLBACKEND_KITTY_SIZING=manual
-
+export MPLBACKEND="module://matplotlib-backend-kitty"
 
 # -------------------------
 # 2. Oh My Zsh setup

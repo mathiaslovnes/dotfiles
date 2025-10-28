@@ -7,4 +7,7 @@
 **/dot_DS_Store
 # Ignore backup config files
 **/*.bak
-
+**/watch_later/**
+**/github_copilot/**
+**/jgit/**
+**/linearmouse/**

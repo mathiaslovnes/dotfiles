@@ -16,12 +16,12 @@ vim.keymap.set('n', 'K', ':m .-2<CR>==')
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 
--- === Clipboard behavious ===
+-- === Clipboard behaviour ===
 vim.keymap.set('x', 'x', '"_x')
 vim.keymap.set('n', 'x', '"_x')
-vim.keymap.set('v', 'p', '"_dP')
+vim.keymap.set('v', 'p', '"_dp')
+vim.keymap.set('v', 'P', '"_dP')
 vim.keymap.set('n', 'db', 'vb"_d')
-vim.keymap.set('n', 'dw', 'vw"_d')
 vim.keymap.set('n', 'ch', '"_ch')
 vim.keymap.set('n', 'cl', '"_cl')
 vim.keymap.set('n', '<leader>d', '"_d')
@@ -30,8 +30,8 @@ vim.keymap.set('n', '<leader>dd', '"_dd')
 vim.keymap.set('v', '<leader>dd', '"_dd')
 
 -- Rebind for effective replacing / pasting
-vim.keymap.set('n', '<leader>p', 'viwp')
-vim.keymap.set('n', '<leader>P', 'viWp')
+vim.keymap.set('n', '<leader>p', 'viw"_dP', { desc = 'viw"_dP', noremap = true, nowait = true })
+vim.keymap.set('n', '<leader>P', 'viW"_dP', { desc = 'viW"_dP', noremap = true, nowait = true })
 
 -- Scrolling speed
 vim.keymap.set('n', '<ScrollWheelUp>', '<C-Y>') -- Scroll up 1 line
@@ -39,6 +39,10 @@ vim.keymap.set('n', '<ScrollWheelDown>', '<C-E>') -- Scroll down 1 line
 
 -- Toggle line wrapping
 vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>')
+
+-- Make comment below/above
+vim.keymap.set('n', 'gco', 'o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>', { desc = 'Add Comment Below' })
+vim.keymap.set('n', 'gcO', 'O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>', { desc = 'Add Comment Above' })
 
 -- Stay in visual mode when indenting
 vim.keymap.set('v', '<', '<gv')
@@ -128,11 +132,11 @@ vim.keymap.set('n', '<BS>', 'i<BS><right><ESC>')
 vim.keymap.set('n', '<M-BS>', 'a<C-w><ESC>')
 
 -- === Insert new line without moving cursor ===
-vim.keymap.set('n', '<S-CR>', ":call append(line('.'), '')<CR>")
-vim.keymap.set('n', '<C-CR>', ":call append(line('.')-1, '')<CR>")
+vim.keymap.set('n', '<S-CR>', "<cmd>silent call append(line('.'), '')<CR>")
+vim.keymap.set('n', '<C-CR>', "<cmd>silent call append(line('.')-1, '')<CR>")
 
--- vim.keymap.set('n', ']<Space>', 'x', { noremap = false }) -- Triggers the plugin's mapping for below
--- vim.keymap.set('n', '[<Space>', 'X',  { noremap = false }) -- Triggers the plugin's mapping for above
+-- vim.keymap.set('n', '<Esc>[13;2u', ":call append(line('.'), '')<CR>")
+-- vim.keymap.set('n', '<Esc>[13;5u', ":call append(line('.')-1, '')<CR>")
 
 -- ==== Plugin-specific bindings ===
 
