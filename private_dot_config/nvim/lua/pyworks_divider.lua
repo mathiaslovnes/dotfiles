@@ -5,6 +5,20 @@ local ns_jukit = vim.api.nvim_create_namespace 'jukit_markers'
 -- Divider highlight group
 vim.api.nvim_set_hl(0, 'PyworksDivider', { fg = '#FFFFFF', bold = true })
 
+-- Define all jukit signs to prevent E155 errors
+local jukit_signs = {
+  'jukit_cell_markers',
+  'jukit_textcells',
+  'jukit_codecells',
+  'jukit_output_markers',
+}
+
+for _, sign_name in ipairs(jukit_signs) do
+  vim.fn.sign_define(sign_name, {
+    text = '',
+    texthl = 'Normal',
+  })
+end
 -- Queries
 local query_divider = vim.treesitter.query.parse(
   'python',
@@ -104,7 +118,7 @@ function M.setup()
 
       -- Enable concealing in the buffer
       vim.wo.conceallevel = 2
-      vim.wo.concealcursor = 'nc'
+      vim.wo.concealcursor = ''
 
       vim.api.nvim_buf_attach(buf, false, {
         on_lines = function()
@@ -116,6 +130,20 @@ function M.setup()
       })
       update_dividers(buf)
       hide_jukit_markers(buf)
+    end,
+  })
+
+  -- Trigger on text changes to handle newly typed markers
+  vim.api.nvim_create_autocmd({ 'TextChanged', 'TextChangedI' }, {
+    pattern = '*.py',
+    callback = function(args)
+      local buf = args.buf
+      if vim.bo[buf].filetype == 'python' then
+        vim.schedule(function()
+          update_dividers(buf)
+          hide_jukit_markers(buf)
+        end)
+      end
     end,
   })
 

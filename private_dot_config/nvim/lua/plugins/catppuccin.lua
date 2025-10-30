@@ -54,8 +54,8 @@ return { -- You can easily change to a different colorscheme.
         nvimtree = true,
         treesitter = true,
         notify = false,
-        markdown = false,
-        render_markdown = false,
+        markdown = true,
+        render_markdown = true,
         mini = {
           enabled = true,
           indentscope_color = '',
@@ -63,6 +63,10 @@ return { -- You can easily change to a different colorscheme.
         -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
       },
     }
+
+    vim.api.nvim_set_hl(0, '@text.markdown', { fg = '#a6e3a1' })
+    vim.api.nvim_set_hl(0, '@none.markdown', { fg = '#a6e3a1' })
+    vim.api.nvim_set_hl(0, '@markup.markdown', { fg = '#a6e3a1' })
 
     -- Toggle transparency function
     local bg_transparent = true
