@@ -21,6 +21,9 @@ vim.o.foldenable = false -- don't fold automatically
 vim.o.foldmethod = 'manual' -- only fold manually
 vim.o.foldlevel = 99 -- open all folds
 
+vim.cmd 'syntax enable'
+vim.cmd 'syntax on'
+
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`

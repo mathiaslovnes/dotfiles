@@ -14,7 +14,14 @@ require 'keymaps'
 -- [[ Install `lazy.nvim` plugin manager ]]
 require 'lazy-bootstrap'
 
+-- Add to your init.lua BEFORE loading vim-jukit
+vim.g.jukit_highlight_markers = 0 -- Don't highlight markers
+vim.g.jukit_enable_textcell_bg_hl = 0 -- Don't highlight text cell backgrounds
+
 -- [[ Configure and install plugins ]]
 require 'lazy-plugins'
+
+vim.g.jukit_highlight_markers = 0 -- Don't highlight markers
+vim.g.jukit_enable_textcell_bg_hl = 0 -- Don't highlight text cell backgrounds
 
 require('pyworks_divider').setup()

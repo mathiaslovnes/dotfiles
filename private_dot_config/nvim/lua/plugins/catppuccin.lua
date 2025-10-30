@@ -54,6 +54,8 @@ return { -- You can easily change to a different colorscheme.
         nvimtree = true,
         treesitter = true,
         notify = false,
+        markdown = false,
+        render_markdown = false,
         mini = {
           enabled = true,
           indentscope_color = '',

@@ -23,16 +23,16 @@ require('lazy').setup({
   -- modular approach: using `require 'path.name'` will
   -- include a plugin definition from file lua/path/name.lua
 
+  -- Colorscheme
+  -- require 'plugins.tokyonight',
+  -- require 'plugins.nightfox',
+  require 'plugins.catppuccin',
   require 'plugins.gitsigns',
   require 'plugins.which-key',
   require 'plugins.telescope',
   require 'plugins.lspconfig',
   require 'plugins.conform',
   require 'plugins.blink-cmp',
-  -- Colorscheme
-  -- require 'plugins.tokyonight',
-  -- require 'plugins.nightfox',
-  require 'plugins.catppuccin',
   require 'plugins.todo-comments',
   require 'plugins.mini',
   require 'plugins.treesitter',
@@ -48,12 +48,7 @@ require('lazy').setup({
   require 'plugins.csvview',
   require 'plugins.lazygit',
   require 'plugins.noice',
-  -- require 'plugins.venv-selector',
-  -- require 'plugins.molten',
-  -- require 'plugins.image',
-  -- require 'plugins.pyworks',
-  require 'plugins.vim-jukit',
-  require 'plugins.vim-markdown',
+  -- require 'plugins.vim-markdown',
   require 'plugins.neoscroll',
   -- require 'plugins.sneak',
   require 'plugins.incline',
@@ -62,7 +57,7 @@ require('lazy').setup({
   require 'plugins.tmux-navigator',
   require 'plugins.undotree',
   require 'plugins.code-runner',
-  require 'plugins.markview',
+  -- require 'plugins.markview',
   require 'plugins.zoxide',
   require 'plugins.yazi',
   require 'plugins.harpoon',
@@ -76,6 +71,8 @@ require('lazy').setup({
   require 'plugins.treesitter-context',
   require 'plugins.unimpaired',
   require 'plugins.aerial',
+  -- require 'plugins.render-markdown',
+  require 'plugins.vim-jukit',
 
   require 'plugins.devicons', -- Needs to be added last
 

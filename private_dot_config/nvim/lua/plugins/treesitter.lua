@@ -10,11 +10,11 @@ return {
       auto_install = true,
       highlight = {
         enable = true,
-        disable = {}, -- disable treesitter for markdown (so vim-jukit syntax works)
+        disable = { '' }, -- disable treesitter for markdown (so vim-jukit syntax works)
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby' },
+        additional_vim_regex_highlighting = { '' },
       },
       indent = { enable = true, disable = { 'ruby' } },
     },

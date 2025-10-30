@@ -114,10 +114,10 @@ vim.keymap.set('n', 'gg', 'ggzz')
 
 -- === Cursor and line remaps ===
 vim.keymap.set('n', 'U', '~')
-vim.keymap.set('n', '<C-j>', '5j')
-vim.keymap.set('n', '<C-k>', '5k')
 vim.keymap.set('n', 'H', '^')
+vim.keymap.set('v', 'H', '^')
 vim.keymap.set('n', 'L', '$')
+vim.keymap.set('v', 'L', '$')
 
 -- === Visual mode indents ===
 vim.keymap.set('v', '<', '<gv')

@@ -1,10 +1,10 @@
 # -------------------------
 # 1. Environment variables and PATH
 # -------------------------
-export PATH="$HOME/bin:$PATH"
 export EDITOR="nvim"
 export VISUAL="nvim"
-export MPLBACKEND="module://matplotlib-backend-kitty"
+export MPLBACKEND='module://matplotlib-backend-kitty'
+export MPLBACKEND_KITTY_SIZING=manual
 
 # -------------------------
 # 2. Oh My Zsh setup
@@ -22,15 +22,11 @@ source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 alias ll="ls -alF"
 alias gs="git status"
 
-# Keybindings
-
 HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.zsh_history
 setopt hist_ignore_dups       # optional, avoids duplicates
 setopt hist_find_no_dups      # optional, avoids duplicate matches when searching
-
-
 
 
 function y() {
@@ -155,4 +151,5 @@ source <(fzf --zsh)
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
 
