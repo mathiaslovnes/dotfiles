@@ -34,3 +34,27 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.opt_local.conceallevel = 0 -- Disable all concealment in Python files
   end,
 })
+
+-- Function to make rainbow highlights bold
+local function make_rainbows_bold()
+  for i = 1, 6 do
+    local rainbow = vim.api.nvim_get_hl(0, { name = 'rainbow' .. i })
+    if rainbow and next(rainbow) ~= nil then
+      rainbow.bold = true
+      vim.api.nvim_set_hl(0, 'rainbow' .. i, rainbow)
+    end
+  end
+end
+
+-- Force bold headers - runs on multiple events
+vim.api.nvim_create_autocmd({ 'BufEnter', 'FileType', 'BufWritePost', 'TextChanged', 'InsertLeave' }, {
+  pattern = 'python',
+  callback = function()
+    vim.schedule(make_rainbows_bold)
+  end,
+})
+
+-- Run it immediately for already-open buffers
+if vim.bo.filetype == 'python' then
+  vim.schedule(make_rainbows_bold)
+end

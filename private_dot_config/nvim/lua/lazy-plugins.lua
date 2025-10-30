@@ -71,7 +71,7 @@ require('lazy').setup({
   require 'plugins.treesitter-context',
   require 'plugins.unimpaired',
   require 'plugins.aerial',
-  -- require 'plugins.render-markdown',
+  require 'plugins.render-markdown',
   require 'plugins.vim-jukit',
 
   require 'plugins.devicons', -- Needs to be added last
