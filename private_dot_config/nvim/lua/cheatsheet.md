@@ -18,12 +18,20 @@ Or, if you want to add '-' to the beginning of multiple lines, select the beginn
 you want by hitting I, hit escape and then it will apply to all lines
 
 ## Available Keybindings
-- !
 - '-'
 - '+'
-- '*'
-- numbers
+- capital s
 - capital x
+- Ctrl-o
+- Ctrl-b
+- Ctrl-n
+- Ctrl-m
+- Ctrl-hjkl
+
+
+
+
+
 
 
 ## telescope

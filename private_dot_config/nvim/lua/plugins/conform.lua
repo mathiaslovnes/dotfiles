@@ -32,6 +32,11 @@ return {
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        formatters = {
+          stylua = {
+            args = { '--column-width', '0' }, -- disables wrapping
+          },
+        },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --

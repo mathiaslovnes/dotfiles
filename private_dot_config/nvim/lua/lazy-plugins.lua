@@ -72,7 +72,9 @@ require('lazy').setup({
   require 'plugins.unimpaired',
   require 'plugins.aerial',
   require 'plugins.render-markdown',
+  require 'plugins.trouble',
   require 'plugins.vim-jukit',
+  require 'plugins.betterterm',
 
   require 'plugins.devicons', -- Needs to be added last
 
