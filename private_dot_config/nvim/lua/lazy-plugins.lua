@@ -75,6 +75,8 @@ require('lazy').setup({
   require 'plugins.trouble',
   require 'plugins.vim-jukit',
   require 'plugins.betterterm',
+  require 'plugins.vimtex',
+  require 'plugins.luasnip',
 
   require 'plugins.devicons', -- Needs to be added last
 

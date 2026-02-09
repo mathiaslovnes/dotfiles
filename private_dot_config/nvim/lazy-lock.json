@@ -60,6 +60,7 @@
   "vim-jukit": { "branch": "master", "commit": "73214c9a8abc4b6aa7a6266b5bc2ddbf8b3e3c00" },
   "vim-tmux-navigator": { "branch": "master", "commit": "c45243dc1f32ac6bcf6068e5300f3b2b237e576a" },
   "vim-visual-multi": { "branch": "master", "commit": "a6975e7c1ee157615bbc80fc25e4392f71c344d4" },
+  "vimtex": { "branch": "master", "commit": "f707368022cdb851716be0d2970b90599c84a6a6" },
   "vimux": { "branch": "master", "commit": "66d53eab51aa7d2c0f55f3ee2e381b923e705e37" },
   "which-key.nvim": { "branch": "main", "commit": "3aab2147e74890957785941f0c1ad87d0a44c15a" },
   "yazi.nvim": { "branch": "main", "commit": "3f81faf0cf838acb312f0f0d75ac1a8ac69166ed" },

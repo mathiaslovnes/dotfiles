@@ -5,12 +5,12 @@ return {
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'query', 'vim', 'vimdoc', 'markdown', 'markdown_inline' },
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'css', 'lua', 'luadoc', 'query', 'vim', 'vimdoc', 'markdown', 'markdown_inline' },
       -- Autoinstall languages that are not installed
-      auto_install = true,
+      auto_install = false,
       highlight = {
         enable = true,
-        disable = { '' }, -- disable treesitter for markdown (so vim-jukit syntax works)
+        disable = { 'latex' },
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.

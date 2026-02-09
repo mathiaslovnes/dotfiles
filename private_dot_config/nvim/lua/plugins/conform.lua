@@ -10,7 +10,7 @@ return {
           require('conform').format { async = true, lsp_format = 'fallback' }
           require('mini.trailspace').trim()
         end,
-        mode = '',
+        mode = 'n',
         desc = 'Auto-indent',
       },
     },
