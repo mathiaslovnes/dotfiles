@@ -16,10 +16,10 @@ return {
     vim.keymap.set({ 'i' }, '<C-X>', function()
       ls.expand()
     end, { silent = true })
-    vim.keymap.set({ 'i', 's' }, '<Down>', function()
+    vim.keymap.set({ 'i', 's' }, '<C-F>', function()
       ls.jump(1)
     end, { silent = true })
-    vim.keymap.set({ 'i', 's' }, '<Up>', function()
+    vim.keymap.set({ 'i', 's' }, '<C-B>', function()
       ls.jump(-1)
     end, { silent = true })
 

@@ -36,6 +36,8 @@ vim.keymap.set('n', '<leader>P', 'viW"_dP', { desc = 'viW"_dP', noremap = true, 
 -- Scrolling speed
 vim.keymap.set('n', '<ScrollWheelUp>', '<C-Y>') -- Scroll up 1 line
 vim.keymap.set('n', '<ScrollWheelDown>', '<C-E>') -- Scroll down 1 line
+vim.keymap.set('n', '<C-d>', '15j')
+vim.keymap.set('n', '<C-u>', '15k')
 
 -- Toggle line wrapping
 vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>')

@@ -15,11 +15,13 @@ opt.smartindent = true
 opt.autoindent = true
 opt.textwidth = 100
 opt.scrolloff = 15
+-- opt.scroll = 15 -- Controls ctrl-D and ctrl-U scroll length - doesn't do anything for some
+-- reason?
 opt.cursorline = false
 opt.guicursor = 'n-v-c:block,i:ver25,r-cr:hor20'
-vim.o.foldenable = false -- don't fold automatically
-vim.o.foldmethod = 'manual' -- only fold manually
-vim.o.foldlevel = 99 -- open all folds
+opt.foldenable = false -- don't fold automatically
+opt.foldmethod = 'manual' -- only fold manually
+opt.foldlevel = 99 -- open all folds
 
 vim.cmd 'syntax enable'
 vim.cmd 'syntax on'
@@ -83,5 +85,3 @@ vim.o.inccommand = 'split'
 -- instead raise a dialog asking if you wish to save the current file(s)
 -- See `:help 'confirm'`
 vim.o.confirm = true
-
--- vim: ts=2 sts=2 sw=2 et

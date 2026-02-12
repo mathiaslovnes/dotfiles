@@ -19,8 +19,39 @@ source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 # -------------------------
 # 3. Your custom config (aliases, binds, etc.)
 # -------------------------
-alias ll="ls -alF"
-alias gs="git status"
+
+# ALIASES
+alias cs='Chezmoi status'
+alias ca='Chezmoi add'
+alias zc='z Chezmoi'
+alias cm='Chezmoi managed'
+
+## GIT ALIASES
+alias gc='git commit'
+alias gcm='git commit -m'
+alias gco='git checkout'
+alias ga='git add'
+alias gs='git status'
+alias gp='git push'
+alias gpf='git push --force-with-lease'
+alias gl='git log'
+alias gb='git branch'
+alias gba='git branch --all'
+alias gbd='git branch -d'
+alias gcp='git cherry-pick'
+alias gd='git diff -w'
+alias gds='git diff -w --staged'
+alias grs='git restore --staged'
+alias gu='git reset --soft HEAD~1'
+alias gpr='git remote prune origin'
+alias gfr='git fetch origin && git rebase origin/master'
+alias grc='git rebase --continue'
+alias gra='git rebase --abort'
+alias gam='gc --amend --no-edit'
+# alias gl=pretty_git_log
+# alias gll=pretty_git_log_long
+# alias gla=pretty_git_log_all
+
 
 HISTSIZE=10000
 SAVEHIST=10000
@@ -152,4 +183,20 @@ source <(fzf --zsh)
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/opt/homebrew/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/opt/homebrew/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/opt/homebrew/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/opt/homebrew/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
 

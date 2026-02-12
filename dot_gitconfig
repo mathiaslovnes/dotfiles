@@ -1,23 +1,126 @@
 [user]
 	name = Mathias Løvnes
 	email = mathiaslovnes02@gmail.com
+
 [core]
 	excludesfile = /Users/mathiaslovnes/.gitignore_global
+  # Use nvim as main git editor
+  editor = nvim
+  ignoreCase = false
+  pager = diff-so-fancy | less --tabs=4 -RFX
+  # Don’t consider trailing space change as a cause for merge conflicts
+  whitespace = -trailing-space
+
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+	path =
+
 [mergetool "sourcetree"]
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
+
 [commit]
 	template = /Users/mathiaslovnes/.stCommitMsg
+
+[status]
+  # Recursively traverse untracked directories to display all contents
+  showUntrackedFiles = all
+  # Display submodule rev change summaries in status
+  submoduleSummary = true
+
+[merge]
+# Display common-ancestor blocks in conflict hunks
+conflictstyle = diff3
+
+[push]
+  default = current
+  # When pushing, also push tags whose commit-ishs are now reachable upstream
+  followTags = true
+
+[log]
+  # Use abbrev SHAs whenever possible/relevant instead of full 40-chars
+  abbrevCommit = true
+  # Disable decorate for reflog
+  decorate = false
+  # Automatically --follow when given a single path
+  follow = true
+
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+
 [url "git@github.com:"]
 	insteadOf = https://github.com/
+
+[receive]
+  fsckObjects = true
+
+[transfer]
+  fsckobjects = true
+
+[versionsort]
+  prereleaseSuffix = -pre
+  prereleaseSuffix = .pre
+  prereleaseSuffix = -beta
+  prereleaseSuffix = .beta
+  prereleaseSuffix = -rc
+  prereleaseSuffix = .rc
+
 [alias]
-	co = checkout
-	lg = log --graph --decorate --date=relative --all
+  # Discard duplicate leading “git” (e.g. “git git status”)
+  git = "!git"
+
+  # The basic aliases
+  s = status
+  cm = commit -m
+  cp = cherry-pick
+
+  # Branch related aliases
+  br = branch
+  co = checkout
+  com = checkout master
+  cod = checkout develop
+
+  # Automatically deletes all local branches that have already been merged into the current branch, except for the current branch, main, master, and develop.
+  # This keeps your branch list clean by removing obsolete branches safely.
+  groom = "!f() { git branch --merged | egrep -v \"(^\\*|main|master|develop)\" | xargs git branch -d; }; f"
+
+  # Syncing related aliases
+  # Pulls remote changes and re-applies local commits on top, keeping history linear.
+  pur = pull --rebase
+  #   Fetches remote updates and removes local branches that no longer exist on the remote.
+  prune = fetch --prune
+
+  # Rebase related aliases
+  ri = rebase -i
+  rb = "!sh -c \"git rebase -i HEAD~$1\" -"
+  rc = rebase --continue
+  ra = rebase --abort
+  rs = rebase --skip
+  re = rebase --exit
+  rod = rebase origin/develop
+  rom = rebase origin/master
+
+  # Stash related aliases
+  poop = stash pop
+  wip = commit -m "WIP" -n
+  stsh = stash save --include-untracked
+
+  # Push related aliases
+  force = push --force-with-lease
+  fam = "!f() { git add . && git amend && git force; }; f"
+
+  # Mistake related aliases
+  abort = checkout -- .
+  wait = reset HEAD
+  undo = reset --soft HEAD^
+  amend = commit --amend --no-edit
+
+  # Diff related aliases
+  changes = diff --name-status
+  lg = log --pretty=oneline --abbrev-commit --graph --decorate
+
+  # Alias related aliases
+  aliases = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /

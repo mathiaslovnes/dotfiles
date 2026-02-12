@@ -77,6 +77,7 @@ require('lazy').setup({
   require 'plugins.betterterm',
   require 'plugins.vimtex',
   require 'plugins.luasnip',
+  require 'plugins.hardtime',
 
   require 'plugins.devicons', -- Needs to be added last
 

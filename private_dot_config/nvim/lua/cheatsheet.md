@@ -30,6 +30,17 @@ you want by hitting I, hit escape and then it will apply to all lines
 
 
 
+## Use Aerial for navigating files 
+
+**Purposes**: Shows a symbol outline / code structure for your file.
+**Features**:
+- Lists functions, classes, variables, and other symbols in a sidebar or floating window.
+- Works with treesitter, LSP, or ctags to detect symbols.
+- Lets you jump directly to a symbol by selecting it.
+- Can show symbols nested hierarchically, like modules → functions → inner functions.
+- Very similar to VSCode’s “Outline” panel but in Neovim.
+**Bind**: <leader>n - for 'navigating' - Note: uses snacks integration - change the bottom of
+aerial.lua for the side-panel view
 
 
 
