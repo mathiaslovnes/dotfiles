@@ -33,6 +33,8 @@ yabai -m rule --add app="^Karabiner-Elements$" manage=off
 yabai -m rule --add app="^Mac Mouse Fix$" manage=off 
 yabai -m rule --add app="^Finder$" manage=off 
 
+yabai -m rule --add app=".*" sub-layer=normal
+yabai -m rule --apply
 
 
 
