@@ -66,7 +66,7 @@ ctrl + cmd - w : yabai -m window --resize top:0:50
 ctrl + cmd - d : yabai -m window --resize right:-50:0 
 
 # Minimize window
-alt - w : yabai -m window --minimize
+alt - c : yabai -m window --minimize; skhd -k "cmd - tab"
 
 # move window to prev and next space
 shift + alt - p : yabai -m window --space prev;

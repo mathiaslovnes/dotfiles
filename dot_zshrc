@@ -23,6 +23,8 @@ source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 # ALIASES
 alias cs='Chezmoi status'
 alias ca='Chezmoi add'
+alias caa='Chezmoi re-add'
+alias cra='Chezmoi re-add'
 alias zc='z Chezmoi'
 alias cm='Chezmoi managed'
 
