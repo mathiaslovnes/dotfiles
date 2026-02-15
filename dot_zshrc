@@ -13,9 +13,9 @@ export MPLBACKEND_KITTY_SIZING=automatic
 export ZSH="$HOME/.oh-my-zsh"
 plugins=(git direnv zsh-syntax-highlighting zsh-autosuggestions)
 source $ZSH/oh-my-zsh.sh
+# Autocomplete
 source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
-# Autocomplete
 
 # -------------------------
 # 3. Your custom config (aliases, binds, etc.)
@@ -23,16 +23,18 @@ source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
 # ALIASES
 
-alias fix-mpl="sed -i '' -e \"s/, facecolor='#888888'//g\" -e \"s/'--align', 'left'/'--align', 'center'/g\" \$VIRTUAL_ENV/lib/python*/site-packages/matplotlib-backend-kitty/__init__.py && echo '✓ Fixed frfr'"
+alias fix-mpl="sed -i '' -e \"s/, facecolor='#888888'//g\" -e \"s/'--align', 'left'/'--align', 'center'/g\" \$VIRTUAL_ENV/lib/python*/site-packages/matplotlib-backend-kitty/__init__.py && echo '✓ Fixed'"
 
 alias cs='Chezmoi status'
 alias ca='Chezmoi add'
 alias caa='Chezmoi re-add'
 alias cra='Chezmoi re-add'
 alias zc='z Chezmoi'
+alias ccd='z Chezmoi'
 alias cm='Chezmoi managed'
 
 ## GIT ALIASES
+alias g='git'
 alias gc='git commit'
 alias gcm='git commit -m'
 alias gco='git checkout'
