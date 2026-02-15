@@ -4,7 +4,8 @@
 export EDITOR="nvim"
 export VISUAL="nvim"
 export MPLBACKEND='module://matplotlib-backend-kitty'
-export MPLBACKEND_KITTY_SIZING=manual
+export MPLCONFIGDIR="$HOME/.matplotlib"
+export MPLBACKEND_KITTY_SIZING=automatic
 
 # -------------------------
 # 2. Oh My Zsh setup
@@ -21,6 +22,9 @@ source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 # -------------------------
 
 # ALIASES
+
+alias fix-mpl="sed -i '' -e \"s/, facecolor='#888888'//g\" -e \"s/'--align', 'left'/'--align', 'center'/g\" \$VIRTUAL_ENV/lib/python*/site-packages/matplotlib-backend-kitty/__init__.py && echo '✓ Fixed frfr'"
+
 alias cs='Chezmoi status'
 alias ca='Chezmoi add'
 alias caa='Chezmoi re-add'

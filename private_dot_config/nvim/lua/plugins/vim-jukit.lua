@@ -1,8 +1,10 @@
 return {
-  'luk400/vim-jukit',
+  'mathiaslovnes/vim-jukit',
   ft = { 'python', 'ipynb' },
   config = function()
     vim.g.jukit_terminal = 'tmux' -- Optional: Set terminal for plotting
+
+    vim.g.jukit_mpl_style = vim.fn['jukit#util#plugin_path']() .. '/helpers/matplotlib-backend-kitty/backend.mplstyle'
 
     vim.g.jukit_savefig_dpi = 300
     -- IF KITTY OR TMUX IS USED:
