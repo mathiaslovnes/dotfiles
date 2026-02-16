@@ -50,10 +50,10 @@ return {
     },
     restriction_mode = 'block', -- block or hint
     restricted_keys = {
-      ['h'] = { 'n', 'x' },
-      ['j'] = { 'n', 'x' },
-      ['k'] = { 'n', 'x' },
-      ['l'] = { 'n', 'x' },
+      ['h'] = {},
+      ['j'] = {},
+      ['k'] = {},
+      ['l'] = {},
       ['<Up>'] = { 'n', 'x' },
       ['<Down>'] = { 'n', 'x' },
       ['<Left>'] = { 'n', 'x' },
