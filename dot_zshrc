@@ -36,10 +36,17 @@ source $ZSH/oh-my-zsh.sh
 
 
 # Autocomplete
-source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+zstyle ':completion:*' completer _complete
+zstyle ':completion:*' matcher-list \
+    'm:{[:lower:]}={[:upper:]}' \
+    '+r:|[._-]=* r:|=*' \
+    '+l:|=*'autoload -Uz compinit
+compinit
+# zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+# zstyle ':autocomplete:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 zstyle ':autocomplete:*' append-semicolon no
+source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
-# zstyle ':completion:*' matcher-list 'm:{[:lower:]-}={[:upper:]_}' 'r:|?=**'
 
 
 ## ALIAS-FINDER

@@ -13,7 +13,7 @@ opt.shiftwidth = 2
 opt.expandtab = true
 opt.smartindent = true
 opt.autoindent = true
-opt.textwidth = 100
+opt.textwidth = 120
 opt.scrolloff = 15
 -- opt.scroll = 15 -- Controls ctrl-D and ctrl-U scroll length - doesn't do anything for some
 -- reason?

@@ -1,4 +1,8 @@
 {
+    "global": {
+        "show_additional_menu_items": true,
+        "show_profile_name_in_menu_bar": true
+    },
     "profiles": [
         {
             "complex_modifications": {
@@ -861,14 +865,14 @@
                         ]
                     },
                     {
-                        "description": "Caps Lock + B to open chatGPT",
+                        "description": "Caps Lock + Q to open Claude",
                         "manipulators": [
                             {
                                 "from": {
                                     "key_code": "q",
                                     "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
                                 },
-                                "to": [{ "shell_command": "open -a 'ChatGPT'" }],
+                                "to": [{ "shell_command": "open -a 'Claude'" }],
                                 "type": "basic"
                             }
                         ]

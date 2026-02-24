@@ -62,4 +62,3 @@ use z to navigate directories
 # To DO
 
 - [<Space> and ]<Space> add lines before and after cursor - obsidian
-- https://youtu.be/ZqPpBfiX9ws?si=JK3NCy8goRqJ1-kY Lsp python venv

@@ -34,7 +34,6 @@ require('lazy').setup({
   require 'plugins.conform',
   require 'plugins.blink-cmp',
   require 'plugins.todo-comments',
-  require 'plugins.mini',
   require 'plugins.treesitter',
   require 'plugins.accelerated-jk',
   require 'plugins.bufferline',
@@ -66,10 +65,8 @@ require('lazy').setup({
   require 'plugins.tabout',
   require 'plugins.flash',
   require 'plugins.quick-todo',
-  require 'plugins.alpha',
   require 'plugins.vim-visual-multi',
   require 'plugins.treesitter-context',
-  require 'plugins.unimpaired',
   require 'plugins.aerial',
   require 'plugins.render-markdown',
   require 'plugins.trouble',
@@ -78,8 +75,14 @@ require('lazy').setup({
   require 'plugins.vimtex',
   require 'plugins.luasnip',
   require 'plugins.hardtime',
+  require 'plugins.neogit',
 
-  require 'plugins.devicons', -- Needs to be added last
+  -- Plugins I need to learn/use more
+  require 'plugins.mini', -- surround etc.
+  require 'plugins.unimpaired', -- Convenient binds for jumping around (e.g. methods)
+  -- Needs to be added last
+  require 'plugins.alpha',
+  require 'plugins.devicons',
 
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!

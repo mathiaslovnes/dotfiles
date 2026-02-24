@@ -34,8 +34,8 @@ vim.keymap.set('n', '<leader>p', 'viw"_dP', { desc = 'viw"_dP', noremap = true, 
 vim.keymap.set('n', '<leader>P', 'viW"_dP', { desc = 'viW"_dP', noremap = true, nowait = true })
 
 -- Scrolling speed
-vim.keymap.set('n', '<ScrollWheelUp>', '<C-Y>') -- Scroll up 1 line
-vim.keymap.set('n', '<ScrollWheelDown>', '<C-E>') -- Scroll down 1 line
+-- vim.keymap.set('n', '<ScrollWheelUp>', '<C-Y>') -- Scroll up 1 line
+-- vim.keymap.set('n', '<ScrollWheelDown>', '<C-E>') -- Scroll down 1 line
 vim.keymap.set('n', '<C-d>', '15j')
 vim.keymap.set('n', '<C-u>', '15k')
 
@@ -166,7 +166,9 @@ vim.keymap.set({ 'n', 'x', 'o' }, 'Ø', '<Plug>Sneak_S', { noremap = false })
 vim.keymap.set('n', '<leader>y', '<cmd>Yazi<CR>')
 
 -- Inc-Rename
-vim.keymap.set('n', '<leader>rn', ':IncRename ')
+vim.keymap.set('n', '<leader>rn', function()
+  return ':IncRename ' .. vim.fn.expand '<cword>'
+end, { expr = true })
 
 -- === Default keybindings from kickstart ===
 -- Clear highlights on search when pressing <Esc> in normal mode
