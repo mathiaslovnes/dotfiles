@@ -1,7 +1,22 @@
+---@diagnostic disable: undefined-global
+-- [[ Deleted keymaps ]]
+vim.keymap.set('n', 'gf', '<Nop>', { noremap = true }) -- Remove "Go to file under cursor"
+vim.keymap.set('n', 'gcc', '<Nop>', { noremap = true, silent = true, nowait = true }) -- Remove "Comment line"
+vim.keymap.set('n', 'gc', '<Nop>', { noremap = true, silent = true, nowait = true }) -- Remove "Comment line"
+
 -- [[ Basic Keymaps ]]
 
 -- === Leader key ===
 vim.g.mapleader = ' '
+
+-- Div
+-- Open file/link under cursor with 'gx'
+vim.keymap.set('n', 'gu', function()
+  vim.ui.open(vim.fn.expand '<cfile>')
+end, { desc = 'Open file or URL under cursor' })
+
+-- Copy current working directory
+vim.keymap.set('n', '<leader>cwd', '<cmd>let @+ = getcwd()<CR>')
 
 -- Accelerated J & K motions
 vim.api.nvim_set_keymap('n', 'j', '<Plug>(accelerated_jk_gj)', {})
@@ -43,8 +58,8 @@ vim.keymap.set('n', '<C-u>', '15k')
 vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>')
 
 -- Make comment below/above
-vim.keymap.set('n', 'gco', 'o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>', { desc = 'Add Comment Below' })
-vim.keymap.set('n', 'gcO', 'O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>', { desc = 'Add Comment Above' })
+vim.keymap.set('n', '<leader>co', 'o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>', { desc = 'Add Comment Below' })
+vim.keymap.set('n', '<leader>cO', 'O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>', { desc = 'Add Comment Above' })
 
 -- Stay in visual mode when indenting
 vim.keymap.set('v', '<', '<gv')
@@ -134,8 +149,8 @@ vim.keymap.set('n', '<BS>', 'i<BS><right><ESC>')
 vim.keymap.set('n', '<M-BS>', 'a<C-w><ESC>')
 
 -- === Insert new line without moving cursor ===
-vim.keymap.set('n', '<S-CR>', "<cmd>silent call append(line('.'), '')<CR>")
-vim.keymap.set('n', '<C-CR>', "<cmd>silent call append(line('.')-1, '')<CR>")
+vim.keymap.set('n', '<CR>', "<cmd>silent call append(line('.'), '')<CR>")
+vim.keymap.set('n', '<leader><CR>', "<cmd>silent call append(line('.')-1, '')<CR>")
 
 -- vim.keymap.set('n', '<Esc>[13;2u', ":call append(line('.'), '')<CR>")
 -- vim.keymap.set('n', '<Esc>[13;5u', ":call append(line('.')-1, '')<CR>")

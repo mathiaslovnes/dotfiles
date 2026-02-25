@@ -5,7 +5,7 @@ return {
     cmd = { 'ConformInfo' },
     keys = {
       {
-        '<leader>F',
+        '=',
         function()
           require('conform').format { async = true, lsp_format = 'fallback' }
           require('mini.trailspace').trim()
@@ -46,4 +46,3 @@ return {
     },
   },
 }
--- vim: ts=2 sts=2 sw=2 et

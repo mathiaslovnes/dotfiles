@@ -70,6 +70,8 @@ alias fix-mpl="sed -i '' -e \"s/, facecolor='#888888'//g\" -e \"s/'--align', 'le
 ## Terminal/shell specific
 alias sz='source ~/.zshrc'
 alias st='tmux source-file ~/.tmux.conf'
+alias c='clear'
+alias n='nvim'
 
 alias grep='rg'
 alias lsg='ls | rg'

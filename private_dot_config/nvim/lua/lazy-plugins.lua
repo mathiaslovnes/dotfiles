@@ -18,7 +18,6 @@ require('lazy').setup({
   -- keys can be used to configure plugin behavior/loading/etc.
   --
   -- Use `opts = {}` to automatically pass options to a plugin's `setup()` function, forcing the plugin to be loaded.
-  --
 
   -- modular approach: using `require 'path.name'` will
   -- include a plugin definition from file lua/path/name.lua
@@ -27,6 +26,7 @@ require('lazy').setup({
   -- require 'plugins.tokyonight',
   -- require 'plugins.nightfox',
   require 'plugins.catppuccin',
+
   require 'plugins.gitsigns',
   require 'plugins.which-key',
   require 'plugins.telescope',
@@ -34,39 +34,38 @@ require('lazy').setup({
   require 'plugins.conform',
   require 'plugins.blink-cmp',
   require 'plugins.todo-comments',
+
+  -- Treesitter plugins
   require 'plugins.treesitter',
+  require 'plugins.treesitter-textobjects',
+  require 'plugins.treesitter-context',
+
   require 'plugins.accelerated-jk',
   require 'plugins.bufferline',
   require 'plugins.lualine',
   require 'plugins.debug',
-  -- require 'plugins.indent_line',
   require 'plugins.lint',
-  require 'plugins.autopairs',
-  -- require 'plugins.neo-tree',
   require 'plugins.snacks',
   require 'plugins.csvview',
   require 'plugins.lazygit',
   require 'plugins.noice',
-  -- require 'plugins.vim-markdown',
   require 'plugins.neoscroll',
-  -- require 'plugins.sneak',
   require 'plugins.incline',
   require 'plugins.dadbod',
+  require 'plugins.dadbod-ui',
   require 'plugins.diffview',
   require 'plugins.tmux-navigator',
   require 'plugins.undotree',
   require 'plugins.code-runner',
-  -- require 'plugins.markview',
   require 'plugins.zoxide',
   require 'plugins.yazi',
   require 'plugins.harpoon',
-  -- require 'plugins.treesj',
-  require 'plugins.colorizer',
+  -- For splitting/joining blocks of code like arrays, hashes, statements, objects, dictionaries, etc.
+  require 'plugins.treesj',
   require 'plugins.tabout',
   require 'plugins.flash',
   require 'plugins.quick-todo',
   require 'plugins.vim-visual-multi',
-  require 'plugins.treesitter-context',
   require 'plugins.aerial',
   require 'plugins.render-markdown',
   require 'plugins.trouble',
@@ -76,13 +75,36 @@ require('lazy').setup({
   require 'plugins.luasnip',
   require 'plugins.hardtime',
   require 'plugins.neogit',
+  -- Fast TypeScript/JS LSP replacement using native Tsserver protocol (faster than typescript-language-server)
+  require 'plugins.typescript-tools',
+  -- Tailwind CSS integration with color hints, class sorting, and utilities
+  require 'plugins.tailwind-tools',
+  require 'plugins.highlight-colors',
+  -- Displays interactive vertical scrollbars and signs (see :help scrollview-configuration)
+  -- Similar plugins: scrollbar and satellite
+  require 'plugins.scrollview',
+  require 'plugins.fidget',
+  -- Opens buffer with cursor where you left off
+  require 'plugins.stay',
 
   -- Plugins I need to learn/use more
   require 'plugins.mini', -- surround etc.
   require 'plugins.unimpaired', -- Convenient binds for jumping around (e.g. methods)
   -- Needs to be added last
   require 'plugins.alpha',
-  require 'plugins.devicons',
+
+  ------------------------- UNUSED START -------------------------
+  -- require 'plugins.devicons',
+  -- require 'plugins.notify',
+  -- require 'plugins.lsp-notify',
+  -- require 'plugins.indent_line',
+  -- replaced by mini
+  -- require 'plugins.autopairs',
+  -- require 'plugins.neo-tree',
+  -- require 'plugins.vim-markdown',
+  -- require 'plugins.sneak',
+  -- require 'plugins.markview',
+  ------------------------- UNUSED END -------------------------
 
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!

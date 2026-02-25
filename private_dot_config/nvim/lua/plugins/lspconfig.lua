@@ -25,7 +25,7 @@ return {
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim', opts = {} },
+      -- { 'j-hui/fidget.nvim', opts = {} },
 
       -- Allows extra capabilities provided by blink.cmp
       'saghen/blink.cmp',
@@ -213,6 +213,7 @@ return {
         gopls = {},
         rust_analyzer = {},
         pyright = {},
+        sqlls = {},
         jdtls = {
           cmd = { 'jdtls' },
           root_dir = require('lspconfig.util').root_pattern('.git', 'mvnw', 'gradlew', 'build.gradle', 'pom.xml'),
@@ -230,6 +231,11 @@ return {
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         ts_ls = {},
         svelte = {},
+
+        -- CSS
+        css_variables = {},
+        cssmodules_ls = {},
+        cssls = {},
 
         lua_ls = {
           -- cmd = { ... },
@@ -261,14 +267,32 @@ return {
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
+      -- DOESN'T WORK
       vim.list_extend(ensure_installed, {
-        'stylua', -- Used to format Lua code
+        -- 'stylua', -- Used to format Lua code
+        -- 'css-lsp',
+        -- 'cssmodules-language-server',
+        -- 'tailwindcss-language-server',
+        -- 'stylua',
+        -- 'css-variables-language-server',
+        -- 'cssmodules-language-server',
+        -- 'clangd',
+        -- 'delve',
+        -- 'gopls',
+        -- 'jdtls',
+        -- 'lua_ls',
+        -- 'pyright',
+        -- 'rust-analyzer',
+        -- 'rust_analyzer',
+        -- 'sqlls',
+        -- 'svelte',
+        -- 'ts_ls',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
         ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-        automatic_installation = false,
+        automatic_installation = true,
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}

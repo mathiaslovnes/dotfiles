@@ -1,34 +1,19 @@
 return {
   'Wansmer/treesj',
-  keys = { '<space>m', '<space>jo', '<space>sp' }, -- [M]erge, [Jo]in, [Sp]lit
-
-  dependencies = { 'nvim-treesitter/nvim-treesitter' }, -- if you install parsers with `nvim-treesitter`
+  dependencies = { 'nvim-treesitter/nvim-treesitter' },
   config = function()
-    local tsj = require 'treesj'
     require('treesj').setup {
-      tsj.setup {
-        ---@type boolean Use default keymaps (<space>m - toggle, <space>j - join, <space>s - split)
-        use_default_keymaps = true,
-        ---@type boolean Node with syntax error will not be formatted
-        check_syntax_error = true,
-        ---If line after join will be longer than max value,
-        ---@type number If line after join will be longer than max value, node will not be formatted
-        max_join_length = 120,
-        ---Cursor behavior:
-        ---hold - cursor follows the node/place on which it was called
-        ---start - cursor jumps to the first symbol of the node being formatted
-        ---end - cursor jumps to the last symbol of the node being formatted
-        ---@type 'hold'|'start'|'end'
-        cursor_behavior = 'hold',
-        ---@type boolean Notify about possible problems or not
-        notify = true,
-        ---@type boolean Use `dot` for repeat action
-        dot_repeat = true,
-        ---@type nil|function Callback for treesj error handler. func (err_text, level, ...other_text)
-        on_error = nil,
-        ---@type table Presets for languages
-        -- langs = {}, -- See the default presets in lua/treesj/langs
-      },
+      use_default_keymaps = false,
+      check_syntax_error = true,
+      max_join_length = 120,
+      cursor_behavior = 'hold',
+      notify = true,
+      dot_repeat = true,
+      on_error = nil,
     }
+
+    vim.keymap.set('n', '<leader>m', require('treesj').toggle, { desc = 'TreeSJ [M]erge toggle' })
+    vim.keymap.set('n', '<leader>jo', require('treesj').join, { desc = 'TreeSJ [Jo]in' })
+    vim.keymap.set('n', '<leader>S', require('treesj').split, { desc = 'TreeSJ [S]plit' })
   end,
 }
