@@ -395,13 +395,13 @@ return {
 
   config = function(_, opts)
     require('aerial').setup(opts)
-    vim.keymap.set('n', '<leader>n', function()
+    vim.keymap.set('n', '<leader>o', function()
       require('aerial').snacks_picker {
         layout = {
           preset = 'dropdown',
           preview = false,
         },
       }
-    end, { desc = 'Aerial Snacks Picker' })
+    end, { desc = 'Aerial ([O]verview)' })
   end,
 }

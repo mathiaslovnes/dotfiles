@@ -6,13 +6,85 @@ return {
       -- The mock function makes mini.icons pretend to be nvim-web-devicons so any plugin that calls nvim-web-devicons gets mini.icons instead. You can verify it's working by running:
       require('mini.icons').mock_nvim_web_devicons()
 
+      -- require('mini.operators').setup {
+      --   -- Each entry configures one operator.
+      --   -- `prefix` defines keys mapped during `setup()`: in Normal mode
+      --   -- to operate on textobject and line, in Visual - on selection.
+      --
+      --   -- Evaluate text and replace with output
+      --   evaluate = {
+      --     prefix = 'g=',
+      --
+      --     -- Function which does the evaluation
+      --     func = nil,
+      --   },
+      --
+      --   -- Exchange text regions
+      --   exchange = {
+      --     -- NOTE: Default `gx` is remapped to `gX`
+      --     prefix = 'gx',
+      --
+      --     -- Whether to reindent new text to match previous indent
+      --     reindent_linewise = true,
+      --   },
+      --
+      --   -- Multiply (duplicate) text
+      --   multiply = {
+      --     prefix = 'gm',
+      --
+      --     -- Function which can modify text before multiplying
+      --     func = nil,
+      --   },
+      --
+      --   -- Replace text with register
+      --   replace = {
+      --     -- NOTE: Default `gr*` LSP mappings are removed
+      --     prefix = 'gr',
+      --
+      --     -- Whether to reindent new text to match previous indent
+      --     reindent_linewise = true,
+      --   },
+      --
+      --   -- Sort text
+      --   sort = {
+      --     prefix = 'gs',
+      --
+      --     -- Function which does the sort
+      --     func = nil,
+      --   },
+      -- }
+
+      require('mini.splitjoin').setup {
+        -- Module mappings. Use `''` (empty string) to disable one.
+        -- Created for both Normal and Visual modes.
+        mappings = {
+          toggle = '<leader>S',
+          split = '',
+          join = '',
+        },
+      }
+
       -- Trim trailing whitespace
       require('mini.trailspace').setup {
         -- Useful to not show trailing whitespace where it usually doesn't matter.
         -- Highlight only in normal buffers (ones with empty 'buftype'). This is
         only_in_normal_buffers = true,
 
-        vim.keymap.set('n', '<leader>tst', '<cmd>MiniTrailspace.trim()<CR>', { desc = '[T]rail[s]pace.[t]rim()' }),
+        -- vim.keymap.set('n', '<leader>tst', function()
+        --   require('mini.trailspace').trim()
+        -- end, { desc = '[T]rail[s]pace.[t]rim()' }),
+        vim.keymap.set('n', '<leader>ts', function()
+          require('mini.trailspace').trim()
+        end, { desc = '[T]rim trailing [s]paces' }),
+      }
+
+      -- Figures out hich buffer to show in window(s) after its current buffer is removed is decided by the algorithm:
+      -- If alternate buffer is listed, use it.
+      -- If previous listed buffer is different, use it.
+      -- Otherwise create a scratch one with nvim_create_buf(true, true) and use it.
+      require('mini.bufremove').setup {
+        -- Whether to disable showing non-error feedback
+        silent = false,
       }
 
       -- Better Around/Inside textobjects
@@ -36,8 +108,8 @@ return {
           -- Next/last variants
           -- NOTE: These override built-in LSP selection mappings on Neovim>=0.12
           -- Map LSP selection manually to use it (see `:h MiniAi.config`)
-          around_last = 'A',
-          inside_last = 'I',
+          around_last = 'ip',
+          inside_last = 'ip',
           -- around_next = 'an',
           -- inside_next = 'in', -- No need - by default it goes to the next one
 
@@ -121,8 +193,6 @@ return {
           mappings = {
             add = 'sa', -- Add surrounding in Normal and Visual modes
             delete = 'sd', -- Delete surrounding
-            find = 'sf', -- Find surrounding (to the right)
-            find_left = 'sF', -- Find surrounding (to the left)
             highlight = 'sh', -- Highlight surrounding
             replace = 'sr', -- Replace surrounding
 
@@ -142,7 +212,7 @@ return {
           -- neighborhood). One of 'cover', 'cover_or_next', 'cover_or_prev',
           -- 'cover_or_nearest', 'next', 'prev', 'nearest'. For more details,
           -- see `:h MiniSurround.config`.
-          search_method = 'cover',
+          search_method = 'cover_or_next',
 
           -- Whether to disable showing non-error feedback
           -- This also affects (purely informational) helper messages shown after

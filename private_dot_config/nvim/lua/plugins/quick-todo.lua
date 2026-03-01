@@ -3,7 +3,7 @@ return {
   config = function()
     require('quick-todo').setup {
       keys = {
-        open = '<leader>T',
+        open = '<leader>td',
       },
       window = {
         height = 0.7,

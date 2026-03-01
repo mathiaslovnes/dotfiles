@@ -6,7 +6,8 @@
 **/dot_DS_Store
 # Ignore backup config files
 **/*.bak
-
+# Lazy-lock
+lazy-lock.json
 
 **/private_mpv/fonts/
 **/private_mpv/private_watch_later/

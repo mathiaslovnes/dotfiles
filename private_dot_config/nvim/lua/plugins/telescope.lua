@@ -92,7 +92,7 @@ return {
               -- ['<C-t>'] = actions.select_default, -- open in new buffer (keeps old one)
               ['<CR>'] = actions.select_default, -- open in new buffer (keeps old one)
               ['<esc>'] = actions.close,
-              ['<c-d>'] = actions.delete_buffer + actions.move_to_top,
+              -- ['<c-d>'] = actions.delete_buffer + actions.move_to_top,
 
               ['<M-BS>'] = function()
                 vim.cmd [[normal! bcw]]
@@ -133,6 +133,7 @@ return {
         builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
           winblend = 10,
           previewer = false,
+          layout_config = { width = 0.6, height = 0.4 },
         })
       end, { desc = '[F]uzzily search in current buffer' })
 

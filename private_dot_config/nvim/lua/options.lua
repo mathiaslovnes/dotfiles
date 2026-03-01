@@ -23,6 +23,10 @@ opt.foldenable = false -- don't fold automatically
 opt.foldmethod = 'manual' -- only fold manually
 opt.foldlevel = 99 -- open all folds
 
+opt.wildmenu = true
+opt.wildoptions = 'pum'
+opt.pumheight = 15
+
 vim.cmd 'syntax enable'
 vim.cmd 'syntax on'
 

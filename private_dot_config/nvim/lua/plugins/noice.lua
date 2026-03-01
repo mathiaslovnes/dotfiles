@@ -2,6 +2,7 @@ return {
   'folke/noice.nvim',
   event = 'VeryLazy',
   opts = {
+    presets = { inc_rename = true },
     cmdline = {
       enabled = true,
       view = 'cmdline_popup',
@@ -15,6 +16,15 @@ return {
         size = {
           width = 60,
           height = 'auto',
+        },
+        routes = {
+          {
+            filter = {
+              event = 'msg_show',
+              find = 'IncRename',
+            },
+            view = 'cmdline_popup',
+          },
         },
         border = {
           style = 'rounded',

@@ -1,5 +1,11 @@
 
+# Reminders
+- Trying mini's split-join instead of treesj - try and remove treesj if keep
+
 # General nvim tips & tricks
+
+- <C-f> to enter into vim mode while in the cmdline
+
 - <leader>ut for undo-tree
 - 'gi' goes to last place I was in insert, gI go to implementation
 - gd go to definition, gD go to declaration
@@ -25,22 +31,52 @@
 
 # Plugins
 
+## Zoxide
+- Use :Z to use zoxide to jump to directories while staying within the current buffer
+
 ## Treesj
 - <leader>m to merge lines
 - <leader>jo to join lines
-- <leader>S to split lines
+- <leader>S to split ( lines ) alskjfdlsakjdf
 
 ## Mini
-- Use vI({' and vA({' to 
+- Use vI({' and vA({' to
 
 ## Surround
-sd'{[( for delete surrounding
+Add surrounding: sa<motion><char>
+  saiw)     - Surround word with ()
+  sa2w]     - Surround 2 words with []
+
+Delete surrounding: sd<char>
+  sd)       - Delete () surrounding
+  sd"       - Delete "" surrounding
+  sd]       - Delete [] surrounding
+
+Replace surrounding: sr<old><new>
+  sr)"      - Replace () with ""
+  sr}]      - Replace {} with []
+
+Interactive (Visual mode):
+  Select text, then:
+  sa<char>  - Add surrounding to selection
+  sr<char>  - Replace selection's surrounding
+
+Suffix modifiers (find nearest):
+  san)      - Add () next occurrence
+  sap)      - Add () previous occurrence
+  srn)"     - Replace next () with ""
+
+Highlight surrounding: sh<char>
+sh)       - Highlight () surrounding
+
+Misc:
+  sai(     - Surround inside parentheses with []
+
 
 ## Treesitter text objects
 
 
 ## Keybindings to remember
-- capital X for del, not backspace
 
 ## Harpoon
 - <leader>a — Mark current file
@@ -55,7 +91,7 @@ Neovim plugin for splitting/joining blocks of code like arrays, hashes, statemen
 
 
 
-## Use Aerial for navigating files 
+## Use Aerial for navigating files
 **Purposes**: Shows a symbol outline / code structure for your file.
 **Features**:
 - Lists functions, classes, variables, and other symbols in a sidebar or floating window.

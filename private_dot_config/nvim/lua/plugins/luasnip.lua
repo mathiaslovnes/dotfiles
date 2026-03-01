@@ -2,11 +2,15 @@ return {
   'L3MON4D3/LuaSnip',
   version = 'v2.*',
   build = 'make install_jsregexp',
+  dependencies = { 'rafamadriz/friendly-snippets' },
 
   config = function()
     local ls = require 'luasnip'
 
-    -- YOU WERE MISSING THESE DEFINITIONS:
+    -- Freidnly-snippets
+    require('luasnip.loaders.from_vscode').load {
+      exclude = { '' }, -- Exclude languages you don't want
+    }
     local s = ls.snippet
     local i = ls.insert_node
     local rep = require('luasnip.extras').rep

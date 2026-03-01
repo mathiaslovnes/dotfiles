@@ -8,7 +8,7 @@ return {
       mappings = {
         '<C-u>',
         '<C-d>',
-        '<C-y>',
+        -- '<C-y>',
         'zt',
         'zz',
         'zb',
@@ -26,11 +26,11 @@ return {
     }
 
     -- Remap <C-d> and <C-u> using the new signature
-    -- vim.keymap.set({ 'n', 'v', 'x' }, '<C-d>', function()
-    --   neoscroll.scroll(15, { move_cursor = true, duration = 250 })
-    -- end)
-    -- vim.keymap.set({ 'n', 'v', 'x' }, '<C-u>', function()
-    --   neoscroll.scroll(-15, { move_cursor = true, duration = 250 })
-    -- end)
+    vim.keymap.set({ 'n', 'v', 'x' }, '<C-d>', function()
+      neoscroll.scroll(15, { move_cursor = true, duration = 250 })
+    end)
+    vim.keymap.set({ 'n', 'v', 'x' }, '<C-u>', function()
+      neoscroll.scroll(-15, { move_cursor = true, duration = 250 })
+    end)
   end,
 }

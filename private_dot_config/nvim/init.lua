@@ -39,6 +39,24 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
+-- === Make popups' background transparent ===
+-- vim.api.nvim_create_autocmd('ColorScheme', {
+--   callback = function()
+--     vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'NONE' })
+--     vim.api.nvim_set_hl(0, 'FloatBorder', { bg = 'NONE' })
+--     vim.api.nvim_set_hl(0, 'FloatTitle', { bg = 'NONE' })
+--     vim.api.nvim_set_hl(0, 'TelescopeNormal', { bg = 'NONE' })
+--     vim.api.nvim_set_hl(0, 'TelescopeBorder', { bg = 'NONE' })
+--   end,
+-- })
+--
+-- -- Also set immediately for the current session
+-- vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'NONE' })
+-- vim.api.nvim_set_hl(0, 'FloatBorder', { bg = 'NONE' })
+-- vim.api.nvim_set_hl(0, 'FloatTitle', { bg = 'NONE' })
+-- vim.api.nvim_set_hl(0, 'TelescopeNormal', { bg = 'NONE' })
+-- vim.api.nvim_set_hl(0, 'TelescopeBorder', { bg = 'NONE' })
+
 -- Function to make rainbow highlights bold
 local function make_rainbows_bold()
   for i = 1, 6 do

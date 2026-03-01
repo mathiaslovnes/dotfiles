@@ -31,9 +31,15 @@ require('lazy').setup({
   require 'plugins.which-key',
   require 'plugins.telescope',
   require 'plugins.lspconfig',
+  require 'plugins.java',
+  require 'plugins.mason',
   require 'plugins.conform',
   require 'plugins.blink-cmp',
+  require 'plugins.betterquickfix',
+  require 'plugins.inc-rename',
+
   require 'plugins.todo-comments',
+  require 'plugins.helpview',
 
   -- Treesitter plugins
   require 'plugins.treesitter',
@@ -57,14 +63,19 @@ require('lazy').setup({
   require 'plugins.tmux-navigator',
   require 'plugins.undotree',
   require 'plugins.code-runner',
+
+  -- File navigation
   require 'plugins.zoxide',
   require 'plugins.yazi',
+  require 'plugins.neo-tree',
   require 'plugins.harpoon',
-  -- For splitting/joining blocks of code like arrays, hashes, statements, objects, dictionaries, etc.
-  require 'plugins.treesj',
+
+  -- For splitting/joining blocks of code like arrays, hashes, statements, objects, dictionaries, etc. - replaced by
+  -- mini
+  -- require 'plugins.treesj',
   require 'plugins.tabout',
   require 'plugins.flash',
-  require 'plugins.quick-todo',
+  -- require 'plugins.quick-todo',
   require 'plugins.vim-visual-multi',
   require 'plugins.aerial',
   require 'plugins.render-markdown',
@@ -86,6 +97,11 @@ require('lazy').setup({
   require 'plugins.fidget',
   -- Opens buffer with cursor where you left off
   require 'plugins.stay',
+  -- require 'plugins.borderline',
+  -- Find and replace plugin
+  require 'plugins.grug-far',
+  require 'plugins.dooing',
+  require 'plugins.marks',
 
   -- Plugins I need to learn/use more
   require 'plugins.mini', -- surround etc.
@@ -100,9 +116,7 @@ require('lazy').setup({
   -- require 'plugins.indent_line',
   -- replaced by mini
   -- require 'plugins.autopairs',
-  -- require 'plugins.neo-tree',
   -- require 'plugins.vim-markdown',
-  -- require 'plugins.sneak',
   -- require 'plugins.markview',
   ------------------------- UNUSED END -------------------------
 

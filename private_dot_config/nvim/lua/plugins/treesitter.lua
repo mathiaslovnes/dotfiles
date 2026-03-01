@@ -22,12 +22,15 @@ return {
         'markdown_inline',
         'svelte',
         'vue',
+        'zsh',
+        -- 'latex',
+        -- 'tmux', -- keep uninstalled - doesn't work
       },
       -- Autoinstall languages that are not installed
       auto_install = false,
       highlight = {
         enable = true,
-        disable = { 'latex' },
+        disable = { 'latex', 'tmux' },
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
         --  If you are experiencing weird indenting issues, add the language to
         --  the list of additional_vim_regex_highlighting and disabled languages for indent.
