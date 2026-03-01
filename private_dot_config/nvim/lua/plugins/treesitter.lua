@@ -22,7 +22,6 @@ return {
         'markdown_inline',
         'svelte',
         'vue',
-        'zsh',
         -- 'latex',
         -- 'tmux', -- keep uninstalled - doesn't work
       },

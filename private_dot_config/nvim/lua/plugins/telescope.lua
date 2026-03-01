@@ -95,7 +95,7 @@ return {
               -- ['<c-d>'] = actions.delete_buffer + actions.move_to_top,
 
               ['<M-BS>'] = function()
-                vim.cmd [[normal! bcw]]
+                vim.api.nvim_input '<C-w>'
               end,
             },
             n = {},

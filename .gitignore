@@ -6,8 +6,9 @@
 **/dot_DS_Store
 # Ignore backup config files
 **/*.bak
-# Lazy-lock
+# Neovim
 lazy-lock.json
-
+**/nvim.log
+# MPV
 **/private_mpv/fonts/
 **/private_mpv/private_watch_later/

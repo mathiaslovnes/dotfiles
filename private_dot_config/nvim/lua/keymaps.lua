@@ -9,11 +9,14 @@ vim.keymap.set('n', 'gc', '<Nop>', { noremap = true, silent = true, nowait = tru
 -- === Leader key ===
 vim.g.mapleader = ' '
 
--- Div
+-- === Div ===
 -- Open file/link under cursor with 'gx'
 vim.keymap.set('n', 'gu', function()
   vim.ui.open(vim.fn.expand '<cfile>')
 end, { desc = 'Open file or URL under cursor' })
+
+-- Open lazy
+vim.keymap.set('n', '<leader>L', '<cmd>Lazy<CR>')
 
 -- Copy current working directory
 vim.keymap.set('n', '<leader>cwd', '<cmd>let @+ = getcwd()<CR>')
@@ -51,12 +54,6 @@ vim.keymap.set('v', '<leader>dd', '"_dd')
 vim.keymap.set('n', '<leader>p', 'viw"_dP', { desc = 'viw"_dP', noremap = true, nowait = true })
 vim.keymap.set('n', '<leader>P', 'viW"_dP', { desc = 'viW"_dP', noremap = true, nowait = true })
 
--- Scrolling speed
--- vim.keymap.set('n', '<ScrollWheelUp>', '<C-Y>') -- Scroll up 1 line
--- vim.keymap.set('n', '<ScrollWheelDown>', '<C-E>') -- Scroll down 1 line
--- vim.keymap.set('n', '<C-d>', '15j')
--- vim.keymap.set('n', '<C-u>', '15k')
-
 -- Toggle line wrapping
 vim.keymap.set('n', '<leader>lw', '<cmd>set wrap!<CR>')
 
@@ -68,6 +65,7 @@ vim.keymap.set('n', '<leader>cO', 'O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>', { 
 -- Stay in visual mode when indenting
 vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('v', '>', '>gv')
+
 -- Visual mode indenting/unindenting
 vim.keymap.set('v', '<Tab>', '>gv', { noremap = true, silent = true })
 vim.keymap.set('v', '<BS>', '<gv', { noremap = true, silent = true })
@@ -89,29 +87,32 @@ vim.keymap.set('n', '<C-w><C-s>', '<C-w>-')
 vim.keymap.set('n', '<C-w><C-w>', '<C-w>+')
 vim.keymap.set('n', '<C-w><C-a>', '<C-w>5>')
 vim.keymap.set('n', '<C-w>>C-d>', '<C-w>5<')
+-- Equalize all window size
 vim.keymap.set('n', '<leader>=', '<cmd>wincmd=<CR>')
+-- Toggle equaling all window sizes
+-- vim.keymap.set('n', '<leader>zz', function()
+--   local win = vim.api.nvim_get_current_win()
+--   local wwidth = vim.api.nvim_win_get_width(win)
+--   local wheight = vim.api.nvim_win_get_height(win)
+--
+--   local tab_width = vim.o.columns
+--   local tab_height = vim.o.lines - vim.o.cmdheight
+--
+--   local focused = wwidth >= tab_width * 0.9 and wheight >= tab_height * 0.9
+--   if focused then
+--     vim.cmd 'wincmd =' --equalize all win size
+--   else
+--     vim.cmd 'wincmd |'
+--     vim.cmd 'wincmd _'
+--   end
+-- end)
 
 -- Split windows
 vim.keymap.set('n', '<leader>hs', '<cmd>split<CR>')
 vim.keymap.set('n', '<leader>vs', '<cmd>vsplit<CR>')
 
--- Equalize all window size
-vim.keymap.set('n', '<leader>zz', function()
-  local win = vim.api.nvim_get_current_win()
-  local wwidth = vim.api.nvim_win_get_width(win)
-  local wheight = vim.api.nvim_win_get_height(win)
-
-  local tab_width = vim.o.columns
-  local tab_height = vim.o.lines - vim.o.cmdheight
-
-  local focused = wwidth >= tab_width * 0.9 and wheight >= tab_height * 0.9
-  if focused then
-    vim.cmd 'wincmd =' --equalize all win size
-  else
-    vim.cmd 'wincmd |'
-    vim.cmd 'wincmd _'
-  end
-end)
+-- Close split
+vim.keymap.set('n', '<leader>cs', '<cmd>close<CR>', { desc = '[C]lose [S]plit' })
 
 -- Buffers
 -- vim.keymap.set('n', 'Q', function()
@@ -147,6 +148,7 @@ vim.keymap.set('n', '<C-q>', '<cmd>BufferLineCyclePrev<CR>', { desc = 'Previous 
 
 -- Mark entire file
 vim.keymap.set({ 'n', 'x' }, '<C-s>', 'ggVG')
+vim.keymap.set({ 'n', 'x' }, '<M-a>', 'ggVG')
 
 -- === Movement and scrolling ==
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
@@ -164,24 +166,20 @@ vim.keymap.set('n', 'L', '$')
 vim.keymap.set('v', 'L', '$')
 
 -- === Enter key remaps ===-
-vim.keymap.set('n', '<CR>', 'o<ESC>')
-vim.keymap.set('n', '<leader><CR>', 'O<ESC>')
+-- vim.keymap.set('n', '<CR>', 'o<ESC>')
+-- vim.keymap.set('n', '<leader><CR>', 'O<ESC>')
+vim.keymap.set('n', '<CR>', "<cmd>silent call append(line('.'), '')<CR>")
+vim.keymap.set('n', '<leader><CR>', "<cmd>silent call append(line('.')-1, '')<CR>")
 
 -- === Backspace remap ===
 vim.keymap.set('n', '<BS>', 'i<BS><right><ESC>')
 vim.keymap.set('n', '<M-BS>', 'a<C-w><ESC>')
-
-vim.keymap.set('n', '<CR>', "<cmd>silent call append(line('.'), '')<CR>")
-vim.keymap.set('n', '<leader><CR>', "<cmd>silent call append(line('.')-1, '')<CR>")
 
 -- === Insert new line without moving cursor ===
 
 -- ==== Plugin-specific bindings ===
 -- CsvView
 vim.keymap.set('n', '<leader>cv', '<cmd>CsvViewToggle delimiter=, display_mode=border header_lnum=1<CR>')
-
--- LazyGit
-vim.keymap.set('n', '<leader>g', '<cmd>LazyGit<CR>')
 
 -- Git diffview
 vim.keymap.set('n', '<leader>gdo', ':DiffviewOpen<CR>', { desc = 'Open Diffview' })

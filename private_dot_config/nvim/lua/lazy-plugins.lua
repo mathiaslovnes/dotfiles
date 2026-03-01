@@ -53,7 +53,7 @@ require('lazy').setup({
   require 'plugins.lint',
   require 'plugins.snacks',
   require 'plugins.csvview',
-  require 'plugins.lazygit',
+  -- require 'plugins.lazygit',
   require 'plugins.noice',
   require 'plugins.neoscroll',
   require 'plugins.incline',
@@ -76,7 +76,6 @@ require('lazy').setup({
   require 'plugins.tabout',
   require 'plugins.flash',
   -- require 'plugins.quick-todo',
-  require 'plugins.vim-visual-multi',
   require 'plugins.aerial',
   require 'plugins.render-markdown',
   require 'plugins.trouble',
@@ -102,6 +101,8 @@ require('lazy').setup({
   require 'plugins.grug-far',
   require 'plugins.dooing',
   require 'plugins.marks',
+  require 'plugins.spider',
+  require 'plugins.smart-splits',
 
   -- Plugins I need to learn/use more
   require 'plugins.mini', -- surround etc.
