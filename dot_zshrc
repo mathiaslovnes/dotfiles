@@ -94,10 +94,16 @@ alias ez='exec zsh'
 alias c='clear'
 alias n='nvim'
 
+### Zsh
 alias grep='rg'
 alias lsg='ls | rg'
 alias lg='l | rg'
 alias -g G='| rg'
+
+### Eza (l/ls replacement)
+alias l='eza -l --icons'
+alias ls='eza --icons'
+alias la='eza -la --icons'
 
 ## Tmux
 alias t='tmux'
