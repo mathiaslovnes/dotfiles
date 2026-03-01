@@ -21,31 +21,41 @@ ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(zvm_accept_line zvm_vi_cmd_mode)
 
 # === zsh-vi-mode ===
 function zvm_after_init() {
+  # Re-apply any other bindings zsh-vi-mode clobbers
   # Disable Ctrl+P and Ctrl+N (history navigation) in insert mode
   bindkey -M viins '^N' menu-select
   bindkey -M viins '^P' reverse-menu-select
+
+  # fzf rebinds (needs to be here since zsh-vi-mode overwrites these too)
+  bindkey -M viins '^F' fzf-file-widget # Search [F]iles
+  bindkey -M viins '^R' fzf-history-widget # History / [R]ecall
+  bindkey -M viins '^Z' fzf-cd-widget # Fzf directories - [Z]oxide mnemonic
 
   # Restore normal backspace (zsh-vi-mode overrides this)
   bindkey -M viins '^?' backward-delete-char
   bindkey -M viins '^H' backward-delete-char
 
-  # Re-apply any other bindings zsh-vi-mode clobbers
+  # Add sudo to the current or previous command by hitting ESC-ESC
   bindkey -M viins '^s' sudo-command-line
+
+  # Option+left/right: backward/forward word
   bindkey -M viins "^[[1;3D" backward-word
   bindkey -M viins "^[[1;3C" forward-word
+
+  # Command+left/right: jump to line start/end
   bindkey -M viins "^[[1;5D" beginning-of-line
   bindkey -M viins "^[[1;5C" end-of-line
-  bindkey -M viins "^[\x7f" kill-whole-line
 
-  # fzf rebinds (needs to be here since zsh-vi-mode overwrites these too)
-  bindkey -M viins '^F' fzf-file-widget # Search [F]iles
-  bindkey -M viins '^R' fzf-history-widget # History / [R]ecall
-  bindkey -M viins '^Z' fzf-cd-widget # Search directories with fzf [Z]oxide
+  # Command+backspace: delete entire line
+  bindkey "^[[8;5u" kill-whole-line
 
-  source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-  bindkey -M viins '^I' menu-select
-  bindkey -M menuselect '^I' menu-complete
-  bindkey -M menuselect "$terminfo[kcbt]" reverse-menu-complete
+  # Shift/option+backspace: remove word
+  bindkey "^[^?" backward-kill-word
+
+
+  # bindkey -M viins '^I' menu-select
+  # bindkey -M menuselect '^I' menu-complete
+  # bindkey -M menuselect "$terminfo[kcbt]" reverse-menu-complete
 }
 
 # === FZF ===
@@ -72,24 +82,6 @@ zstyle ':omz:plugins:alias-finder' exact yes # disabled by default
 zstyle ':omz:plugins:alias-finder' cheaper yes # disabled by default
 
 # -------------------------
-# BINDS
-# -------------------------
-
-# Add sudo to the current or previous command by hitting ESC-ESC
-bindkey '^s' sudo-command-line
-
-# Option+left/right: backward/forward word
-bindkey "^[[1;3D" backward-word
-bindkey "^[[1;3C" forward-word
-
-# Command+left/right: jump to line start/end
-bindkey "^[[1;5D" beginning-of-line
-bindkey "^[[1;5C" end-of-line
-
-# Command+backspace: delete entire line
-bindkey "^[\x7f" kill-whole-line
-
-# -------------------------
 # ALIASES
 # -------------------------
 
@@ -107,8 +99,13 @@ alias lsg='ls | rg'
 alias lg='l | rg'
 alias -g G='| rg'
 
+## Tmux
+alias t='tmux'
+alias tk='tmux kill-server'
+
 ## Chezmoi
 alias cs='Chezmoi status'
+alias csync='Chezmoi add ~/.config/nvim'
 alias ca='Chezmoi add'
 alias caa='Chezmoi re-add'
 alias cra='Chezmoi re-add'
