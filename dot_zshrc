@@ -11,47 +11,63 @@ export MPLBACKEND_KITTY_SIZING=automatic
 # Oh My Zsh setup
 # -------------------------
 export ZSH="$HOME/.oh-my-zsh"
-plugins=(git direnv zsh-syntax-highlighting zsh-autosuggestions zsh-brew-services sudo alias-finder)
+plugins=(zsh-vi-mode git fzf direnv zsh-syntax-highlighting zsh-autosuggestions zsh-brew-services sudo alias-finder)
 source $ZSH/oh-my-zsh.sh
-
-
+ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(zvm_accept_line zvm_vi_cmd_mode)
 
 # -------------------------
 # Plugin-specific settings
 # -------------------------
 
-## ZSH-AUTOCOMPLETE
+# === zsh-vi-mode ===
+function zvm_after_init() {
+  # Disable Ctrl+P and Ctrl+N (history navigation) in insert mode
+  bindkey -M viins '^N' menu-select
+  bindkey -M viins '^P' reverse-menu-select
 
-# autoload -Uz compinit && compinit
+  # Restore normal backspace (zsh-vi-mode overrides this)
+  bindkey -M viins '^?' backward-delete-char
+  bindkey -M viins '^H' backward-delete-char
 
-# builtin zstyle ':autocomplete:*:unambiguous' format \
-    # $'%{\e[0;2m%}%Bcommon substring:%b %0F%11K%d%f%k'
+  # Re-apply any other bindings zsh-vi-mode clobbers
+  bindkey -M viins '^s' sudo-command-line
+  bindkey -M viins "^[[1;3D" backward-word
+  bindkey -M viins "^[[1;3C" forward-word
+  bindkey -M viins "^[[1;5D" beginning-of-line
+  bindkey -M viins "^[[1;5C" end-of-line
+  bindkey -M viins "^[\x7f" kill-whole-line
 
-# all Tab widgets
-# zstyle ':autocomplete:*complete*:*' insert-unambiguous yes
-# # all history widgets
-# zstyle ':autocomplete:*history*:*' insert-unambiguous yes
-# # ^S
-# zstyle ':autocomplete:menu-search:*' insert-unambiguous yes
+  # fzf rebinds (needs to be here since zsh-vi-mode overwrites these too)
+  bindkey -M viins '^F' fzf-file-widget # Search [F]iles
+  bindkey -M viins '^R' fzf-history-widget # History / [R]ecall
+  bindkey -M viins '^Z' fzf-cd-widget # Search directories with fzf [Z]oxide
 
+  source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+  bindkey -M viins '^I' menu-select
+  bindkey -M menuselect '^I' menu-complete
+  bindkey -M menuselect "$terminfo[kcbt]" reverse-menu-complete
+}
 
-# Autocomplete
+# === FZF ===
+# Exclude certain directories from fzf
+export FZF_ALT_C_COMMAND="fd --type d --hidden --exclude .git --exclude Library --exclude .direnv --exclude node_modules --exclude .jukit"
+export FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude .git --exclude Library --exclude .direnv --exclude node_modules"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+# === ZSH-AUTOCOMPLETE ===
+source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 zstyle ':completion:*' completer _complete
+# accept searches not only matching prefixes
 zstyle ':completion:*' matcher-list \
     'm:{[:lower:]}={[:upper:]}' \
     '+r:|[._-]=* r:|=*' \
-    '+l:|=*'autoload -Uz compinit
-compinit
-# zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-# zstyle ':autocomplete:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+    '+l:|=*'
+autoload -Uz compinit && compinit
 zstyle ':autocomplete:*' append-semicolon no
-source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-
-
 
 ## ALIAS-FINDER
 zstyle ':omz:plugins:alias-finder' autoload yes # disabled by default
-zstyle ':omz:plugins:alias-finder' longer yes # disabled by default
+zstyle ':omz:plugins:alias-finder' longer no # disabled by default
 zstyle ':omz:plugins:alias-finder' exact yes # disabled by default
 zstyle ':omz:plugins:alias-finder' cheaper yes # disabled by default
 
@@ -59,7 +75,19 @@ zstyle ':omz:plugins:alias-finder' cheaper yes # disabled by default
 # BINDS
 # -------------------------
 
-bindkey '^s' sudo-command-line # Add sudo to the current or previous command
+# Add sudo to the current or previous command by hitting ESC-ESC
+bindkey '^s' sudo-command-line
+
+# Option+left/right: backward/forward word
+bindkey "^[[1;3D" backward-word
+bindkey "^[[1;3C" forward-word
+
+# Command+left/right: jump to line start/end
+bindkey "^[[1;5D" beginning-of-line
+bindkey "^[[1;5C" end-of-line
+
+# Command+backspace: delete entire line
+bindkey "^[\x7f" kill-whole-line
 
 # -------------------------
 # ALIASES
@@ -70,6 +98,7 @@ alias fix-mpl="sed -i '' -e \"s/, facecolor='#888888'//g\" -e \"s/'--align', 'le
 ## Terminal/shell specific
 alias sz='source ~/.zshrc'
 alias st='tmux source-file ~/.tmux.conf'
+alias ez='exec zsh'
 alias c='clear'
 alias n='nvim'
 
@@ -135,9 +164,6 @@ eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
 eval "$(fzf --zsh)"
 eval "$(direnv hook zsh)"
-source <(fzf --zsh)
-
-
 
 # Run neofetch on terminal start
 # if command -v neofetch &> /dev/null; then
@@ -263,3 +289,16 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+# Fix: clear ghost autosuggestion text after tab completion
+typeset -g _pd_fix_last_buf=""
+_fix_stale_postdisplay() {
+  if [[ -n "$POSTDISPLAY" ]]; then
+    local len_diff=$(( ${#BUFFER} - ${#_pd_fix_last_buf} ))
+    if (( len_diff > 1 || len_diff < 0 )); then
+      unset POSTDISPLAY
+    fi
+  fi
+  _pd_fix_last_buf="$BUFFER"
+}
+autoload -Uz add-zle-hook-widget
+add-zle-hook-widget line-pre-redraw _fix_stale_postdisplay
