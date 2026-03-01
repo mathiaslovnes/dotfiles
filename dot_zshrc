@@ -94,16 +94,17 @@ alias ez='exec zsh'
 alias c='clear'
 alias n='nvim'
 
+### Eza (l/ls replacement)
+alias l='eza -l --icons'
+alias ls='eza --icons'
+alias la='eza -la --icons'
+alias lt='eza --tree --icons'
+
 ### Zsh
 alias grep='rg'
 alias lsg='ls | rg'
 alias lg='l | rg'
 alias -g G='| rg'
-
-### Eza (l/ls replacement)
-alias l='eza -l --icons'
-alias ls='eza --icons'
-alias la='eza -la --icons'
 
 ## Tmux
 alias t='tmux'
@@ -126,7 +127,8 @@ alias gcm='git commit -m'
 alias gco='git checkout'
 alias ga='git add'
 alias gs='git status'
-alias gp='git push'
+alias gp='git pull'
+alias gP='git push'
 alias gprb='git pull --rebase'
 alias gpf='git push --force-with-lease'
 alias gl='git log'
@@ -146,6 +148,9 @@ alias gam='gc --amend --no-edit'
 # alias gl=pretty_git_log
 # alias gll=pretty_git_log_long
 # alias gla=pretty_git_log_all
+
+# Python
+alias ps='pip show'
 
 
 HISTSIZE=10000
