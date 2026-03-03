@@ -5,7 +5,10 @@
 # General nvim tips & tricks
 
 - <C-f> to enter into vim mode while in the cmdline
+- Yanky plugin creates a paste register you can search (leader-Y) or scroll through (<C-N> & <C-P> for next and prev entry in register)
 
+- <leader>bg to toggle background
+- <leader>c{o/O} for adding comment below and above
 - <leader>ut for undo-tree
 - 'gi' goes to last place I was in insert, gI go to implementation
 - gd go to definition, gD go to declaration
@@ -28,11 +31,19 @@
 - Ctrl-n
 - Ctrl-m
 - Ctrl-hjkl
+- tab, shift-tab (cmd-esc)
 
 # Plugins
 
+## Snacks
+- <leader>si to select icons (/emojis)
+
 ## Zoxide
 - Use :Z to use zoxide to jump to directories while staying within the current buffer
+
+## Yazi
+- Ctrl-v to open vertical split
+- Ctrl-x to open horizontal split
 
 ## Treesj
 - <leader>m to merge lines
@@ -40,7 +51,9 @@
 - <leader>S to split ( lines ) alskjfdlsakjdf
 
 ## Mini
-- Use vI({' and vA({' to
+- Use vil({' to go to prev (last) specified surrounding
+- Use viq or vaq mark inside or around next quotes
+- Use vib or (vab )mark inside or around next bracket
 
 ## Surround
 Add surrounding: sa<motion><char>
@@ -72,6 +85,8 @@ sh)       - Highlight () surrounding
 Misc:
   sai(     - Surround inside parentheses with []
 
+- Lots of these binds are dot-repeatable
+- Can even use f for surrounding a selected piece of text in a function
 
 ## Treesitter text objects
 

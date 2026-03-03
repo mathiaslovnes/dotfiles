@@ -20,17 +20,10 @@ return {
     vim.keymap.set('n', '_', '<cmd>call jukit#send#selection()<cr>')
     vim.keymap.set('n', '_', '<cmd><C-U>call jukit#send#selection()cr>')
 
-    vim.keymap.set('n', '<leader>_pdf', "<cmd>call jukit#convert#save_nb_to_file(0,1,'pdf')<cr>")
     -- save to pdf -- rebind to dummy key
-    vim.keymap.set('n', '<leader>_pos', ':<cmd>call jukit#ueberzug#set_default_pos()<CR>')
+    vim.keymap.set('n', '<leader>_pdf', "<cmd>call jukit#convert#save_nb_to_file(0,1,'pdf')<cr>")
     -- set position and dimension of überzug window -- rebind to dummy key
-
-    -- Whether to highlight cell markers
-    vim.g.jukit_highlight_markers = 0
-
-    -- Whether to highlight background of textcells
-    vim.g.jukit_enable_textcell_bg_hl = 0
-    -- vim.cmd("highlight jukit_textcell_bg_colors guibg=#131628 ctermbg=0")
+    vim.keymap.set('n', '<leader>_pos', ':<cmd>call jukit#ueberzug#set_default_pos()<CR>')
 
     -- Enable markdown syntax highlighting in textcells
     vim.g.jukit_enable_textcell_syntax = 1
@@ -40,11 +33,6 @@ return {
 
     -- Extensions for which highlighting autocmds will be created
     vim.g.jukit_hl_ext_enabled = '*'
-
-    vim.g.jukit_highlight_markers = 1
-    -- Whether to highlight cell markers or not. You can specify the colors of cell markers by putting e.g. `highlight jukit_cellmarker_colors guifg=#1d615a guibg=#1d615a ctermbg=22 ctermfg=22` with your desired colors in your (neo)vim config. Make sure to define this highlight *after* loading a colorscheme in your (neo)vim config
-    vim.g.jukit_enable_textcell_bg_hl = 1
-    -- Whether to highlight background of textcells. You can specify the color by putting `highlight jukit_textcell_bg_colors guibg=#131628 ctermbg=0` with your desired colors in your (neo)vim config. Make sure to define this highlight group *after* loading a colorscheme in your (neo)vim config.
 
     vim.g.jukit_layout = {
       split = 'horizontal',

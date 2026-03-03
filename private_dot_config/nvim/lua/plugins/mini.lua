@@ -6,53 +6,51 @@ return {
       -- The mock function makes mini.icons pretend to be nvim-web-devicons so any plugin that calls nvim-web-devicons gets mini.icons instead. You can verify it's working by running:
       require('mini.icons').mock_nvim_web_devicons()
 
-      -- require('mini.operators').setup {
-      --   -- Each entry configures one operator.
-      --   -- `prefix` defines keys mapped during `setup()`: in Normal mode
-      --   -- to operate on textobject and line, in Visual - on selection.
-      --
-      --   -- Evaluate text and replace with output
-      --   evaluate = {
-      --     prefix = 'g=',
-      --
-      --     -- Function which does the evaluation
-      --     func = nil,
-      --   },
-      --
-      --   -- Exchange text regions
-      --   exchange = {
-      --     -- NOTE: Default `gx` is remapped to `gX`
-      --     prefix = 'gx',
-      --
-      --     -- Whether to reindent new text to match previous indent
-      --     reindent_linewise = true,
-      --   },
-      --
-      --   -- Multiply (duplicate) text
-      --   multiply = {
-      --     prefix = 'gm',
-      --
-      --     -- Function which can modify text before multiplying
-      --     func = nil,
-      --   },
-      --
-      --   -- Replace text with register
-      --   replace = {
-      --     -- NOTE: Default `gr*` LSP mappings are removed
-      --     prefix = 'gr',
-      --
-      --     -- Whether to reindent new text to match previous indent
-      --     reindent_linewise = true,
-      --   },
-      --
-      --   -- Sort text
-      --   sort = {
-      --     prefix = 'gs',
-      --
-      --     -- Function which does the sort
-      --     func = nil,
-      --   },
-      -- }
+      require('mini.operators').setup {
+        -- Each entry configures one operator.
+        -- `prefix` defines keys mapped during `setup()`: in Normal mode
+        -- to operate on textobject and line, in Visual - on selection.
+
+        -- Evaluate text and replace with output
+        evaluate = {
+          prefix = 'g=',
+
+          -- Function which does the evaluation
+          func = nil,
+        },
+
+        -- Exchange text regions
+        exchange = {
+          prefix = '', -- Replaced by substitute.nvim because of buggy x/y marker additions
+
+          -- Whether to reindent new text to match previous indent
+          reindent_linewise = true,
+        },
+
+        -- Multiply (duplicate) text
+        multiply = {
+          prefix = '<leader>m',
+
+          -- Function which can modify text before multiplying
+          func = nil,
+        },
+
+        -- Replace text with register
+        replace = {
+          prefix = '<leader>r',
+
+          -- Whether to reindent new text to match previous indent
+          reindent_linewise = true,
+        },
+
+        -- Sort text
+        sort = {
+          prefix = '<leader>os',
+
+          -- Function which does the sort
+          func = nil,
+        },
+      }
 
       require('mini.splitjoin').setup {
         -- Module mappings. Use `''` (empty string) to disable one.
@@ -62,20 +60,6 @@ return {
           split = '',
           join = '',
         },
-      }
-
-      -- Trim trailing whitespace
-      require('mini.trailspace').setup {
-        -- Useful to not show trailing whitespace where it usually doesn't matter.
-        -- Highlight only in normal buffers (ones with empty 'buftype'). This is
-        only_in_normal_buffers = true,
-
-        -- vim.keymap.set('n', '<leader>tst', function()
-        --   require('mini.trailspace').trim()
-        -- end, { desc = '[T]rail[s]pace.[t]rim()' }),
-        vim.keymap.set('n', '<leader>ts', function()
-          require('mini.trailspace').trim()
-        end, { desc = '[T]rim trailing [s]paces' }),
       }
 
       -- Figures out hich buffer to show in window(s) after its current buffer is removed is decided by the algorithm:
@@ -108,14 +92,14 @@ return {
           -- Next/last variants
           -- NOTE: These override built-in LSP selection mappings on Neovim>=0.12
           -- Map LSP selection manually to use it (see `:h MiniAi.config`)
-          around_last = 'ip',
-          inside_last = 'ip',
-          -- around_next = 'an',
-          -- inside_next = 'in', -- No need - by default it goes to the next one
+          around_last = 'il',
+          inside_last = 'il',
+          around_next = 'an',
+          inside_next = 'in',
 
           -- Move cursor to corresponding edge of `a` textobject
-          goto_left = 'g[',
-          goto_right = 'g]',
+          goto_left = 'gQ',
+          goto_right = 'gq',
         },
 
         -- Number of lines within which textobject is searched
@@ -187,7 +171,7 @@ return {
           custom_surroundings = nil,
 
           -- Duration (in ms) of highlight when calling `MiniSurround.highlight()`
-          highlight_duration = 500,
+          highlight_duration = 1000,
 
           -- Module mappings. Use `''` (empty string) to disable one.
           mappings = {
@@ -196,7 +180,7 @@ return {
             highlight = 'sh', -- Highlight surrounding
             replace = 'sr', -- Replace surrounding
 
-            suffix_last = 'p', -- Suffix to search with "prev" method
+            suffix_last = 'l', -- Suffix to search with "prev" method
             suffix_next = 'n', -- Suffix to search with "next" method
           },
 
@@ -222,7 +206,7 @@ return {
       )
 
       require('mini.pairs').setup {
-        modes = { insert = true, command = true, terminal = true }, -- Defaults: true, false, false
+        modes = { insert = true, command = false, terminal = false }, -- Defaults: true, false, false
       }
 
       require('mini.align').setup {

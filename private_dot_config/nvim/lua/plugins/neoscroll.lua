@@ -8,10 +8,6 @@ return {
       mappings = {
         '<C-u>',
         '<C-d>',
-        -- '<C-y>',
-        'zt',
-        'zz',
-        'zb',
       },
       hide_cursor = true,
       stop_eof = true,

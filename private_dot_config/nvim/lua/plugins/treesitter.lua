@@ -6,6 +6,7 @@ return {
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
       ensure_installed = {
+        'sql',
         'bash',
         'c',
         'diff',
@@ -22,8 +23,6 @@ return {
         'markdown_inline',
         'svelte',
         'vue',
-        -- 'latex',
-        -- 'tmux', -- keep uninstalled - doesn't work
       },
       -- Autoinstall languages that are not installed
       auto_install = false,

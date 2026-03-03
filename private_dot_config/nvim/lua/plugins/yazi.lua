@@ -8,31 +8,16 @@ return {
       { 'nvim-lua/plenary.nvim', lazy = true },
     },
     keys = {
-      -- 👇 in this section, choose your own keymappings!
-      {
-        '<leader>-',
-        mode = { 'n', 'v' },
-        '<cmd>Yazi<cr>',
-        desc = 'Open yazi at the current file',
-      },
-      {
-        -- Open in the current working directory
-        '<leader>cw',
-        '<cmd>Yazi cwd<cr>',
-        desc = "Open the file manager in nvim's working directory",
-      },
-      {
-        '<c-up>',
-        '<cmd>Yazi toggle<cr>',
-        desc = 'Resume the last yazi session',
-      },
+      { '<leader>y', '<cmd>Yazi<CR>', desc = 'Open Yazi' },
     },
     ---@type YaziConfig | {}
     opts = {
       -- if you want to open yazi instead of netrw, see below for more info
       open_for_directories = false,
       keymaps = {
-        show_help = '<f1>',
+        show_help = '?',
+        open_file_in_vertical_split = '<c-v>',
+        open_file_in_horizontal_split = '<c-x>',
       },
     },
     -- 👇 if you use `open_for_directories=true`, this is recommended

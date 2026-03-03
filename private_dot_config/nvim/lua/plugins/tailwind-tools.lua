@@ -41,7 +41,7 @@ return {
     },
     keymaps = {
       smart_increment = { -- increment tailwindcss units using <C-a> and <C-x>
-        enabled = true,
+        enabled = false, -- will override dial.nvim
         units = { -- see lua/tailwind/units.lua to see all the defaults
           {
             prefix = 'border',

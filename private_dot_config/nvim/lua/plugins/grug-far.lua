@@ -38,8 +38,21 @@ return {
       },
     }
 
+    -- Search in visually selected block
+    vim.keymap.set('x', '<leader>sr', ':GrugFarWithin<CR>', { desc = 'Search & Replace (selection)' })
+
+    -- Search recursively (only for same filetypes, e.g. .py)
+    vim.keymap.set('n', '<leader>srr', function()
+      local ext = vim.fn.expand '%:e'
+      require('grug-far').open {
+        prefills = {
+          filesFilter = ext ~= '' and '*.' .. ext or nil,
+        },
+      }
+    end, { desc = 'Search & Replace Recursively' })
+
     -- Search in current buffer
-    vim.keymap.set('n', '<leader>rp', function()
+    vim.keymap.set('n', '<leader>srf', function()
       local ext = vim.fn.expand '%:e'
       require('grug-far').open {
         prefills = {
@@ -48,39 +61,26 @@ return {
       }
     end, { desc = 'Search & Replace (current filetype)' })
 
-    -- Search in visually selected block
-    vim.keymap.set('x', '<leader>rp', ':GrugFarWithin<CR>', { desc = 'Search & Replace (selection)' })
-
-    -- Search recursively (only for same filetypes, e.g. .py)
-    vim.keymap.set('n', '<leader>gfr', function()
-      local ext = vim.fn.expand '%:e'
-      require('grug-far').open {
-        prefills = {
-          filesFilter = ext ~= '' and '*.' .. ext or nil,
-        },
-      }
-    end, { desc = 'Search & Replace Recursively (Recursive GrugFar)' })
-
     -- Search in open buffers
-    vim.keymap.set('n', '<leader>gfb', function()
+    vim.keymap.set('n', '<leader>srb', function()
       require('grug-far').open {
         prefills = {
           paths = '<buflist>',
         },
       }
-    end, { desc = 'Search & Replace (buffers)' })
+    end, { desc = 'Search & Replace (open buffers)' })
 
     -- Search in buffers within cwd
-    vim.keymap.set('n', '<leader>gfB', function()
+    vim.keymap.set('n', '<leader>srB', function()
       require('grug-far').open {
         prefills = {
           paths = '<buflist-cwd>',
         },
       }
-    end, { desc = 'Search & Replace (buffers in cwd)' })
+    end, { desc = 'Search & Replace (open buffers only in cwd)' })
 
     -- Search in quickfix list
-    vim.keymap.set('n', '<leader>gfq', function()
+    vim.keymap.set('n', '<leader>srq', function()
       require('grug-far').open {
         prefills = {
           paths = '<qflist>',

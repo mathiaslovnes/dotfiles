@@ -1,6 +1,11 @@
 return {
   {
     'hat0uma/csvview.nvim',
+    ft = 'csv',
+    cmd = { 'CsvViewEnable', 'CsvViewDisable', 'CsvViewToggle' },
+    keys = {
+      { '<leader>cv', '<cmd>CsvViewToggle delimiter=, display_mode=border header_lnum=1<CR>', desc = 'Toggle CSV view' },
+    },
     opts = {
       parser = { comments = { '#', '//' } },
       keymaps = {
@@ -12,17 +17,5 @@ return {
         jump_prev_row = { '<S-Enter>', mode = { 'n', 'v' } },
       },
     },
-    cmd = { 'CsvViewEnable', 'CsvViewDisable', 'CsvViewToggle' },
-    ft = { 'csv' }, -- lazy-load only for csv files
-    config = function(_, opts)
-      require('csvview').setup(opts)
-      -- autocmd is actually optional if you use ft lazy-loading, but if you want:
-      vim.api.nvim_create_autocmd('FileType', {
-        pattern = 'csv',
-        callback = function()
-          require('csvview').enable()
-        end,
-      })
-    end,
   },
 }

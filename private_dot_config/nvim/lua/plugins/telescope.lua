@@ -81,7 +81,7 @@ return {
                 vim.schedule(function()
                   local new_buf = vim.api.nvim_get_current_buf()
                   if original_buf ~= new_buf and vim.api.nvim_buf_is_valid(original_buf) then
-                    vim.api.nvim_buf_delete(original_buf, { force = false })
+                    pcall(vim.api.nvim_buf_delete, original_buf, { force = false })
                     if original_pos then
                       pcall(require('bufferline').move_to, original_pos)
                     end
@@ -128,7 +128,7 @@ return {
       vim.keymap.set('n', '<leader>sb', builtin.buffers, { desc = '[S]earch Existing [B]uffers' })
 
       -- Slightly advanced example of overriding default behavior and theme
-      vim.keymap.set('n', '<leader>F', function()
+      vim.keymap.set('n', '<leader>f', function()
         -- You can pass additional configuration to Telescope to change the theme, layout, etc.
         builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
           winblend = 10,

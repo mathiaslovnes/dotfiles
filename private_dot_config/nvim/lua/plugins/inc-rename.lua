@@ -1,8 +1,18 @@
 return {
   'smjonas/inc-rename.nvim',
+  cmd = 'IncRename',
+  keys = {
+    {
+      '<leader>rn',
+      function()
+        return ':IncRename ' .. vim.fn.expand '<cword>'
+      end,
+      expr = true,
+      desc = 'Incremental rename',
+    },
+  },
   opts = {
     -- the name of the command
-    cmd_nameaksjf = 'IncRename',
     -- the highlight group used for highlighting the identifier's new name
     hl_group = 'Substitute',
     -- whether an empty new name should be previewed; if false the command preview will be cancelled instead

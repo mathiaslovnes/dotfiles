@@ -7,12 +7,14 @@ return {
   config = function()
     local ls = require 'luasnip'
 
-    -- Freidnly-snippets
+    -- Friendly-snippets
     require('luasnip.loaders.from_vscode').load {
       exclude = { '' }, -- Exclude languages you don't want
     }
     local s = ls.snippet
     local i = ls.insert_node
+    local t = ls.text_node
+
     local rep = require('luasnip.extras').rep
     local fmt = require('luasnip.extras.fmt').fmt
 
@@ -28,6 +30,14 @@ return {
     end, { silent = true })
 
     -- 2. Add Snippets
+    ls.add_snippets('lua', {
+      s('styluaignore', {
+        t { '-- stylua: ignore start' },
+        i(1),
+        t { '', '-- stylua: ignore end' },
+      }),
+    })
+
     ls.add_snippets('tex', {
       -- Snippet 1: Base Template
       s(
@@ -43,7 +53,7 @@ return {
       ]],
           { i(1) }
         )
-      ), -- Note the comma here!
+      ),
 
       -- Snippet 2: Itemize
       s(

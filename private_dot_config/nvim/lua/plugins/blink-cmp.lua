@@ -24,10 +24,11 @@ return {
         enabled = true,
         keymap = { preset = 'inherit' },
         completion = {
+          accept = {
+            auto_brackets = { enabled = true },
+          },
           menu = {
             auto_show = true,
-            border = 'rounded',
-            winhighlight = 'Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel',
           },
           ghost_text = { enabled = false },
         },
@@ -44,6 +45,9 @@ return {
       },
 
       completion = {
+        accept = {
+          auto_brackets = { enabled = true },
+        },
         menu = {
           border = 'rounded',
           scrollbar = false,
@@ -92,7 +96,7 @@ return {
       },
 
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'lazydev' },
+        default = { 'lsp', 'path', 'snippets', 'lazydev', 'buffer' },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
         },

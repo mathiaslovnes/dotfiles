@@ -80,8 +80,8 @@ return {
 
         -- Keymaps
         keymaps = {
-          toggle_window = '<leader>td', -- Toggle global todos
-          open_project_todo = '<leader>tD', -- Toggle project-specific todos
+          toggle_window = '<leader>tD', -- Toggle global todos
+          open_project_todo = '<leader>td', -- Toggle project-specific todos
           show_due_notification = '<leader>tN', -- Show due items window
           new_todo = 'i',
           create_nested_task = '<leader>tn', -- Create nested subtask under current todo

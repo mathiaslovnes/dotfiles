@@ -43,8 +43,10 @@ return {
           init = nil,
         },
         filetype_path = '',
-        -- Execute before executing a file
-        before_run_filetype = function() end,
+        -- Save :w before running a file
+        before_run_filetype = function()
+          vim.cmd 'w'
+        end,
         filetype = {
           javascript = 'node',
           java = {
@@ -80,8 +82,7 @@ return {
       }
 
       -- Keybindings
-      -- vim.keymap.set('n', '!', ':RunCode<CR>', { noremap = true, silent = false })
-
+      -- Set ! for running code in all file-types except python - handled by vim-jukit
       vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
         pattern = '*',
         callback = function()
@@ -91,9 +92,9 @@ return {
         end,
       })
       -- Run the current file
-      vim.keymap.set('n', '<leader>rf', ':RunFile<CR>', { noremap = true, silent = false })
+      -- vim.keymap.set('n', '<leader>rF', ':RunFile<CR>', { noremap = true, silent = false })
       -- Close the output window
-      vim.keymap.set('n', '<leader>rc', ':RunClose<CR>', { noremap = true, silent = false })
+      -- vim.keymap.set('n', '<leader>rc', ':RunClose<CR>', { noremap = true, silent = false })
       -- vim.keymap.set('n', '<leader>rft', ':RunFile tab<CR>', { noremap = true, silent = false })
       -- vim.keymap.set('n', '<leader>rp', ':RunProject<CR>', { noremap = true, silent = false })
       -- vim.keymap.set('n', '<leader>crf', ':CRFiletype<CR>', { noremap = true, silent = false })
