@@ -1,134 +1,149 @@
--- [[ Configure and install plugins ]]
---
---  To check the current status of your plugins, run
---    :Lazy
---
---  You can press `?` in this menu for help. Use `:q` to close the window
---
---  To update plugins you can run
---    :Lazy update
---
--- NOTE: Here is where you install your plugins.
+-- stylua: ignore start
 require('lazy').setup({
-  -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
-
-  -- NOTE: Plugins can also be added by using a table,
-  -- with the first argument being the link and the following
-  -- keys can be used to configure plugin behavior/loading/etc.
-  --
-  -- Use `opts = {}` to automatically pass options to a plugin's `setup()` function, forcing the plugin to be loaded.
-
-  -- modular approach: using `require 'path.name'` will
-  -- include a plugin definition from file lua/path/name.lua
-
-  -- Colorscheme
+  -- ╔══════════════════════════════════════════════════════════════╗
+  -- ║                        Colorscheme                         ║
+  -- ╚══════════════════════════════════════════════════════════════╝
+  require 'plugins.catppuccin',
   -- require 'plugins.tokyonight',
   -- require 'plugins.nightfox',
-  require 'plugins.catppuccin',
 
-  require 'plugins.gitsigns',
-  require 'plugins.which-key',
-  require 'plugins.telescope',
-  require 'plugins.lspconfig',
-  require 'plugins.java',
-  require 'plugins.mason',
-  require 'plugins.conform',
-  require 'plugins.blink-cmp',
-  require 'plugins.betterquickfix',
-  require 'plugins.inc-rename',
+  -- ╔══════════════════════════════════════════════════════════════╗
+  -- ║                     LSP & Completion                       ║
+  -- ╚══════════════════════════════════════════════════════════════╝
+  require 'plugins.lspconfig',        -- Core LSP client configuration
+  require 'plugins.mason',            -- LSP/DAP/linter/formatter installer
+  require 'plugins.blink-cmp',        -- Fast completion engine
+  require 'plugins.java',             -- Enhanced Java LSP support (nvim-java)
+  require 'plugins.typescript-tools', -- Native tsserver protocol (faster than typescript-language-server)
+  require 'plugins.tailwind-tools',   -- Tailwind CSS color hints, class sorting, and utilities
+  require 'plugins.fidget',           -- LSP progress notifications
+  require 'plugins.inc-rename',       -- Incremental LSP rename with live preview
+  -- require 'plugins.lightbulb',       -- Show lightbulb icon for available LSP code actions
 
-  require 'plugins.todo-comments',
-  require 'plugins.helpview',
+  -- ╔══════════════════════════════════════════════════════════════╗
+  -- ║                   Treesitter & Syntax                      ║
+  -- ╚══════════════════════════════════════════════════════════════╝
+  require 'plugins.treesitter',             -- Syntax highlighting, indentation, and code parsing
+  require 'plugins.treesitter-textobjects', -- Select, move, swap via treesitter nodes (functions, classes, etc.)
+  require 'plugins.treesitter-context',     -- Sticky header showing current function/class scope
+  require 'plugins.autotag',                -- Auto-close and auto-rename HTML/JSX tags via treesitter
+  require 'plugins.highlight-colors',       -- Inline color swatches for hex/rgb/hsl values
 
-  -- Treesitter plugins
-  require 'plugins.treesitter',
-  require 'plugins.treesitter-textobjects',
-  require 'plugins.treesitter-context',
+  -- ╔══════════════════════════════════════════════════════════════╗
+  -- ║                  Debugging & Testing                       ║
+  -- ╚══════════════════════════════════════════════════════════════╝
+  require 'plugins.debug',   -- DAP client for multi-language debugging (Python, JS/TS, Java, C/Rust)
+  require 'plugins.neotest', -- Test runner framework (pytest, Jest/Vitest, Java)
+  require 'plugins.lint',    -- Async linting engine (nvim-lint)
 
-  require 'plugins.accelerated-jk',
-  require 'plugins.bufferline',
-  require 'plugins.lualine',
-  require 'plugins.debug',
-  require 'plugins.lint',
-  require 'plugins.snacks',
-  require 'plugins.csvview',
-  -- require 'plugins.lazygit',
-  require 'plugins.noice',
-  require 'plugins.neoscroll',
-  require 'plugins.incline',
-  require 'plugins.dadbod',
-  require 'plugins.dadbod-ui',
-  require 'plugins.diffview',
-  require 'plugins.tmux-navigator',
-  require 'plugins.undotree',
-  require 'plugins.code-runner',
+  -- ╔══════════════════════════════════════════════════════════════╗
+  -- ║                    Formatting & Code                       ║
+  -- ╚══════════════════════════════════════════════════════════════╝
+  require 'plugins.conform',     -- Lightweight formatter manager (prettier, stylua, black, etc.)
+  require 'plugins.neogen',      -- Auto-generate docstrings for any language
+  require 'plugins.luasnip',     -- Snippet engine with friendly-snippets collection
+  require 'plugins.code-runner', -- Run code/files directly from the editor
 
-  -- File navigation
-  require 'plugins.zoxide',
-  require 'plugins.yazi',
-  require 'plugins.neo-tree',
-  require 'plugins.harpoon',
+  -- ╔══════════════════════════════════════════════════════════════╗
+  -- ║                     Git Integration                        ║
+  -- ╚══════════════════════════════════════════════════════════════╝
+  require 'plugins.gitsigns', -- Inline git blame, hunk staging, diff signs in the gutter
+  require 'plugins.neogit',   -- Magit-style interactive git interface
+  require 'plugins.diffview', -- Tabpage-based diff viewer for commits and file history
+  -- require 'plugins.lazygit', -- Lazygit TUI integration (using Snacks instead)
 
-  -- For splitting/joining blocks of code like arrays, hashes, statements, objects, dictionaries, etc. - replaced by
-  -- mini
-  -- require 'plugins.treesj',
-  require 'plugins.tabout',
-  require 'plugins.flash',
-  -- require 'plugins.quick-todo',
-  require 'plugins.aerial',
-  require 'plugins.render-markdown',
-  require 'plugins.trouble',
-  require 'plugins.vim-jukit',
-  require 'plugins.betterterm',
-  require 'plugins.vimtex',
-  require 'plugins.luasnip',
-  require 'plugins.hardtime',
-  require 'plugins.neogit',
-  -- Fast TypeScript/JS LSP replacement using native Tsserver protocol (faster than typescript-language-server)
-  require 'plugins.typescript-tools',
-  -- Tailwind CSS integration with color hints, class sorting, and utilities
-  require 'plugins.tailwind-tools',
-  require 'plugins.highlight-colors',
-  -- Displays interactive vertical scrollbars and signs (see :help scrollview-configuration)
-  -- Similar plugins: scrollbar and satellite
-  require 'plugins.scrollview',
-  require 'plugins.fidget',
-  -- Opens buffer with cursor where you left off
-  require 'plugins.stay',
-  -- require 'plugins.borderline',
-  -- Find and replace plugin
-  require 'plugins.grug-far',
-  require 'plugins.dooing',
-  require 'plugins.marks',
-  require 'plugins.spider',
-  require 'plugins.smart-splits',
+  -- ╔══════════════════════════════════════════════════════════════╗
+  -- ║                   File Navigation                          ║
+  -- ╚══════════════════════════════════════════════════════════════╝
+  require 'plugins.telescope', -- Fuzzy finder for files, buffers, grep, LSP symbols, and everything
+  require 'plugins.neo-tree',  -- File explorer sidebar with git status
+  require 'plugins.harpoon',   -- Pin and quick-switch between a handful of key files
+  require 'plugins.yazi',      -- Terminal file manager integration
+  require 'plugins.zoxide',    -- Jump to frecent directories from inside Neovim
+  require 'plugins.aerial',    -- Code outline / symbol sidebar (functions, classes, etc.)
 
-  -- Plugins I need to learn/use more
-  require 'plugins.mini', -- surround etc.
-  require 'plugins.unimpaired', -- Convenient binds for jumping around (e.g. methods)
-  -- Needs to be added last
-  require 'plugins.alpha',
+  -- ╔══════════════════════════════════════════════════════════════╗
+  -- ║                    Motion & Editing                        ║
+  -- ╚══════════════════════════════════════════════════════════════╝
+  require 'plugins.flash',               -- Leap/sneak-style jump-to-char navigation with labels
+  require 'plugins.spider',              -- Smarter w/e/b that stop at subWords and punctuation
+  require 'plugins.accelerated-jk',      -- Hold j/k to accelerate vertical cursor movement
+  require 'plugins.tabout',              -- Tab out of brackets, quotes, and other pairs
+  require 'plugins.dial',                -- Increment/decrement dates, booleans, hex, and more with <C-a>/<C-x>
+  require 'plugins.substitute',          -- Operator for substituting text with register contents
+  require 'plugins.yanky',               -- Paste history ring you can cycle through and search
+  require 'plugins.vim-visual-multi',    -- Multiple cursors for simultaneous edits
+  require 'plugins.various-textobjects', -- Extra textobjects for subwords and other selections
+  require 'plugins.mini',                -- Swiss-army kit: surround, trailspace, splitjoin, bufremove, etc.
+  require 'plugins.unimpaired',          -- Bracket-based mappings for jumping between methods, quickfix, etc.
+  -- require 'plugins.treesj',           -- Split/join code blocks (replaced by mini.splitjoin)
 
-  ------------------------- UNUSED START -------------------------
-  -- require 'plugins.devicons',
-  -- require 'plugins.notify',
-  -- require 'plugins.lsp-notify',
-  -- require 'plugins.indent_line',
-  -- replaced by mini
-  -- require 'plugins.autopairs',
-  -- require 'plugins.vim-markdown',
-  -- require 'plugins.markview',
-  ------------------------- UNUSED END -------------------------
+  -- ╔══════════════════════════════════════════════════════════════╗
+  -- ║                      UI & Visuals                          ║
+  -- ╚══════════════════════════════════════════════════════════════╝
+  require 'plugins.bufferline',                 -- Tab-like buffer bar at the top
+  require 'plugins.lualine',                    -- Statusline with mode, git, diagnostics, etc.
+  require 'plugins.incline',                    -- Floating filename labels on splits
+  require 'plugins.noice',                      -- Replaces cmdline, messages, and popupmenu with modern UI
+  require 'plugins.neoscroll',                  -- Smooth scrolling animations
+  require 'plugins.scrollview',                 -- Interactive vertical scrollbar with signs
+  require 'plugins.illuminate',                 -- Highlight other occurrences of the word under cursor
+  require 'plugins.unidentified-flying-object', -- nvim-ufo: modern code folding with virtual preview text
+  require 'plugins.snacks',                     -- Utility suite: lazygit, dashboard, notifications, etc.
+                                                -- require 'plugins.alpha',                    -- Startup dashboard (using Snacks instead)
 
-  -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
-  -- Or use telescope!
-  -- In normal mode type `<space>sh` then write `lazy.nvim-plugin`
-  -- you can continue same window with `<space>sr` which resumes last telescope search
+  -- ╔══════════════════════════════════════════════════════════════╗
+  -- ║                 Color Pickers & Tools                      ║
+  -- ╚══════════════════════════════════════════════════════════════╝
+  require 'plugins.cccccc',             -- Inline color picker (ccc.nvim)
+  require 'plugins.oklch-color-picker', -- Advanced color picker with hue/saturation in a separate OS window
+
+  -- ╔══════════════════════════════════════════════════════════════╗
+  -- ║                  Terminals & Databases                     ║
+  -- ╚══════════════════════════════════════════════════════════════╝
+  require 'plugins.betterterm',     -- Improved floating/split terminal management
+  require 'plugins.tmux-navigator', -- Seamless Ctrl/Cmd+hjkl navigation between Neovim and tmux panes
+  require 'plugins.smart-splits',   -- Resize and navigate splits across Neovim and tmux
+  require 'plugins.dadbod',         -- Database client (Postgres, MySQL, SQLite, etc.)
+  require 'plugins.dadbod-ui',      -- Interactive UI for dadbod queries and connections
+
+  -- ╔══════════════════════════════════════════════════════════════╗
+  -- ║              Domain-Specific & Filetype                    ║
+  -- ╚══════════════════════════════════════════════════════════════╝
+  require 'plugins.vim-jukit',       -- Jupyter-style notebook workflow (code cells, inline plots via Kitty)
+  require 'plugins.vimtex',          -- Full-featured LaTeX editing, compilation, and PDF sync
+  require 'plugins.csvview',         -- Pretty-print and align CSV columns
+  require 'plugins.render-markdown', -- Rich markdown preview with inline rendering
+
+  -- ╔══════════════════════════════════════════════════════════════╗
+  -- ║                  Workflow & Utilities                       ║
+  -- ╚══════════════════════════════════════════════════════════════╝
+  require 'plugins.which-key',      -- Popup showing available keybinding continuations
+  require 'plugins.todo-comments',  -- Highlight and search TODO/FIXME/HACK/NOTE comments
+  require 'plugins.helpview',       -- Enhanced :help viewer with syntax highlighting
+  require 'plugins.trouble',        -- Pretty diagnostics, references, and quickfix list
+  require 'plugins.betterquickfix', -- Enhanced quickfix window with previews
+  require 'plugins.undotree',       -- Visual undo history tree browser
+  require 'plugins.grug-far',       -- Project-wide find and replace
+  require 'plugins.marks',          -- Visible marks in the gutter with keybindings to manage them
+  require 'plugins.dooing',         -- Simple todo list manager
+  require 'plugins.stay',           -- Restore cursor position when reopening buffers
+  require 'plugins.hardtime',       -- Break bad habits by discouraging repeated hjkl spam
+  -- require 'plugins.quick-todo',  -- Quick inline todo (disabled)
+
+  -- ╔══════════════════════════════════════════════════════════════╗
+  -- ║                        Unused                              ║
+  -- ╚══════════════════════════════════════════════════════════════╝
+  -- require 'plugins.devicons',       -- File type icons
+  -- require 'plugins.notify',         -- Notification popups (using noice/snacks instead)
+  -- require 'plugins.lsp-notify',     -- LSP-specific notifications
+  -- require 'plugins.indent_line',    -- Indentation guide lines
+  -- require 'plugins.vim-markdown',   -- Markdown extras (using render-markdown instead)
+  -- require 'plugins.markview',       -- Markdown viewer (using render-markdown instead)
+  -- require 'plugins.borderline',     -- Window border styling
+  -- stylua: ignore end
 }, {
   ui = {
-    -- If you are using a Nerd Font: set icons to an empty table which will use the
-    -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
     icons = vim.g.have_nerd_font and {} or {
       cmd = '⌘',
       config = '🛠',
@@ -146,5 +161,3 @@ require('lazy').setup({
     },
   },
 })
-
--- vim: ts=2 sts=2 sw=2 et

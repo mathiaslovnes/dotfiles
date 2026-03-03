@@ -15,8 +15,6 @@ opt.smartindent = true
 opt.autoindent = true
 opt.textwidth = 120
 opt.scrolloff = 15
--- opt.scroll = 15 -- Controls ctrl-D and ctrl-U scroll length - doesn't do anything for some
--- reason?
 opt.cursorline = false
 opt.guicursor = 'n-v-c:block,i:ver25,r-cr:hor20'
 opt.foldenable = false -- don't fold automatically
@@ -27,15 +25,27 @@ opt.wildmenu = true
 opt.wildoptions = 'pum'
 opt.pumheight = 15
 
-vim.cmd 'syntax enable'
-vim.cmd 'syntax on'
+-- These are global fold configuration options required for nvim-ufo
+opt.foldcolumn = '1' -- Show fold column (0 to disable)
+opt.foldlevel = 99 -- Start with all folds open (required for ufo providers)
+opt.foldlevelstart = 99 -- Keep all folds open on file open
+opt.foldenable = true -- Enable folding
+opt.fillchars = { eob = ' ', fold = ' ', foldopen = '▼', foldsep = ' ', foldclose = '▶' }
+
+-- Prevent vim-visual-multi artifacts from appearing in statusline
+vim.g.VM_set_statusline = 0
+
+-- This keeps it always 1 column wide regardless of signs appearing/disappearing, so it won't jump around.
+-- opt.signcolumn = 'yes'
+-- vim.o.signcolumn = 'yes'
+opt.signcolumn = 'yes:1'
 
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
 
 -- Enable mouse mode, can be useful for resizing splits for example!
-vim.o.mouse = 'a'
+opt.mouse = 'a'
 
 -- Don't show the mode, since it's already in the status line
 -- vim.o.showmode = false
@@ -57,9 +67,6 @@ vim.o.undofile = true
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.o.ignorecase = true
 vim.o.smartcase = true
-
--- Keep signcolumn on by default
-vim.o.signcolumn = 'yes'
 
 -- Decrease update time
 vim.o.updatetime = 50
