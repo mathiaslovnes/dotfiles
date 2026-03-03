@@ -28,10 +28,12 @@ yabai -m config mouse_action2 resize
 
 yabai -m mouse_drop_action swap
 
-yabai -m rule --add app="^System Settings$" manage=off 
-yabai -m rule --add app="^Karabiner-Elements$" manage=off 
-yabai -m rule --add app="^Mac Mouse Fix$" manage=off 
-yabai -m rule --add app="^Finder$" manage=off 
+yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --add app="^Karabiner-Elements$" manage=off
+yabai -m rule --add app="^Karabiner-EventViewer$" manage=off
+yabai -m rule --add app="^oklch-color-picker$" manage=off
+yabai -m rule --add app="^Mac Mouse Fix$" manage=off
+yabai -m rule --add app="^Finder$" manage=off
 
 yabai -m rule --add app=".*" sub-layer=normal
 yabai -m rule --apply

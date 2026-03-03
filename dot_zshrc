@@ -3,6 +3,7 @@
 # -------------------------
 export EDITOR="nvim"
 export VISUAL="nvim"
+export PATH="/opt/homebrew/opt/postgresql@18/bin:$PATH"
 export MPLBACKEND='module://matplotlib-backend-kitty'
 export MPLCONFIGDIR="$HOME/.matplotlib"
 export MPLBACKEND_KITTY_SIZING=automatic
@@ -52,7 +53,8 @@ function zvm_after_init() {
   # Shift/option+backspace: remove word
   bindkey "^[^?" backward-kill-word
 
-
+  # Need to source this last for zsh-vi-mode to work - no idea why
+  source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
   # bindkey -M viins '^I' menu-select
   # bindkey -M menuselect '^I' menu-complete
   # bindkey -M menuselect "$terminfo[kcbt]" reverse-menu-complete
@@ -93,6 +95,7 @@ alias st='tmux source-file ~/.tmux.conf'
 alias ez='exec zsh'
 alias c='clear'
 alias n='nvim'
+alias sk='kitten show-key'
 
 ### Eza (l/ls replacement)
 alias l='eza -l --icons'
@@ -103,8 +106,12 @@ alias lt='eza --tree --icons'
 ### Zsh
 alias grep='rg'
 alias lsg='ls | rg'
-alias lg='l | rg'
+# alias lg='l | rg'
 alias -g G='| rg'
+
+## Brew
+alias bs='brew show'
+alias bi='brew install'
 
 ## Tmux
 alias t='tmux'
@@ -121,6 +128,7 @@ alias ccd='z Chezmoi'
 alias cm='Chezmoi managed'
 
 ## GIT ALIASES
+alias lg='lazygit'
 alias g='git'
 alias gc='git commit'
 alias gcm='git commit -m'
@@ -151,6 +159,7 @@ alias gam='gc --amend --no-edit'
 
 # Python
 alias ps='pip show'
+alias pi='pip install'
 
 
 HISTSIZE=10000
