@@ -11,7 +11,7 @@ return {
     indent = { enabled = true },
     input = { enabled = false },
     notifier = {
-      enabled = false,
+      enabled = true,
       timeout = 4444,
     },
     picker = { enabled = true },
