@@ -112,6 +112,9 @@ alias -g G='| rg'
 ## Brew
 alias bs='brew show'
 alias bi='brew install'
+alias bu='brew upgrade'
+alias b='brew'
+
 
 ## Tmux
 alias t='tmux'
@@ -126,6 +129,10 @@ alias cra='Chezmoi re-add'
 alias zc='z Chezmoi'
 alias ccd='z Chezmoi'
 alias cm='Chezmoi managed'
+
+## Yabai/skhd
+alias yrs='yabai --restart-service'
+alias ys='yabai --start-service'
 
 ## GIT ALIASES
 alias lg='lazygit'
@@ -158,7 +165,7 @@ alias gam='gc --amend --no-edit'
 # alias gla=pretty_git_log_all
 
 # Python
-alias ps='pip show'
+# alias ps='pip show' # overwrites ps in ps aux
 alias pi='pip install'
 
 

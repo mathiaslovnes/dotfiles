@@ -20,19 +20,19 @@ return {
       java = { 'checkstyle' },
 
       -- JavaScript/TypeScript
-      javascript = { 'eslint' },
-      typescript = { 'eslint' },
-      javascriptreact = { 'eslint' },
-      typescriptreact = { 'eslint' },
+      javascript = { 'eslint_d' },
+      typescript = { 'eslint_d' },
+      javascriptreact = { 'eslint_d' },
+      typescriptreact = { 'eslint_d' },
 
       -- Svelte
-      svelte = { 'eslint' },
+      svelte = { 'eslint_d' },
 
       -- Vue
-      vue = { 'eslint' },
+      vue = { 'eslint_d' },
 
       -- Python
-      python = { 'pylint' },
+      -- python = { 'pylint' },
 
       -- Lua
       -- lua = { 'luacheck' },

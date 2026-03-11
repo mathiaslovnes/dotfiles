@@ -39,10 +39,10 @@ return {
     }
 
     -- Search in visually selected block
-    vim.keymap.set('x', '<leader>sr', ':GrugFarWithin<CR>', { desc = 'Search & Replace (selection)' })
+    vim.keymap.set('x', '<leader>rp', ':GrugFarWithin<CR>', { desc = 'Search & Replace (selection)' })
 
     -- Search recursively (only for same filetypes, e.g. .py)
-    vim.keymap.set('n', '<leader>srr', function()
+    vim.keymap.set('n', '<leader>rp', function()
       local ext = vim.fn.expand '%:e'
       require('grug-far').open {
         prefills = {

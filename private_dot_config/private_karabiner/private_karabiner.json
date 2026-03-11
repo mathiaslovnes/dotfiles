@@ -8,6 +8,19 @@
             "complex_modifications": {
                 "rules": [
                     {
+                        "description": "Caps Lock + B to open DataGrip",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "b",
+                                    "modifiers": { "mandatory": ["left_shift", "left_control", "left_option"] }
+                                },
+                                "to": [{ "shell_command": "open -a DataGrip" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Map ctrl backtick to triple backticks",
                         "manipulators": [
                             {
