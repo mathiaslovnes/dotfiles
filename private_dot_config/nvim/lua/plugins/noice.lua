@@ -20,10 +20,11 @@ return {
         routes = {
           {
             filter = {
-              event = 'msg_show',
-              find = 'IncRename',
+              event = "lsp",
+              kind = "progress",
+              find = "jdtls",
             },
-            view = 'cmdline_popup',
+            opts = { skip = true },
           },
         },
         border = {

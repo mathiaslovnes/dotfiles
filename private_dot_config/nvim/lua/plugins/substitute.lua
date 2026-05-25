@@ -18,7 +18,7 @@ return {
 
     -- Substitute operator
     vim.keymap.set('n', 'z', require('substitute').operator, { noremap = true, desc = 'Substitute' })
-    vim.keymap.set('n', 'zz', require('substitute').line, { noremap = true, desc = 'Substitute line' })
+    vim.keymap.set('n', 'zl', require('substitute').line, { noremap = true, desc = 'Substitute line' })
     vim.keymap.set('n', 'Z', require('substitute').eol, { noremap = true, desc = 'Substitute to EOL' })
     vim.keymap.set('x', 'z', require('substitute').visual, { noremap = true, desc = 'Substitute visual' })
 

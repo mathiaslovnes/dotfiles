@@ -27,6 +27,9 @@ vim.keymap.set('n', 'N', 'Nzzzv')
 vim.keymap.set('n', 'G', 'Gzz')
 vim.keymap.set('n', 'gg', 'ggzz')
 
+-- Center
+vim.keymap.set('n', 'S', 'zz')
+
 -- ===================================================================
 -- Editing
 -- ===================================================================
@@ -62,8 +65,10 @@ vim.keymap.set('v', '<Tab>', '>gv', { noremap = true, silent = true })
 vim.keymap.set('v', '<BS>', '<gv', { noremap = true, silent = true })
 
 -- Make comment below/above
-vim.keymap.set('n', '<leader>co', 'oX<esc><cmd>lua MiniComment.toggle_lines(vim.fn.line("."), vim.fn.line("."))<cr>fXxa', { desc = 'Add Comment Below' })
-vim.keymap.set('n', '<leader>cO', 'OX<esc><cmd>lua MiniComment.toggle_lines(vim.fn.line("."), vim.fn.line("."))<cr>fXxa', { desc = 'Add Comment Above' })
+vim.keymap.set('n', '<leader>co', 'oX<esc><cmd>lua MiniComment.toggle_lines(vim.fn.line("."), vim.fn.line("."))<cr>fXxa',
+  { desc = 'Add Comment Below' })
+vim.keymap.set('n', '<leader>cO', 'OX<esc><cmd>lua MiniComment.toggle_lines(vim.fn.line("."), vim.fn.line("."))<cr>fXxa',
+  { desc = 'Add Comment Above' })
 
 -- ===================================================================
 -- Clipboard & Yanking
@@ -94,7 +99,7 @@ vim.keymap.set('n', 'Q', function()
     if choice == 1 then -- Yes
       vim.cmd 'write'
       require('mini.bufremove').delete(buf)
-    elseif choice == 2 then -- No
+    elseif choice == 2 then                       -- No
       require('mini.bufremove').delete(buf, true) -- force
     end
     -- choice == 3 (Cancel): do nothing

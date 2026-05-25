@@ -33,8 +33,22 @@ shift + alt - m : yabai -m window --toggle zoom-fullscreen
 # balance out tree of windows (resize to occupy same area)
 shift + alt - e : yabai -m space --balance
 
-# -- Moving Windows Around --
+# Center floating window on screen (maintains size)
+shift + alt - c : \
+    is_floating=$(yabai -m query --windows --window | jq '."is-floating"'); \
+    [ "$is_floating" = "false" ] && yabai -m window --toggle float; \
+    win=$(yabai -m query --windows --window); \
+    display=$(yabai -m query --displays --display); \
+    nx=$(echo "$display $win" | jq -s '.[0].frame.x + (.[0].frame.w - .[1].frame.w) / 2' | cut -d. -f1); \
+    ny=$(echo "$display $win" | jq -s '.[0].frame.y + (.[0].frame.h - .[1].frame.h) / 2' | cut -d. -f1); \
+    yabai -m window --move abs:${nx}:${ny}
 
+# Cycle layout: bsp → stack → bsp -- T for Toggle
+shift + alt - t : yabai -m space --layout $(yabai -m query --spaces --space | jq -r \
+    'if .type == "bsp" then "stack" elif .type == "stack" then "bsp" else "bsp" end')
+
+
+# -- Moving Windows Around --
 
 # swap windows
 shift + alt - j : yabai -m window --swap south
@@ -102,9 +116,9 @@ shift + alt + ctrl - 7 : yabai -m space --focus 9
 alt - x : yabai -m window --toggle split
 
 # Launch script for mpv/japanese
-cmd + ctrl - j : ~/scripts/mpv-layout.sh
+cmd + shift - j : ~/scripts/mpv-layout.sh
 
-# -- Starting/Stopping/Restarting Yabai --
+# -- StartingmStopping/Restarting Yabai --
 ctrl + alt - q : yabai --stop-service
 ctrl + alt - s : yabai --start-service
 ctrl + alt - r : yabai --restart-service

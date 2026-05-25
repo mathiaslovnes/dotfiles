@@ -9,28 +9,35 @@ return { -- You can easily change to a different colorscheme.
   config = function()
     ---@diagnostic disable-next-line: missing-fields
     require('catppuccin').setup {
+      custom_highlights = function(colors)
+        return {
+          ["@string.documentation.python"] = { fg = colors.green },
+          YankyPut = { link = "IncSearch" },
+          YankyYanked = { link = "IncSearch" },
+        }
+      end,
       flavour = 'mocha', -- latte, frappe, macchiato, mocha
-      background = { -- :h background
+      background = {     -- :h background
         light = 'latte',
         dark = 'mocha',
       },
       transparent_background = true, -- disables setting the background color.
       float = {
-        transparent = false, -- enable transparent floating windows
-        solid = false, -- use solid styling for floating windows, see |winborder|
+        transparent = false,         -- enable transparent floating windows
+        solid = false,               -- use solid styling for floating windows, see |winborder|
       },
-      show_end_of_buffer = true, -- shows the '~' characters after the end of buffers
-      term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
+      show_end_of_buffer = true,     -- shows the '~' characters after the end of buffers
+      term_colors = false,           -- sets terminal colors (e.g. `g:terminal_color_0`)
       dim_inactive = {
-        enabled = false, -- dims the background color of inactive window
+        enabled = false,             -- dims the background color of inactive window
         shade = 'dark',
-        percentage = 0.15, -- percentage of the shade to apply to the inactive window
+        percentage = 0.15,           -- percentage of the shade to apply to the inactive window
       },
-      no_italic = false, -- Force no italic
-      no_bold = false, -- Force no bold
-      no_underline = false, -- Force no underline
-      styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
-        comments = {}, -- Change the style of comments
+      no_italic = false,             -- Force no italic
+      no_bold = false,               -- Force no bold
+      no_underline = false,          -- Force no underline
+      styles = {                     -- Handles the styles of general hi groups (see `:h highlight-args`):
+        comments = {},               -- Change the style of comments
         conditionals = {},
         loops = {},
         functions = {},
@@ -80,7 +87,8 @@ return { -- You can easily change to a different colorscheme.
     end
 
     -- Keymap to toggle transparency
-    vim.keymap.set('n', '<leader>bg', toggle_transparency, { desc = 'Toggle Background Transparency', noremap = true, silent = true })
+    vim.keymap.set('n', '<leader>bg', toggle_transparency,
+      { desc = 'Toggle Background Transparency', noremap = true, silent = true })
 
     -- Load the colorscheme
     vim.cmd.colorscheme 'catppuccin'

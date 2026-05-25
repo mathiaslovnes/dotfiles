@@ -34,7 +34,7 @@ require('lazy').setup({
   -- ╚══════════════════════════════════════════════════════════════╝
   require 'plugins.debug',   -- DAP client for multi-language debugging (Python, JS/TS, Java, C/Rust)
   require 'plugins.neotest', -- Test runner framework (pytest, Jest/Vitest, Java)
-  require 'plugins.lint',    -- Async linting engine (nvim-lint)
+  -- require 'plugins.lint',    -- Async linting engine (nvim-lint)
 
   -- ╔══════════════════════════════════════════════════════════════╗
   -- ║                    Formatting & Code                       ║
@@ -47,9 +47,10 @@ require('lazy').setup({
   -- ╔══════════════════════════════════════════════════════════════╗
   -- ║                     Git Integration                        ║
   -- ╚══════════════════════════════════════════════════════════════╝
-  require 'plugins.gitsigns', -- Inline git blame, hunk staging, diff signs in the gutter
-  require 'plugins.neogit',   -- Magit-style interactive git interface
-  require 'plugins.diffview', -- Tabpage-based diff viewer for commits and file history
+  require 'plugins.gitsigns',     -- Inline git blame, hunk staging, diff signs in the gutter
+  require 'plugins.neogit',       -- Magit-style interactive git interface
+  require 'plugins.git-conflict', -- Resolve git conflicts with a three-pane view
+  require 'plugins.diffview',     -- Tabpage-based diff viewer for commits and file history
   -- require 'plugins.lazygit', -- Lazygit TUI integration (using Snacks instead)
 
   -- ╔══════════════════════════════════════════════════════════════╗
@@ -82,6 +83,7 @@ require('lazy').setup({
   -- ║                      UI & Visuals                          ║
   -- ╚══════════════════════════════════════════════════════════════╝
   require 'plugins.bufferline',                 -- Tab-like buffer bar at the top
+  -- require 'plugins.tabby',
   require 'plugins.lualine',                    -- Statusline with mode, git, diagnostics, etc.
   require 'plugins.incline',                    -- Floating filename labels on splits
   require 'plugins.noice',                      -- Replaces cmdline, messages, and popupmenu with modern UI
@@ -90,7 +92,7 @@ require('lazy').setup({
   require 'plugins.illuminate',                 -- Highlight other occurrences of the word under cursor
   require 'plugins.unidentified-flying-object', -- nvim-ufo: modern code folding with virtual preview text
   require 'plugins.snacks',                     -- Utility suite: lazygit, dashboard, notifications, etc.
-                                                -- require 'plugins.alpha',                    -- Startup dashboard (using Snacks instead)
+  -- require 'plugins.alpha',                    -- Startup dashboard (using Snacks instead)
 
   -- ╔══════════════════════════════════════════════════════════════╗
   -- ║                 Color Pickers & Tools                      ║
@@ -104,6 +106,7 @@ require('lazy').setup({
   require 'plugins.betterterm',     -- Improved floating/split terminal management
   require 'plugins.tmux-navigator', -- Seamless Ctrl/Cmd+hjkl navigation between Neovim and tmux panes
   require 'plugins.smart-splits',   -- Resize and navigate splits across Neovim and tmux
+  -- require 'plugins.dbee',           -- Database client (Postgres, MySQL, SQLite, etc.)
   require 'plugins.dadbod',         -- Database client (Postgres, MySQL, SQLite, etc.)
   require 'plugins.dadbod-ui',      -- Interactive UI for dadbod queries and connections
 

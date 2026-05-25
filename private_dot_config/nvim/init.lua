@@ -3,9 +3,9 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Fix vim-jukit highlighting
-vim.g.jukit_highlight_markers = 0 -- Don't highlight markers
+vim.g.jukit_highlight_markers = 0     -- Don't highlight markers
 vim.g.jukit_enable_textcell_bg_hl = 0 -- Don't highlight text cell backgrounds
-vim.g.jukit_notify_output = 1 -- Only show important messages
+vim.g.jukit_notify_output = 1         -- Only show important messages
 
 vim.opt.switchbuf = 'useopen'
 -- vim.opt.switchbuf = { 'useopen', 'uselast', 'usetab' } -- Jump to existing in any tab

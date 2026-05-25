@@ -34,6 +34,8 @@ return {
     -- Extensions for which highlighting autocmds will be created
     vim.g.jukit_hl_ext_enabled = '*'
 
+    vim.g.python3_host_prog = vim.fn.exepath("python3")
+
     vim.g.jukit_layout = {
       split = 'horizontal',
       p1 = 0.67, -- 50% for file_content, 50% for the vertical split

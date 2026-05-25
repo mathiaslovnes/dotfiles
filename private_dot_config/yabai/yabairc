@@ -1,8 +1,11 @@
 # launch scripting additions
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
 sudo /opt/homebrew/bin/yabai --load-sa
 
 yabai -m config window_topmost off
 yabai -m window --topmost off
+# yabai -m config window_shadow off
 
 # layout - bsp, stack, or float
 yabai -m config layout bsp
@@ -28,17 +31,45 @@ yabai -m config mouse_action2 resize
 
 yabai -m mouse_drop_action swap
 
+# sketchybar
+# yabai -m config menubar_opacity 0.0 # Hide MacOS native menubar
+yabai -m signal --add event=window_focused action="sketchybar --trigger window_focus"
+
+# App-specifics
+yabai -m rule --add app="^kitty$" manage=on layer=normal # Prevent starting in floating mode
 yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --add app="^Karabiner-Elements$" manage=off
 yabai -m rule --add app="^Karabiner-EventViewer$" manage=off
 yabai -m rule --add app="^oklch-color-picker$" manage=off
 yabai -m rule --add app="^Mac Mouse Fix$" manage=off
+yabai -m rule --add app="^Linearmouse$" manage=off
 yabai -m rule --add app="^Finder$" manage=off
+# yabai -m rule --add app="^mpv$" manage=off
+# yabai -m signal --add event=window_created app="mpv" \
+#   action='yabai -m window $YABAI_WINDOW_ID --display 2 --grid 1:1:0:0:1:1'
 
 yabai -m rule --add app=".*" sub-layer=normal
 yabai -m rule --apply
 
+# Hide menu-bar when MPV is open
+# yabai -m signal --add event=window_focused app="mpv" \
+#   action='osascript -e "tell application \"System Events\" to set autohide menu bar of dock preferences to true"'
+#
+# yabai -m signal --add event=window_focused app!="mpv" \
+#   action='osascript -e "tell application \"System Events\" to set autohide menu bar of dock preferences to false"'
 
+# Hide menu-bar when MPV is open (only if external display is connected)
+# yabai -m signal --add event=window_focused app="mpv" \
+#   action='if [ $(displayplacer list | grep -c "^Persistent screen id:") -gt 1 ]; then osascript -e "tell application \"System Events\" to set autohide menu bar of dock preferences to true"; fi'
+#
+# yabai -m signal --add event=window_focused app!="mpv" \
+#   action='if [ $(displayplacer list | grep -c "^Persistent screen id:") -gt 1 ]; then osascript -e "tell application \"System Events\" to set autohide menu bar of dock preferences to false"; fi'
 
+# Hide menu-bar when MPV is open (only if external display is connected) (And maximize MPV when it is focused)
+# yabai -m signal --add event=window_focused app="mpv" \
+#   action='if [ $(displayplacer list | grep -c "^Persistent screen id:") -gt 1 ]; then osascript -e "tell application \"System Events\" to set autohide menu bar of dock preferences to true"; fi; yabai -m window --grid 1:1:0:0:1:1'
+#
+# yabai -m signal --add event=window_focused app!="mpv" \
+#   action='if [ $(displayplacer list | grep -c "^Persistent screen id:") -gt 1 ]; then osascript -e "tell application \"System Events\" to set autohide menu bar of dock preferences to false"; fi'
 
 

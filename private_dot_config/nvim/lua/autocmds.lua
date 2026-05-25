@@ -2,6 +2,24 @@
 -- Autocmds
 -- ===================================================================
 
+
+-- Remove jdtls LSP progress notification on every keystroke
+local original_progress = vim.lsp.handlers["$/progress"]
+
+vim.lsp.handlers["$/progress"] = function(err, result, ctx, config)
+  local client = vim.lsp.get_client_by_id(ctx.client_id)
+  if client and client.name == "jdtls" then
+    local msg = result.value and (result.value.message or "")
+    if msg:match("Validate") or msg:match("Publish Diagnostics") then
+      return
+    end
+  end
+  if original_progress then
+    return original_progress(err, result, ctx, config)
+  end
+end
+
+
 -- Regenerates helptags on startup
 vim.api.nvim_create_autocmd('VimEnter', {
   callback = function()

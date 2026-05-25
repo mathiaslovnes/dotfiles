@@ -24,16 +24,12 @@ return {
         enabled = true,
         keymap = { preset = 'inherit' },
         completion = {
-          accept = {
-            auto_brackets = { enabled = true },
-          },
           menu = {
             auto_show = true,
           },
           ghost_text = { enabled = false },
         },
       },
-
       keymap = {
         preset = 'default',
         ['<up>'] = false,
@@ -55,7 +51,7 @@ return {
             treesitter = { 'lsp' },
             columns = {
               { 'kind_icon' },
-              { 'label', 'label_description', gap = 1 },
+              { 'label',    'label_description', gap = 1 },
               { 'kind' },
             },
             components = {
@@ -63,7 +59,8 @@ return {
                 text = function(ctx)
                   local icon = ctx.kind_icon
                   if ctx.item.source_name == 'LSP' then
-                    local color_item = require('nvim-highlight-colors').format(ctx.item.documentation, { kind = ctx.kind })
+                    local color_item = require('nvim-highlight-colors').format(ctx.item.documentation,
+                      { kind = ctx.kind })
                     if color_item and color_item.abbr ~= '' then
                       icon = color_item.abbr
                     end
@@ -73,7 +70,8 @@ return {
                 highlight = function(ctx)
                   local highlight = 'BlinkCmpKind' .. ctx.kind
                   if ctx.item.source_name == 'LSP' then
-                    local color_item = require('nvim-highlight-colors').format(ctx.item.documentation, { kind = ctx.kind })
+                    local color_item = require('nvim-highlight-colors').format(ctx.item.documentation,
+                      { kind = ctx.kind })
                     if color_item and color_item.abbr_hl_group then
                       highlight = color_item.abbr_hl_group
                     end

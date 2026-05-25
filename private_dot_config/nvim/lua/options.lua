@@ -17,19 +17,19 @@ opt.textwidth = 120
 opt.scrolloff = 15
 opt.cursorline = false
 opt.guicursor = 'n-v-c:block,i:ver25,r-cr:hor20'
-opt.foldenable = false -- don't fold automatically
+opt.foldenable = false    -- don't fold automatically
 opt.foldmethod = 'manual' -- only fold manually
-opt.foldlevel = 99 -- open all folds
+opt.foldlevel = 99        -- open all folds
 
 opt.wildmenu = true
 opt.wildoptions = 'pum'
 opt.pumheight = 15
 
 -- These are global fold configuration options required for nvim-ufo
-opt.foldcolumn = '1' -- Show fold column (0 to disable)
-opt.foldlevel = 99 -- Start with all folds open (required for ufo providers)
+opt.foldcolumn = '1'    -- Show fold column (0 to disable)
+opt.foldlevel = 99      -- Start with all folds open (required for ufo providers)
 opt.foldlevelstart = 99 -- Keep all folds open on file open
-opt.foldenable = true -- Enable folding
+opt.foldenable = true   -- Enable folding
 opt.fillchars = { eob = ' ', fold = ' ', foldopen = '▼', foldsep = ' ', foldclose = '▶' }
 
 -- Prevent vim-visual-multi artifacts from appearing in statusline

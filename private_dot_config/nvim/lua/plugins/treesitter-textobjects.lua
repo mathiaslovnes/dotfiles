@@ -35,7 +35,7 @@ return {
         -- mapping query_strings to modes.
         selection_modes = {
           ['@parameter.outer'] = 'v', -- charwise
-          ['@function.outer'] = 'V', -- linewise
+          ['@function.outer'] = 'V',  -- linewise
           -- ['@class.outer'] = '<c-v>', -- blockwise
         },
         -- If you set this to `true` (default is `false`) then any textobject is
@@ -113,7 +113,7 @@ return {
     -- return (r)
     vim.keymap.set({ 'n', 'x', 'o' }, 'gr', function()
       require('nvim-treesitter-textobjects.move').goto_next('@return.outer', 'textobjects')
-    end)
+    end, { nowait = true })
     vim.keymap.set({ 'n', 'x', 'o' }, 'gR', function()
       require('nvim-treesitter-textobjects.move').goto_previous('@return.outer', 'textobjects')
     end)

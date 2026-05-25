@@ -7,7 +7,7 @@ return {
         enable_deceleration = false,
         acceleration_motions = { 'h', 'j', 'k', 'l' },
         acceleration_limit = 100,
-        acceleration_table = { 1, 5, 10, 15, 20 },
+        acceleration_table = { 1, 3, 7, 11, 17 },
         -- when 'enable_deceleration = true', 'deceleration_table = { {200, 3}, {300, 7}, {450, 11}, {600, 15}, {750, 21}, {900, 9999} }'
         deceleration_table = { { 150, 9999 } },
       }
