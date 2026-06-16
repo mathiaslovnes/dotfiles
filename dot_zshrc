@@ -3,7 +3,9 @@
 # -------------------------
 export EDITOR="nvim"
 export VISUAL="nvim"
-export PATH="/opt/homebrew/opt/postgresql@18/bin:$PATH"
+if [[ "$OSTYPE" == darwin* ]]; then
+  export PATH="/opt/homebrew/opt/postgresql@18/bin:$PATH"
+fi
 export MPLBACKEND='module://matplotlib-backend-kitty'
 export MPLCONFIGDIR="$HOME/.matplotlib"
 export MPLBACKEND_KITTY_SIZING=automatic
@@ -60,7 +62,11 @@ function zvm_after_init() {
   # Need to source this last for zsh-vi-mode to work - no idea why
   bindkey -M viins '^N' menu-select
   bindkey -M viins '^P' reverse-menu-select
-  source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+  if [[ "$OSTYPE" == darwin* ]]; then
+    source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+  else
+    source $HOME/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+  fi
   # bindkey -M viins '^I' menu-select
   # bindkey -M menuselect '^I' menu-complete
   # bindkey -M menuselect "$terminfo[kcbt]" reverse-menu-complete
@@ -82,7 +88,11 @@ zstyle ':completion:*' matcher-list \
     '+r:|[._-]=* r:|=*' \
     '+l:|=*'
 autoload -Uz compinit && compinit
-source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+if [[ "$OSTYPE" == darwin* ]]; then
+  source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+else
+  source $HOME/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+fi
 
 ## ALIAS-FINDER
 zstyle ':omz:plugins:alias-finder' autoload yes # disabled by default
@@ -94,7 +104,11 @@ zstyle ':omz:plugins:alias-finder' cheaper yes # disabled by default
 # ALIASES
 # -------------------------
 
-alias fix-mpl="sed -i '' -e \"s/, facecolor='#888888'//g\" -e \"s/'--align', 'left'/'--align', 'center'/g\" \$VIRTUAL_ENV/lib/python*/site-packages/matplotlib-backend-kitty/__init__.py && echo '✓ Fixed'"
+if [[ "$OSTYPE" == darwin* ]]; then
+  alias fix-mpl="sed -i '' -e \"s/, facecolor='#888888'//g\" -e \"s/'--align', 'left'/'--align', 'center'/g\" \$VIRTUAL_ENV/lib/python*/site-packages/matplotlib-backend-kitty/__init__.py && echo '✓ Fixed'"
+else
+  alias fix-mpl="sed -i -e \"s/, facecolor='#888888'//g\" -e \"s/'--align', 'left'/'--align', 'center'/g\" \$VIRTUAL_ENV/lib/python*/site-packages/matplotlib-backend-kitty/__init__.py && echo '✓ Fixed'"
+fi
 
 ## Terminal/shell specific
 alias sz='source ~/.zshrc'
@@ -116,13 +130,15 @@ alias lsg='ls | rg'
 # alias lg='l | rg'
 alias -g G='| rg'
 
-## Brew
-alias bs='brew show'
-alias bi='brew install'
-alias bic='brew install --cask'
-alias bui='brew uninstall'
-alias bu='brew upgrade'
-alias b='brew'
+## Brew (macOS only)
+if [[ "$OSTYPE" == darwin* ]]; then
+  alias bs='brew show'
+  alias bi='brew install'
+  alias bic='brew install --cask'
+  alias bui='brew uninstall'
+  alias bu='brew upgrade'
+  alias b='brew'
+fi
 
 ## Tmux
 alias t='tmux'
@@ -130,18 +146,20 @@ alias tk='tmux kill-server'
 alias tks='tmux kill-server'
 
 ## Chezmoi
-alias cs='Chezmoi status'
-alias csync='Chezmoi add ~/.config/nvim'
-alias ca='Chezmoi add'
-alias caa='Chezmoi re-add'
-alias cra='Chezmoi re-add'
-alias zc='z Chezmoi'
-alias ccd='z Chezmoi'
-alias cm='Chezmoi managed'
+alias cs='chezmoi status'
+alias csync='chezmoi add ~/.config/nvim'
+alias ca='chezmoi add'
+alias caa='chezmoi re-add'
+alias cra='chezmoi re-add'
+alias zc='z chezmoi'
+alias ccd='z chezmoi'
+alias cm='chezmoi managed'
 
-## Yabai/skhd
-alias yrs='yabai --restart-service'
-alias ys='yabai --start-service'
+## Yabai/skhd (macOS only)
+if [[ "$OSTYPE" == darwin* ]]; then
+  alias yrs='yabai --restart-service'
+  alias ys='yabai --start-service'
+fi
 
 ## Fastfetch
 alias ff='fastfetch'
@@ -183,10 +201,12 @@ alias gam='gc --amend --no-edit'
 # alias ps='pip show' # overwrites ps in ps aux
 alias pi='pip install'
 
-## System settings
-# Disable privacy indicators for apps recording mic/video
-alias dots-off='sudo launchctl bootout system/com.apple.systemstatusd'
-alias dots-on='sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.systemstatusd.plist'
+## System settings (macOS only)
+if [[ "$OSTYPE" == darwin* ]]; then
+  # Disable privacy indicators for apps recording mic/video
+  alias dots-off='sudo launchctl bootout system/com.apple.systemstatusd'
+  alias dots-on='sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.systemstatusd.plist'
+fi
 
 
 HISTSIZE=100000
@@ -318,20 +338,23 @@ eval "$(direnv hook zsh)"
 
 
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/homebrew/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/opt/homebrew/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/opt/homebrew/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/opt/homebrew/anaconda3/bin:$PATH"
-    fi
+## conda (macOS only)
+if [[ "$OSTYPE" == darwin* ]]; then
+  # >>> conda initialize >>>
+  # !! Contents within this block are managed by 'conda init' !!
+  __conda_setup="$('/opt/homebrew/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+  if [ $? -eq 0 ]; then
+      eval "$__conda_setup"
+  else
+      if [ -f "/opt/homebrew/anaconda3/etc/profile.d/conda.sh" ]; then
+          . "/opt/homebrew/anaconda3/etc/profile.d/conda.sh"
+      else
+          export PATH="/opt/homebrew/anaconda3/bin:$PATH"
+      fi
+  fi
+  unset __conda_setup
+  # <<< conda initialize <<<
 fi
-unset __conda_setup
-# <<< conda initialize <<<
 
 # Fix: clear ghost autosuggestion text after tab completion
 typeset -g _pd_fix_last_buf=""
@@ -347,10 +370,13 @@ _fix_stale_postdisplay() {
 autoload -Uz add-zle-hook-widget
 add-zle-hook-widget line-pre-redraw _fix_stale_postdisplay
 
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/mathiaslovnes/.lmstudio/bin"
-# End of LM Studio CLI section
+## LM Studio CLI (macOS only)
+if [[ "$OSTYPE" == darwin* ]]; then
+  export PATH="$PATH:$HOME/.lmstudio/bin"
+fi
 
+# Go binaries (go install target) — same path on macOS and Linux
+export PATH="$HOME/go/bin:$PATH"
 
-# Hermes Agent — ensure ~/.local/bin is on PATH
+# Ensure ~/.local/bin is on PATH (used by zoxide, fd symlink, pip --user, etc.)
 export PATH="$HOME/.local/bin:$PATH"
