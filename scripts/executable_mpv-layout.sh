@@ -28,7 +28,7 @@ sleep 0.5
 
 # Get window IDs
 mpv_id=$(yabai -m query --windows | jq '.[] | select(.app == "mpv") | .id')
-gpt_id=$(yabai -m query --windows | jq '.[] | select(.app == "ChatGPT") | .id')
+gpt_id=$(yabai -m query --windows | jq '.[] | select(.app == "claude") | .id')
 brave_id=$(yabai -m query --windows | jq '.[] | select(.app == "Brave Browser") | .id')
 finder_ids=($(yabai -m query --windows | jq '.[] | select(.app == "Finder") | .id'))
 # pycharm_id=$(yabai -m query --windows | jq '.[] | select(.app == "Pycharm") | .id')

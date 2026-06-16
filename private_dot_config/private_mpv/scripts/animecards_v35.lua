@@ -48,7 +48,7 @@ local WORD_AUDIO_FIELD = "wordAudio"
 local AUTOPLAY_AUDIO = false
 -- Optional screenshot image format.
 -- Change to "jpeg" if you plan to view cards on iOS or Mac.
-local IMAGE_FORMAT = "jpeg"
+local IMAGE_FORMAT = "webp"
 -- Optional set to true if you want your volume in mpv to affect Anki card volume.
 local USE_MPV_VOLUME = false
 ---------------------------------------

@@ -132,6 +132,8 @@ require('lazy').setup({
   require 'plugins.dooing',         -- Simple todo list manager
   require 'plugins.stay',           -- Restore cursor position when reopening buffers
   require 'plugins.hardtime',       -- Break bad habits by discouraging repeated hjkl spam
+  require 'plugins.claude-code',
+  require 'plugins.claude-tmux',
   -- require 'plugins.quick-todo',  -- Quick inline todo (disabled)
 
   -- ╔══════════════════════════════════════════════════════════════╗

@@ -124,3 +124,5 @@ conflictstyle = diff3
 
   # Alias related aliases
   aliases = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
+[init]
+	defaultBranch = main

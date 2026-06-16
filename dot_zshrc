@@ -127,6 +127,7 @@ alias b='brew'
 ## Tmux
 alias t='tmux'
 alias tk='tmux kill-server'
+alias tks='tmux kill-server'
 
 ## Chezmoi
 alias cs='Chezmoi status'
@@ -154,6 +155,7 @@ alias gco='git checkout'
 alias ga='git add'
 alias gs='git status'
 alias gS='git stash'
+alias gsu='git stash -u'
 alias gsp='git stash pop'
 alias gp='git pull'
 alias gP='git push'
@@ -349,3 +351,6 @@ add-zle-hook-widget line-pre-redraw _fix_stale_postdisplay
 export PATH="$PATH:/Users/mathiaslovnes/.lmstudio/bin"
 # End of LM Studio CLI section
 
+
+# Hermes Agent — ensure ~/.local/bin is on PATH
+export PATH="$HOME/.local/bin:$PATH"
