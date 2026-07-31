@@ -1,0 +1,11 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/bash
+# Install the chezmoi-managed keyd config system-wide and reload keyd.
+# Re-runs automatically on `chezmoi apply` whenever these hashes change:
+# default.conf: {{ include "private_dot_config/keyd/default.conf" | sha256sum }}
+# keyd-launch:  {{ include "private_dot_config/keyd/executable_keyd-launch" | sha256sum }}
+set -euo pipefail
+sudo install -m 644 "$HOME/.config/keyd/default.conf" /etc/keyd/default.conf
+sudo install -m 755 "$HOME/.config/keyd/keyd-launch" /usr/local/bin/keyd-launch
+sudo keyd reload
+{{ end -}}

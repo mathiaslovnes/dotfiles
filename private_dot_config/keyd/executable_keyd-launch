@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+# /usr/local/bin/keyd-launch
+#
+# Raise-or-launch helper for keyd's command(): focus an existing window if one
+# matches, otherwise launch the app (like macOS `open -a`). keyd runs this as
+# ROOT, so it re-enters the user's graphical session first.
+#
+# Usage:
+#   keyd-launch CMD [ARGS...]                 match by window class (basename of CMD)
+#   keyd-launch --match CLASS CMD [ARGS...]   match by an explicit class substring
+#   keyd-launch --title TITLE CMD [ARGS...]   match by window TITLE substring
+#
+# Wayland needs the "Window Calls" GNOME extension + jq.  X11 needs wmctrl.
+
+set -uo pipefail
+USER_NAME="mathias"          # <-- your Linux username
+
+# --- re-enter the user session when keyd invokes us as root ---
+if [ "$(id -u)" = 0 ]; then
+    uid="$(id -u "$USER_NAME")"
+    run="/run/user/${uid}"
+    exec sudo -u "$USER_NAME" \
+        env XDG_RUNTIME_DIR="$run" \
+            DBUS_SESSION_BUS_ADDRESS="unix:path=${run}/bus" \
+            DISPLAY="${DISPLAY:-:0}" \
+            WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-0}" \
+            "$0" "$@"
+fi
+
+# --- optional matchers ---
+match_class=""
+match_title=""
+case "${1:-}" in
+    --match) match_class="$2"; shift 2 ;;
+    --title) match_title="$2"; shift 2 ;;
+esac
+cmd=("$@")
+[ -z "$match_class$match_title" ] && match_class="$(basename "${cmd[0]}")"
+
+WIN=(--session --dest org.gnome.Shell --object-path /org/gnome/Shell/Extensions/Windows)
+win() { gdbus call "${WIN[@]}" --method "org.gnome.Shell.Extensions.Windows.$1" "${@:2}" 2>/dev/null; }
+
+activate_gnome() {
+    command -v jq >/dev/null 2>&1 || return 1
+    local raw ids id t q
+    raw="$(win List)" || return 1
+    [ -n "$raw" ] || return 1
+    # gdbus prints the tuple as ('JSON',) normally, but switches to
+    # ("JSON",) — inner " escaped as \" — whenever the payload contains a
+    # single quote (e.g. an apostrophe in a window title). Handle both.
+    raw="${raw#(}"; raw="${raw%)}"; raw="${raw%,}"   # -> 'JSON' or "JSON"
+    q="${raw:0:1}"
+    raw="${raw#?}"; raw="${raw%?}"                    # strip surrounding quotes
+    if [ "$q" = '"' ]; then
+        raw="${raw//\\\"/\"}"                          # \" -> "
+        raw="${raw//\\\\/\\}"                          # \\ -> \
+    fi
+    if [ -n "$match_title" ]; then
+        ids="$(printf '%s' "$raw" | jq -r '.[].id' 2>/dev/null)" || return 1
+        for id in $ids; do
+            t="$(win GetTitle "$id")"
+            if printf '%s' "$t" | grep -qi -- "$match_title"; then
+                win Activate "$id" >/dev/null && return 0
+            fi
+        done
+        return 1
+    fi
+    id="$(printf '%s' "$raw" | jq -r --arg m "${match_class,,}" \
+        '[.[] | select((.wm_class|ascii_downcase)|contains($m))] | .[-1].id // empty' \
+        2>/dev/null)"
+    [ -n "${id:-}" ] || return 1
+    win Activate "$id" >/dev/null && return 0
+}
+
+activate_x11() {
+    command -v wmctrl >/dev/null 2>&1 || return 1
+    if [ -n "$match_title" ]; then
+        wmctrl -l 2>/dev/null | grep -qi -- "$match_title" && wmctrl -a "$match_title" && return 0
+    else
+        wmctrl -lx 2>/dev/null | awk '{print $3}' | grep -qi -- "$match_class" \
+            && wmctrl -xa "$match_class" && return 0
+    fi
+    return 1
+}
+
+activate_gnome && exit 0
+activate_x11 && exit 0
+exec "${cmd[@]}"
