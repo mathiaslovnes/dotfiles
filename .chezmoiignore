@@ -11,3 +11,16 @@
 **/github_copilot/**
 **/jgit/**
 **/linearmouse/**
+
+# Linux-only files — don't create these on macOS
+{{ if ne .chezmoi.os "linux" }}
+.config/keyd/**
+{{ end }}
+
+# macOS-only files — don't create these on Linux
+{{ if ne .chezmoi.os "darwin" }}
+.config/karabiner/**
+.config/yabai/**
+.config/skhd/**
+.config/Brewfile
+{{ end }}

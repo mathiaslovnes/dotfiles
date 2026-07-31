@@ -45,6 +45,10 @@
     ],
     "defaultMode": "default"
   },
-  "model": "opus",
-  "awaySummaryEnabled": false
+  "model": "claude-fable-5[1m]",
+  "awaySummaryEnabled": false,
+  "tui": "fullscreen",
+  "editorMode": "vim",
+  "preferredNotifChannel": "notifications_disabled",
+  "autoCompactEnabled": true
 }

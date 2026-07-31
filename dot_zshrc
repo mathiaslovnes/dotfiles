@@ -30,6 +30,7 @@ function zvm_after_init() {
   bindkey -M viins '^N' menu-select
   bindkey -M viins '^P' reverse-menu-select
 
+
   # fzf rebinds (needs to be here since zsh-vi-mode overwrites these too)
   bindkey -M viins '^F' fzf-file-widget # Search [F]iles
   bindkey -M viins '^R' fzf-history-widget # History / [R]ecall
@@ -49,6 +50,9 @@ function zvm_after_init() {
   # Command+left/right: jump to line start/end
   bindkey -M viins "^[[1;5D" beginning-of-line
   bindkey -M viins "^[[1;5C" end-of-line
+
+  # Delete word
+  bindkey -M viins '^[^?' backward-kill-word
 
   # Command+backspace: delete entire line
   bindkey "^[[8;5u" kill-whole-line
@@ -117,6 +121,8 @@ alias ez='exec zsh'
 alias c='clear'
 alias n='nvim'
 alias sk='kitten show-key'
+alias kr='pkill -USR1 kitty'
+
 
 ### Eza (l/ls replacement)
 alias l='eza -l --icons'
@@ -380,3 +386,9 @@ export PATH="$HOME/go/bin:$PATH"
 
 # Ensure ~/.local/bin is on PATH (used by zoxide, fd symlink, pip --user, etc.)
 export PATH="$HOME/.local/bin:$PATH"
+
+# ~/bin holds chezmoi and the nvim symlink
+export PATH="$HOME/bin:$PATH"
+
+# Trace support wiki — read by the hermes llm-wiki skill
+export WIKI_PATH="/home/mathias/Dev/ai-service/knowledge/wiki"

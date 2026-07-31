@@ -5,7 +5,7 @@ return {
     'nvim-tree/nvim-web-devicons',
   },
   opts = {
-    file_types = { 'markdown', 'python' }, -- enable for markdown + python
+    file_types = { 'markdown', 'python' },                                            -- enable for markdown + python
 
     vim.api.nvim_set_hl(0, 'RenderMarkdownCode', { fg = '#a6e3a1', bg = '#1e1e2e' }), -- Use your background color
 
@@ -21,7 +21,7 @@ return {
       below = '▀',
 
       -- disable background highlights
-      backgrounds = false,
+      backgrounds = {},
     },
   },
 }

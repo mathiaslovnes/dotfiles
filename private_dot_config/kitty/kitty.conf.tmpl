@@ -1,10 +1,15 @@
+# chezmoi:template:left-delimiter="[[" right-delimiter="]]"
 # Debug
 log_level debug
 
 # General settings
 allow_remote_control yes
 listen_on unix:/tmp/kitty#
+[[ if eq .chezmoi.os "darwin" -]]
 background_image /Users/mathiaslovnes/Documents/Pictures/Wallpapers/ghostInTheShellCity4k.jpg
+[[ else -]]
+background_image /home/mathias/Pictures/ghostInTheShellCity4k.jpg
+[[ end -]]
 background_image_layout cscaled
 background_image_linear yes
 background_tint 0.933
@@ -24,6 +29,7 @@ cursor_trail_decay 0.01 0.05
 include current-theme.conf
 
 
+[[ if eq .chezmoi.os "darwin" -]]
 # === Keybinds ===
 # Shell commands
 map cmd+shift+n send_text all z ~/.config/nvim && nvim \n
@@ -62,6 +68,84 @@ map cmd+7 send_text all \x1b7
 map cmd+8 send_text all \x1b8
 map cmd+9 send_text all \x1b9
 
+[[ else -]]
+# === Keybinds ===
+# Shell commands
+# map cmd+shift+n send_text all z ~/.config/nvim && nvim \n
+# map cmd+shift+t send_text all nvim ~/.tmux.conf \n
+# map cmd+shift+z send_text all nvim ~/.zshrc \n
+# map cmd+shift+k send_text all nvim ~/.config/kitty/kitty.conf \n
+# map cmd+shift+y send_text all nvim ~/.config/yabai/yabairc \n
+# # B for binds
+# map cmd+shift+b send_text all nvim ~/.config/skhd/skhdrc \n
+#
+# # Command+arrow keycodes
+# map cmd+left send_text all \x1b[1;5D
+# map cmd+right send_text all \x1b[1;5C
+#
+# # Command+backspace keycode
+# map cmd+backspace send_text all \x1b[8;5u
+#
+# # Enter keycodes for nvim
+# map shift+enter send_text all \x1b[13;2u
+# map ctrl+enter  send_text all \x1b[13;5u
+#
+# # Command+hjkl keycodes for resizing
+# map cmd+h send_text all \x1bh
+# map cmd+j send_text all \x1bj
+# map cmd+k send_text all \x1bk
+# map cmd+l send_text all \x1bl
+#
+# # Command+numbers keycodes
+# map cmd+1 send_text all \x1b1
+# map cmd+2 send_text all \x1b2
+# map cmd+3 send_text all \x1b3
+# map cmd+4 send_text all \x1b4
+# map cmd+5 send_text all \x1b5
+# map cmd+6 send_text all \x1b6
+# map cmd+7 send_text all \x1b7
+# map cmd+8 send_text all \x1b8
+# map cmd+9 send_text all \x1b9
+
+
+# === Keybinds  (keyd turns your Command/Alt key into Ctrl before kitty,
+#                so Command+X is bound here as ctrl+X) ===
+
+# Open config files (Command+Shift+letter -> Ctrl+Shift+letter)
+map ctrl+shift+n send_text all z ~/.config/nvim && nvim \n
+map ctrl+shift+t send_text all nvim ~/.tmux.conf \n
+map ctrl+shift+z send_text all nvim ~/.zshrc \n
+map ctrl+shift+k send_text all nvim ~/.config/kitty/kitty.conf \n
+map ctrl+shift+b send_text all sudoedit /etc/keyd/default.conf \n
+
+# Resize hjkl (Command+hjkl -> plain Alt+hjkl, after the keyd edit above)
+map alt+h send_text all \x1bh
+map alt+j send_text all \x1bj
+map alt+k send_text all \x1bk
+map alt+l send_text all \x1bl
+
+# Window/tmux numbers (Command+N -> Ctrl+N)
+map ctrl+1 send_text all \x1b1
+map ctrl+2 send_text all \x1b2
+map ctrl+3 send_text all \x1b3
+map ctrl+4 send_text all \x1b4
+map ctrl+5 send_text all \x1b5
+map ctrl+6 send_text all \x1b6
+map ctrl+7 send_text all \x1b7
+map ctrl+8 send_text all \x1b8
+map ctrl+9 send_text all \x1b9
+
+# Command+arrow -> word jump (nvim)
+map alt+left  send_text all \x1b[1;5D
+map alt+right send_text all \x1b[1;5C
+
+# Command+backspace -> delete word (nvim)
+map alt+backspace send_text all \x1b[8;5u
+# map ctrl+backspace send_text all \x17
+map ctrl+backspace send_text all \x1b\x7f
+
+
+[[ end -]]
 #: Fonts {{{
 
 #: kitty has very powerful font management. You can configure
