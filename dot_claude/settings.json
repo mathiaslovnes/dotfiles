@@ -66,5 +66,6 @@
   "theme": "dark",
   "editorMode": "vim",
   "verbose": false,
-  "inputNeededNotifEnabled": true
+  "inputNeededNotifEnabled": true,
+  "autoCompactEnabled": true
 }

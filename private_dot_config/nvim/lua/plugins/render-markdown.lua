@@ -5,7 +5,7 @@ return {
     'nvim-tree/nvim-web-devicons',
   },
   opts = {
-    file_types = { 'markdown', 'python' }, -- enable for markdown + python
+    file_types = { 'markdown', 'python' },                                            -- enable for markdown + python
 
     heading = {
       enabled = true,
@@ -19,7 +19,7 @@ return {
       below = '▀',
 
       -- disable background highlights
-      backgrounds = false,
+      backgrounds = {},
     },
   },
 }
