@@ -1,6 +1,6 @@
 return {
   'mathiaslovnes/vim-jukit',
-  ft = { 'python', 'ipynb' },
+  lazy = false,
   config = function()
     vim.g.jukit_terminal = 'tmux' -- Optional: Set terminal for plotting
 
@@ -10,8 +10,27 @@ return {
     -- IF KITTY OR TMUX IS USED:
     vim.g.jukit_inline_plotting = 0
     --    - Enable in-terminal-plotting. Only supported for kitty or tmux+iTerm2 -> BE SURE TO SPECIFY THE TERMINAL VIA `g:jukit_terminal`! (see variables in section 'Basic jukit options')
+    vim.keymap.set("n", "<leader>nbc", ':call jukit#convert#notebook_convert("jupyter-notebook")<cr>') -- NoteBook Convert
     vim.keymap.set('n', '<leader>j', '<cmd>call jukit#cells#jump_to_next_cell()<CR>')
     vim.keymap.set('n', '<leader>k', '<cmd>call jukit#cells#jump_to_previous_cell()<CR>')
+
+    -- Up/Down arrows jump between cells in Python files that contain jukit cells; plain arrows otherwise.
+    -- Buffer-local so they take precedence over hardtime's global arrow mappings.
+    vim.api.nvim_create_autocmd('FileType', {
+      group = vim.api.nvim_create_augroup('jukit-arrow-cells', { clear = true }),
+      pattern = 'python',
+      callback = function(args)
+        local function has_cells()
+          return vim.fn.search('|%%--%%|', 'nw') ~= 0
+        end
+        vim.keymap.set('n', '<Up>', function()
+          return has_cells() and '<cmd>call jukit#cells#jump_to_previous_cell()<CR>' or '<Up>'
+        end, { buffer = args.buf, expr = true, desc = 'Previous jukit cell' })
+        vim.keymap.set('n', '<Down>', function()
+          return has_cells() and '<cmd>call jukit#cells#jump_to_next_cell()<CR>' or '<Down>'
+        end, { buffer = args.buf, expr = true, desc = 'Next jukit cell' })
+      end,
+    })
     vim.keymap.set('n', '<leader>J', '<cmd>call jukit#splits#out_hist_scroll(1)<CR>')
     vim.keymap.set('n', '<leader>K', '<cmd>call jukit#splits#out_hist_scroll(0)<CR>')
     vim.keymap.set('n', '<leader><space>', '<cmd>call jukit#send#section(0)<CR>', { noremap = true, silent = true })
@@ -34,7 +53,7 @@ return {
     -- Extensions for which highlighting autocmds will be created
     vim.g.jukit_hl_ext_enabled = '*'
 
-    vim.g.python3_host_prog = vim.fn.exepath("python3")
+    vim.g.python3_host_prog = vim.fn.expand("~/.venvs/nvim/bin/python")
 
     vim.g.jukit_layout = {
       split = 'horizontal',

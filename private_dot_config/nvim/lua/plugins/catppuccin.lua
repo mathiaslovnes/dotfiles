@@ -9,13 +9,6 @@ return { -- You can easily change to a different colorscheme.
   config = function()
     ---@diagnostic disable-next-line: missing-fields
     require('catppuccin').setup {
-      custom_highlights = function(colors)
-        return {
-          ["@string.documentation.python"] = { fg = colors.green },
-          YankyPut = { link = "IncSearch" },
-          YankyYanked = { link = "IncSearch" },
-        }
-      end,
       flavour = 'mocha', -- latte, frappe, macchiato, mocha
       background = {     -- :h background
         light = 'latte',
@@ -52,7 +45,7 @@ return { -- You can easily change to a different colorscheme.
         -- miscs = {}, -- Uncomment to turn off hard-coded styles
       },
       color_overrides = {},
-      custom_highlights = {},
+      custom_highlights = {}, -- Colorscheme-independent overrides live in lua/highlights.lua
       default_integrations = true,
       auto_integrations = false,
       integrations = {
@@ -71,10 +64,6 @@ return { -- You can easily change to a different colorscheme.
         -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
       },
     }
-
-    vim.api.nvim_set_hl(0, '@text.markdown', { fg = '#a6e3a1' })
-    vim.api.nvim_set_hl(0, '@none.markdown', { fg = '#a6e3a1' })
-    vim.api.nvim_set_hl(0, '@markup.markdown', { fg = '#a6e3a1' })
 
     -- Toggle transparency function
     local bg_transparent = true

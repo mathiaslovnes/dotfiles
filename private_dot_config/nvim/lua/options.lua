@@ -11,9 +11,9 @@ opt.termguicolors = true
 opt.tabstop = 2
 opt.shiftwidth = 2
 opt.expandtab = true
-opt.smartindent = true
+opt.smartindent = false -- when on, '>' refuses to shift lines starting with '#' (Python/shell comments)
 opt.autoindent = true
-opt.textwidth = 120
+opt.textwidth = 100
 opt.scrolloff = 15
 opt.cursorline = false
 opt.guicursor = 'n-v-c:block,i:ver25,r-cr:hor20'
@@ -60,6 +60,7 @@ end)
 
 -- Enable break indent
 vim.o.breakindent = true
+vim.o.linebreak = true
 
 -- Save undo history
 vim.o.undofile = true

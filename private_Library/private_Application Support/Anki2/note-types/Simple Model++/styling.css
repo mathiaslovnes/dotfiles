@@ -1,0 +1,34 @@
+
+.kanji { font-size:102px; }
+
+.header {
+  color:#666;
+  font-size:9px;
+}
+
+.reading { font-size:36px; }
+
+.meaning {
+  padding:75px;
+  font-size:36px;
+}
+
+hr {
+  border:none;
+  border-bottom:1px solid #999;
+}
+
+.card {
+  color:#333;
+  background-color:#EEE;
+  font-size:25px;
+  font-family:'メイリオ', 'Meiryo', 'Osaka', 'ＭＳ Ｐゴシック', 'MS PGothic', "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Arial, sans-serif;
+  text-align:center;
+}
+
+/* Night Mode CSS */
+.nightMode hr { border-color:#555; }
+.nightMode.card {
+  color:#CCC;
+  background-color:#222;
+}

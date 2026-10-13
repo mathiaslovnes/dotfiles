@@ -1,10 +1,5 @@
 return {
   'gbprod/yanky.nvim',
-  config = function(_, opts)
-    require('yanky').setup(opts)
-    vim.api.nvim_set_hl(0, 'YankyPut', { link = 'IncSearch' })
-    vim.api.nvim_set_hl(0, 'YankyYanked', { link = 'IncSearch' })
-  end,
   opts = {
     ring = {
       history_length = 100,
@@ -44,8 +39,10 @@ return {
   dependencies = { 'folke/snacks.nvim' },
   keys = {
     { 'y', '<Plug>(YankyYank)', mode = { 'n', 'x' } },
-    { 'p', '<Plug>(YankyPutAfter)', mode = { 'n', 'x' } },
-    { 'P', '<Plug>(YankyPutBefore)', mode = { 'n', 'x' } },
+    { 'p', '<Plug>(YankyPutAfter)', mode = 'n' },
+    { 'P', '<Plug>(YankyPutBefore)', mode = 'n' },
+    { 'p', '"_d<Plug>(YankyPutBefore)', mode = 'x' },
+    { 'P', '"_d<Plug>(YankyPutBefore)', mode = 'x' },
     { '<leader>P', '<Plug>(YankyNextEntry)' },
     { '<leader>p', '<Plug>(YankyPreviousEntry)' },
     {

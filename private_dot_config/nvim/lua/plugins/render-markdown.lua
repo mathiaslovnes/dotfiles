@@ -7,8 +7,6 @@ return {
   opts = {
     file_types = { 'markdown', 'python' }, -- enable for markdown + python
 
-    vim.api.nvim_set_hl(0, 'RenderMarkdownCode', { fg = '#a6e3a1', bg = '#1e1e2e' }), -- Use your background color
-
     heading = {
       enabled = true,
       render_modes = false,

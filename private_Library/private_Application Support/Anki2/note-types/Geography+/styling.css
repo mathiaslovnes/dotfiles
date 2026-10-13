@@ -1,0 +1,56 @@
+.card {
+ font-family: arial;
+ font-size: 20px;
+ text-align: center;
+ color: black;
+ background-color: white;
+}
+
+.japanese {
+  font-size: 35px;
+}
+.meaning {
+  margin-top: 36px;
+  font-size: 22px;
+}
+
+/* AnkiDroid peplay button */
+/* .replaybutton is an <a> tag with a <span> that has an <svg> inside */
+.replaybutton { margin: 0; margin-right: 3px; text-decoration: none; }
+.replaybutton span  { padding: 0; font-size: 16px; }
+.replaybutton span svg {
+	fill: #FFFAF0;
+	background: #333;
+	border-radius: 3px;
+	vertical-align: top; 
+	min-width: 16px;
+	min-height: 16px;
+}
+
+/* PC peplay button */
+a.replay-button { top: -.125em;  position: relative; }
+a.replay-button svg {
+	height: 1em;
+	width: 1em;
+}
+a.replay-button svg path { fill: #FFFAF0; }
+a.replay-button svg circle { fill: #333; }
+
+/* Fix for Yomichan */
+ul, ol {
+  list-style-type: none; 
+  display: inline;
+  margin: 0px;
+  padding: 0px;
+}
+.pronunciation ol > li { display: inline; }
+.pronunciation ol > li:after { content: "・"; }
+.pronunciation ol > li:last-child:after { content: ""; }
+
+/* Hidden furigana on front */
+#question ruby rt {
+    visibility: hidden;
+}
+#question ruby:hover rt {
+    visibility: visible;
+}

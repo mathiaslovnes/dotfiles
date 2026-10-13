@@ -1,0 +1,36 @@
+<div style='font-family: Yu Gothic Medium; font-size: 40px;'>{{furigana:Kanji}}<div>
+<div style='font-family: Arial; font-size: 20px;'>{{Audio}}</div>
+<hr>
+
+<div id="rank" style="font-family: Arial; font-size: 20px;">
+
+<script>
+(function() {
+  const rankField = "{{Rank according to residents}}".trim();
+  const rank = parseInt(rankField, 10);
+
+  let suffix = "th";
+  const lastDigit = rank % 10;
+  const lastTwoDigits = rank % 100;
+
+  if (lastTwoDigits < 11 || lastTwoDigits > 13) {
+    if (lastDigit === 1) suffix = "st";
+    else if (lastDigit === 2) suffix = "nd";
+    else if (lastDigit === 3) suffix = "rd";
+  }
+
+  document.getElementById("rank").textContent = rank + suffix + " largest city with";
+})();
+</script>
+
+</div>
+
+
+<div style='font-family: Arial; font-size: 20px;'>{{Population_(2020)}} residents</div>
+
+<hr>
+<div style='font-family: Arial; font-size: 20px;'>{{Map}}</div>
+
+
+
+

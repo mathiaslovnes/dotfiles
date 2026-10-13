@@ -11,8 +11,9 @@ This is a personal Neovim configuration. All configuration is written in Lua.
 Loading order defined in `init.lua`:
 1. `lua/options.lua` — editor options (tabs, indent, fold, etc.)
 2. `lua/keymaps.lua` — global keymaps (leader = `<Space>`)
-3. `lua/lazy-bootstrap.lua` — auto-installs lazy.nvim if missing
-4. `lua/lazy-plugins.lua` — registers all plugins with lazy.nvim
+3. `lua/highlights.lua` — colorscheme-independent highlight overrides, re-applied on every `ColorScheme` event (must load before plugins so it catches the first colorscheme load)
+4. `lua/lazy-bootstrap.lua` — auto-installs lazy.nvim if missing
+5. `lua/lazy-plugins.lua` — registers all plugins with lazy.nvim
 
 Each plugin lives in its own file under `lua/plugins/`. To add a plugin, create a new file there and `require` it in `lazy-plugins.lua`. To disable a plugin temporarily, comment out its `require` line in `lazy-plugins.lua` (several examples exist in the `UNUSED` block at the bottom).
 

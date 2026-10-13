@@ -272,6 +272,10 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       -- DOESN'T WORK
       vim.list_extend(ensure_installed, {
+        -- formatters used by conform.lua (the list in mason.lua is overridden by this setup call)
+        'black',
+        'isort',
+        'prettier',
         -- 'stylua',
         -- 'css-lsp',
         -- 'cssmodules-language-server',

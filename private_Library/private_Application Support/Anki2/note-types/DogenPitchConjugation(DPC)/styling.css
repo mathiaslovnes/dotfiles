@@ -1,0 +1,9 @@
+@import url("_editor_button_styles.css");
+
+.card {
+  font-family: arial;
+  font-size: 20px;
+  text-align: center;
+  color: black;
+  background-color: white;
+}

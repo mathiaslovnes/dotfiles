@@ -1,0 +1,47 @@
+<script>
+  qFade = 0; //make it so the card appears immediately instead of fading in
+</script>
+
+<div id="kanjiHover">
+  <div id="word" class="">
+    {{#wordDictionaryForm}}
+      {{edit:wordDictionaryForm}}
+    {{/wordDictionaryForm}}
+  </div>
+</div>
+
+{{#alternateReading}}
+<div style="margin-bottom: 12px;"></div>
+<div id="alternateReading">
+  <span class="highlight">X</span>
+    {{alternateReading}}
+	<span class="highlight">X</span>
+</div>
+{{/alternateReading}}
+
+{{#sentenceCard}}　
+  <div id="sentence">
+  <div style="margin-bottom: -35px;"></div>
+    {{before-sentence}}{{cloze-prefix}}<span class="highlight">{{cloze-body}}</span>{{cloze-suffix}}{{after-sentence}}
+  </div>
+{{/sentenceCard}}
+
+<div style="margin-bottom: 25px;"></div>
+  <div class="audio-buttons-no-picture">
+    <div class="audio-divider-no-picture"></div>
+    <span class="audio wordAudio-no-picture audio-front">
+      {{wordAudio}}
+    </span>
+    <div class="audio-divider-no-picture"></div>
+  </div>
+
+<script type="text/javascript" src="_kanjiHover.js">
+</script>
+
+<script>
+document.addEventListener("keydown", function(event) {
+    if (event.key === "r" && !event.shiftKey) {
+        pycmd("play:a:0");
+    }
+});
+</script>

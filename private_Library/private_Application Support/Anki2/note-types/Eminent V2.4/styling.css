@@ -1,0 +1,303 @@
+/* Open Sans Light is the font for english text, Takao P Mincho is the font for japanese text */
+@font-face { font-family: OpenSansLight; src: url('_OpenSans-Light.ttf'); }
+@font-face { font-family: TakaoPMincho; src: url('_TakaoPMincho.ttf'); }
+
+@font-face {
+  font-family: myfont;
+  src: url('_BIZ-UDMinchoM.ttc');
+  unicode-range: U+3000-30FF, U+FF00-FFEF, U+4E00-9FAF;
+  size-adjust: 130%;
+}
+
+svg > text { fill: #222 !important; }
+svg > path { stroke: #fff !important; }
+svg > circle[r="5"] { fill: #fff !important; }
+svg > circle[r="3.25"] { fill: #2d2d2d !important; }
+
+/****** colors ******/
+:root {
+  --red: #fd5c5c;
+  --blue: #89daff;
+  --orange: #fca311;
+  --green: #4e937a;
+  --purple: #afa2ff;
+  --background:  rgb(43, 43, 43);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  quotes: "\201c""\201d""\2018""\2019";
+  font-size: 18.5px;
+  padding-top: 12px; /* Increase the padding-top value for more space */
+}
+
+
+body, body.nightMode {
+  font-family: myfont, BIZ UDMincho;
+  text-align: center;
+  color: white;
+  background: rgb(43, 43, 43);
+  font-size: 25px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+.win, .mac, .linux:not(.android) {
+  max-width: 1200px;
+  text-align: center;
+  margin: auto;
+}
+
+
+/* Simple divider line */
+.divider {
+  border-top: 1.77px solid #ccc;
+  margin: 1em 0;
+}
+
+/* Audio */
+
+.audio-divider-no-picture {
+  background-color: white;
+  height: 2px;
+  width: 100vw;
+}
+
+.audio-buttons-no-picture {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.wordAudio-no-picture svg {
+  width: 30px; /* Triangle size */
+  height: 30px; /* Triangle size */
+  transform: translateX(-5%);
+}
+
+.wordAudio-no-picture {
+  border: 1px solid white;
+  width: 150px;
+}
+
+path {
+  stroke:#fff !important;
+  stroke-width: 3 !important;
+}
+.audio circle {
+  display: none;
+}
+
+.replay-button svg {
+  width: 30px;
+  height: 30px;
+  fill: black;
+}
+
+.audio-buttons {
+  position: absolute;
+  fill: black;
+  top: 10px;
+  left: 12px;
+  z-index: 1; /* Ensure it's on top of the picture */
+  width: 4.em; /* Adjust size as needed */
+}
+
+.audio-front svg {
+  width: 40px;
+  height: 40px;
+}
+
+
+
+@media (max-width: 800px) {
+  #definition {
+    font-size: 1.2rem !important;
+  }
+}
+
+/*** CONTAINER FOR PICTURE START ***/
+
+/*** 16:9 START ***/
+
+.crop-container {
+  max-width: 700px; /* Maximum width for the container */
+  width: 100%; /* Ensures responsiveness */
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8); /* Adjusted box-shadow for effect */
+  margin: 0 auto; /* Center the container horizontally */
+}
+
+.crop-container::before {
+  content: "";
+  display: block;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+}
+
+.crop-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Ensures image fills the container width */
+  height: 100%; /* Ensures image fills the container height */
+  object-fit: cover; /* Maintains aspect ratio and covers the container */
+	min-width: 100%; /* Ensures it stretches to fill */
+  min-height: 100%;
+}
+
+/*** 16:9 END ***/
+
+/*** 4:3 START ***/
+
+.crop-container-four-by-three {
+  max-width: 600px; /* Maximum width for the container */
+  width: 100%; /* Ensures responsiveness */
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.8); /* Adjusted box-shadow for effect */
+  margin: 0 auto; /* Center the container horizontally */
+}
+
+.crop-container-four-by-three::before {
+  content: "";
+  display: block;
+  padding-top: 75%; /* 4:3 aspect ratio (height = 3/4 of width) */
+}
+
+.crop-container-four-by-three img {
+  position: absolute;
+  top: -10px; /* Move the image up by 10 pixels to crop from the top */
+  left: 0;
+  height: calc(100% + 20px); /* Increase height to cover the container */
+  object-fit: cover;     /* Fill the box and crop overflow */
+	min-width: 100%; /* Ensures it stretches to fill */
+  min-height: 100%;
+}
+
+/*** 4:3 END ***/
+
+/*** CONTAINER FOR PICTURE END ***/
+
+
+#word {
+  font-size: 2.5rem; /* Adjust font size for the word */
+  text-align: center; /* Ensure text alignment */
+  position: relative; /* Ensure relative positioning for ruby text */
+}
+
+#word ruby {
+  font-size: inherit; /* Inherit font size from parent */
+  display: inline-block; /* Ensure ruby text aligns properly */
+  position: relative; /* Ensure relative positioning for correct overlap */
+}
+
+#word ruby rb {
+  display: block; /* Ensure kanji is displayed as a block element */
+}
+
+#word ruby rt {
+  font-size: 1.5rem; 
+  display: block; /* furigana on a new line */
+  position: static; /* remove absolute positioning */
+  top: auto; /* reset */
+  width: auto; /* reset */
+  text-align: center; /* optional */
+}
+
+
+a {
+  color: inherit !important;
+}
+
+/* colors bolded text yellow for proper noun cards, etc */
+b, strong {
+  color: #ffb11b;
+  font-weight: bold;
+}
+
+/* yomichan exports a lot of things as lists (pitch, dictionaries, freq lists), so this strips the formmating so it looks reasonable */
+ul, ol {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+  display: inline-block;
+	margin-bottom: -1rem;
+	margin-top: -0.1rem;
+}
+
+li {
+	text-align: center;
+}
+
+
+#definition {
+	display: inline-block;
+  font-size: 1.4rem;
+  margin: 1rem auto 1rem auto;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2em; /* Add gap between words */
+  line-height: 1.6; /* Increase the line height */
+	text-align: center;
+  white-space: normal;
+}
+
+/* changes the furigana pitch graphs to be red and spaced a bit nicer */
+#word span {
+  border-color: var(--red) !important;
+  padding-top: 6px;
+}
+
+#sentence {
+  font-size: 1.7rem;
+  margin: 1rem 0;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2em; /* Add gap between words */
+  line-height: 1.4; /* Increase the line height */
+}
+
+.highlight {
+  background-color: #171717;
+  color: var(--red);
+  padding: 3px; /* Adjust padding as needed */
+  border-radius: 5px; /* Rounded corners for highlight */
+  display: inline; /* Ensure inline-block display to respect padding and margins */
+  white-space: nowrap; /* Prevent wrapping */
+}
+
+
+#freq {
+  margin: 8px;
+  margin-top: 1rem;
+  left: 0px;
+  right: 0px;
+  display: inline-block;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 4px;
+  font-size: 0.9rem;
+}
+
+/****** pitch graphs ******/
+#pitchGraph {
+  margin-top: 1rem;
+}
+
+path {
+  stroke:#fff !important;
+  stroke-width: 3 !important;
+}
+
+
+.nightMode.card {
+  color:#FFF;
+  background-color:#222;
+}
+
+
+/* changes the cursor to look like a hand when you hover a kanji with kanjihover enabled */
+.kanjiHoverTarget {
+  cursor: pointer;
+}
+
+

@@ -1,0 +1,96 @@
+<div style="margin-top: 30px;"></div>
+
+<span class="pitch-word {{text:pitch-accent-category}}" style="font-size: 60px;">
+  {{Vocabulary-Kanji}}
+</span>
+
+<br>
+
+
+
+<hr>
+
+<div class="audio-buttons">
+<span class="word-audio">
+  {{Vocabulary-Audio}}
+</span>
+
+<span class="sentenceAudio">
+  {{Sentence-Audio}}
+</span>
+</div>
+
+
+
+<div style="margin-bottom: 15px;"></div>
+
+{{#pitch-accent}}
+  <div class="pitch-graph">{{pitch-accent}}</div>
+{{/pitch-accent}}
+
+<div style="margin-bottom: -25px;"></div>
+
+<br>
+<span style="font-size: 40px;">
+  {{Vocabulary-Kana}}
+</span>
+
+<div style="margin-bottom: 5px;"></div>
+
+<br>
+
+<span style="font-size: 35px; line-height: 40px">
+  {{edit:Vocabulary-English}}
+</span>
+
+<div style="margin-top: -2px;"></div>
+
+<br>
+<span style="font-size: 20px; margin-bottom: -10px;">
+  {{Vocabulary-Pos}}
+</span>
+
+<br>
+<!-- 
+ <span class="furigana" style="font-size: 45px;">
+  {{edit:Expression}}
+</span> 
+-->
+
+
+<div id="sentence">
+     {{#sentence-pitch}}{{sentence-pitch}}{{/sentence-pitch}}{{^sentence-pitch}}{{edit:Expression}}{{/sentence-pitch}}
+</div>
+
+
+<div style="margin-top: 2px;"></div>
+
+<br>
+<span style="font-size: 27.5px;">
+  {{Sentence-English}}
+</span>
+
+<br>
+
+<script>
+    document.addEventListener("keydown", function(event) {
+        // Lowercase "r" → play word audio (index 0)
+        if (event.key === "r" && !event.shiftKey) {
+            pycmd("play:a:0");
+        }
+        // Uppercase "R" → play sentence audio (index 1)
+        if ((event.key === "R") || (event.key === "r" && event.shiftKey)) {
+            pycmd("play:a:1");
+        }
+    });
+</script>
+
+
+<script>
+(function () {
+  if (/previewer|card layout/i.test(document.title)) return;   // Browser preview / template editor
+  var b = document.querySelector('.word-audio .replay-button');
+  if (b) b.click();
+})();
+</script>
+

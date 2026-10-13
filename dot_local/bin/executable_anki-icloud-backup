@@ -1,0 +1,116 @@
+#!/usr/bin/env python3
+"""
+Copies Anki's collection backups and media to iCloud Drive. Runs whenever Anki writes a
+backup (every 30 minutes while you use it, and when you close it), at login, and once a day,
+via ~/Library/LaunchAgents/com.mathiaslovnes.anki-icloud-backup.plist.
+Log: ~/Library/Logs/anki-icloud-backup.log
+
+iCloud Drive/Anki backup/
+  collection/anki-collection-YYYY-MM-DD.colpkg   Anki's newest backup of each day, last KEEP_DAYS days
+                                                 (restore: Anki > File > Import)
+  media/                                         mirror of collection.media
+  media (deleted)/YYYY-MM-DD/                    files that left collection.media (Check Media >
+                                                 Delete Unused), kept HOLD_DAYS days, then removed
+"""
+import os
+import shutil
+import sys
+import time
+
+PROFILE = os.path.expanduser("~/Library/Application Support/Anki2/user 1")
+DEST = os.path.expanduser("~/Library/Mobile Documents/com~apple~CloudDocs/Anki backup")
+KEEP_DAYS = 30
+HOLD_DAYS = 30  # 0: deleted media disappears from iCloud at the next run
+
+
+def log(msg):
+    print(time.strftime("%Y-%m-%d %H:%M:%S"), msg, flush=True)
+
+
+def copy(src, dst):
+    shutil.copy2(src, dst + ".part")
+    os.replace(dst + ".part", dst)
+
+
+def collection():
+    bdir = os.path.join(PROFILE, "backups")
+    backups = sorted(f for f in os.listdir(bdir) if f.startswith("backup-") and f.endswith(".colpkg"))
+    if not backups:
+        return
+    out = os.path.join(DEST, "collection")
+    os.makedirs(out, exist_ok=True)
+    newest = os.path.join(bdir, backups[-1])
+    size = -1
+    for _ in range(20):  # Anki may still be writing it: wait until its size stops changing
+        now = os.path.getsize(newest)
+        if now == size:
+            break
+        size = now
+        time.sleep(3)
+    day = time.strftime("%Y-%m-%d", time.localtime(os.path.getmtime(newest)))
+    target = os.path.join(out, f"anki-collection-{day}.colpkg")
+    if not os.path.exists(target) or os.path.getmtime(target) < os.path.getmtime(newest):
+        copy(newest, target)
+        log(f"collection: {backups[-1]} -> {os.path.basename(target)}")
+    mine = sorted(f for f in os.listdir(out) if f.startswith("anki-collection-") and f.endswith(".colpkg"))
+    for f in mine[:-KEEP_DAYS]:
+        os.remove(os.path.join(out, f))
+        log(f"collection: removed {f}")
+
+
+def media():
+    src = os.path.join(PROFILE, "collection.media")
+    have = {e.name: e for e in os.scandir(src) if e.is_file()}
+    if not have:
+        log("media: collection.media is empty or missing, nothing done")
+        return
+    out = os.path.join(DEST, "media")
+    os.makedirs(out, exist_ok=True)
+    copied = 0
+    for name, e in have.items():
+        dst = os.path.join(out, name)
+        st = e.stat()
+        try:
+            d = os.stat(dst)
+            if d.st_size == st.st_size and int(d.st_mtime) == int(st.st_mtime):
+                continue
+        except FileNotFoundError:
+            pass
+        copy(e.path, dst)
+        copied += 1
+    gone = [n for n in os.listdir(out) if n not in have]
+    if gone:
+        hold = os.path.join(DEST, "media (deleted)", time.strftime("%Y-%m-%d"))
+        os.makedirs(hold, exist_ok=True)
+        for n in gone:
+            p = os.path.join(out, n)
+            if n.endswith(".part") or not HOLD_DAYS:
+                os.remove(p)
+            else:
+                shutil.move(p, os.path.join(hold, n))
+    hroot = os.path.join(DEST, "media (deleted)")
+    for d in os.listdir(hroot) if os.path.isdir(hroot) else []:
+        try:
+            age = time.time() - time.mktime(time.strptime(d, "%Y-%m-%d"))
+        except ValueError:
+            continue
+        if age > HOLD_DAYS * 86400:
+            shutil.rmtree(os.path.join(hroot, d))
+            log(f"media: removed deleted files from {d}")
+    log(f"media: {len(have)} files, {copied} copied, {len(gone)} no longer in Anki")
+
+
+def main():
+    if not os.path.isdir(PROFILE):
+        log(f"no Anki profile at {PROFILE}")
+        return 1
+    if not os.path.isdir(os.path.dirname(DEST)):
+        log("iCloud Drive not found")
+        return 1
+    collection()
+    media()
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

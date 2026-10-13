@@ -37,17 +37,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
--- === Colorscheme ===
-vim.api.nvim_create_autocmd('ColorScheme', {
-  callback = function()
-    -- Highlight yanking/putting/substituting/exchanging
-    vim.api.nvim_set_hl(0, 'YankyPut', { link = 'IncSearch' })
-    vim.api.nvim_set_hl(0, 'YankyYanked', { link = 'IncSearch' })
-    -- Changes python documentation string color from blue to green
-    vim.api.nvim_set_hl(0, '@string.documentation.python', { fg = '#a6e3a1' })
-  end,
-})
-
 -- Make popups' background transparent
 -- vim.api.nvim_create_autocmd('ColorScheme', {
 --   callback = function()

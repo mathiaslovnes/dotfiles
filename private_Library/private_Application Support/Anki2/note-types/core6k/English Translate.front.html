@@ -1,0 +1,55 @@
+<script>
+  qFade = 0; //make it so the card appears immediately instead of fading in
+</script>
+
+<div style="margin-top: 30px;"></div> <!-- Adjust margin-top as needed -->
+
+<span style="font-size: 60px;  ">{{Vocabulary-Kanji}}</span>
+<br>
+
+{{#Alternate-Readings}}
+
+<div style="margin-bottom: 6px;"></div>
+
+<div id="alternateReading">
+  <span class="highlight">X</span> {{Alternate-Readings}} 
+	<span class="highlight">X</span> 
+</div>
+
+
+<div style="margin-bottom: 56px;"></div>
+
+{{/Alternate-Readings}}
+
+
+<span style="font-size: 40px;  "></span>
+
+{{#Sentence-Card}}
+
+
+<div id="sentence">
+
+<div style="margin-top: 15px;"></div> <!-- Adjust margin-top as needed -->
+
+
+<span style="font-size: 40px;">{{Expression}}</span>
+
+<div style="margin-bottom: 48px;"></div>
+
+
+</div>
+
+
+
+{{/Sentence-Card}}
+
+<div style="margin-bottom: 35px;"></div>
+  <div class="audio-buttons-no-picture">
+    <div class="audio-divider-no-picture"></div>
+    <span style="margin-top: -17px" class="audio wordAudio-no-picture audio-front">
+      {{Vocabulary-Audio}}
+    </span>
+    <div class="audio-divider-no-picture"></div>
+  </div>
+
+

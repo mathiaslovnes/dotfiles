@@ -20,6 +20,9 @@ require 'options'
 -- Basic Keymaps
 require 'keymaps'
 
+-- Highlight overrides for every colorscheme (must come before plugins load the colorscheme)
+require 'highlights'
+
 -- Install `lazy.nvim` plugin manager
 require 'lazy-bootstrap'
 

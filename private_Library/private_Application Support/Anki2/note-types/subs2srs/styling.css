@@ -1,0 +1,410 @@
+@charset "UTF-8";
+/* @import url("_ajt_japanese_25.4.30.1.css"); */
+/* Open Sans Light is the font for english text, Takao P Mincho is the font for japanese text */
+@font-face { font-family: OpenSansLight; src: url('_OpenSans-Light.ttf'); }
+@font-face { font-family: TakaoPMincho; src: url('_TakaoPMincho.ttf'); }
+
+@font-face {
+  font-family: myfont;
+  src: url('_BIZ-UDMinchoM.ttc');
+  unicode-range: U+3000-30FF, U+FF00-FFEF, U+4E00-9FAF;
+  size-adjust: 130%;
+}
+
+@font-face {
+  font-family: myfallback;
+  src: local('HiraMinProN-W3'), local('Hiragino Mincho ProN W3');
+  unicode-range: U+3000-30FF, U+FF00-FFEF, U+4E00-9FAF;
+  size-adjust: 130%;
+}
+
+
+.card1 { background-color: #ffffff; }
+.card2 { background-color: #ffffff; }
+.card3 { background-color: #ffffff; }
+
+svg > text { fill: #222 !important; }
+svg > path { stroke: #fff !important; }
+svg > circle[r="5"] { fill: #fff !important; }
+svg > circle[r="3.25"] { fill: #2d2d2d !important; }
+
+/****** colors ******/
+:root {
+  --red: #fd5c5c;
+  --blue: #89daff;
+  --orange: #ff7a2e;
+  --green: #4e937a;
+  --purple: #afa2ff;
+  --background:  rgb(43, 43, 43);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  quotes: "\201c""\201d""\2018""\2019";
+	font-size: 18.5px;
+	padding-top: 12px; /* Increase the padding-top value for more space */
+}
+
+body, body.nightMode {
+	font-family: myfont, myfallback, BIZ UDMincho;
+	text-align: center;
+	color: white;
+	background: rgb(43, 43, 43);
+	font-size: 25px;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+}
+
+
+
+/* Simple divider line */
+.divider {
+  border-top: 1.77px solid #ccc;
+  margin: 1em 0;
+}
+
+/*** Audio ***/
+
+.audio-divider-no-picture {
+  background-color: white;
+  height: 2px;
+  width: 100vw;
+}
+
+.audio-buttons-no-picture {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.wordAudio-no-picture svg {
+  width: 30px;
+  height: 30px;
+  transform: translateX(-5%);
+}
+
+.wordAudio-no-picture {
+  border: 1px solid white;
+  width: 150px;
+}
+
+path {
+  stroke:#fff !important;
+  stroke-width: 3 !important;
+}
+
+.audio-buttons {
+  position: absolute;
+  fill: black;
+  top: 10px;
+  left: 12px;
+  z-index: 1; /* Ensure it's on top of the picture */
+}
+
+.audio circle {
+  display: none;
+}
+
+.replay-button svg {
+  width: 30px;
+  height: 30px;
+  fill: black;
+}
+
+.audio-front svg {
+  width: 40px;
+  height: 40px;
+}
+
+
+/* Word */
+
+#word {
+  font-size: 2.5rem; /* Adjust font size for the word */
+  text-align: center; /* Ensure text alignment */
+  position: relative; /* Ensure relative positioning for ruby text */
+}
+
+#word ruby {
+  font-size: inherit; /* Inherit font size from parent */
+  display: inline-block; /* Ensure ruby text aligns properly */
+  position: relative; /* Ensure relative positioning for correct overlap */
+}
+
+#word ruby rb {
+  display: block; /* Ensure kanji is displayed as a block element */
+}
+
+#word ruby rt {
+  font-size: 1.5rem; 
+  display: block; /* furigana on a new line */
+  position: static; /* remove absolute positioning */
+  top: auto; /* reset */
+  width: auto; /* reset */
+  text-align: center; /* optional */
+}
+
+.win, .mac, .linux:not(.android) {
+  max-width: 1200px;
+  text-align: center;
+  margin: auto;
+}
+
+
+
+/* yomichan exports a lot of things as lists (pitch, dictionaries, freq lists), so this strips the formmating so it looks reasonable */
+ul, ol {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+  display: inline-block;
+}
+
+li {
+  text-align: center
+}
+
+/* changes the furigana pitch graphs to be red and spaced a bit nicer */
+#word span {
+  border-color: var(--red) !important;
+  padding-top: 6px;
+}
+
+#definition {
+  font-size: 1.4rem;
+  margin: 1rem 0;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2em; /* Add gap between words */
+  line-height: 1.6; /* Increase the line height */
+}
+
+@media (max-width: 800px) {
+  #definition {
+    font-size: 1.2rem !important;
+  }
+}
+
+#llmDefinition {
+  max-width: 700px;
+  margin: 18px auto 0;
+  font-size: 22px;
+  line-height: 1.6;
+}
+#llmDefinition .llm-audio { margin-left: 6px; }
+
+/*** CONTAINER FOR PICTURE START ***/
+.crop-container {
+  max-width: 700px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+  margin: 0 auto;
+}
+
+.crop-container img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+}
+/*** CONTAINER FOR PICTURE END ***/
+
+
+#sentence {
+  font-size: 1.7rem;
+  margin: 1rem 0;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2em; /* Add gap between words */
+  line-height: 1.4; /* Increase the line height */
+}
+
+.highlight {
+  background-color: #171717;
+  color: var(--red);
+  padding: 3px; /* Adjust padding as needed */
+  border-radius: 5px; /* Rounded corners for highlight */
+  display: inline; /* Ensure inline-block display to respect padding and margins */
+  white-space: nowrap; /* Prevent wrapping */
+}
+
+#freq {
+  margin: 8px;
+  margin-top: 1rem;
+  left: 0px;
+  right: 0px;
+  display: inline-block;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 4px;
+  font-size: 0.9rem;
+}
+
+#freqNumber { font-weight: 500; }
+
+.freq-breakdown {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin: 12px 8px 8px;
+  font-size: 0.8rem;
+}
+
+.freq-chip {
+  --c: #5F5E5A;
+  --t: #F1EFE8;
+  display: inline-flex;
+  border: 1px solid var(--c);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.freq-dict { background: var(--c); color: var(--t); padding: 2px 7px; }
+.freq-val  { padding: 2px 7px; font-variant-numeric: tabular-nums; }
+
+.freq-chip[data-dict*="JPDB"] { --c: #6960CA; --t: #EEEDFE; }.freq-chip[data-dict*="CEJC"]      { --c: #C2527B; --t: #FBEAF0; }
+.freq-chip[data-dict*="BCCWJ"]     { --c: #BA711B; --t: #FFF6EA; }
+.freq-chip[data-dict*="Novels"]    { --c: #317DC7; --t: #E6F1FB; }
+.freq-chip[data-dict^="jpDicts" i] { --c: #4F8319; --t: #EAF3DE; }
+
+/****** pitch graphs ******/
+#pitchGraph {
+  margin-top: 1rem;
+}
+
+path {
+  stroke:#fff !important;
+  stroke-width: 3 !important;
+}
+
+
+/* colors bolded text yellow for proper noun cards, etc */
+b, strong {
+  color: #ffb11b;
+  font-weight: bold;
+}
+
+/* Italics */
+i {
+  background-color: #171717;
+  color: var(--red);
+  padding: 3px; /* Adjust padding as needed */
+  border-radius: 5px; /* Rounded corners for highlight */
+  display: inline; /* Ensure inline-block display to respect padding and margins */
+  white-space: nowrap; /* Prevent wrapping */
+  font-style: normal; /* Override italic styling to prevent italics */
+}
+
+
+/* Pitch accent category square (Migaku colors, as in cademcniven's note type) */
+#word.pitch rb { position: relative; }
+
+#word.pitch.heiban rb::before,
+#word.pitch.atamadaka rb::before,
+#word.pitch.nakadaka rb::before,
+#word.pitch.odaka rb::before,
+#word.pitch.kifuku rb::before {
+  content: "";
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.7ch;
+  height: 0.7ch;
+  margin-right: 10px;
+}
+
+/* Pitch accent category: color the word */
+#word.pitch.heiban rb    { color: var(--blue); }
+#word.pitch.atamadaka rb { color: var(--red); }
+#word.pitch.nakadaka rb  { color: var(--orange); }
+#word.pitch.odaka rb     { color: var(--green); }
+#word.pitch.kifuku rb    { color: var(--purple); }
+
+
+
+
+/* ---------- Sentence pitch (add-on) ---------- */
+/* Change the look here: numbers are in units of the sentence's font size. */
+.sp {
+  --furi-size: 0.5;     /* furigana size */
+  --furi-gap: 0.1;      /* space between furigana and kanji */
+  --line-high: 0.55;    /* contour: height of the high line above the furigana */
+  --line-low: 0.3;      /* contour: height of the low line above the furigana */
+  --line-width: 2px;    /* contour thickness */
+  --line-color: rgba(255, 255, 255, 0.8);
+  --row-space: 0.7;     /* room above each row of text for the contour */
+  --phrase-gap: 0.3em;  /* space between accent phrases */
+  --target-bg: #171717;     /* box around the card's word */
+  --target-border: #8a8a8a; /* its border */
+  line-height: 1;
+}
+/* sentence text size on phones (1 = same as on the computer) */
+:is(.mobile, .iphone, .ipad, .android) .sp { font-size: 0.9em; }
+
+/* Each piece of text is a unit: furigana row over the text. The contour is drawn above
+   the furigana row: from the furigana for kanji, from the kana themselves for kana.
+   A word and its particles and endings form a group (.w); lines break between groups. */
+.sp span { display: inline; margin: 0; padding: 0; }  /* undo note-type rules for all spans */
+.sp .sl { margin: 0.15em 0; }
+.sp .w, .sp .ap { display: inline-flex; align-items: flex-end; vertical-align: bottom; }
+.sp .ap { flex-wrap: wrap; }  /* sentences colored by an older version */
+.sp .u  { display: inline-flex; flex-direction: column; align-items: center;
+          vertical-align: bottom; margin-top: calc(var(--row-space) * 1em);
+          --rs: var(--furi-size); }
+/* furigana longer than its kanji (いさぎよ over 潔) is set smaller, down to 0.38, so the word
+   isn't spread apart and its contour doesn't run into the next word's */
+.sp .u[data-o] { --rs: max(0.38, min(var(--furi-size), (var(--bc) + 0.25) / var(--fc))); }
+.sp .rt { align-self: stretch; display: flex; justify-content: center; white-space: nowrap;
+          font-size: calc(var(--rs) * 1em); line-height: calc(var(--furi-size) / var(--rs));
+          height: calc(var(--furi-size) / var(--rs) * 1em);
+          margin-bottom: calc(var(--furi-gap) / var(--rs) * 1em); }
+.sp .rt .mo { flex: 1 1 auto; text-align: center; }
+.sp .rb { line-height: 1.15; white-space: nowrap; }
+.sp .ps { margin-left: var(--phrase-gap); }
+/* the card's word: the box is drawn with a shadow, so it doesn't move the text or contour */
+.sp i   { color: inherit; display: inline-flex; flex-wrap: wrap; vertical-align: bottom;
+          font-style: normal; font-weight: normal; white-space: nowrap; border-radius: 5px;
+          padding: 0; background: var(--target-bg);
+          box-shadow: 0 0 0 3px var(--target-bg), 0 0 0 5px var(--target-border); }
+
+/* the contour: one line piece per mora, only where Suzuki-kun gave one (h = high, l = low) */
+.sp .mo { position: relative; display: inline-block; }
+.sp .mo.h::before, .sp .mo.l::before {
+                  content: ""; position: absolute; left: 0; right: 0;
+                  border: 0 solid var(--line-color); border-top-width: var(--line-width); }
+/* in the furigana: lengths divided by the furigana size */
+.sp .rt .mo.h::before    { top: calc(var(--line-high) / var(--rs) * -1em); }
+.sp .rt .mo.l::before    { top: calc(var(--line-low) / var(--rs) * -1em); }
+.sp .rt .mo.up::before,
+.sp .rt .mo.dn::before   { top: calc(var(--line-high) / var(--rs) * -1em);
+                           height: calc((var(--line-high) - var(--line-low)) / var(--rs) * 1em);
+                           border-left-width: var(--line-width); }
+/* in the text: measured from one furigana row (+ gap) lower */
+.sp .rb .mo.h::before    { top: calc((var(--furi-size) + var(--furi-gap) + var(--line-high)) * -1em); }
+.sp .rb .mo.l::before    { top: calc((var(--furi-size) + var(--furi-gap) + var(--line-low)) * -1em); }
+.sp .rb .mo.up::before,
+.sp .rb .mo.dn::before   { top: calc((var(--furi-size) + var(--furi-gap) + var(--line-high)) * -1em);
+                           height: calc((var(--line-high) - var(--line-low)) * 1em);
+                           border-left-width: var(--line-width); }
+.sp .mo.dn::before       { border-top-width: 0; border-bottom-width: var(--line-width); }
+
+/* word colors: dictionary accent, same as the word on its own card */
+.sp .heiban    { color: var(--blue); }
+.sp .atamadaka { color: var(--red); }
+.sp .nakadaka  { color: var(--orange); }
+.sp .odaka     { color: var(--green); }
+.sp .kifuku    { color: var(--purple); }
+
+
+
+.nightMode.card {
+  color:#FFF;
+  background-color:#222;
+}
+
+/* changes the cursor to look like a hand when you hover a kanji with kanjihover enabled */
+.kanjiHoverTarget {
+  cursor: pointer;
+}

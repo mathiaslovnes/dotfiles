@@ -1,4 +1,7 @@
 {
+  "env": {
+    "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1"
+  },
   "permissions": {
     "allow": [
       "Read(**)",
@@ -27,7 +30,6 @@
       "Bash(curl:*)",
       "Bash(npm run:*)",
       "Bash(gh run:*)",
-      "Bash(git log:*)",
       "Bash(grep -r agent_runner /Users/mathiaslovnes/Dev/Support-agent---Open-WebUI/test/ --include=*.py)",
       "Bash(.direnv/python-3.11/bin/python -c \"\nimport deepeval.models as m\nprint\\(dir\\(m\\)\\)\n\" 2>&1)",
       "WebFetch(domain:developer.atlassian.com)",
@@ -41,10 +43,28 @@
       "Bash(python3:*)",
       "Bash(cat /Users/mathiaslovnes/Dev/Support-agent---Open-WebUI/requirements*.txt)",
       "Bash(find /Users/mathiaslovnes/Dev/Support-agent---Open-WebUI/src -type f -name *.svelte -o -name *.ts -o -name *.js)",
-      "WebFetch(domain:www.confident-ai.com)"
+      "WebFetch(domain:www.confident-ai.com)",
+      "Bash(uv run *)",
+      "Bash(git *)",
+      "Bash(gh repo *)",
+      "Bash(gh search *)",
+      "Bash(gh api *)"
     ],
-    "defaultMode": "default"
+    "defaultMode": "auto"
   },
-  "model": "opus",
-  "awaySummaryEnabled": false
+  "model": "opus[1m]",
+  "modelSettings": {
+    "claude-opus-5": {
+      "effortLevel": "xhigh"
+    },
+    "claude-opus-5-5": {
+      "effortLevel": "xhigh"
+    }
+  },
+  "awaySummaryEnabled": false,
+  "tui": "fullscreen",
+  "theme": "dark",
+  "editorMode": "vim",
+  "verbose": false,
+  "inputNeededNotifEnabled": true
 }

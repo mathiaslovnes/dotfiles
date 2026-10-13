@@ -1,0 +1,62 @@
+@font-face { font-family: OpenSansLight; src: url('_OpenSans-Light.ttf'); }
+@font-face { font-family: TakaoPMincho; src: url('_TakaoPMincho.ttf'); }
+@font-face {
+  font-family: myfont;
+  src: url('_BIZ-UDMinchoM.ttc');
+  unicode-range: U+3000-30FF, U+FF00-FFEF, U+4E00-9FAF;
+  size-adjust: 130%;
+}
+
+.card {
+  font-family: OpenSansLight, sans-serif;
+  font-size: 20px;
+  text-align: center;
+  color: #d0d0d0;
+  background-color: #1a1a1a;
+  padding: 20px;
+}
+.era-kanji {
+  font-family: myfont, TakaoPMincho, serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: #f0f0f0;
+  margin-bottom: 4px;
+}
+.era-reading {
+  font-family: myfont, TakaoPMincho, serif;
+  font-size: 22px;
+  color: #787878;
+  margin-bottom: 16px;
+}
+.era-romaji {
+  font-size: 26px;
+  font-weight: 600;
+  color: #c8c8c8;
+  margin-bottom: 6px;
+}
+.era-dates {
+  font-size: 22px;
+  color: #909090;
+  margin-bottom: 14px;
+}
+.era-type {
+  display: inline-block;
+  font-size: 13px;
+  color: #1a1a1a;
+  background-color: #d0d0d0;
+  padding: 2px 10px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+.era-note {
+  font-size: 16px;
+  color: #888888;
+  margin-top: 10px;
+  line-height: 1.5;
+}
+hr.sep {
+  border: none;
+  border-top: 1px solid #333333;
+  margin: 14px auto;
+  width: 60%;
+}

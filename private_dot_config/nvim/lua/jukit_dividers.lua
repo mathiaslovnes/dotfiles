@@ -1,9 +1,6 @@
 local ns_divider = vim.api.nvim_create_namespace 'pyworks_divider'
 local ns_jukit = vim.api.nvim_create_namespace 'jukit_markers'
 
--- Divider highlight group
-vim.api.nvim_set_hl(0, 'PyworksDivider', { fg = '#FFFFFF', bold = true })
-
 -- Define all jukit signs to prevent E155 errors
 local jukit_signs = {
   'jukit_cell_markers',
@@ -48,7 +45,8 @@ local function update_dividers(buf)
   for _, node in query_divider:iter_captures(tree:root(), buf, 0, -1) do
     local start_row = select(1, node:range())
     local text = vim.treesitter.get_node_text(node, buf)
-    if text and text:match '^#|' then
+    -- Match both jukit dialects: `#|%%--%%|` (new cells) and `# |%%--%%|` (jupytext-converted)
+    if text and text:match '^#%s*|' then
       vim.api.nvim_buf_set_extmark(buf, ns_divider, start_row, 0, {
         virt_text = { { divider, 'PyworksDivider' } },
         virt_text_pos = 'overlay',
@@ -108,6 +106,47 @@ local function hide_jukit_markers(buf)
     end
   end
 end
+
+-- jukit renders text-cell markdown via vim-syntax (`syn region textcell`), which
+-- only shows when the treesitter highlighter is OFF. On the first file opened at
+-- startup there's an ordering race: treesitter ends up active and hides the
+-- cells until a manual `:e`, which reloads with treesitter off and jukit's syntax
+-- intact. Reproduce that reload automatically, but only when we detect the broken
+-- state (treesitter highlighter active on a jukit buffer). A buffer-local guard
+-- and the state check both prevent it from looping. Dividers use the treesitter
+-- *parser* (not the highlighter), so they are unaffected.
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'python' },
+  callback = function(args)
+    local buf = args.buf
+    vim.schedule(function()
+      if not vim.api.nvim_buf_is_valid(buf) then
+        return
+      end
+      if vim.b[buf].jukit_reloaded or vim.bo[buf].modified then
+        return
+      end
+      -- Only the broken state: treesitter highlighter active on a jukit buffer.
+      if not require('vim.treesitter.highlighter').active[buf] then
+        return
+      end
+      local is_jukit = false
+      for _, line in ipairs(vim.api.nvim_buf_get_lines(buf, 0, -1, false)) do
+        if line:find('|%%--%%|', 1, true) then
+          is_jukit = true
+          break
+        end
+      end
+      if not is_jukit then
+        return
+      end
+      vim.b[buf].jukit_reloaded = true
+      vim.api.nvim_buf_call(buf, function()
+        vim.cmd 'silent! edit'
+      end)
+    end)
+  end,
+})
 
 vim.api.nvim_create_autocmd({ 'FileType', 'WinResized' }, {
   pattern = { 'python' },

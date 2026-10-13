@@ -1,0 +1,49 @@
+{
+    "python": "~/.local/share/sentence-pitch/venv/bin/python",
+    "contour": "ojad",
+    "ojad_interval_seconds": 10,
+    "tiebreak": true,
+    "yomitan_url": "http://127.0.0.1:19633",
+    "run_in_background": true,
+    "background_every_minutes": 5,
+    "sentences": [
+        {
+            "note_type": "subs2srs",
+            "enabled": true,
+            "sentence_field": "sentence",
+            "furigana": false,
+            "written_field": "wordAsWritten",
+            "word_field": "wordDictionaryForm",
+            "reading_field": "reading",
+            "category_field": "pitch-accent-category",
+            "pitch_field": "sentence-pitch",
+            "word_mark": "i"
+        },
+        {
+            "note_type": "core6k",
+            "enabled": true,
+            "sentence_field": "Expression",
+            "furigana": false,
+            "written_field": "",
+            "word_field": "Vocabulary-Kanji",
+            "reading_field": "Vocabulary-Kana",
+            "category_field": "pitch-accent-category",
+            "pitch_field": "sentence-pitch",
+            "word_mark": "i"
+        }
+    ],
+    "vocab": [
+        {
+            "note_type": "subs2srs",
+            "word_field": "wordDictionaryForm",
+            "reading_field": "reading",
+            "category_field": "pitch-accent-category"
+        },
+        {
+            "note_type": "core6k",
+            "word_field": "Vocabulary-Kanji",
+            "reading_field": "Vocabulary-Kana",
+            "category_field": "pitch-accent-category"
+        }
+    ]
+}

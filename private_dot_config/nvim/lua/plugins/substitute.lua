@@ -26,10 +26,5 @@ return {
     vim.keymap.set('n', '<leader>x', require('substitute.exchange').operator, { noremap = true, desc = 'Exchange' })
     vim.keymap.set('n', '<leader>xx', require('substitute.exchange').line, { noremap = true, desc = 'Exchange line' })
     vim.keymap.set('x', '<leader>x', require('substitute.exchange').visual, { noremap = true, desc = 'Exchange visual' })
-
-    -- highlights
-    vim.api.nvim_set_hl(0, 'SubstituteHighlight', { link = 'IncSearch' })
-    vim.api.nvim_set_hl(0, 'SubstituteExchange', { link = 'IncSearch' })
-    vim.api.nvim_set_hl(0, 'SubstituteSubstituted', { link = 'IncSearch' })
   end,
 }

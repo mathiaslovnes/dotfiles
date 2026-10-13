@@ -8,6 +8,7 @@ return {
     },
     opts = {
       parser = { comments = { '#', '//' } },
+      view = { display_mode = 'border' },
       keymaps = {
         textobject_field_inner = { 'if', mode = { 'o', 'x' } },
         textobject_field_outer = { 'af', mode = { 'o', 'x' } },
@@ -17,5 +18,14 @@ return {
         jump_prev_row = { '<S-Enter>', mode = { 'n', 'v' } },
       },
     },
+    config = function(_, opts)
+      require('csvview').setup(opts)
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = 'csv',
+        callback = function()
+          vim.cmd 'CsvViewEnable delimiter=, display_mode=border header_lnum=1'
+        end,
+      })
+    end,
   },
 }

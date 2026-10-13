@@ -49,7 +49,7 @@ require('lazy').setup({
   -- ╚══════════════════════════════════════════════════════════════╝
   require 'plugins.gitsigns',     -- Inline git blame, hunk staging, diff signs in the gutter
   require 'plugins.neogit',       -- Magit-style interactive git interface
-  require 'plugins.git-conflict', -- Resolve git conflicts with a three-pane view
+  -- require 'plugins.git-conflict', -- Resolve git conflicts with a three-pane view
   require 'plugins.diffview',     -- Tabpage-based diff viewer for commits and file history
   -- require 'plugins.lazygit', -- Lazygit TUI integration (using Snacks instead)
 
@@ -90,6 +90,7 @@ require('lazy').setup({
   require 'plugins.neoscroll',                  -- Smooth scrolling animations
   require 'plugins.scrollview',                 -- Interactive vertical scrollbar with signs
   require 'plugins.illuminate',                 -- Highlight other occurrences of the word under cursor
+  require 'plugins.virt-column',                -- Thin vertical line at textwidth+1 as a wrap guide
   require 'plugins.unidentified-flying-object', -- nvim-ufo: modern code folding with virtual preview text
   require 'plugins.snacks',                     -- Utility suite: lazygit, dashboard, notifications, etc.
   -- require 'plugins.alpha',                    -- Startup dashboard (using Snacks instead)

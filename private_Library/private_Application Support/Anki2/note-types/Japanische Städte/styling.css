@@ -1,0 +1,19 @@
+.card {
+ font-family: arial;
+ font-size: 20px;
+ text-align: center;
+ color: black;
+ background-color: white;
+}
+
+.win .jp{font-family: "Meiryo"}
+.linux .jp{font-family: "Kochi Mincho"}
+
+.map{height:80%;}
+.flag{height:350px;}
+.flag img{border:1px solid black;}
+
+#answer{height:20%;}
+
+
+

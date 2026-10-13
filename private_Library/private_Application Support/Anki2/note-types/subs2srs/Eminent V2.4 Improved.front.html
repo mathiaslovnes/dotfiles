@@ -1,0 +1,84 @@
+<script>
+  qFade = 0; //make it so the card appears immediately instead of fading in
+</script>
+
+<div id="kanjiHover">
+	<div id="word" class="">
+		{{#wordDictionaryForm}}
+			{{edit:wordDictionaryForm}}
+		{{/wordDictionaryForm}}
+	</div>
+</div>
+
+
+
+{{#alternateReading}}
+
+<div style="margin-bottom: 12px;"></div>
+
+<div id="alternateReading">
+    <span class="highlight">X</span> {{alternateReading}} <span class="highlight">X</span> 
+</div>
+
+{{/alternateReading}}
+
+
+
+{{#sentenceCard}}　
+	<div id="sentence">
+		<div style="margin-bottom: -35px;"></div>
+		{{edit:sentence}}
+<script>
+(function () {
+  var el = document.getElementById("sentence");
+  var word = `{{text:wordAsWritten}}`.trim() || `{{text:wordDictionaryForm}}`.trim();
+  if (!el || !word || el.querySelector("i")) return;
+  for (var n = word.length; n >= 1; n--) {
+    var t = word.slice(0, n);
+    if (el.innerHTML.indexOf(t) !== -1) {
+      el.innerHTML = el.innerHTML.split(t).join("<i>" + t + "</i>");
+      return;
+    }
+  }
+})();
+</script>
+	</div>
+{{/sentenceCard}}
+
+<div style="margin-bottom: 25px;"></div>
+  <div class="audio-buttons-no-picture">
+    <div class="audio-divider-no-picture"></div>
+    <span class="audio wordAudio-no-picture audio-front">
+      {{wordAudio}}
+    </span>
+    <div class="audio-divider-no-picture"></div>
+  </div>
+
+<script>
+(function () {
+  var cls = document.documentElement.className + " " + document.body.className;
+  var mobile = /\b(mobile|android|iphone|ipad)\b/.test(cls)
+            || /Android|iPhone|iPad/.test(navigator.userAgent);
+  if (mobile) return;
+  var s = document.createElement("script");
+  s.src = "_kanjiHover.js";
+  document.body.appendChild(s);
+})();
+</script>
+
+<script>
+if (window._rHandler) document.removeEventListener("keydown", window._rHandler);
+window._rHandler = function (e) {
+  if (e.key === "r" && !e.shiftKey) pycmd("play:a:0");
+};
+document.addEventListener("keydown", window._rHandler);
+</script>
+
+<!-- sentence-pitch: load the picture already on the front, so the back shows at once on phones -->
+<div class="pic-preload" style="position:absolute;left:-9999px;top:0;width:1px;height:1px;overflow:hidden">{{picture}}</div>
+<script>
+(function () {
+  var im = document.querySelector(".pic-preload img");
+  if (im && im.decode) im.decode().catch(function () {});
+})();
+</script>

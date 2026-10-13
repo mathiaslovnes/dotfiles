@@ -11,7 +11,7 @@ return {
           require('mini.trailspace').trim()
         end,
         mode = 'n',
-        desc = 'Auto-indent',
+        desc = 'Format buffer',
       },
     },
     opts = {
@@ -22,6 +22,11 @@ return {
       },
       formatters_by_ft = {
         lua = { 'stylua' },
+        python = { 'isort', 'black' },
+        javascript = { 'prettier' },
+        javascriptreact = { 'prettier' },
+        typescript = { 'prettier' },
+        typescriptreact = { 'prettier' },
         -- java = { 'google-java-format' },
       },
       -- Conform can also run multiple formatters sequentially

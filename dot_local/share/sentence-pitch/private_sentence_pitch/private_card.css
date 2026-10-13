@@ -1,0 +1,71 @@
+/* ---------- Sentence pitch (add-on) ---------- */
+/* Change the look here: numbers are in units of the sentence's font size. */
+.sp {
+  --furi-size: 0.5;     /* furigana size */
+  --furi-gap: 0.1;      /* space between furigana and kanji */
+  --line-high: 0.55;    /* contour: height of the high line above the furigana */
+  --line-low: 0.3;      /* contour: height of the low line above the furigana */
+  --line-width: 2px;    /* contour thickness */
+  --line-color: rgba(255, 255, 255, 0.8);
+  --row-space: 0.7;     /* room above each row of text for the contour */
+  --phrase-gap: 0.3em;  /* space between accent phrases */
+  --target-bg: #171717;     /* box around the card's word */
+  --target-border: #8a8a8a; /* its border */
+  line-height: 1;
+}
+/* sentence text size on phones (1 = same as on the computer) */
+:is(.mobile, .iphone, .ipad, .android) .sp { font-size: 0.9em; }
+
+/* Each piece of text is a unit: furigana row over the text. The contour is drawn above
+   the furigana row: from the furigana for kanji, from the kana themselves for kana.
+   A word and its particles and endings form a group (.w); lines break between groups. */
+.sp span { display: inline; margin: 0; padding: 0; }  /* undo note-type rules for all spans */
+.sp .sl { margin: 0.15em 0; }
+.sp .w, .sp .ap { display: inline-flex; align-items: flex-end; vertical-align: bottom; }
+.sp .ap { flex-wrap: wrap; }  /* sentences colored by an older version */
+.sp .u  { display: inline-flex; flex-direction: column; align-items: center;
+          vertical-align: bottom; margin-top: calc(var(--row-space) * 1em);
+          --rs: var(--furi-size); }
+/* furigana longer than its kanji (いさぎよ over 潔) is set smaller, down to 0.38, so the word
+   isn't spread apart and its contour doesn't run into the next word's */
+.sp .u[data-o] { --rs: max(0.38, min(var(--furi-size), (var(--bc) + 0.25) / var(--fc))); }
+.sp .rt { align-self: stretch; display: flex; justify-content: center; white-space: nowrap;
+          font-size: calc(var(--rs) * 1em); line-height: calc(var(--furi-size) / var(--rs));
+          height: calc(var(--furi-size) / var(--rs) * 1em);
+          margin-bottom: calc(var(--furi-gap) / var(--rs) * 1em); }
+.sp .rt .mo { flex: 1 1 auto; text-align: center; }
+.sp .rb { line-height: 1.15; white-space: nowrap; }
+.sp .ps { margin-left: var(--phrase-gap); }
+/* the card's word: the box is drawn with a shadow, so it doesn't move the text or contour */
+.sp i   { color: inherit; display: inline-flex; flex-wrap: wrap; vertical-align: bottom;
+          font-style: normal; font-weight: normal; white-space: nowrap; border-radius: 5px;
+          padding: 0; background: var(--target-bg);
+          box-shadow: 0 0 0 3px var(--target-bg), 0 0 0 5px var(--target-border); }
+
+/* the contour: one line piece per mora, only where Suzuki-kun gave one (h = high, l = low) */
+.sp .mo { position: relative; display: inline-block; }
+.sp .mo.h::before, .sp .mo.l::before {
+                  content: ""; position: absolute; left: 0; right: 0;
+                  border: 0 solid var(--line-color); border-top-width: var(--line-width); }
+/* in the furigana: lengths divided by the furigana size */
+.sp .rt .mo.h::before    { top: calc(var(--line-high) / var(--rs) * -1em); }
+.sp .rt .mo.l::before    { top: calc(var(--line-low) / var(--rs) * -1em); }
+.sp .rt .mo.up::before,
+.sp .rt .mo.dn::before   { top: calc(var(--line-high) / var(--rs) * -1em);
+                           height: calc((var(--line-high) - var(--line-low)) / var(--rs) * 1em);
+                           border-left-width: var(--line-width); }
+/* in the text: measured from one furigana row (+ gap) lower */
+.sp .rb .mo.h::before    { top: calc((var(--furi-size) + var(--furi-gap) + var(--line-high)) * -1em); }
+.sp .rb .mo.l::before    { top: calc((var(--furi-size) + var(--furi-gap) + var(--line-low)) * -1em); }
+.sp .rb .mo.up::before,
+.sp .rb .mo.dn::before   { top: calc((var(--furi-size) + var(--furi-gap) + var(--line-high)) * -1em);
+                           height: calc((var(--line-high) - var(--line-low)) * 1em);
+                           border-left-width: var(--line-width); }
+.sp .mo.dn::before       { border-top-width: 0; border-bottom-width: var(--line-width); }
+
+/* word colors: dictionary accent, same as the word on its own card */
+.sp .heiban    { color: var(--blue); }
+.sp .atamadaka { color: var(--red); }
+.sp .nakadaka  { color: var(--orange); }
+.sp .odaka     { color: var(--green); }
+.sp .kifuku    { color: var(--purple); }

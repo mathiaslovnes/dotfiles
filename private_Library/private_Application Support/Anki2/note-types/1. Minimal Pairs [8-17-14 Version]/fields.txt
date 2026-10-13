@@ -1,0 +1,8 @@
+Word 1
+Recording 1
+Word 2
+Recording 2
+Word 3
+Recording 3
+Compare Word 2 to Word 3? (y = yes, leave blank = no)
+Audio

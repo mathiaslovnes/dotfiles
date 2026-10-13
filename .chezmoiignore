@@ -11,3 +11,13 @@
 **/github_copilot/**
 **/jgit/**
 **/linearmouse/**
+**/__pycache__
+
+
+.local/share/sentence-pitch/sentence_pitch/user_files
+.local/share/sentence-pitch/sentence_pitch/__pycache__
+{{ if ne .chezmoi.os "darwin" }}
+Library
+.local/share/sentence-pitch
+.local/bin/anki-icloud-backup
+{{ end }}

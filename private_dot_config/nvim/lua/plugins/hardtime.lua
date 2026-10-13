@@ -35,7 +35,7 @@ return {
       -- ['gp'] = { 'n' },
       -- ['gP'] = { 'n' },
       ['.'] = { 'n' },
-      ['='] = { 'n' },
+      ['='] = false, -- leave '=' to conform (format buffer)
       ['<'] = { 'n' },
       ['>'] = { 'n' },
       ['J'] = { 'n' },

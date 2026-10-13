@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.mathiaslovnes.anki-icloud-backup</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/opt/homebrew/bin/python3</string>
+        <string>/Users/mathiaslovnes/.local/bin/anki-icloud-backup</string>
+    </array>
+    <!-- run when Anki writes a backup -->
+    <key>WatchPaths</key>
+    <array>
+        <string>/Users/mathiaslovnes/Library/Application Support/Anki2/user 1/backups</string>
+    </array>
+    <!-- and once a day, and at login -->
+    <key>StartInterval</key>
+    <integer>86400</integer>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>ThrottleInterval</key>
+    <integer>60</integer>
+    <key>ProcessType</key>
+    <string>Background</string>
+    <key>LowPriorityIO</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/Users/mathiaslovnes/Library/Logs/anki-icloud-backup.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/mathiaslovnes/Library/Logs/anki-icloud-backup.log</string>
+</dict>
+</plist>

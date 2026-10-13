@@ -1,0 +1,31 @@
+{{#Reading}}
+	<div class="japanese" id="question">
+		{{furigana:Reading}}
+	</div>
+{{/Reading}}
+
+<button id="toggle_furigana_button" onclick="toggle_furigana();">Toggle Readings</button>
+</div>
+
+<div class="front-map">
+
+{{Front-Map}}
+
+</div>
+
+
+<script>
+    function toggle_furigana() {
+        for (const element of document.querySelectorAll('#question ruby rt')) {
+            element.style.visibility = !element.style.visibility ? "visible" : "";
+        }
+    }
+
+    /* Press "P" to reveal furigana for all words */
+    var P_KEY = 80;
+    document.addEventListener('keydown', (event) => {
+        if (event.keyCode === P_KEY) {
+            toggle_furigana()
+        }
+    });
+</script>

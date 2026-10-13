@@ -44,6 +44,7 @@ yabai -m rule --add app="^oklch-color-picker$" manage=off
 yabai -m rule --add app="^Mac Mouse Fix$" manage=off
 yabai -m rule --add app="^Linearmouse$" manage=off
 yabai -m rule --add app="^Finder$" manage=off
+yabai -m rule --add app="^Brain\.fm$" manage=off
 # yabai -m rule --add app="^mpv$" manage=off
 # yabai -m signal --add event=window_created app="mpv" \
 #   action='yabai -m window $YABAI_WINDOW_ID --display 2 --grid 1:1:0:0:1:1'

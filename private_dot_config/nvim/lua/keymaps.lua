@@ -79,9 +79,7 @@ vim.keymap.set({ 'n', 'v' }, 'x', '"_x')
 vim.keymap.set('n', 'ch', '"_ch')
 vim.keymap.set('n', 'cl', '"_cl')
 
-vim.keymap.set({ 'n', 'v' }, 'p', '"_d<Plug>(YankyPutAfter)')
-vim.keymap.set({ 'n', 'v' }, 'P', '"_d<Plug>(YankyPutBefore)')
-vim.keymap.set({ 'n', 'v' }, '<leader>d', '"_d')
+vim.keymap.set({ 'n', 'x' }, '<leader>d', '"_d')
 
 -- Yank to end/beginning of line
 vim.keymap.set('n', 'yL', 'y$', { nowait = true, desc = 'Yank to end of line' })

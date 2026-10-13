@@ -1,0 +1,102 @@
+<script>
+  qFade = 0; //make it so the card appears immediately instead of fading in
+</script>
+
+<div id="kanjiHover">
+  <div id="word" class="pitch">
+    {{#wordDictionaryForm}}
+    <ruby>
+      <rb>{{edit:wordDictionaryForm}}</rb>
+      <rt style="margin-top: 10px;">{{reading}}</rt> <!-- Adjust margin-top as needed -->
+    </ruby>
+    {{/wordDictionaryForm}}
+  </div>
+  {{#pitchAccent}}
+  <div id="pitchGraph"></div>
+  {{pitchAccent}}
+  {{/pitchAccent}}
+</div>
+
+	{{#manualPitchAccent}}
+		<div style="margin-top: -40px;"></div>
+	{{/manualPitchAccent}}
+
+
+	{{#word-classification}}
+		<div style="margin-top: 17px;"></div>
+		{{word-classification}}
+		<div style="margin-bottom: -12px;"></div>
+	{{/word-classification}}
+
+
+<div id="definition">
+	{{edit:definition}}
+</div>
+
+
+{{^picture}}
+<!-- This only shows if there is NO picture -->
+  <div class="audio-buttons-no-picture">
+    <div class="audio-divider-no-picture"></div>
+    <span class="audio wordAudio-no-picture">
+      {{wordAudio}}
+    </span>
+    <div class="audio-divider-no-picture"></div>
+  </div>
+{{/picture}}
+
+{{#picture}}
+
+	{{^four-by-three-aspect-ratio}}
+  <div class="crop-container">
+    <div class="audio-buttons">
+      <span class="audio wordAudio">{{wordAudio}}</span>
+      <span class="audio sentenceAudio">{{sentenceAudio}}</span>
+    </div>
+    {{picture}}
+  </div>
+	{{/four-by-three-aspect-ratio}}
+
+
+	{{#four-by-three-aspect-ratio}}
+	<div class="crop-container-four-by-three">
+    <div class="audio-buttons">
+      <span class="audio wordAudio">{{wordAudio}}</span>
+      <span class="audio sentenceAudio">{{sentenceAudio}}</span>
+    </div>
+    {{picture}}
+  </div>
+	{{/four-by-three-aspect-ratio}}
+
+{{/picture}}
+
+
+<div id="sentence">
+
+{{before-sentence}}{{cloze-prefix}}<span class="highlight">{{cloze-body}}</span>{{cloze-suffix}}{{after-sentence}}
+
+</div>
+
+
+{{#frequency}}
+<div id="freq">
+  Freq <span id="freqNumber">{{frequency}}</span>
+</div>
+{{/frequency}}
+
+
+<script>
+var hasWordAudio = {{#wordAudio}}true{{/wordAudio}}{{^wordAudio}}false{{/wordAudio}};
+var hasSentenceAudio = {{#sentenceAudio}}true{{/sentenceAudio}}{{^sentenceAudio}}false{{/sentenceAudio}};
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "r" && !event.shiftKey) {
+        if (hasWordAudio) pycmd("play:a:0");
+        else if (hasSentenceAudio) pycmd("play:a:0");
+    }
+    if (event.key === "R" || (event.key === "r" && event.shiftKey)) {
+        if (hasWordAudio && hasSentenceAudio) pycmd("play:a:1");
+        else if (hasWordAudio || hasSentenceAudio) pycmd("play:a:0");
+    }
+});
+</script>

@@ -1,0 +1,44 @@
+
+.question-side { font-size:48px; }
+
+hr {
+  border:none;
+  border-bottom:1px solid #999;
+}
+
+ruby rt {
+  color:#EEE;
+  background:#;
+  border:1px solid #EEE;
+  border-radius:10px;
+}
+ruby:hover rt {
+  color:#333;
+  background:none;
+  border-color:transparent;
+}
+
+.card {
+  color:#333;
+  background-color:#CCC;
+  font-size:25px;
+  font-family:'Meiryo';
+  text-align:center;
+}
+
+/* Night Mode CSS */
+.nightMode hr { border-color:#555; }
+.nightMode ruby rt {
+  color:#333;
+  background:#333;
+  border-color:#444;
+}
+.nightMode ruby:hover rt {
+  color:#FFF;
+  background:none;
+  border-color:transparent;
+}
+.nightMode.card {
+  color:#FFF;
+  background-color:#222;
+}
