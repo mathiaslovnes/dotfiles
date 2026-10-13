@@ -30,7 +30,6 @@ function zvm_after_init() {
   bindkey -M viins '^N' menu-select
   bindkey -M viins '^P' reverse-menu-select
 
-
   # fzf rebinds (needs to be here since zsh-vi-mode overwrites these too)
   bindkey -M viins '^F' fzf-file-widget # Search [F]iles
   bindkey -M viins '^R' fzf-history-widget # History / [R]ecall
@@ -122,7 +121,6 @@ alias c='clear'
 alias n='nvim'
 alias sk='kitten show-key'
 alias kr='pkill -USR1 kitty'
-
 
 ### Eza (l/ls replacement)
 alias l='eza -l --icons'
