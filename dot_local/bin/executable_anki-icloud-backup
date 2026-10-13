@@ -11,7 +11,15 @@ iCloud Drive/Anki backup/
   media/                                         mirror of collection.media
   media (deleted)/YYYY-MM-DD/                    files that left collection.media (Check Media >
                                                  Delete Unused), kept HOLD_DAYS days, then removed
+
+Documents/日本語/Anki + Yomitan backup/ (iCloud through Desktop & Documents)
+  add-ons/add-ons.txt                            your AnkiWeb add-ons: name and code, to reinstall
+  add-ons/<code> <name>/meta.json                each one's settings (copy back after reinstalling)
+  add-ons/ai_language_explainer_claude/          that add-on whole: it isn't on AnkiWeb
+  sentence-pitch/                                its caches (Suzuki-kun's answers, Yomitan lookups)
+  yomitan-api/                                   the Yomitan API's files for Brave (NativeMessagingHosts)
 """
+import json
 import os
 import shutil
 import sys
@@ -19,6 +27,11 @@ import time
 
 PROFILE = os.path.expanduser("~/Library/Application Support/Anki2/user 1")
 DEST = os.path.expanduser("~/Library/Mobile Documents/com~apple~CloudDocs/Anki backup")
+EXTRA = os.path.expanduser("~/Documents/日本語/Anki + Yomitan backup")
+ADDONS = os.path.expanduser("~/Library/Application Support/Anki2/addons21")
+WHOLE_ADDONS = ("ai_language_explainer_claude",)  # not on AnkiWeb: keep the whole folder
+SENTENCE_PITCH = os.path.expanduser("~/.local/share/sentence-pitch/sentence_pitch/user_files")
+YOMITAN_API = os.path.expanduser("~/Library/Application Support/BraveSoftware/Brave-Browser/NativeMessagingHosts")
 KEEP_DAYS = 30
 HOLD_DAYS = 30  # 0: deleted media disappears from iCloud at the next run
 
@@ -100,6 +113,66 @@ def media():
     log(f"media: {len(have)} files, {copied} copied, {len(gone)} no longer in Anki")
 
 
+def copy_if_changed(src, dst):
+    try:
+        d, s = os.stat(dst), os.stat(src)
+        if d.st_size == s.st_size and int(d.st_mtime) == int(s.st_mtime):
+            return False
+    except FileNotFoundError:
+        pass
+    os.makedirs(os.path.dirname(dst), exist_ok=True)
+    copy(src, dst)
+    return True
+
+
+def safe(name):
+    return "".join("_" if c in '/\\:*?"<>|' else c for c in name).strip() or "_"
+
+
+def extras():
+    """Add-on settings, the sentence-pitch caches and the Yomitan API, to Documents/日本語."""
+    n, listing = 0, []
+    for d in sorted(os.listdir(ADDONS)):
+        meta = os.path.join(ADDONS, d, "meta.json")
+        if d in WHOLE_ADDONS:
+            for root, dirs, files in os.walk(os.path.join(ADDONS, d)):
+                dirs[:] = [x for x in dirs if x != "__pycache__"]
+                for f in files:
+                    if f.endswith(("_log.txt", ".pyc")):
+                        continue
+                    src = os.path.join(root, f)
+                    n += copy_if_changed(src, os.path.join(EXTRA, "add-ons", os.path.relpath(src, ADDONS)))
+            continue
+        if not d.isdigit() or not os.path.isfile(meta):
+            continue  # the add-ons in your dotfiles (sentence_pitch, note_type_export)
+        try:
+            name = json.load(open(meta, encoding="utf-8")).get("name") or d
+        except (OSError, ValueError):
+            name = d
+        listing.append(f"{d}  {name}")
+        n += copy_if_changed(meta, os.path.join(EXTRA, "add-ons", safe(f"{d} {name}"), "meta.json"))
+    text = ("Reinstall: Anki > Tools > Add-ons > Get Add-ons..., paste the codes (space-separated).\n"
+            "Then copy each meta.json back into its add-on folder (Tools > Add-ons > View Files) and restart Anki.\n\n"
+            + "\n".join(listing) + "\n\nAll codes: " + " ".join(x.split()[0] for x in listing) + "\n")
+    out = os.path.join(EXTRA, "add-ons", "add-ons.txt")
+    if not os.path.exists(out) or open(out, encoding="utf-8").read() != text:
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        with open(out + ".part", "w", encoding="utf-8") as f:
+            f.write(text)
+        os.replace(out + ".part", out)
+        n += 1
+    for f in sorted(os.listdir(SENTENCE_PITCH)) if os.path.isdir(SENTENCE_PITCH) else []:
+        src = os.path.join(SENTENCE_PITCH, f)
+        if f.endswith((".json", ".txt")) and os.path.isfile(src):
+            n += copy_if_changed(src, os.path.join(EXTRA, "sentence-pitch", f))
+    for f in ("yomitan_api.json", "yomitan_api.py"):
+        src = os.path.join(YOMITAN_API, f)
+        if os.path.isfile(src):
+            n += copy_if_changed(src, os.path.join(EXTRA, "yomitan-api", f))
+    if n:
+        log(f"extras: {n} files updated in {EXTRA}")
+
+
 def main():
     if not os.path.isdir(PROFILE):
         log(f"no Anki profile at {PROFILE}")
@@ -109,6 +182,10 @@ def main():
         return 1
     collection()
     media()
+    try:
+        extras()
+    except Exception as e:  # never keep the collection and media from being backed up
+        log(f"extras: {e!r}")
     return 0
 
 
