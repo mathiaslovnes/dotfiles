@@ -29,12 +29,21 @@
   <div style="margin-bottom: 17px;"></div>
 {{/word-classification}}
 
+<div id="definition">
+  <div style="margin-bottom: 0px;"></div>
+    {{edit:definition}}
+  <div style="margin-top: px;"></div>
+</div>
 
-  <div id="definition">
-    <div style="margin-bottom: 0px;"></div>
-      {{edit:definition}}
-    <div style="margin-top: px;"></div>
+{{#llm-definition}}
+<details id="llmDefinition">
+  <summary>解説</summary>
+  <div class="llm-body">
+    {{#llm-definition-audio}}<span class="llm-audio">{{llm-definition-audio}}</span>{{/llm-definition-audio}}
+    <div class="llm-text">{{llm-definition}}</div>
   </div>
+</details>
+{{/llm-definition}}
 
 {{^picture}}
 <!-- This only shows if there is NO picture -->
@@ -64,13 +73,6 @@
      {{#sentence-pitch}}{{sentence-pitch}}{{/sentence-pitch}}{{^sentence-pitch}}{{edit:sentence}}{{/sentence-pitch}}
 </div>
 
-{{#llm-definition}}
-<div id="llmDefinition">
-{{llm-definition}}
-<span class="llm-audio">{{llm-definition-audio}}</span>
-</div>
-{{/llm-definition}}
-
 <script>
 (function () {
   var el = document.getElementById("sentence");
@@ -95,20 +97,28 @@
   <div class="freq-breakdown">{{freq-breakdown}}</div>
 {{/freq-breakdown}}
 
-<script>
-var hasWordAudio = {{#wordAudio}}true{{/wordAudio}}{{^wordAudio}}false{{/wordAudio}};
-var hasSentenceAudio = {{#sentenceAudio}}true{{/sentenceAudio}}{{^sentenceAudio}}false{{/sentenceAudio}};
 
-if (window._rHandler) document.removeEventListener("keydown", window._rHandler);
-window._rHandler = function (e) {
-  if (e.key === "r" && !e.shiftKey && (hasWordAudio || hasSentenceAudio)) pycmd("play:a:0");
-  if (e.key === "R" || (e.key === "r" && e.shiftKey)) {
-    if (hasWordAudio && hasSentenceAudio) pycmd("play:a:1");
-    else if (hasWordAudio || hasSentenceAudio) pycmd("play:a:0");
+
+<script>
+var WORD_BTN = '.wordAudio .replay-button, .wordAudio-no-picture .replay-button';
+var SENT_BTN = '.sentenceAudio .replay-button, .sentenceAudio-no-picture .replay-button';
+var LLM_BTN  = '#llmDefinition .llm-audio .replay-button';
+function clickAudio(sel) { var b = document.querySelector(sel); if (b) b.click(); return !!b; }
+
+if (window._rHandler) { document.removeEventListener("keydown", window._rHandler); window._rHandler = null; }
+window._cardKey = function (k) {
+  if (k === "r") return clickAudio(WORD_BTN) || clickAudio(SENT_BTN);
+  if (k === "R") return clickAudio(SENT_BTN) || clickAudio(WORD_BTN);
+  if (k === "explain") {
+    var d = document.getElementById("llmDefinition");
+    if (d) d.open = true;
+    return clickAudio(LLM_BTN);
   }
+  return false;
 };
-document.addEventListener("keydown", window._rHandler);
 </script>
+
+
 
 
 <script>

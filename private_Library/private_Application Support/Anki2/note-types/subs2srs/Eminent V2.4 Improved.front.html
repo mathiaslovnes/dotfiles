@@ -66,13 +66,19 @@
 })();
 </script>
 
+
+
 <script>
-if (window._rHandler) document.removeEventListener("keydown", window._rHandler);
-window._rHandler = function (e) {
-  if (e.key === "r" && !e.shiftKey) pycmd("play:a:0");
+if (window._rHandler) { document.removeEventListener("keydown", window._rHandler); window._rHandler = null; }
+window._cardKey = function (k) {
+  if (k !== "r" && k !== "R") return false;
+  var b = document.querySelector('.wordAudio-no-picture .replay-button');
+  if (b) b.click();
+  return !!b;
 };
-document.addEventListener("keydown", window._rHandler);
 </script>
+
+
 
 <!-- sentence-pitch: load the picture already on the front, so the back shows at once on phones -->
 <div class="pic-preload" style="position:absolute;left:-9999px;top:0;width:1px;height:1px;overflow:hidden">{{picture}}</div>

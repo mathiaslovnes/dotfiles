@@ -183,13 +183,66 @@ li {
   }
 }
 
+
+
+
+
 #llmDefinition {
-  max-width: 700px;
-  margin: 18px auto 0;
-  font-size: 22px;
-  line-height: 1.6;
+  max-width: 640px;
+  margin: 12px auto 24px;
 }
-#llmDefinition .llm-audio { margin-left: 6px; }
+
+
+#llmDefinition summary {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+  padding: 4px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  font-size: 15px;
+  color: #9aa4b2;
+}
+#llmDefinition summary::-webkit-details-marker { display: none; }
+#llmDefinition summary::after {
+  content: "▸";
+  transition: transform 0.15s;
+}
+#llmDefinition[open] summary::after { transform: rotate(90deg); }
+#llmDefinition[open] summary { color: #d6dbe1; border-color: rgba(255, 255, 255, 0.35); }
+
+#llmDefinition .llm-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 10px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  text-align: left;
+}
+#llmDefinition .llm-text {
+  font-size: 20px;
+  line-height: 1.7;
+  color: #e6e6e6;
+}
+
+/* small outlined play button that matches the text */
+#llmDefinition .llm-audio { flex: none; color: #8ab4f8; padding-top: 4px; }
+#llmDefinition .llm-audio .replay-button svg { width: 26px; height: 26px; }
+#llmDefinition .llm-audio .replay-button svg circle {
+  fill: transparent;
+  stroke: currentColor;
+  stroke-width: 4;
+}
+#llmDefinition .llm-audio .replay-button svg path { fill: currentColor; }
+
+
+
+
 
 /*** CONTAINER FOR PICTURE START ***/
 .crop-container {

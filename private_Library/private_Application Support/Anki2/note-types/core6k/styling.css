@@ -173,6 +173,28 @@ i {
 }
 
 
+/* ---------- Sentence: same look as subs2srs ---------- */
+/* subs2srs sets its sentence at 1.7rem with an 18.5px root (31.45px) in BIZ UDMincho enlarged
+   130%; core6k's own font is at 100%, so the sentence gets a copy of the 130% one. */
+@font-face {
+  font-family: sentencefont;
+  src: url('_BIZ-UDMinchoM.ttc');
+  unicode-range: U+3000-30FF, U+FF00-FFEF, U+4E00-9FAF;
+  size-adjust: 130%;
+}
+@font-face {
+  font-family: sentencefallback;
+  src: local('HiraMinProN-W3'), local('Hiragino Mincho ProN W3');
+  unicode-range: U+3000-30FF, U+FF00-FFEF, U+4E00-9FAF;
+  size-adjust: 130%;
+}
+#sentence {
+  font-family: sentencefont, sentencefallback, 'BIZ UDMincho';
+  font-size: 31.45px;
+  margin: 18.5px 0;
+  line-height: 1.4;
+}
+
 /* ---------- Sentence pitch (add-on) ---------- */
 /* Change the look here: numbers are in units of the sentence's font size. */
 .sp {
@@ -244,3 +266,52 @@ i {
 .sp .nakadaka  { color: var(--orange); }
 .sp .odaka     { color: var(--green); }
 .sp .kifuku    { color: var(--purple); }
+
+
+
+
+#freq {
+  margin: 8px;
+  margin-top: 40px;
+  left: 0px;
+  right: 0px;
+  display: inline-block;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 4px;
+  font-size: 16.65px;
+}
+
+#freqNumber { font-weight: 500; }
+
+.freq-breakdown {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin: 12px 8px 8px;
+  font-size: 14.8px;
+}
+
+.freq-chip {
+  --c: #5F5E5A;
+  --t: #F1EFE8;
+  display: inline-flex;
+  border: 1px solid var(--c);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.freq-dict { background: var(--c); color: var(--t); padding: 2px 7px; }
+.freq-val  { padding: 2px 7px; font-variant-numeric: tabular-nums; }
+
+/* undo core6k's "span { display: block; margin-bottom: -17px }" inside the frequency block */
+#freq span, .freq-breakdown span { margin: 0; }
+#freq #freqNumber { display: inline; }
+.freq-breakdown .freq-chip { display: inline-flex; }
+
+.freq-chip[data-dict*="JPDB"]      { --c: #6960CA; --t: #EEEDFE; }
+.freq-chip[data-dict*="CEJC"]      { --c: #C2527B; --t: #FBEAF0; }
+.freq-chip[data-dict*="BCCWJ"]     { --c: #BA711B; --t: #FFF6EA; }
+.freq-chip[data-dict*="Novels"]    { --c: #317DC7; --t: #E6F1FB; }
+.freq-chip[data-dict^="jpDicts" i] { --c: #4F8319; --t: #EAF3DE; }

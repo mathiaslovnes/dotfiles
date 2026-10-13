@@ -14,6 +14,8 @@ Sentence-Kana
 Sentence-English
 Sentence-Clozed
 Sentence-Audio
+freq-harmonic-mean
+freq-breakdown
 Notes
 Core-Index
 Optimized-Voc-Index
