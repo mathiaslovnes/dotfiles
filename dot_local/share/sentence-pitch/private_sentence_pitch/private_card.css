@@ -36,11 +36,18 @@
 .sp .rt .mo { flex: 1 1 auto; text-align: center; }
 .sp .rb { line-height: 1.15; white-space: nowrap; }
 .sp .ps { margin-left: var(--phrase-gap); }
-/* the card's word: the box is drawn with a shadow, so it doesn't move the text or contour */
-.sp i   { color: inherit; display: inline-flex; flex-wrap: wrap; vertical-align: bottom;
+/* the card's word: the box is drawn with a shadow, so it doesn't move the text or contour.
+   It starts at the furigana: the room for the contour above is outside the box.
+   The word is never split across lines. */
+.sp i   { color: inherit; display: inline-flex; flex-wrap: nowrap; flex-shrink: 0; vertical-align: bottom;
           font-style: normal; font-weight: normal; white-space: nowrap; border-radius: 5px;
           padding: 0; background: var(--target-bg);
-          box-shadow: 0 0 0 3px var(--target-bg), 0 0 0 5px var(--target-border); }
+          box-shadow: 0 0 0 3px var(--target-bg), 0 0 0 5px var(--target-border);
+          margin-top: calc(var(--row-space) * 1em); }
+.sp i > .u { margin-top: 0; }
+/* a word that starts an accent phrase: the space before the phrase goes outside its box */
+.sp i > .ps:first-child { margin-left: 0; }
+.sp i:has(> .ps:first-child) { margin-left: var(--phrase-gap); }
 
 /* the contour: one line piece per mora, only where Suzuki-kun gave one (h = high, l = low) */
 .sp .mo { position: relative; display: inline-block; }

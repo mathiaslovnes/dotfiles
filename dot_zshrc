@@ -8,7 +8,9 @@ if [[ "$OSTYPE" == darwin* ]]; then
 fi
 export MPLBACKEND='module://matplotlib-backend-kitty'
 export MPLCONFIGDIR="$HOME/.matplotlib"
-export MPLBACKEND_KITTY_SIZING=automatic
+# manual: show figures at their own size (figure.figsize in ~/.matplotlib/matplotlibrc) instead of
+# resizing them to the terminal, so text is the same size as in jukit's saved output history
+export MPLBACKEND_KITTY_SIZING=manual
 
 # -------------------------
 # Oh My Zsh setup

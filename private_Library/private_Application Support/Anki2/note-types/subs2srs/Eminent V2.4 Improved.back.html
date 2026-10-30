@@ -3,31 +3,31 @@
 </script>
 
 <div id="kanjiHover">
-  <div id="word" class="pitch {{text:pitch-accent-category}}">
-    {{#wordDictionaryForm}}
+  <div id="word" class="pitch {{text:pitch-category}}">
+    {{#word}}
     <ruby>
-      <rb>{{edit:wordDictionaryForm}}</rb>
+      <rb>{{edit:word}}</rb>
       <rt style="margin-top: 10px; white-space: nowrap;">{{reading}}</rt> <!-- Adjust margin-top as needed -->
     </ruby>
-    {{/wordDictionaryForm}}
+    {{/word}}
   </div>
 </div>
    
-{{#pitchAccent}}
+{{#pitch-graph}}
   <div id="pitchGraph"></div>
-  {{pitchAccent}}
-{{/pitchAccent}}
+  {{pitch-graph}}
+{{/pitch-graph}}
   
-{{#manualPitchAccent}}
+{{#pitch-manual}}
   <div style="margin-top: -40px;"></div>
-{{/manualPitchAccent}}
+{{/pitch-manual}}
   
   
-{{#word-classification}}
+{{#word-class}}
   <div style="margin-top: 17px;"></div>
-  {{word-classification}}
+  {{word-class}}
   <div style="margin-bottom: 17px;"></div>
-{{/word-classification}}
+{{/word-class}}
 
 <div id="definition">
   <div style="margin-bottom: 0px;"></div>
@@ -35,26 +35,24 @@
   <div style="margin-top: px;"></div>
 </div>
 
-{{#llm-definition}}
-<details id="llmDefinition">
-  <summary>解説</summary>
+<details id="llmDefinition" class="{{#explanation}}has-exp{{/explanation}} {{#contrast}}has-con{{/contrast}}">
+  <summary>{{#explanation}}<span class="t t-exp">解説</span>{{#contrast}}<span class="t-sep">/</span>{{/contrast}}{{/explanation}}{{#contrast}}<span class="t t-con">使い分け</span>{{/contrast}}</summary>
   <div class="llm-body">
-    {{#llm-definition-audio}}<span class="llm-audio">{{llm-definition-audio}}</span>{{/llm-definition-audio}}
-    <div class="llm-text">{{llm-definition}}</div>
+    {{#explanation}}
+    <div class="llm-exp">
+      {{#explanation-audio}}<span class="llm-audio">{{explanation-audio}}</span>{{/explanation-audio}}
+      <div class="llm-text">{{explanation}}</div>
+    </div>
+    {{/explanation}}
+    {{#contrast}}<div class="llm-contrast">{{contrast}}</div>{{/contrast}}
   </div>
 </details>
-{{/llm-definition}}
 
 {{^picture}}
 <!-- This only shows if there is NO picture -->
 <div class="audio-buttons-no-picture">
     <div class="audio-divider-no-picture"></div>
-    <span class="audio wordAudio-no-picture">
-        {{wordAudio}}
-    </span>
-    <span class="audio sentenceAudio-no-picture" style="display:none">
-        {{sentenceAudio}}
-    </span>
+    <span class="audio-pill">{{#word-audio}}<span class="audio wordAudio-no-picture"><span class="audio-lbl">語</span>{{word-audio}}</span>{{/word-audio}}{{#sentence-audio}}<span class="audio sentenceAudio-no-picture"><span class="audio-lbl">文</span>{{sentence-audio}}</span>{{/sentence-audio}}</span>
     <div class="audio-divider-no-picture"></div>
 </div>
 {{/picture}}
@@ -62,8 +60,8 @@
 {{#picture}}
   <div class="crop-container">
     <div class="audio-buttons">
-      <span class="audio wordAudio">{{wordAudio}}</span>
-      <span class="audio sentenceAudio">{{sentenceAudio}}</span>
+      <span class="audio wordAudio">{{word-audio}}</span>
+      <span class="audio sentenceAudio">{{sentence-audio}}</span>
     </div>
     {{picture}}
   </div>
@@ -72,11 +70,12 @@
 <div id="sentence">
      {{#sentence-pitch}}{{sentence-pitch}}{{/sentence-pitch}}{{^sentence-pitch}}{{edit:sentence}}{{/sentence-pitch}}
 </div>
+{{#sentence-translation}}<div id="sentenceTranslation">{{sentence-translation}}</div>{{/sentence-translation}}
 
 <script>
 (function () {
   var el = document.getElementById("sentence");
-  var word = `{{text:wordAsWritten}}`.trim() || `{{text:wordDictionaryForm}}`.trim();
+  var word = `{{text:word-as-written}}`.trim() || `{{text:word}}`.trim();
   if (!el || !word || el.querySelector("i")) return;
   for (var n = word.length; n >= 1; n--) {
     var t = word.slice(0, n);
@@ -88,11 +87,15 @@
 })();
 </script>
 
-{{#freq-harmonic-mean}}
+{{#freq}}
   <div id="freq">
-    freq <span id="freqNumber">{{freq-harmonic-mean}}</span>
+    <span class="freq-ico">頻</span><span id="freqNumber">{{freq}}</span>
   </div>
-{{/freq-harmonic-mean}}
+  <script>(function () {
+    var e = document.getElementById("freqNumber");
+    if (e && /^\s*\d+\s*$/.test(e.textContent)) e.textContent = parseInt(e.textContent, 10).toLocaleString("en-US");
+  })();</script>
+{{/freq}}
 {{#freq-breakdown}}
   <div class="freq-breakdown">{{freq-breakdown}}</div>
 {{/freq-breakdown}}
@@ -125,7 +128,15 @@ window._cardKey = function (k) {
 (function () {
   if (/previewer|card layout/i.test(document.title)) return;
   var b = document.querySelector('.wordAudio .replay-button, .wordAudio-no-picture .replay-button');
-  if (b) b.click();
+  if (!b) return;
+  var cls = document.documentElement.className + " " + document.body.className;
+  var phone = /\b(mobile|android|iphone|ipad)\b/.test(cls) || /Android|iPhone|iPad/.test(navigator.userAgent);
+  if (!phone) { b.click(); return; }
+  // AnkiMobile: starting audio while the card is still being drawn holds the card for ~0.5 s,
+  // so click once it is on screen (and only if this card is still the one showing)
+  requestAnimationFrame(function () { requestAnimationFrame(function () {
+    setTimeout(function () { if (document.contains(b)) b.click(); }, 30);
+  }); });
 })();
 </script>
 

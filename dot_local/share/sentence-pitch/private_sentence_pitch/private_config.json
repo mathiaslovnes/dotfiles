@@ -12,10 +12,10 @@
             "enabled": true,
             "sentence_field": "sentence",
             "furigana": false,
-            "written_field": "wordAsWritten",
-            "word_field": "wordDictionaryForm",
+            "written_field": "word-as-written",
+            "word_field": "word",
             "reading_field": "reading",
-            "category_field": "pitch-accent-category",
+            "category_field": "pitch-category",
             "pitch_field": "sentence-pitch",
             "word_mark": "i"
         },
@@ -35,9 +35,9 @@
     "vocab": [
         {
             "note_type": "subs2srs",
-            "word_field": "wordDictionaryForm",
+            "word_field": "word",
             "reading_field": "reading",
-            "category_field": "pitch-accent-category"
+            "category_field": "pitch-category"
         },
         {
             "note_type": "core6k",
@@ -45,5 +45,6 @@
             "reading_field": "Vocabulary-Kana",
             "category_field": "pitch-accent-category"
         }
-    ]
+    ],
+    "shortcut": "Ctrl+Shift+R"
 }

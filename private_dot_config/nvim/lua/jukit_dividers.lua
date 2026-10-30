@@ -16,13 +16,6 @@ for _, sign_name in ipairs(jukit_signs) do
   })
 end
 -- Queries
-local query_divider = vim.treesitter.query.parse(
-  'python',
-  [[
-  (comment) @divider
-]]
-)
-
 local query_jukit = vim.treesitter.query.parse(
   'python',
   [[
@@ -36,18 +29,12 @@ local function update_dividers(buf)
   vim.api.nvim_buf_clear_namespace(buf, ns_divider, 0, -1)
   local win_width = vim.api.nvim_win_get_width(0) - 5
   local divider = string.rep('━', math.max(10, win_width))
-  local ok, parser = pcall(vim.treesitter.get_parser, buf, 'python')
-  if not ok then
-    return
-  end
-
-  local tree = parser:parse()[1]
-  for _, node in query_divider:iter_captures(tree:root(), buf, 0, -1) do
-    local start_row = select(1, node:range())
-    local text = vim.treesitter.get_node_text(node, buf)
+  -- Scan the current lines instead of a treesitter tree, which can still hold
+  -- the old positions right after the file is reloaded from disk
+  for row, line in ipairs(vim.api.nvim_buf_get_lines(buf, 0, -1, false)) do
     -- Match both jukit dialects: `#|%%--%%|` (new cells) and `# |%%--%%|` (jupytext-converted)
-    if text and text:match '^#%s*|' then
-      vim.api.nvim_buf_set_extmark(buf, ns_divider, start_row, 0, {
+    if line:match '^#%s*|%%%%%-%-%%%%|' then
+      vim.api.nvim_buf_set_extmark(buf, ns_divider, row - 1, 0, {
         virt_text = { { divider, 'PyworksDivider' } },
         virt_text_pos = 'overlay',
         priority = 10000,
@@ -113,8 +100,8 @@ end
 -- cells until a manual `:e`, which reloads with treesitter off and jukit's syntax
 -- intact. Reproduce that reload automatically, but only when we detect the broken
 -- state (treesitter highlighter active on a jukit buffer). A buffer-local guard
--- and the state check both prevent it from looping. Dividers use the treesitter
--- *parser* (not the highlighter), so they are unaffected.
+-- and the state check both prevent it from looping. Dividers scan the buffer
+-- lines (not treesitter), so they are unaffected.
 vim.api.nvim_create_autocmd('FileType', {
   pattern = { 'python' },
   callback = function(args)

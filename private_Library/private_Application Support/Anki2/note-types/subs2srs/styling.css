@@ -5,6 +5,12 @@
 @font-face { font-family: TakaoPMincho; src: url('_TakaoPMincho.ttf'); }
 
 @font-face {
+  font-family: quotes;
+  src: local('Times New Roman'), local('TimesNewRomanPSMT');
+  unicode-range: U+2018-201F, U+2032-2033;
+}
+
+@font-face {
   font-family: myfont;
   src: url('_BIZ-UDMinchoM.ttc');
   unicode-range: U+3000-30FF, U+FF00-FFEF, U+4E00-9FAF;
@@ -52,6 +58,10 @@ body, body.nightMode {
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 }
+
+/* curly quotes ’ “ ” from Times on the Mac only: BIZ UDMincho draws them full width.
+   (Anki desktop marks the card isMac; on the iPhone the rule would take over all English text) */
+body.isMac, .mac body, body.mac { font-family: quotes, myfont, myfallback, BIZ UDMincho; }
 
 
 
@@ -416,11 +426,18 @@ i {
 .sp .rt .mo { flex: 1 1 auto; text-align: center; }
 .sp .rb { line-height: 1.15; white-space: nowrap; }
 .sp .ps { margin-left: var(--phrase-gap); }
-/* the card's word: the box is drawn with a shadow, so it doesn't move the text or contour */
-.sp i   { color: inherit; display: inline-flex; flex-wrap: wrap; vertical-align: bottom;
+/* the card's word: the box is drawn with a shadow, so it doesn't move the text or contour.
+   It starts at the furigana: the room for the contour above is outside the box.
+   The word is never split across lines. */
+.sp i   { color: inherit; display: inline-flex; flex-wrap: nowrap; flex-shrink: 0; vertical-align: bottom;
           font-style: normal; font-weight: normal; white-space: nowrap; border-radius: 5px;
           padding: 0; background: var(--target-bg);
-          box-shadow: 0 0 0 3px var(--target-bg), 0 0 0 5px var(--target-border); }
+          box-shadow: 0 0 0 3px var(--target-bg), 0 0 0 5px var(--target-border);
+          margin-top: calc(var(--row-space) * 1em); }
+.sp i > .u { margin-top: 0; }
+/* a word that starts an accent phrase: the space before the phrase goes outside its box */
+.sp i > .ps:first-child { margin-left: 0; }
+.sp i:has(> .ps:first-child) { margin-left: var(--phrase-gap); }
 
 /* the contour: one line piece per mora, only where Suzuki-kun gave one (h = high, l = low) */
 .sp .mo { position: relative; display: inline-block; }
@@ -460,4 +477,98 @@ i {
 /* changes the cursor to look like a hand when you hover a kanji with kanjihover enabled */
 .kanjiHoverTarget {
   cursor: pointer;
+}
+#llmDefinition summary:focus, #llmDefinition summary:focus-visible { outline: none; }
+
+
+/* contrast with near-synonyms (key c), shown under the explanation */
+#llmDefinition .llm-contrast {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.9em;
+  line-height: 1.8;
+  color: #cfd6de;
+}
+#llmDefinition .llm-contrast b { color: #8ab4f8; font-weight: 600; }
+
+#llmDefinition .llm-contrast { line-height: 2.2; }
+
+
+
+/* 解説 panel: explanation (g) and contrast (c) shown separately or together */
+#llmDefinition:not(.has-exp):not(.has-con) { display: none; }
+#llmDefinition .llm-body { display: block; }
+#llmDefinition .llm-exp { display: flex; align-items: flex-start; gap: 12px; }
+#llmDefinition.hide-exp .llm-exp,
+#llmDefinition.hide-con .llm-contrast { display: none; }
+#llmDefinition .llm-exp:has(.llm-audio) + .llm-contrast { margin-left: 38px; }
+#llmDefinition .llm-contrast:first-child,
+#llmDefinition.hide-exp .llm-contrast { margin: 0; padding-top: 0; border-top: none; }
+
+
+/* 解説 v2: g/c indicators, × per contrast line */
+
+/* one contrast per line; × in front of each removes it (desktop review only) */
+#llmDefinition .llm-cl { margin: 0; }
+#llmDefinition .llm-cl:has(.llm-cl-x) { padding-left: 1.4em; text-indent: -1.4em; }
+#llmDefinition .llm-cl-x {
+  display: inline-block; width: 1.4em; margin: 0; text-indent: 0;
+  color: #6f7885; opacity: 0.5; cursor: pointer; user-select: none;
+}
+#llmDefinition .llm-cl:hover .llm-cl-x { opacity: 0.9; }
+#llmDefinition .llm-cl-x:hover { color: #f28b82; opacity: 1; }
+
+/* 解説 v3: contrast alignment */
+#llmDefinition .llm-exp:has(.llm-audio) + .llm-contrast:has(.llm-cl-x) { margin-left: calc(38px - 1.4em); }
+#llmDefinition.hide-exp .llm-exp:has(.llm-audio) + .llm-contrast { margin-left: 0; }
+
+/* 解説 v4: part titles */
+/* 解説 / 使い分け in the pill: a title is bright while its part is showing, dim while hidden */
+#llmDefinition summary .t, #llmDefinition summary .t-sep { display: inline; margin: 0; transition: color 0.15s; }
+#llmDefinition summary .t-sep { color: #5d6570; }
+#llmDefinition[open] summary .t { color: #5d6570; }
+#llmDefinition[open]:not(.hide-exp) .t-exp,
+#llmDefinition[open]:not(.hide-con) .t-con { color: #e6e6e6; }
+#llmDefinition:not(.has-con) .t-sep,
+#llmDefinition:not(.has-con) .t-con { display: none; }
+
+/* 解説 v5: contrast furigana */
+/* furigana sits just above its kanji: it no longer runs into the kanji or spreads them apart */
+
+
+
+/* English translation of the sentence (from Core6k), under the sentence on the back */
+#sentenceTranslation { max-width: 640px; margin: -0.4rem auto 1.2rem; font-size: 1rem; line-height: 1.5; color: #9aa4b2; }
+
+/* audio pill + 頻 badge */
+/* cards without a picture: one pill (語 = word, 文 = sentence) joined to the lines, as wide as a picture */
+.audio-buttons-no-picture { max-width: 700px; margin: 0 auto; }
+.audio-buttons-no-picture .audio-divider-no-picture { flex: 1; width: auto; height: 1.5px; }
+.audio-pill { display: flex; border: 1.5px solid #fff; border-radius: 6px; }
+.audio-pill:not(:has(.audio)) { display: none; }
+.audio-pill .audio { display: flex; align-items: center; gap: 3px; margin: 0; padding: 2px 6px 2px 10px; border: none; width: auto; }
+.audio-pill .audio + .audio { border-left: 1px solid rgba(255, 255, 255, 0.45); }
+.audio-pill .audio-lbl { font-size: 15px; color: #b9c0c8; }
+.audio-pill .replay-button svg, .audio-pill .audio-front svg { display: block; width: 30px; height: 30px; transform: none; }
+
+/* frequency badge: 頻 (頻度) in front of the number */
+#freq .freq-ico { margin-right: 6px; color: #c9ced4; }
+
+/* 頻 as tall as the number */
+#freq .freq-ico { font-size: 0.75em; }
+
+/* contrast ×: only on hover */
+#llmDefinition .llm-cl .llm-cl-x { opacity: 0; transition: opacity 0.12s, color 0.12s; }
+#llmDefinition .llm-cl:hover .llm-cl-x { opacity: 0.8; }
+#llmDefinition .llm-cl:hover .llm-cl-x:hover { opacity: 1; color: #f28b82; }
+
+/* contrast furigana v6: <span class="fr" data-r="かいたく">開拓</span>, the reading drawn above
+   the kanji. Replaces <ruby>: iPhone (WebKit) ignored the offsets on <rt> and put the furigana
+   on the kanji's left edge. */
+#llmDefinition .llm-contrast .fr { position: relative; display: inline-block; text-indent: 0; }
+#llmDefinition .llm-contrast .fr::before {
+  content: attr(data-r); position: absolute; left: 50%; bottom: calc(50% + 1.45em);
+  transform: translateX(-50%); font-size: 0.55em; line-height: 1; white-space: nowrap;
+  color: #9aa4b2; font-weight: normal; text-indent: 0;
 }

@@ -116,7 +116,7 @@ shift + alt + ctrl - 7 : yabai -m space --focus 9
 alt - x : yabai -m window --toggle split
 
 # Launch script for mpv/japanese
-cmd + shift - j : ~/scripts/mpv-layout.sh
+ctrl + cmd - m : ~/scripts/mpv-layout.sh
 
 # -- StartingmStopping/Restarting Yabai --
 ctrl + alt - q : yabai --stop-service

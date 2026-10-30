@@ -19,6 +19,9 @@ return {
         stylua = {
           args = { '--column-width', '0' },
         },
+        black = {
+          prepend_args = { '--line-length', '100' },
+        },
       },
       formatters_by_ft = {
         lua = { 'stylua' },

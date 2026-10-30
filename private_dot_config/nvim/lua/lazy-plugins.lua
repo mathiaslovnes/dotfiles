@@ -67,7 +67,7 @@ require('lazy').setup({
   -- ║                    Motion & Editing                        ║
   -- ╚══════════════════════════════════════════════════════════════╝
   require 'plugins.flash',               -- Leap/sneak-style jump-to-char navigation with labels
-  require 'plugins.spider',              -- Smarter w/e/b that stop at subWords and punctuation
+  require 'plugins.spider',              -- Smarter w/e/b that skip insignificant punctuation
   require 'plugins.accelerated-jk',      -- Hold j/k to accelerate vertical cursor movement
   require 'plugins.tabout',              -- Tab out of brackets, quotes, and other pairs
   require 'plugins.dial',                -- Increment/decrement dates, booleans, hex, and more with <C-a>/<C-x>

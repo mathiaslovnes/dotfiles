@@ -24,9 +24,13 @@ from collections import Counter
 from html.parser import HTMLParser
 
 VERSION = 14  # bump to recolor every sentence (14: the card's word inside a compound: 社会|秩序)
-# a fix that only changes some sentences: (version, text those sentences contain).
+# half-width katakana (ﾌﾘｰﾄﾞﾘﾋ) and punctuation: read as full-width, or the analyzer's words
+# can't be matched back to the line (ﾄﾞ is two characters, ド one) and the line goes uncolored
+HALF_WIDTH = re.compile("[\uff61-\uff9f]+")
+# a fix that only changes some sentences: (version, text those sentences contain, or a pattern).
 # Sentences colored before that version and containing the text are recolored.
-FIXES = [(7, "何"), (9, "\n")]
+FIXES = [(7, "何"), (9, "\n"), (15, HALF_WIDTH),
+         (16, "言う"), (16, re.compile("(?<![一-鿿々])要(?![一-鿿々])"))]  # 言う い, 要 かなめ
 DATA_V = max([VERSION] + [v for v, _ in FIXES])
 CATS = ("heiban", "atamadaka", "nakadaka", "odaka", "kifuku")
 
@@ -108,11 +112,15 @@ def split_morae(kana):
 BOLD_ON, BOLD_OFF = "\ue000", "\ue001"
 
 
+def full_width(s):
+    return HALF_WIDTH.sub(lambda m: unicodedata.normalize("NFKC", m.group()), s or "")
+
+
 def parse_sentence(raw, furigana=False, with_bold=False):
     """Field HTML -> (plain lines, text marked with <i> or None[, bold character
     positions per line]). <i> marks the card's word; bold marks names, shown without pitch."""
     m = re.search(r"(?is)<(i|em)\b[^>]*>(.*?)</\1>", raw or "")
-    marked = clean(m.group(2)) if m else None
+    marked = full_width(clean(m.group(2))) if m else None
     raw = re.sub(r"[\r\n]+", "", raw or "")  # line breaks in the HTML source aren't shown
     s = re.sub(r"(?i)<(b|strong)\b[^>]*>", BOLD_ON, raw)
     s = re.sub(r"(?i)</(b|strong)\s*>", BOLD_OFF, s)
@@ -124,6 +132,7 @@ def parse_sentence(raw, furigana=False, with_bold=False):
             marked = re.sub(r" ?([^ \[\]]+)\[[^\]]*\]", r"\1", marked)
     lines, bolds, inside = [], [], False
     for ln in s.split("\n"):
+        ln = full_width(ln)
         text, bold = "", set()
         for c in ln.strip():
             if c in (BOLD_ON, BOLD_OFF):
@@ -154,7 +163,8 @@ def needs_fix(pitch_field, raw_sentence):
     """Colored before a fix that can change this sentence?"""
     m = re.search(r'data-v="(\d+)"', pitch_field or "")
     v = int(m.group(1)) if m else 0
-    return any(v < fv and s in (raw_sentence or "") for fv, s in FIXES)
+    raw = raw_sentence or ""
+    return any(v < fv and (s.search(raw) if hasattr(s, "search") else s in raw) for fv, s in FIXES)
 
 
 # ---------------------------------------------------------------- analyzer
@@ -432,8 +442,21 @@ def name_nodes(nodes, lookup=None):
 def merge_compounds(nodes, lookup):
     """Join words pyopenjtalk split but your dictionaries know as one word, so they're
     colored and phrased as one: compound verbs (討ち + 漏らし) whenever the dictionaries
-    have them, other pairs (ナ + リ, 名詞 + 名詞) only if they also have its pitch."""
-    nodes = list(nodes)
+    have them, other pairs (ナ + リ, 名詞 + 名詞) only if they also have its pitch.
+    Then prefixes (駐 + 輪 = 駐輪), after the nouns are joined (小 + 都市国家 stays),
+    and 的 onto its noun (強制 + 的)."""
+    return _merge(_merge(list(nodes), lookup, False), lookup, True)
+
+
+def _prefix_fits(a, whole, lookup):
+    """A dictionary reading of the joined word starts with the prefix as read here
+    (悪ガキ is わるガキ: not joined when 悪 is read あく)."""
+    kana = exact_reading(to_hira("".join(node_kana(a))))
+    return any(e[0] == whole and first_cat(e[2]) and exact_reading(e[1]).startswith(kana)
+               for e in lookup.yomitan(whole))
+
+
+def _merge(nodes, lookup, prefixes):
     i = 0
     while i + 1 < len(nodes):
         a, b = nodes[i], nodes[i + 1]
@@ -449,9 +472,19 @@ def merge_compounds(nodes, lookup):
                                        pron=a["pron"] + b["pron"], mora_size=a["mora_size"] + b["mora_size"],
                                        pos="副詞" if a["pos"] == "副詞" else a["pos"], merged=True)]
                 continue
-        if (verbs or nouns) and is_content(a) and is_content(b) and node_kana(a) and node_kana(b):
+        if (prefixes and a["pos"] == "名詞" and is_content(a) and node_kana(a)
+                and b["string"] == "的" and b["pos_group1"] == "接尾" and b["read"] == "テキ"):
+            nodes[i:i + 2] = [dict(a, string=a["string"] + "的", orig=a["string"] + "的",  # 強制 + 的
+                                   read=a["read"] + b["read"], pron=a["pron"] + b["pron"],
+                                   mora_size=a["mora_size"] + b["mora_size"], acc=0,
+                                   pos="名詞", pos_group1="形容動詞語幹", merged=True)]
+            i += 1
+            continue
+        prefix = (prefixes and a["pos"] == "接頭詞" and b["pos"] == "名詞" and is_content(b)
+                  and a["mora_size"] > 0)
+        if (prefix or ((verbs or nouns) and is_content(a) and is_content(b))) and node_kana(a) and node_kana(b):
             whole = a["string"] + (b["orig"] if b["orig"] not in ("", "*") else b["string"])
-            if lookup.has_entry(whole, with_pitch=not verbs):
+            if lookup.has_entry(whole, with_pitch=not verbs) and (not prefix or _prefix_fits(a, whole, lookup)):
                 nodes[i:i + 2] = [dict(b, string=a["string"] + b["string"], orig=whole,
                                        read=a["read"] + b["read"], pron=a["pron"] + b["pron"],
                                        mora_size=a["mora_size"] + b["mora_size"],
@@ -469,7 +502,16 @@ def fix_nani(nodes):
     何で, 何だ, 何て), before counters (何人, 何回) and in 何にも/何にせよ; なに everywhere
     else (何を, 何が, 何か, 何も, 何に使う, 何考えて, 何？). Words starting with 何
     (何より, 何一つ, 何やら, 何で, 何らか): pyopenjtalk's reading, which gets these right."""
-    out = list(nodes)
+    out = []
+    for i, n in enumerate(nodes):  # ことに対処: 事 + に, not the adverb 殊に (which comes
+        nxt = nodes[i + 1] if i + 1 < len(nodes) else None  # before an adjective or verb)
+        if n["string"] == "ことに" and n["pos"] == "副詞" and nxt is not None and nxt["pos"] == "名詞":
+            out += [dict(n, string="こと", orig="こと", pos="名詞", pos_group1="非自立", read="コト",
+                         pron="コト", acc=2, mora_size=2),
+                    dict(n, string="に", orig="に", pos="助詞", pos_group1="格助詞", read="ニ",
+                         pron="ニ", acc=0, mora_size=1, chain_flag=1)]
+        else:
+            out.append(n)
     for i, n in enumerate(out):
         if not n["string"].startswith("何") or n.get("merged"):
             continue
@@ -489,6 +531,42 @@ def fix_nani(nodes):
             nan = bool(p) and p[0] in to_hira("".join(NANI_N))
         kana = "ナン" if nan else "ナニ"
         out[i] = dict(n, read=kana, pron=kana, forced=True)
+    return fix_kaname(fix_iu(out))
+
+
+def fix_iu(nodes):
+    """言う: Suzuki-kun (and now and then pyopenjtalk: ムチャ言うな) writes it ゆう, as it's
+    said; the furigana show い, as written, in every form (言う, 言った, 言わない)."""
+    out = []
+    for n in nodes:
+        r = n.get("read") or ""
+        if n["pos"] == "動詞" and n["orig"] == "言う" and n["string"].startswith("言") and not n.get("merged") \
+                and r[:1] in ("イ", "ユ"):
+            r = "イ" + r[1:]
+            n = dict(n, read=r, pron=r, forced=True)
+        out.append(n)
+    return out
+
+
+NEED_AFTER = ("ない", "無い", "ねえ", "ねー", "ある", "有る", "あり", "なし", "無し")
+
+
+def fix_kaname(nodes):
+    """要 on its own is かなめ (これが今回の要, チームの要だ, 要となる人物); pyopenjtalk reads
+    it よう everywhere. Stays よう in the "need" sense (説明の要はない, 急ぐ要がある) and as
+    a prefix (要確認), and 要は / 要する / 必要 are other words. spell: sent to Suzuki-kun
+    as かなめ, so the contour is the one for かなめ."""
+    out = list(nodes)
+    for i, n in enumerate(out):
+        if n["string"] != "要" or n["pos"] != "名詞" or n.get("merged"):
+            continue
+        prev = out[i - 1] if i else None
+        if prev is not None and prev["pos"] in ("動詞", "助動詞", "形容詞"):
+            continue  # 急ぐ要がある
+        rest = [m["string"] for m in out[i + 1:i + 3]]
+        if rest[:1] and rest[0] in ("は", "が", "も") and len(rest) > 1 and rest[1].startswith(NEED_AFTER):
+            continue
+        out[i] = dict(n, read="カナメ", pron="カナメ", acc=0, mora_size=3, forced=True, spell=True)
     return out
 
 
@@ -572,6 +650,15 @@ def align(text, nodes):
         spans.append(found)
         if found:
             pos = found[1]
+        elif n["pos_group1"] == "数":  # 1589 read as 千五百八十九: step over the digits
+            k = pos  # and over a space before them (50年も 100年も)
+            while k < len(text) and not norm[k].strip():
+                k += 1
+            if k < len(text) and norm[k].isdigit():
+                pos = k
+            while pos < len(text) and (norm[pos].isdigit() or (norm[pos] in ",." and pos + 1 < len(text)
+                                                                  and norm[pos + 1].isdigit())):
+                pos += 1
     return spans
 
 
@@ -708,6 +795,7 @@ def ojad_key(line):
     would be read as one run: an opening quote becomes a pause (、), a closing one goes.
     Spaces and dashes are pauses in subtitles; Suzuki-kun drops spaces and reads dashes as ー,
     which glues the words around them into one (際 利益 -> さいりえき): both become 、."""
+    line = "".join(c for c in line if unicodedata.category(c) != "Cf")
     line = re.sub(DASHES, " ", line)
     line = re.sub(r"(?<=[^\s、。！？!?…])[\s\u3000\xa0]+(?=\S)", "、", line.strip())
     out, straight = [], 0
@@ -747,7 +835,9 @@ def ojad_rows(lines, min_interval=10.0, readings=None):
     for the whole request: then ask for each half separately, down to single lines."""
     readings = readings or [None] * len(lines)
     rows = ojad_fetch(lines, min_interval)
-    if rows or len(lines) == 1:
+    if len(lines) == 1:
+        return [rows]
+    if rows:
         return assign_rows(lines, rows, readings)
     half = len(lines) // 2
     return (ojad_rows(lines[:half], min_interval, readings[:half])
@@ -778,6 +868,16 @@ def rows_match(rows, nodes):
     if not oj or not ours:
         return True
     return difflib.SequenceMatcher(None, oj, ours, autojunk=False).ratio() >= 0.5
+
+
+def covers(key, packed_or_rows):
+    """Do the rows cover the whole line? (Suzuki-kun's echo of the text, letters and digits;
+    ー may be dropped, so one character of slack.)"""
+    rows = packed_or_rows if packed_or_rows and isinstance(packed_or_rows[0], dict) and "items" in packed_or_rows[0] \
+        else unpack_rows(packed_or_rows or [])
+    got = _sig("".join(r["text"] for r in rows)).replace("ー", "")
+    want = _sig(key).replace("ー", "")
+    return len(got) >= len(want) - 1
 
 
 def _sig(s):
@@ -995,6 +1095,21 @@ def is_katakana(s):
     return bool(s) and all("ァ" <= c <= "ヺ" or c == "ー" for c in s)
 
 
+# time, frequency and degree words that stand as adverbs before a noun (毎朝|ジョギング, 一番|上)
+# rather than starting a compound with it (時間経過, 休日返上, 一斉自殺 are compounds)
+ADVERB_NOUNS = {"今日", "昨日", "明日", "明後日", "一昨日", "おととい", "今", "今度", "最近", "さっき",
+                "先日", "先週", "今週", "来週", "先月", "今月", "来月", "去年", "昨年", "今年", "来年",
+                "今朝", "今夜", "今晩", "昨夜", "昨晩", "一番", "いちばん", "一切", "全部", "全て",
+                "すべて", "年中", "いつも", "今回", "前回", "次回", "翌日", "前日", "当日"}
+
+
+def adverbial(a, b):
+    """A time or frequency word used as an adverb before a noun (毎朝|ジョギングをする,
+    今日|学校で): two words, each with its own accent, not a compound."""
+    return (a["pos"] == "名詞" and (a["string"] in ADVERB_NOUNS or a["string"].startswith("毎"))
+            and b["pos"] == "名詞" and b["pos_group1"] not in ("接尾", "数", "非自立"))
+
+
 def dictionary_accents(items, nodes, cats, lookup, bold, stats):
     """Suzuki-kun guesses each word's accent from context and sometimes gets a plain word
     wrong (一蓮托生 as いち|れんたくしょう, すべて flattened before 吹き飛ぶ). For a noun or
@@ -1012,12 +1127,20 @@ def dictionary_accents(items, nodes, cats, lookup, bold, stats):
             continue
         prev = nodes[i - 1] if i else None
         nxt = nodes[i + 1] if i + 1 < len(nodes) else None
-        if prev is not None and (prev["pos"] in ("名詞", "接頭詞") and prev["mora_size"] > 0):
+        if (prev is not None and prev["pos"] in ("名詞", "接頭詞") and prev["mora_size"] > 0
+                and not adverbial(prev, n)):
             continue  # compound (運命共同体) or prefix: Suzuki-kun knows better
         adverb = n["pos"] == "副詞" or n["pos_group1"] == "副詞可能"
-        if nxt is not None and nxt["mora_size"] > 0 and (
-                nxt["pos"] in ("名詞", "形容詞") or (nxt["pos"] == "動詞" and not adverb)):
-            continue  # noun + noun / adjective / verb is often one word (かっこ悪い, 頼りなげ)
+        # 奉仕する, 料理した: the noun keeps its accent and する follows it down (a flat noun
+        # + する is left to Suzuki-kun: しま'す, した have accents of their own)
+        suru = (n["pos_group1"] == "サ変接続" and nxt is not None and nxt["pos"] == "動詞"
+                and nxt["orig"] == "する" and cat in ("atamadaka", "nakadaka", "odaka"))
+        nxt_starts = i + 1 in by and items[by[i + 1][0]].get("start")
+        if (not suru and nxt is not None and nxt["mora_size"] > 0 and not nxt_starts
+                and nxt["pos_group1"] != "代名詞" and not adverbial(n, nxt) and (
+                nxt["pos"] in ("名詞", "形容詞") or (nxt["pos"] == "動詞" and not adverb))):
+            continue  # noun + noun / adjective / verb is often one word (かっこ悪い, 頼りなげ);
+            # not when Suzuki-kun starts a new phrase there, or before これ / それ (件|これ)
         nw = next((x for x in nodes[i + 1:] if x["pos_group1"] != "空白"), None)
         if n["pos_group1"] == "副詞可能" and nw is not None and (
                 nw["pos"] in ("形容詞", "副詞") or nw["pos_group1"] == "形容動詞語幹"):
@@ -1072,9 +1195,12 @@ def dictionary_accents(items, nodes, cats, lookup, bold, stats):
         want = levels(size, acc) if initial else [acc == 0 or k < acc for k in range(size)]
         follow = []  # particles after it, up to the next word
         j = i + 1
-        while j < len(nodes) and nodes[j]["pos"] in ("助詞", "助動詞") and j in by:
-            follow += by[j]
+        while j < len(nodes) and j in by and (nodes[j]["pos"] in ("助詞", "助動詞") or (suru and (
+                j == i + 1 or (nodes[j]["pos"] == "動詞" and nodes[j]["pos_group1"] in ("非自立", "接尾"))))):
+            follow += by[j]  # (and する with its endings: させる, された, している, しておいた)
             j += 1
+            if suru and nodes[j - 1]["pos"] == "助詞" and nodes[j - 1]["string"] not in ("て", "で"):
+                break  # しなければ|ならない, すべきでは|ないか: what comes next is its own phrase
         have = [items[k]["h"] for k in ks]
         if have == want and all(items[k]["h"] == (acc == 0) for k in follow[:1]):
             continue  # Suzuki-kun already says so
@@ -1164,6 +1290,10 @@ def word_categories(nodes, lookup, target_nodes, target_word, target_cat, stats,
             if c != reading:  # color it as read in the furigana (or as on your card)
                 reading = c
                 stats["colored as Suzuki-kun read it"] = stats.get("colored as Suzuki-kun read it", 0) + 1
+        if len(word) > 1 and word.endswith("的") and (reading or "").endswith("てき"):
+            cats[i] = "heiban"  # a word made with 的 is flat (強制的, 経済的, 比較的)
+            stats["〜的: flat"] = stats.get("〜的: flat", 0) + 1
+            continue
         cat, why = lookup.category(word, reading, n["pos"])
         deps.append([word, reading, n["pos"], cat])
         if (not cat and n["pos"] == "動詞" and n["ctype"].startswith("一段")
@@ -1186,7 +1316,7 @@ def word_categories(nodes, lookup, target_nodes, target_word, target_cat, stats,
     return cats
 
 
-def find_target(lines, spans_per_line, nodes_per_line, marked, written, word):
+def find_target(lines, spans_per_line, nodes_per_line, marked, written, word, readings=()):
     """-> (line index, set of node indexes) of the card's word in the sentence."""
     for t in (marked, written, word):
         if not t:
@@ -1203,6 +1333,22 @@ def find_target(lines, spans_per_line, nodes_per_line, marked, written, word):
         hit = {i for i, n in enumerate(nodes) if is_content(n) and base_form(n)[0] == word}
         if hit:
             return li, {min(hit)}
+    # spelled otherwise (締め括り on the card, 締めくくり in the sentence): the words that read
+    # as the card does, sharing a kanji with it (any, for a card in kana)
+    kanji = {c for c in (written or word or "") if not is_kana_char(c)}
+    for r in readings:
+        for li, nodes in enumerate(nodes_per_line):
+            spans = spans_per_line[li]
+            for i in range(len(nodes)):
+                acc, j = "", i
+                while j < len(nodes) and len(acc) < len(r):
+                    acc += to_hira(nodes[j].get("read") or "")
+                    j += 1
+                if acc != r or not all(spans[k] for k in (i, j - 1)):
+                    continue
+                surface = lines[li][spans[i][0]:spans[j - 1][1]]
+                if not kanji or kanji & set(surface):
+                    return li, set(range(i, j))
     return None, set()
 
 
@@ -1240,7 +1386,12 @@ def fit(segs, morae):
         if not kanji:  # ー matches the vowel Suzuki-kun reads for it (ほーう: ほ う う)
             if mi < len(ks) and (ks[mi] == to_hira(s) or (s == "ー" and ks[mi] in "あいうえおー")):
                 rest = go(si + 1, mi + 1)
-                return None if rest is None else [[mi]] + rest
+                if rest is not None:
+                    return [[mi]] + rest
+            if (len(s) == 2 and s[1] in _SMALL and _VOWEL.get(s[0]) == _SMALL[s[1]] and mi + 1 < len(ks)
+                    and ks[mi] == to_hira(s[0]) and ks[mi + 1] in ("ー", to_hira(s[1]), _VOWEL_KANA[_SMALL[s[1]]])):
+                rest = go(si + 1, mi + 2)  # あぁ that Suzuki-kun was sent as あー: two morae
+                return None if rest is None else [[mi, mi + 1]] + rest
             return None
         for end in range(mi + 1, len(ks) + 1):
             rest = go(si + 1, end)
@@ -1304,7 +1455,10 @@ def render_piece(text, morae, color=None, dlen=0):
                 flush()
             if not run:
                 run_first = m
-            run.append(mo(m, s, col))
+            if len(idx) == 2:  # あ|ぁ, each with its own piece of contour
+                run.append(mo(m, s[0], col) + mo(morae[idx[1]], s[1], col))
+            else:
+                run.append(mo(m, s, col))
     flush()
     return out
 
@@ -1478,6 +1632,68 @@ def reading_splices(line, nodes, rows, lookup, bold=(), card_fix=None):
     return out
 
 
+_VOWEL = {}
+for _v, _ks in (("a", "あかさたなはまやらわがざだばぱゃぁ"), ("i", "いきしちにひみりぎじぢびぴぃ"),
+                ("u", "うくすつぬふむゆるぐずづぶぷゅぅゔ"), ("e", "えけせてねへめれげぜでべぺぇ"),
+                ("o", "おこそとのほもよろをごぞどぼぽょぉ")):
+    for _k in _ks:
+        _VOWEL[_k] = _v
+        _VOWEL[chr(ord(_k) + 0x60)] = _v  # katakana
+_SMALL = {k: v for k, v in _VOWEL.items() if k in "ぁぃぅぇぉァィゥェォ"}
+_VOWEL_KANA = {"a": "あ", "i": "い", "u": "う", "e": "え", "o": "お"}
+
+
+def long_vowels(text):
+    """あぁん -> あーん, ねぇ -> ねー: a small vowel that only draws out the sound before it,
+    written ー (Suzuki-kun gives up on a whole line over あぁん)."""
+    out = []
+    for c in text:
+        if c in _SMALL and out and _VOWEL.get(out[-1]) == _SMALL[c]:
+            out.append("ー")
+        else:
+            out.append(c)
+    return "".join(out)
+
+
+def nani_splices(line, nodes, lookup):
+    """[(start, end, kana)]: 何 as fix_nani reads it (なに, where Suzuki-kun says なん)."""
+    nodes = fix_nani(merge_compounds(nodes, lookup))
+    spans = align(line, nodes)
+    return [(sp[0], sp[1], to_hira(n["read"])) for n, sp in zip(nodes, spans)
+            if sp and n.get("forced") and n["string"] == "何" and is_kana(to_hira(n["read"] or ""))]
+
+
+def rule_splices(line, nodes, lookup, bold=()):
+    """[(start, end, kana)]: words a rule reads otherwise than Suzuki-kun would (要 as
+    かなめ), sent to it in kana from the first request so the contour fits the reading."""
+    nodes = fix_nani(merge_compounds(nodes, lookup))
+    spans = align(line, nodes)
+    return [(sp[0], sp[1], to_hira(n["read"])) for n, sp in zip(nodes, spans)
+            if sp and n.get("spell") and not any(k in bold for k in range(*sp))]
+
+
+def name_splices(line, nodes, lookup, bold=()):
+    """[(start, end, kana)]: the names in a line (in bold, or before ちゃん / くん), in
+    pyopenjtalk's kana, for a Suzuki-kun that can't read them (縢, 阿良々木: 々 is left out,
+    as in pyopenjtalk's reading)."""
+    nodes = fix_nani(merge_compounds(nodes, lookup))
+    spans = align(line, nodes)
+    names = name_nodes(nodes, lookup) | {i for i, sp in enumerate(spans) if sp and any(k in bold for k in range(*sp))}
+    groups = []  # runs of name words next to each other: [start, end, kana]
+    for i in sorted(names):
+        sp = spans[i]
+        if not sp:
+            continue
+        kana = to_hira(nodes[i].get("read") or "")
+        kana = kana if nodes[i]["mora_size"] > 0 and is_kana(kana) else ""
+        if groups and groups[-1][1] == sp[0]:
+            groups[-1][1] = sp[1]
+            groups[-1][2] += kana
+        else:
+            groups.append([sp[0], sp[1], kana])
+    return [(a, b, k) for a, b, k in groups if k and not is_kana(line[a:b])]
+
+
 def card_reading_fix(job, lines, analyses, lookup):
     """{line index: (start, end, reading)}: the card's word, where the sentence has it as
     written on the card (巻), is read as its reading field says (かん, not まき)."""
@@ -1493,10 +1709,13 @@ def card_reading_fix(job, lines, analyses, lookup):
         if a < 0 or not isinstance(nodes, list):
             continue
         b = a + len(word)
-        nodes = fix_nani(merge_compounds(nodes, lookup))
-        spans = align(line, nodes)
-        cover = [i for i, sp in enumerate(spans) if sp and a <= sp[0] and sp[1] <= b]
-        if not cover or spans[cover[0]][0] != a or spans[cover[-1]][1] != b:
+        cover = None
+        for nodes in (fix_nani(merge_compounds(nodes, lookup)), fix_nani(list(nodes))):
+            spans = align(line, nodes)  # (unjoined: the card's word in a joined compound, 頭 in お頭)
+            cover = [i for i, sp in enumerate(spans) if sp and a <= sp[0] and sp[1] <= b]
+            if cover and spans[cover[0]][0] == a and spans[cover[-1]][1] == b:
+                break
+        else:
             return {}
         have = exact_reading("".join(to_hira(nodes[i].get("read") or "") for i in cover))
         good = [r for r in readings if fit(text_segments(word), [{"kana": m} for m in split_morae(r)])]
@@ -1510,9 +1729,11 @@ def card_reading_fix(job, lines, analyses, lookup):
 
 def ojad_word_reading(rows, line, nodes, lookup, a, b):
     """How Suzuki-kun read the text between a and b."""
-    nodes = fix_nani(merge_compounds(nodes, lookup))
-    spans = align(line, nodes)
-    cover = {i for i, sp in enumerate(spans) if sp and a <= sp[0] and sp[1] <= b}
+    for nodes in (fix_nani(merge_compounds(nodes, lookup)), fix_nani(list(nodes))):
+        spans = align(line, nodes)
+        cover = {i for i, sp in enumerate(spans) if sp and a <= sp[0] and sp[1] <= b}
+        if cover:
+            break
     items = ojad_morae(rows, nodes)
     return exact_reading("".join(to_hira(m["kana"]) for m in items if "kana" in m and m.get("owner") in cover))
 
@@ -1543,9 +1764,13 @@ def render_note(raw_sentence, written, word, target_cat, analyses, lookup, furig
         if isinstance(nodes, dict):  # analyzer error for this line
             stats["analyzer errors"] = stats.get("analyzer errors", 0) + 1
             nodes = []
-        nodes = fix_nani(merge_compounds(nodes, lookup))
+        raw, nodes = nodes, fix_nani(merge_compounds(nodes, lookup))
         if reading_fix and len(nodes_per_line) in reading_fix:
-            nodes = apply_reading_fix(line, nodes, reading_fix[len(nodes_per_line)])
+            fix = reading_fix[len(nodes_per_line)]
+            fixed = apply_reading_fix(line, nodes, fix)
+            if fixed is nodes:  # the card's word is in a joined compound (頭 in お頭): fix it, then join
+                fixed = fix_nani(merge_compounds(apply_reading_fix(line, list(raw), fix), lookup))
+            nodes = fixed
             stats["read as on the card"] = stats.get("read as on the card", 0) + 1
         nodes_per_line.append(nodes)
         spans_per_line.append(align(line, nodes))
@@ -1553,7 +1778,8 @@ def render_note(raw_sentence, written, word, target_cat, analyses, lookup, furig
             1 for n, sp in zip(nodes, spans_per_line[-1]) if sp is None and n["string"].strip())
 
     target_cat = first_cat(target_cat)
-    t_line, t_nodes = find_target(lines, spans_per_line, nodes_per_line, marked, clean(written), clean(word))
+    t_line, t_nodes = find_target(lines, spans_per_line, nodes_per_line, marked, clean(written), clean(word),
+                                  readings_of(reading))
     stats["target found"] = 1 if t_nodes else 0
 
     out = []
@@ -1622,9 +1848,17 @@ def process_batch(jobs, analyzer, lookup, contour="ojad", ojad_interval=10.0, oj
         flat_fix += [fix.get(li) for li in range(len(lines))]
         k += len(lines)
 
-    def with_reading(ln, f):
-        return ln[:f[0]] + f[2] + ln[f[1]:]
-    sent = [with_reading(ln, f) if f and f[3] else ln for ln, f in zip(flat, flat_fix)]
+    rules = [rule_splices(ln, r, lookup, b) if isinstance(r, list) else [] for ln, r, b in zip(flat, res, bolds)]
+
+    def spliced(x, spl):
+        """Line x with these words in kana, and the rule_splices that don't overlap them."""
+        spl = list(spl)
+        spl += [r for r in rules[x] if not any(r[0] < b and a < r[1] for a, b, _ in spl)]
+        text = flat[x]
+        for a, b, kana in sorted(spl, reverse=True):
+            text = text[:a] + kana + text[b:]
+        return text
+    sent = [spliced(x, [f[:3]] if f and f[3] else []) for x, f in enumerate(flat_fix)]
     per_line = None
     if contour == "ojad" and flat:
         cache = ojad_cache if ojad_cache is not None else {}
@@ -1638,23 +1872,39 @@ def process_batch(jobs, analyzer, lookup, contour="ojad", ojad_interval=10.0, oj
             return k not in nodes_of or rows_match(unpack_rows(packed), nodes_of[k])
 
         empty = set(cache.get("_empty", []))  # lines Suzuki-kun really had nothing for
+        partial = set(cache.get("_partial", []))  # asked alone and still not all of it
 
         def fetch(keys):
             for k in keys:
                 if not has_japanese(k):
                     cache[k] = []  # nothing for Suzuki-kun to read
-                elif k in cache and (not ok(k, cache[k]) or (cache[k] == [] and k not in empty)):
-                    del cache[k]  # belongs to another line, or lost to one: ask again
+                elif k in cache and (not ok(k, cache[k]) or (cache[k] == [] and k not in empty)
+                                     or (cache[k] and k not in partial and not covers(k, cache[k]))):
+                    del cache[k]  # belongs to another line, lost to one, or cut short: ask again
             missing = [k for k in dict.fromkeys(keys) if k not in cache]
             if missing:
                 readings = [to_hira("".join(n.get("read") or "" for n in nodes_of.get(k, []) if n["mora_size"] > 0))
                             for k in missing]
+                short = []
                 for k, rows in zip(missing, ojad_rows(missing, ojad_interval, readings)):
                     packed = pack_rows(rows)
                     cache[k] = packed if ok(k, packed) else []  # still wrong: no contour
                     if not cache[k]:
                         empty.add(k)
+                    elif not covers(k, rows) and len(missing) > 1:
+                        short.append(k)
+                for k in short:  # rows stopped early: the line alone, where every row is its own
+                    rows = ojad_rows([k], ojad_interval)[0]
+                    if rows and ok(k, pack_rows(rows)) and len(_sig("".join(r["text"] for r in rows))) > \
+                            len(_sig("".join(r["text"] for r in unpack_rows(cache[k])))):
+                        cache[k] = pack_rows(rows)
+                    if not covers(k, cache[k]):
+                        partial.add(k)
+                for k in missing:  # asked alone and still short: don't ask again every run
+                    if cache.get(k) and len(missing) == 1 and not covers(k, cache[k]):
+                        partial.add(k)
                 cache["_empty"] = sorted(empty)
+                cache["_partial"] = sorted(partial)
 
         fetch(keys)
         again = []
@@ -1664,7 +1914,24 @@ def process_batch(jobs, analyzer, lookup, contour="ojad", ojad_interval=10.0, oj
                 heard = ojad_word_reading(unpack_rows(rows), flat[x], res[x], lookup, f[0], f[1]) if rows else ""
                 if heard != f[2]:
                     flat_fix[x] = f[:3] + (True,)
-                    keys[x] = ojad_key(with_reading(flat[x], f))
+                    keys[x] = ojad_key(spliced(x, [f[:3]]))
+                    nodes_of.setdefault(keys[x], res[x])
+                    again.append(keys[x])
+        if again:
+            fetch(again)
+        # nothing back for a line: often a name Suzuki-kun can't read (縢君: it drops it and the
+        # rest no longer lines up), or a drawn-out sound it chokes on (あぁん). Ask again with
+        # the names in kana (they get no pitch anyway) and あぁ written あー.
+        again = []
+        for x, ln in enumerate(flat):
+            if cache.get(keys[x]) or not isinstance(res[x], list) or not has_japanese(keys[x]):
+                continue
+            spl = name_splices(ln, res[x], lookup, bolds[x]) + nani_splices(ln, res[x], lookup)
+            f = flat_fix[x] if flat_fix[x] and flat_fix[x][3] else None
+            text = long_vowels(spliced(x, spl + ([f[:3]] if f else [])))
+            if True:
+                if ojad_key(text) != keys[x]:
+                    keys[x] = ojad_key(text)
                     nodes_of.setdefault(keys[x], res[x])
                     again.append(keys[x])
         if again:
@@ -1678,10 +1945,7 @@ def process_batch(jobs, analyzer, lookup, contour="ojad", ojad_interval=10.0, oj
             f = flat_fix[x] if flat_fix[x] and flat_fix[x][3] else None
             spl = reading_splices(ln, res[x], unpack_rows(rows), lookup, bolds[x], f)
             if spl:
-                text = ln
-                for a, b, kana in sorted(spl + ([f[:3]] if f else []), reverse=True):
-                    text = text[:a] + kana + text[b:]
-                keys[x] = ojad_key(text)
+                keys[x] = ojad_key(spliced(x, spl + ([f[:3]] if f else [])))
                 nodes_of.setdefault(keys[x], res[x])
                 again.append(keys[x])
         if again:

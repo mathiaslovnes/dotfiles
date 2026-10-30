@@ -61,8 +61,19 @@ vim.keymap.set('n', 'U', '~')
 -- Visual mode indenting/unindenting
 vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('v', '>', '>gv')
-vim.keymap.set('v', '<Tab>', '>gv', { noremap = true, silent = true })
-vim.keymap.set('v', '<BS>', '<gv', { noremap = true, silent = true })
+
+-- <Tab>/<BS>/<S-Tab> always shift by 2 columns, even where the filetype's shiftwidth is wider (Python, Rust, ...)
+local function shift_by_two(op)
+  return function()
+    local sw = vim.bo.shiftwidth
+    vim.bo.shiftwidth = 2
+    vim.cmd('normal! ' .. vim.v.count1 .. op .. 'gv')
+    vim.bo.shiftwidth = sw
+  end
+end
+vim.keymap.set('v', '<Tab>', shift_by_two '>', { silent = true })
+vim.keymap.set('v', '<BS>', shift_by_two '<', { silent = true })
+vim.keymap.set('v', '<S-Tab>', shift_by_two '<', { silent = true })
 
 -- Make comment below/above
 vim.keymap.set('n', '<leader>co', 'oX<esc><cmd>lua MiniComment.toggle_lines(vim.fn.line("."), vim.fn.line("."))<cr>fXxa',

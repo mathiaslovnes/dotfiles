@@ -4,34 +4,34 @@
 
 <div id="kanjiHover">
 	<div id="word" class="">
-		{{#wordDictionaryForm}}
-			{{edit:wordDictionaryForm}}
-		{{/wordDictionaryForm}}
+		{{#word}}
+			{{edit:word}}
+		{{/word}}
 	</div>
 </div>
 
 
 
-{{#alternateReading}}
+{{#reading-alternate}}
 
 <div style="margin-bottom: 12px;"></div>
 
 <div id="alternateReading">
-    <span class="highlight">X</span> {{alternateReading}} <span class="highlight">X</span> 
+    <span class="highlight">X</span> {{reading-alternate}} <span class="highlight">X</span> 
 </div>
 
-{{/alternateReading}}
+{{/reading-alternate}}
 
 
 
-{{#sentenceCard}}　
+{{#sentence-card}}　
 	<div id="sentence">
 		<div style="margin-bottom: -35px;"></div>
 		{{edit:sentence}}
 <script>
 (function () {
   var el = document.getElementById("sentence");
-  var word = `{{text:wordAsWritten}}`.trim() || `{{text:wordDictionaryForm}}`.trim();
+  var word = `{{text:word-as-written}}`.trim() || `{{text:word}}`.trim();
   if (!el || !word || el.querySelector("i")) return;
   for (var n = word.length; n >= 1; n--) {
     var t = word.slice(0, n);
@@ -43,14 +43,12 @@
 })();
 </script>
 	</div>
-{{/sentenceCard}}
+{{/sentence-card}}
 
 <div style="margin-bottom: 25px;"></div>
   <div class="audio-buttons-no-picture">
     <div class="audio-divider-no-picture"></div>
-    <span class="audio wordAudio-no-picture audio-front">
-      {{wordAudio}}
-    </span>
+    {{#word-audio}}<span class="audio-pill"><span class="audio wordAudio-no-picture audio-front"><span class="audio-lbl">語</span>{{word-audio}}</span></span>{{/word-audio}}
     <div class="audio-divider-no-picture"></div>
   </div>
 

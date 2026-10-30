@@ -11,7 +11,7 @@ return {
   config = function()
     require('spider').setup {
       skipInsignificantPunctuation = true,
-      subwordMovement = true,
+      subwordMovement = false, -- `w` treats a_b and fooBar as one word
       consistentOperatorPending = false, -- see the README for details
       customPatterns = {}, -- see the README for details
     }

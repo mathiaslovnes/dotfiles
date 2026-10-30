@@ -17,17 +17,21 @@ so reviewing, editing and syncing are never kept waiting; each batch of results 
 written in a short step of its own, as the undo step "Sentence pitch". While you review,
 or while the browser or an edit window is open, results are held and written when you're
 back at the deck list, so Undo while reviewing or editing only ever undoes what you did.
+A run you start from Tools > Sentence pitch is written right away, also while you review
+(the card on screen is redrawn); it only waits while the browser or an edit window is
+open, since saving there would write over it. Its report lists the sentences that changed.
 """
 import json
 import os
+from html.parser import HTMLParser
 import re
 import time
 import traceback
 
 from aqt import gui_hooks, mw
 from aqt.operations import QueryOp
-from aqt.utils import showText, tooltip
-from aqt.qt import QAction, QMenu
+from aqt.utils import askUser, showText, tooltip
+from aqt.qt import QAction, QKeySequence, QMenu
 
 from . import core
 
@@ -38,6 +42,7 @@ OJAD_CACHE = os.path.join(USER_DIR, "ojad_cache.json")
 DEPS = os.path.join(USER_DIR, "word_deps.json")
 REPORT_PATH = os.path.join(USER_DIR, "last_report.txt")
 REDO = os.path.join(USER_DIR, "redo.json")  # {"notes": [note ids to recolor once]}
+REDO_NEXT = os.path.join(USER_DIR, "redo_next.json")  # same, written while Anki ran an older version
 ERROR_PATH = os.path.join(USER_DIR, "last_error.txt")
 BATCH = 25
 
@@ -83,6 +88,58 @@ def read_vocab(col, cfg):
     return out
 
 
+class _UserBold(HTMLParser):
+    """Text you bolded in a colored sentence. The add-on's own bold (a name it already knows)
+    sits right inside the text row (span.rb); furigana (span.rt) isn't part of the text."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.stack, self.bold, self.texts = [], 0, []
+
+    def handle_starttag(self, tag, attrs):
+        cls = (dict(attrs).get("class") or "").split()
+        if tag in ("b", "strong"):
+            ours = bool(self.stack) and "rb" in self.stack[-1][1]
+            if not ours:
+                if not self.bold:
+                    self.texts.append("")
+                self.bold += 1
+            self.stack.append((tag, cls, not ours))
+        elif tag not in ("br", "img"):
+            self.stack.append((tag, cls, False))
+
+    def handle_endtag(self, tag):
+        while self.stack:
+            t, _, user = self.stack.pop()
+            if user:
+                self.bold -= 1
+            if t == tag:
+                break
+
+    def handle_data(self, data):
+        if self.bold and not any("rt" in c for _, c, _ in self.stack):
+            self.texts[-1] += data
+
+
+def user_bold(pitch_html):
+    """Texts bolded by you in the sentence-pitch field (not by the add-on)."""
+    if "<b" not in pitch_html and "<strong" not in pitch_html:
+        return []
+    p = _UserBold()
+    try:
+        p.feed(pitch_html)
+    except Exception:
+        return []
+    return [t for t in dict.fromkeys(t.strip() for t in p.texts) if t]
+
+
+def bold_in_sentence(raw, texts):
+    """The sentence field with these texts in bold (where they aren't already)."""
+    for t in texts:
+        raw = re.sub(rf"(?<!<b>){re.escape(t)}(?!</b>)", f"<b>{t}</b>", raw)
+    return raw
+
+
 def sentence_notes(col, cfg):
     """{note id: job} for every note with a sentence, marked stale when its colored
     sentence is missing or out of date (sentence, card word or card category changed)."""
@@ -104,6 +161,11 @@ def sentence_notes(col, cfg):
             raw = get(f, spec["sentence_field"])
             if not core.clean(raw):
                 continue
+            stored = get(f, spec["pitch_field"])
+            set_sentence = None
+            if spec.get("word_mark") != "b":  # a name you bolded in the colored sentence
+                new_raw = bold_in_sentence(raw, user_bold(stored))
+                set_sentence, raw = (new_raw if new_raw != raw else None), new_raw
             if spec.get("word_mark") == "b":  # the card's word is in bold (core6k), not a name
                 raw = re.sub(r"(?i)<(/?)(?:b|strong)\b[^>]*>", r"<\1i>", raw)
             job = {"nid": nid, "spec": spec, "raw": raw,
@@ -113,8 +175,10 @@ def sentence_notes(col, cfg):
                    "reading": get(f, spec.get("reading_field")),
                    "furigana": spec.get("furigana", False)}
             h = core.source_hash(raw, job["written"], job["word"], core.first_cat(job["cat"]), job["reading"])
-            stored = get(f, spec["pitch_field"])
-            job["stale"] = core.stored_hash(stored) != h or core.needs_fix(stored, raw)
+            job["stored"] = hash(stored)  # to tell which sentences change (not the text: memory)
+            if set_sentence is not None:
+                job["set"] = {spec["sentence_field"]: set_sentence}
+            job["stale"] = core.stored_hash(stored) != h or core.needs_fix(stored, raw) or set_sentence is not None
             jobs[nid] = job
     return jobs
 
@@ -130,10 +194,11 @@ HOLD_MAX = 40  # batches held back (1,000 sentences) before the worker waits for
 _held = []
 
 
-def user_busy():
+def user_busy(asked=False):
     """Reviewing, or the browser or an edit window is open: then Undo should only ever undo
-    what you did, so nothing is written."""
-    if mw.state in HOLD_STATES:
+    what you did, so nothing is written. asked: you started this run from the menu, so it's
+    written while you review too (never while an edit window could save over it)."""
+    if mw.state in HOLD_STATES and not asked:
         return True
     try:
         from aqt import dialogs
@@ -154,13 +219,18 @@ def write_notes(col, items):
     if status.redo:
         return None  # you just undid something: don't take away your Redo
     notes = []
-    for nid, field, html in items:
+    for item in items:
+        nid, field, html = item[:3]
         try:
             note = col.get_note(nid)
         except Exception:  # deleted meanwhile
             continue
-        if field in note and note[field] != html:
-            note[field] = html
+        changed = False
+        for f, v in [(field, html)] + list((item[3] if len(item) > 3 else {}).items()):
+            if f in note and note[f] != v:  # (and the sentence, for a name you bolded)
+                note[f] = v
+                changed = True
+        if changed:
             notes.append(note)
     if notes:
         step = col.add_custom_undo_entry(UNDO_NAME)
@@ -181,37 +251,52 @@ def refresh_undo_menu(*_):
         pass
 
 
-def write_later(items):
+def write_later(items, asked=False):
     """From the worker: hand one batch to the main thread."""
-    mw.taskman.run_on_main(lambda: write_now(items))
+    mw.taskman.run_on_main(lambda: write_now(items, asked=asked))
 
 
-def write_now(items, tries=0):
+def write_now(items, tries=0, asked=False):
     """Write one batch in a short collection step of its own, unless you're reviewing or
     editing: then it waits in _held until you're back at the deck list with the browser
-    and edit windows closed."""
+    and edit windows closed (a run you started yourself only waits for those windows)."""
     if not mw.col:
         return
-    if user_busy():
-        _held.append(items)
+    if user_busy(asked):
+        _held.append((items, asked))
         return
 
     def done(n):
         if n is None and tries < 60:
-            mw.progress.single_shot(10000, lambda: write_now(items, tries + 1), False)
-        else:
-            refresh_undo_menu()
+            mw.progress.single_shot(10000, lambda: write_now(items, tries + 1, asked), False)
+            return
+        refresh_undo_menu()
+        if n and mw.state == "review":  # show the new colors on the card in front of you
+            try:
+                from aqt.reviewer import RefreshNeeded
+                card = mw.reviewer.card
+                if card and card.nid in {item[0] for item in items}:
+                    mw.reviewer._refresh_needed = RefreshNeeded.NOTE_TEXT
+                    mw.reviewer.refresh_if_needed()
+            except Exception as e:
+                log_error(e)
 
     QueryOp(parent=mw, op=lambda col: write_notes(col, items), success=done) \
         .failure(log_error).run_in_background()
 
 
 def flush_held(*_):
-    if _held and mw.col and not user_busy():
-        batches = _held[:]
-        _held.clear()
-        for items in batches:  # queued one after another; they end up as one undo step
-            write_now(items)
+    if not _held or not mw.col:
+        return
+    ready = [(items, asked) for items, asked in _held if not user_busy(asked)]
+    if ready:
+        _held[:] = [h for h in _held if h not in ready]
+        for items, asked in ready:  # queued one after another; they end up as one undo step
+            write_now(items, asked=asked)
+
+
+def held_count():
+    return sum(len(items) for items, _ in _held)
 
 
 # ---------------------------------------------------------------- the slow part (no collection)
@@ -221,8 +306,9 @@ def work(prep, cfg, force=False, limit=None, progress=None, write=write_later):
     Raises core.Unavailable if Yomitan, Suzuki-kun or the analyzer can't be reached
     (batches finished before that are kept)."""
     notes = prep["notes"]
+    changed = []  # (card's word, sentence) of each sentence whose colors changed
     if not notes:
-        return 0, 0, {}, []
+        return 0, 0, {}, [], changed
     os.makedirs(USER_DIR, exist_ok=True)
     yomitan_cache = core.load_cache(YOMITAN_CACHE)
     ojad_cache = core.load_cache(OJAD_CACHE)
@@ -255,7 +341,7 @@ def work(prep, cfg, force=False, limit=None, progress=None, write=write_later):
                     todo.append(notes[int(k)])
         except core.Unavailable:
             if not todo:
-                return 0, 0, {}, []  # Brave closed and nothing else to do: check next time
+                return 0, 0, {}, [], changed  # Brave closed and nothing else to do: check next time
             raise
         if todo:
             lookup.ping()
@@ -275,7 +361,9 @@ def work(prep, cfg, force=False, limit=None, progress=None, write=write_later):
             fetched = (lookup.lookups, core._ojad_last[0]) != before
             items = []
             for job, (html, stats, dep) in zip(batch, results):
-                items.append((job["nid"], job["spec"]["pitch_field"], html))
+                items.append((job["nid"], job["spec"]["pitch_field"], html, job.get("set", {})))
+                if hash(html) != job.get("stored") or job.get("set"):
+                    changed.append((core.clean(job["word"]), core.clean(job["raw"])))
                 deps[str(job["nid"])] = dep
                 core.merge_stats(total, stats)
             write(items)
@@ -293,7 +381,7 @@ def work(prep, cfg, force=False, limit=None, progress=None, write=write_later):
         analyzer.close()
         if done or lookup.lookups:
             save()
-    return done, len(todo) - done, total, lookup.conflicts()
+    return done, len(todo) - done, total, lookup.conflicts(), changed
 
 
 # ---------------------------------------------------------------- status above the deck list
@@ -356,12 +444,12 @@ def start(reason="", force=False, limit=None, report=False):
 
     def finished(result):
         _busy[0] = False
-        done, left, total, conflicts = result
+        done, left, total, conflicts, changed = result
         # after the last batch is written (same queue), remember the collection state
         QueryOp(parent=mw, op=lambda col: col.mod, success=lambda m: _seen_mod.__setitem__(0, m)) \
             .failure(log_error).run_in_background()
         if done:
-            text = core.format_report(done, total, left, conflicts)
+            text = changed_list(changed, done) + core.format_report(done, total, left, conflicts)
             try:
                 with open(REPORT_PATH, "w", encoding="utf-8") as f:
                     f.write(text)
@@ -390,9 +478,10 @@ def start(reason="", force=False, limit=None, report=False):
 
     def prepared(prep):
         if not prep["notes"]:
-            finished((0, 0, {}, []))
+            finished((0, 0, {}, [], []))
             return
-        QueryOp(parent=mw, op=lambda _: work(prep, cfg, force, limit, progress), success=finished) \
+        write = (lambda items: write_later(items, asked=True)) if report else write_later
+        QueryOp(parent=mw, op=lambda _: work(prep, cfg, force, limit, progress, write), success=finished) \
             .failure(failed).without_collection().run_in_background()
 
     QueryOp(parent=mw, op=lambda col: prepare(col, cfg), success=prepared).failure(failed).run_in_background()
@@ -426,6 +515,14 @@ def sync_styling(cfg):
 
 
 def on_profile_open():
+    try:  # notes a new version changes, listed while Anki still ran the old one: recolor them now
+        later = core.load_cache(REDO_NEXT).get("notes", [])
+        if later:
+            now = core.load_cache(REDO).get("notes", [])
+            core.save_cache(REDO, {"notes": sorted({int(x) for x in now + later})})
+            os.remove(REDO_NEXT)
+    except Exception as e:
+        log_error(e)
     try:
         sync_styling(config())
     except Exception as e:
@@ -444,6 +541,23 @@ def on_profile_close():
 
 # ---------------------------------------------------------------- menu
 
+def changed_list(changed, done, most=300):
+    """The report's first part: which sentences got new colors."""
+    lines = [f"Sentences with new colors: {len(changed)} of {done:,}"]
+    if not changed:
+        lines.append("  (all were already up to date)")
+    for word, sentence in changed[:most]:
+        sentence = sentence.replace("\n", " ")
+        lines.append(f"  {word}: {sentence[:60] + '…' if len(sentence) > 60 else sentence}")
+    if len(changed) > most:
+        lines.append(f"  … and {len(changed) - most:,} more")
+    waiting = held_count()
+    if waiting:
+        lines.append(f"Not saved yet: {waiting:,} wait until you close the browser and edit windows"
+                     " (or, for the background runs, until you leave the review screen).")
+    return "\n".join(lines) + "\n\n"
+
+
 def show_report():
     try:
         with open(REPORT_PATH, encoding="utf-8") as f:
@@ -452,14 +566,31 @@ def show_report():
         tooltip("No report yet")
 
 
+def recolor_all():
+    """Asks first: easy to hit by accident, and it draws every sentence again."""
+    try:
+        n = sum(len(mw.col.models.nids(m["id"])) for spec in config()["sentences"]
+                if spec.get("enabled", True) and (m := mw.col.models.by_name(spec["note_type"])))
+    except Exception:
+        n = 0
+    what = f"all {n:,} sentences" if n else "all sentences"
+    if askUser(f"Recolor {what}?\n\nEvery sentence is drawn again from scratch, which takes a few "
+               "minutes. Only the ones whose colors change are saved.",
+               defaultno=True, title="Sentence pitch"):
+        start("menu", force=True, report=True)
+
+
 def setup_menu():
     menu = QMenu("Sentence pitch", mw)
-    for label, fn in (("Test: color the 20 newest sentences", lambda: start("menu", limit=20, report=True)),
-                      ("Color new and changed sentences", lambda: start("menu", report=True)),
-                      ("Recolor all sentences", lambda: start("menu", force=True, report=True)),
-                      ("Show last report", show_report)):
+    shortcut = config().get("shortcut", "Ctrl+Shift+R")  # Cmd+Shift+R on a Mac
+    for label, fn, keys in (("Test: color the 20 newest sentences", lambda: start("menu", limit=20, report=True), ""),
+                            ("Color new and changed sentences", lambda: start("menu", report=True), shortcut),
+                            ("Recolor all sentences…", recolor_all, ""),
+                            ("Show last report", show_report, "")):
         action = QAction(label, mw)
         action.triggered.connect(fn)
+        if keys:
+            action.setShortcut(QKeySequence(keys))
         menu.addAction(action)
     mw.form.menuTools.addMenu(menu)
 

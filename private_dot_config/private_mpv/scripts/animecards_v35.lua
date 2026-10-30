@@ -27,10 +27,13 @@ local msg = require 'mp.msg'
 
 ------------- User Config -------------
 -- Set these to match your field names in Anki
-local FRONT_FIELD = "wordDictionaryForm"
-local SENTENCE_AUDIO_FIELD = "sentenceAudio"
+local FRONT_FIELD = "word"
+local SENTENCE_AUDIO_FIELD = "sentence-audio"
 local SENTENCE_FIELD = "sentence"
 local IMAGE_FIELD = "picture"
+-- Where the card came from (video file and the clip's start/end), to re-cut picture or audio later.
+-- Set to "" to turn off.
+local SOURCE_FIELD = "source"
 -- Anki collection media path. Ensure Anki username is correct.
 -- Linux users will want to set this to something like:
 -- utils.join_path(os.getenv('HOME'), [[.local/share/Anki2/User 1/collection.media]])
@@ -43,7 +46,7 @@ local prefix = utils.join_path(os.getenv('HOME'), [[Library/Application Support/
 local AUDIO_CLIP_FADE = 0
 local AUDIO_CLIP_PADDING = 0.3333
 -- Optional fetch Forvo word audio if word audio field is empty in Anki.
-local WORD_AUDIO_FIELD = "wordAudio"
+local WORD_AUDIO_FIELD = "word-audio"
 -- Optional play sentence and forvo audio automatically after card update
 local AUTOPLAY_AUDIO = false
 -- Optional screenshot image format.
@@ -272,9 +275,9 @@ local function create_audio(s, e)
   dlog(utils.to_string(cmd))
 end
 
-local function create_screenshot(s, e)
+local function create_screenshot(name)
   local source = mp.get_property("path")
-  local img = utils.join_path(prefix, get_name(s, e) .. '.' .. IMAGE_FORMAT)
+  local img = utils.join_path(prefix, name .. '.' .. IMAGE_FORMAT)
 
   local cmd = {
     'run',
@@ -437,7 +440,50 @@ local function get_forvo_audio(word)
   return utils.join_path(prefix, "forvo_" .. word .. '.mp3')
 end
 
-local function add_to_last_added(ifield, afield, tfield)
+local function clock(t)
+  local h = math.floor(t / 3600)
+  local m = math.floor((t % 3600) / 60)
+  local sec = t - h * 3600 - m * 60
+  if h > 0 then
+    return string.format("%d:%02d:%05.2f", h, m, sec)
+  end
+  return string.format("%d:%05.2f", m, sec)
+end
+
+-- "[DB] Vinland Saga Season 2 - 22 [Dual Audio 10bit BD1080p].mkv" -> "Vinland Saga S2E22"
+local function nice_source(filename)
+  local name = filename:gsub("%.%w+$", "")
+  name = name:gsub("%((%d%d%d%d)%)", "@@%1@@")
+  name = name:gsub("%b[]", " "):gsub("%b{}", " "):gsub("%b()", " ")
+  name = name:gsub("@@(%d%d%d%d)@@", "(%1)")
+  name = name:gsub("[_%.]", " "):gsub("%s+", " ")
+  local title, ep
+  local s, e = name:match("[Ss](%d+)[Ee](%d+)")
+  if s then
+    title = name:match("^(.-)%s*%-?%s*[Ss]%d+[Ee]%d+")
+  else
+    s, e = name:match("[Ss]eason (%d+) %- (%d+)")
+    if s then
+      title = name:match("^(.-)%s*[Ss]eason")
+    else
+      s, e = name:match("%f[%w][Ss](%d+) %- (%d+)")
+      if s then
+        title = name:match("^(.-)%s*[Ss]%d+ %- %d+")
+      end
+    end
+  end
+  if s then
+    ep = string.format("S%dE%d", tonumber(s), tonumber(e))
+  else
+    local t, n = name:match("^(.-)%s+%-%s+(%d+)")
+    if t then title, ep = t, string.format("E%d", tonumber(n)) end
+  end
+  title = (title or name):gsub("^%s+", ""):gsub("%s+$", ""):gsub("%s*%-$", "")
+  if ep then return title .. " " .. ep end
+  return title
+end
+
+local function add_to_last_added(ifield, afield, tfield, sfield)
   local forvo_path = nil
   local added_notes = anki_connect('findNotes', { query = 'added:1' })["result"]
   table.sort(added_notes)
@@ -451,6 +497,9 @@ local function add_to_last_added(ifield, afield, tfield)
       [SENTENCE_FIELD] = tfield,
       [IMAGE_FIELD] = ifield
     }
+    if SOURCE_FIELD ~= "" and sfield ~= nil then
+      new_fields[SOURCE_FIELD] = sfield
+    end
 
     if WORD_AUDIO_FIELD ~= "" then
       local wafield = note["result"][1]["fields"][WORD_AUDIO_FIELD]["value"]
@@ -463,12 +512,25 @@ local function add_to_last_added(ifield, afield, tfield)
       end
     end
 
+    local old_img = note["result"][1]["fields"][IMAGE_FIELD]["value"]:match('src="?([^"%s>]+)')
+
     anki_connect('updateNoteFields', {
       note = {
         id = noteid,
         fields = new_fields
       }
     })
+
+    -- Delete the picture this replaced, if this script made it (named after this video)
+    -- and no other note shows it. Anki keeps deleted media in its trash folder.
+    local new_img = ifield:match('src="?([^"%s>]+)')
+    local video = mp.get_property("filename"):gsub('%W', '')
+    if old_img and old_img ~= new_img and old_img:sub(1, #video) == video then
+      local users = anki_connect('findNotes', { query = '"' .. IMAGE_FIELD .. ':*' .. old_img .. '*"' })
+      if users and users["result"] and #users["result"] == 0 then
+        anki_connect('deleteMediaFile', { filename = old_img })
+      end
+    end
 
     mp.osd_message("Updated note: " .. word, 3)
     msg.info("Updated note: " .. word)
@@ -500,12 +562,18 @@ local function get_extract()
   end
   dlog(string.format('s=%d, e=%d', s, e))
   if e ~= 0 then
-    create_screenshot(s, e)
+    -- The picture is named after the lines AND the moment it's taken. Named after the lines
+    -- only, every word mined from the same lines shared one picture file, so mining the next
+    -- word replaced the picture on all of them. add_to_last_added deletes the picture it
+    -- replaces when no other note uses it, so re-taking one doesn't leave files behind.
+    local shot = get_name(s, e) .. string.format('_%d', math.floor(mp.get_property_number("time-pos") * 1000))
+    create_screenshot(shot)
     create_audio(s, e)
-    local ifield = '<img src=' .. get_name(s, e) .. '.' .. IMAGE_FORMAT .. '>'
+    local ifield = '<img src=' .. shot .. '.' .. IMAGE_FORMAT .. '>'
     local afield = "[sound:" .. get_name(s, e) .. ".mp3]"
     local tfield = string.gsub(string.gsub(lines, "\n+", "<br />"), "\r", "")
-    local forvo_path = add_to_last_added(ifield, afield, tfield)
+    local sfield = nice_source(mp.get_property("filename")) .. " " .. clock(s) .. "–" .. clock(e)
+    local forvo_path = add_to_last_added(ifield, afield, tfield, sfield)
     if AUTOPLAY_AUDIO then
       local name = get_name(s, e)
       local audio = utils.join_path(prefix, name .. '.mp3')
