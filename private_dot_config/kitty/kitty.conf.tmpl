@@ -51,8 +51,10 @@ map cmd+right send_text all \x1b[1;5C
 # Command+backspace keycode
 map cmd+backspace send_text all \x1b[8;5u
 
-# Enter keycodes for nvim
-# map shift+enter send_text all \x1b[13;2u
+# Enter keycodes. kitty sends Shift+Enter as plain Enter unless the program asks for kitty's own
+# keyboard protocol, which tmux doesn't. tmux (extended-keys on) turns this code into Shift+Enter for
+# programs that ask for it (Claude Code: newline) and into plain Enter for the rest.
+map shift+enter send_text all \x1b[13;2u
 # map ctrl+enter  send_text all \x1b[13;5u
 
 # Command+hjkl keycodes for resizing
