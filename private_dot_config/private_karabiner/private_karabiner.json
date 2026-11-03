@@ -2074,7 +2074,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'MPV' && osascript -e 'tell application \"MPV\" to activate'"
+                                        "shell_command": "id=$(/opt/homebrew/bin/yabai -m query --windows | /opt/homebrew/bin/jq 'first(.[] | select(.app == \"mpv\" and .\"has-ax-reference\")).id'); if [ -n \"$id\" ]; then /opt/homebrew/bin/yabai -m window --focus \"$id\"; else open -a 'MPV' && osascript -e 'tell application \"MPV\" to activate'; fi"
                                     }
                                 ],
                                 "type": "basic"
@@ -2449,6 +2449,32 @@
                         ]
                     },
                     {
+                        "manipulators": [
+                            {
+                                "description": "Caps Lock → Hyper",
+                                "from": {
+                                    "key_code": "caps_lock",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_shift",
+                                        "modifiers": [
+                                            "left_control",
+                                            "left_option"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "description": "Caps Lock → Hyper (hold) / Escape (tap)",

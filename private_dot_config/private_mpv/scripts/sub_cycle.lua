@@ -1,6 +1,12 @@
 -- Turn Japanese (primary slot, bottom) and English (secondary slot, top) subtitles on and off,
 -- and remove added subtitle files. Each action shows a message on screen.
 
+-- Messages small, in the top-left corner, so they stay clear of the English subs at the top
+-- centre.
+local function notify(text, ms)
+    mp.commandv("expand-properties", "show-text", "${osd-ass-cc/0}{\\an7\\fs6\\bord1}" .. text, ms)
+end
+
 local function track_id(prop)
     local v = mp.get_property_native(prop)
     if type(v) == "number" then return v end
@@ -51,27 +57,27 @@ local function toggle(name, lang, prop, other_prop, visibility_prop)
     local current = track_id(prop)
     local t = find_track(lang, current or last_off[prop])
     if not t then
-        mp.commandv("show-text", "no " .. name .. " subs found", 1500)
+        notify("no " .. name .. " subs found", 1500)
         return
     end
     if t.id == current and mp.get_property_bool(visibility_prop) then
         last_off[prop] = t.id
         mp.set_property(prop, "no")
-        mp.commandv("show-text", name .. " subs: off", 1500)
+        notify(name .. " subs: off", 1500)
         return
     end
     -- mpv won't show one track in both slots, so take it out of the other slot first
     if track_id(other_prop) == t.id then mp.set_property(other_prop, "no") end
     mp.set_property_number(prop, t.id)
     mp.set_property_bool(visibility_prop, true)
-    mp.commandv("show-text", string.format("%s subs: on %s", name, describe(t)), 1500)
+    notify(string.format("%s subs: on %s", name, describe(t)), 1500)
 end
 
 -- Removes the selected track from this session. mpv can only do that for added subtitle files.
 local function remove(prop, label)
     local id = track_id(prop)
     if not id then
-        mp.commandv("show-text", label .. ": no track selected", 1500)
+        notify(label .. ": no track selected", 1500)
         return
     end
     local all, track = {}, nil
@@ -83,11 +89,11 @@ local function remove(prop, label)
         end
     end
     if not (track and track.external) then
-        mp.commandv("show-text", string.format("%s: %d/%d is built into the video, can't remove it", label, track and track.pos or 0, #all), 2500)
+        notify(string.format("%s: %d/%d is built into the video, can't remove it", label, track and track.pos or 0, #all), 2500)
         return
     end
     mp.commandv("sub-remove", tostring(id))
-    mp.commandv("show-text", string.format("removed %s: %s", label, describe(track)), 1500)
+    notify(string.format("removed %s: %s", label, describe(track)), 1500)
 end
 
 mp.add_key_binding(nil, "japanese", function()

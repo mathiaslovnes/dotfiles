@@ -43,6 +43,10 @@
     "defaultMode": "auto"
   },
   "model": "opus[1m]",
+  "enabledPlugins": {
+    "cc-plugin-you-should-know@builtin": true,
+    "swift-lsp@claude-plugins-official": true
+  },
   "modelSettings": {
     "claude-opus-5": {
       "effortLevel": "xhigh"
@@ -57,8 +61,5 @@
   "editorMode": "vim",
   "verbose": false,
   "autoCompactEnabled": true,
-  "inputNeededNotifEnabled": true,
-  "enabledPlugins": {
-    "cc-plugin-you-should-know@builtin": true
-  }
+  "inputNeededNotifEnabled": true
 }

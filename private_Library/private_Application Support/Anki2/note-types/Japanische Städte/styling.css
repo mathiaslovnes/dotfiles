@@ -6,6 +6,11 @@
  background-color: white;
 }
 
+.map img {
+  max-width: 800px;
+  height: auto;
+}
+
 .win .jp{font-family: "Meiryo"}
 .linux .jp{font-family: "Kochi Mincho"}
 
