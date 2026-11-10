@@ -389,6 +389,21 @@ if [[ "$OSTYPE" == darwin* ]]; then
   export PATH="$PATH:$HOME/.lmstudio/bin"
 fi
 
+## Anki iCloud backup (macOS only): warn when it has fallen more than 2 days behind Anki's own backups
+if [[ "$OSTYPE" == darwin* ]]; then
+  () {
+    zmodload -F zsh/stat b:zstat
+    local a=( ~/Library/Application\ Support/Anki2/user\ 1/backups/*.colpkg(Nom[1]) )
+    local c=( ~/Library/Mobile\ Documents/com~apple~CloudDocs/Anki\ backup/collection/*.colpkg(Nom[1]) )
+    (( $#a )) || return 0
+    local ta tc=0
+    zstat -A ta +mtime -- $a[1]
+    (( $#c )) && zstat -A tc +mtime -- $c[1]
+    (( ta - tc > 172800 )) && print -P "%F{red}Anki iCloud backup is over 2 days behind, see ~/Library/Logs/anki-icloud-backup.log%f"
+    return 0
+  }
+fi
+
 ## Mason language servers (lets Claude Code's pyright-lsp plugin find pyright-langserver)
 export PATH="$PATH:$HOME/.local/share/nvim/mason/bin"
 

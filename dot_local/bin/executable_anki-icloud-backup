@@ -6,7 +6,8 @@ via ~/Library/LaunchAgents/com.mathiaslovnes.anki-icloud-backup.plist.
 Log: ~/Library/Logs/anki-icloud-backup.log
 
 iCloud Drive/Anki backup/
-  collection/anki-collection-YYYY-MM-DD.colpkg   Anki's newest backup of each day, last KEEP_DAYS days
+  collection/anki-collection-YYYY-MM-DD.colpkg   Anki's newest backup of each day, last KEEP_DAYS days,
+                                                 plus the first of each month for KEEP_MONTHS months
                                                  (restore: Anki > File > Import)
   media/                                         mirror of collection.media
   media (deleted)/YYYY-MM-DD/                    files that left collection.media (Check Media >
@@ -18,12 +19,19 @@ Documents/日本語/Anki + Yomitan backup/ (iCloud through Desktop & Documents)
   add-ons/ai_language_explainer_claude/          that add-on whole: it isn't on AnkiWeb
   sentence-pitch/                                its caches (Suzuki-kun's answers, Yomitan lookups)
   yomitan-api/                                   the Yomitan API's files for Brave (NativeMessagingHosts)
+  yomitan/                                       Yomitan > Settings > Backup > Export Settings saves here
+                                                 (by hand; a notification warns when it's over 30 days old)
+
+Failures post a macOS notification; ~/.zshrc warns when the iCloud copy falls 2 days behind.
 """
+import glob
 import json
 import os
 import shutil
+import subprocess
 import sys
 import time
+import zipfile
 
 PROFILE = os.path.expanduser("~/Library/Application Support/Anki2/user 1")
 DEST = os.path.expanduser("~/Library/Mobile Documents/com~apple~CloudDocs/Anki backup")
@@ -32,12 +40,20 @@ ADDONS = os.path.expanduser("~/Library/Application Support/Anki2/addons21")
 WHOLE_ADDONS = ("ai_language_explainer_claude",)  # not on AnkiWeb: keep the whole folder
 SENTENCE_PITCH = os.path.expanduser("~/.local/share/sentence-pitch/sentence_pitch/user_files")
 YOMITAN_API = os.path.expanduser("~/Library/Application Support/BraveSoftware/Brave-Browser/NativeMessagingHosts")
+YOMITAN = os.path.join(EXTRA, "yomitan")
+YOMITAN_WARNED = os.path.expanduser("~/Library/Logs/anki-icloud-backup.yomitan-warned")
 KEEP_DAYS = 30
+KEEP_MONTHS = 12
 HOLD_DAYS = 30  # 0: deleted media disappears from iCloud at the next run
 
 
 def log(msg):
     print(time.strftime("%Y-%m-%d %H:%M:%S"), msg, flush=True)
+
+
+def notify(msg):
+    script = f'display notification {json.dumps(msg, ensure_ascii=False)} with title "Anki backup"'
+    subprocess.run(["osascript", "-e", script], check=False)
 
 
 def copy(src, dst):
@@ -63,12 +79,26 @@ def collection():
     day = time.strftime("%Y-%m-%d", time.localtime(os.path.getmtime(newest)))
     target = os.path.join(out, f"anki-collection-{day}.colpkg")
     if not os.path.exists(target) or os.path.getmtime(target) < os.path.getmtime(newest):
-        copy(newest, target)
-        log(f"collection: {backups[-1]} -> {os.path.basename(target)}")
+        try:  # a broken backup (Anki crashed mid-write, full disk) must not replace a good copy
+            with zipfile.ZipFile(newest) as z:
+                bad = z.testzip()
+        except (zipfile.BadZipFile, OSError) as e:
+            bad = repr(e)
+        if bad:
+            log(f"collection: {backups[-1]} failed the zip test ({bad}), kept the existing copy")
+            notify(f"Anki backup {backups[-1]} is damaged; the iCloud copy was not replaced")
+        else:
+            copy(newest, target)
+            log(f"collection: {backups[-1]} -> {os.path.basename(target)}")
     mine = sorted(f for f in os.listdir(out) if f.startswith("anki-collection-") and f.endswith(".colpkg"))
-    for f in mine[:-KEEP_DAYS]:
-        os.remove(os.path.join(out, f))
-        log(f"collection: removed {f}")
+    monthly = {}
+    for f in mine:
+        monthly.setdefault(f[16:23], f)  # first copy of each YYYY-MM
+    keep = set(mine[-KEEP_DAYS:]) | set(sorted(monthly.values())[-KEEP_MONTHS:])
+    for f in mine:
+        if f not in keep:
+            os.remove(os.path.join(out, f))
+            log(f"collection: removed {f}")
 
 
 def media():
@@ -92,6 +122,10 @@ def media():
         copy(e.path, dst)
         copied += 1
     gone = [n for n in os.listdir(out) if n not in have]
+    if len(gone) > max(200, len(have) // 20):  # mass loss (restored profile, damaged folder): don't mirror it
+        log(f"media: {len(gone)} files missing from collection.media, mirror left untouched")
+        notify(f"{len(gone)} media files vanished from Anki; iCloud mirror not changed")
+        gone = []
     if gone:
         hold = os.path.join(DEST, "media (deleted)", time.strftime("%Y-%m-%d"))
         os.makedirs(hold, exist_ok=True)
@@ -171,6 +205,13 @@ def extras():
             n += copy_if_changed(src, os.path.join(EXTRA, "yomitan-api", f))
     if n:
         log(f"extras: {n} files updated in {EXTRA}")
+    # Yomitan's settings live only in Brave: nag (at most daily) when the manual export goes stale
+    ys = sorted(glob.glob(os.path.join(YOMITAN, "yomitan-settings-*.json")), key=os.path.getmtime)
+    stale = not ys or time.time() - os.path.getmtime(ys[-1]) > 30 * 86400
+    if stale and (not os.path.exists(YOMITAN_WARNED) or time.time() - os.path.getmtime(YOMITAN_WARNED) > 86400):
+        log("extras: Yomitan settings export is missing or older than 30 days")
+        notify("Yomitan settings export is stale: Settings > Backup > Export Settings")
+        open(YOMITAN_WARNED, "w").close()
 
 
 def main():
@@ -186,8 +227,17 @@ def main():
         extras()
     except Exception as e:  # never keep the collection and media from being backed up
         log(f"extras: {e!r}")
+        notify(f"Backup extras failed: {e!r}")
     return 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    try:
+        rc = main()
+    except Exception as e:
+        log(f"failed: {e!r}")
+        notify(f"Backup failed: {e!r}")
+        raise
+    if rc:
+        notify("Backup did not run, see ~/Library/Logs/anki-icloud-backup.log")
+    sys.exit(rc)
