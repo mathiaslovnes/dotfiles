@@ -12,6 +12,12 @@
 **/jgit/**
 **/linearmouse/**
 **/__pycache__
+# uosc and thumbfast come from their own installers
+.config/mpv/scripts/uosc
+.config/mpv/scripts/uosc/**
+.config/mpv/scripts/thumbfast.lua
+.config/mpv/fonts
+.config/mpv/fonts/**
 # vim-jukit per-machine state
 **/.jukit
 **/.jukit/**
