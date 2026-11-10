@@ -63,6 +63,14 @@
 [branch]
   sort = -committerdate
 
+# gh poi only spares the GitHub default branch; lock these everywhere
+[branch "main"]
+  gh-poi-locked = true
+[branch "master"]
+  gh-poi-locked = true
+[branch "develop"]
+  gh-poi-locked = true
+
 [column]
   ui = auto
 
