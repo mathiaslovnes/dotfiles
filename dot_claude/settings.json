@@ -21,7 +21,6 @@
       "Read(//Users/mathiaslovnes/Desktop/Screenshots/**)",
       "Bash(curl -s http://localhost:8080/api/v1/tools/)",
       "Bash(python3 -m json.tool)",
-      "Bash(curl:*)",
       "Bash(npm run:*)",
       "Bash(gh run:*)",
       "Bash(.direnv/python-3.11/bin/python -c \"\nimport deepeval.models as m\nprint\\(dir\\(m\\)\\)\n\" 2>&1)",
@@ -35,10 +34,11 @@
       "Bash(python3:*)",
       "WebFetch(domain:www.confident-ai.com)",
       "Bash(uv run *)",
-      "Bash(git *)",
-      "Bash(gh repo *)",
-      "Bash(gh search *)",
-      "Bash(gh api *)"
+      "Bash(gh search *)"
+    ],
+    "deny": [
+      "Read(~/.config/chezmoi/key.txt)",
+      "Read(~/.ssh/id_*)"
     ],
     "defaultMode": "auto"
   },
@@ -75,7 +75,7 @@
       "effortLevel": "xhigh"
     },
     "claude-opus-5-5": {
-      "effortLevel": "high"
+      "effortLevel": "xhigh"
     }
   },
   "awaySummaryEnabled": false,
@@ -85,8 +85,20 @@
   "theme": "dark",
   "editorMode": "vim",
   "verbose": false,
-  "preferredNotifChannel": "auto",
+  "preferredNotifChannel": "kitty",
   "autoCompactEnabled": true,
   "inputNeededNotifEnabled": true,
-  "agentPushNotifEnabled": false
+  "agentPushNotifEnabled": false,
+  "attribution": { "commit": "", "pr": "", "sessionUrl": false },
+  "cleanupPeriodDays": 365,
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "permission_prompt|idle_prompt|elicitation_dialog|elicitation_url_dialog|agent_needs_input",
+        "hooks": [
+          { "type": "command", "command": "if [ -n \"$TMUX_PANE\" ]; then printf '\\a' > \"$(tmux display-message -p -t \"$TMUX_PANE\" '#{pane_tty}')\"; fi" }
+        ]
+      }
+    ]
+  }
 }

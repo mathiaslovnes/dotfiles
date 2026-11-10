@@ -7,8 +7,8 @@
 }
 
 .map img {
-  max-width: 800px;
-  height: auto;
+  max-height: 500px;
+  max-width: auto;
 }
 
 .win .jp{font-family: "Meiryo"}

@@ -390,6 +390,9 @@ if [[ "$OSTYPE" == darwin* ]]; then
   export PATH="$PATH:$HOME/.lmstudio/bin"
 fi
 
+## Mason language servers (lets Claude Code's pyright-lsp plugin find pyright-langserver)
+export PATH="$PATH:$HOME/.local/share/nvim/mason/bin"
+
 # Go binaries (go install target) — same path on macOS and Linux
 export PATH="$HOME/go/bin:$PATH"
 
