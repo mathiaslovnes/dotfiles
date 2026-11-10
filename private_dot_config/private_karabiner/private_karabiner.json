@@ -1421,7 +1421,9 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "osascript -e 'tell application \"System Events\" to sleep'"
+                                        "software_function": {
+                                            "iokit_power_management_sleep_system": {}
+                                        }
                                     }
                                 ],
                                 "type": "basic"
