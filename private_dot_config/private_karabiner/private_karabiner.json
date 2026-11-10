@@ -222,7 +222,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'Preview' && osascript -e 'tell application \"Preview\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "com.apple.Preview"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -703,7 +707,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'LM Studio' && osascript -e 'tell application \"LM Studio\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "ai.elementlabs.lmstudio"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -829,7 +837,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'DataGrip' && osascript -e 'tell application \"DataGrip\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "com.jetbrains.datagrip"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -1359,7 +1371,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'notes' && osascript -e 'tell application \"notes\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "com.apple.Notes"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -1601,7 +1617,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'Cold Turkey Blocker' && osascript -e 'tell application \"Cold Turkey Blocker\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "com.getcoldturkey.blocker"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -1648,7 +1668,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'Slack' && osascript -e 'tell application \"Slack\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "com.tinyspeck.slackmacgap"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -1671,7 +1695,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'TickTick' && osascript -e 'tell application \"TickTick\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "com.TickTick.task.mac"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -1694,7 +1722,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'Finder' && osascript -e 'tell application \"Finder\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "com.apple.finder"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -1717,7 +1749,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'zotero' && osascript -e 'tell application \"zotero\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "org.zotero.zotero"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -1740,7 +1776,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'Calculator' && osascript -e 'tell application \"Calculator\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "com.apple.calculator"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -1763,7 +1803,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'Activity Monitor' && osascript -e 'tell application \"Activity Monitor\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "com.apple.ActivityMonitor"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -1865,7 +1909,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'discord' && osascript -e 'tell application \"discord\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "com.hnc.Discord"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -1888,7 +1936,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'Jisho.org.app' && osascript -e 'tell application \"Jisho.org.app\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "file_path": "/Users/mathiaslovnes/Applications/Brave Browser Apps.localized/Jisho.org.app"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -1935,7 +1987,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'Apple Music' && osascript -e 'tell application \"Apple Music\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "com.apple.Music"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -1958,7 +2014,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'System Settings' && osascript -e 'tell application \"System Settings\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "com.apple.systempreferences"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -1981,7 +2041,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'Kitty' && osascript -e 'tell application \"Kitty\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "net.kovidgoyal.kitty"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -2004,7 +2068,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'mail' && osascript -e 'tell application \"mail\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "com.apple.mail"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -2027,7 +2095,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'NordPass' && osascript -e 'tell application \"NordPass\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "com.nordsec.nordpass"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -2097,7 +2169,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'Karabiner-Elements' && osascript -e 'tell application \"Karabiner-Elements\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "org.pqrs.Karabiner-Elements.Settings"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -2120,7 +2196,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'Claude' && osascript -e 'tell application \"Claude\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "com.anthropic.claudefordesktop"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -2220,7 +2300,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'GIMP' && osascript -e 'tell application \"GIMP\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "org.gimp.gimp"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
