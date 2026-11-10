@@ -1,3 +1,7 @@
 .DS_Store
+.direnv/
+.jukit/
+.ipynb_checkpoints/
+__pycache__/
 
 **/.claude/settings.local.json
