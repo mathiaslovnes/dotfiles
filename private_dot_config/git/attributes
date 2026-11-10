@@ -1,0 +1,2 @@
+# Hunk headers name the enclosing \section instead of a random earlier line
+*.tex diff=tex
