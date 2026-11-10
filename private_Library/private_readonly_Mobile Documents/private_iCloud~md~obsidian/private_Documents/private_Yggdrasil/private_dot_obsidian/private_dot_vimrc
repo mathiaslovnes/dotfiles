@@ -1,0 +1,78 @@
+" Mirrors ~/.config/nvim/lua/keymaps.lua where Obsidian's Vim mode can.
+" Supported: map commands, exmap + obcommand, set clipboard. No <leader>, let, :move or :call.
+
+set clipboard=unnamedplus
+
+" Space as leader: remove the default Space = l
+unmap <Space>
+
+" === Navigation ===
+" display lines in wrapped paragraphs
+nmap j gj
+nmap k gk
+nnoremap H ^
+vnoremap H ^
+nnoremap L $
+vnoremap L $
+
+" center after jumps
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap G Gzz
+nnoremap gg ggzz
+nnoremap S zz
+
+" === Editing ===
+" delete the character before the cursor
+nnoremap <BS> "_X
+nnoremap <CR> o<Esc>
+nnoremap <Space><CR> O<Esc>
+
+" move lines
+exmap lineDown obcommand editor:swap-line-down
+exmap lineUp obcommand editor:swap-line-up
+nmap J :lineDown<CR>
+nmap K :lineUp<CR>
+
+nnoremap U ~
+
+" keep the selection after indenting
+vnoremap < <gv
+vnoremap > >gv
+vnoremap <Tab> >gv
+vnoremap <S-Tab> <gv
+vnoremap <BS> <gv
+
+" === Delete without yanking ===
+nnoremap x "_x
+vnoremap x "_x
+nnoremap <Space>d "_d
+vnoremap <Space>d "_d
+
+" === Tabs and splits ===
+exmap closeTab obcommand workspace:close
+exmap prevTab obcommand workspace:previous-tab
+exmap nextTab obcommand workspace:next-tab
+exmap splitH obcommand workspace:split-horizontal
+exmap splitV obcommand workspace:split-vertical
+nmap Q :closeTab<CR>
+nmap <C-q> :prevTab<CR>
+nmap <C-e> :nextTab<CR>
+nmap <Space>hs :splitH<CR>
+nmap <Space>vs :splitV<CR>
+nmap <Space>cs :closeTab<CR>
+
+" === Search ===
+exmap findNote obcommand switcher:open
+exmap searchVault obcommand global-search:open
+nmap <Space>sf :findNote<CR>
+nmap <Space>sg :searchVault<CR>
+
+" === Misc ===
+exmap followLink obcommand editor:follow-link
+nmap gu :followLink<CR>
+exmap toggleFold obcommand editor:toggle-fold
+nmap zf :toggleFold<CR>
+nnoremap <Esc> :nohlsearch<CR>
