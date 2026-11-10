@@ -122,6 +122,14 @@ return {
       require('nvim-treesitter-textobjects.move').goto_previous('@comment.outer', 'textobjects')
     end)
 
+    -- regex (x)
+    vim.keymap.set({ 'n', 'x', 'o' }, 'gx', function()
+      require('nvim-treesitter-textobjects.move').goto_next('@regex.outer', 'textobjects')
+    end)
+    vim.keymap.set({ 'n', 'x', 'o' }, 'gX', function()
+      require('nvim-treesitter-textobjects.move').goto_previous('@regex.outer', 'textobjects')
+    end)
+
     -- number (n)
     vim.keymap.set({ 'n', 'x', 'o' }, 'gn', function()
       require('nvim-treesitter-textobjects.move').goto_next('@number.outer', 'textobjects')

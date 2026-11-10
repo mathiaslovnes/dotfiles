@@ -11,15 +11,16 @@ return {
         -- when 'enable_deceleration = true', 'deceleration_table = { {200, 3}, {300, 7}, {450, 11}, {600, 15}, {750, 21}, {900, 9999} }'
         deceleration_table = { { 150, 9999 } },
       }
-      -- (after setup, which maps j/k to real-line moves) No count: accelerated screen-line move.
-      -- With a count: real lines, so 12j lands on relative line 12; jumps over 5 go in the jumplist.
+      -- (after setup, which maps j/k to real-line moves) No count: accelerated screen-line move, in normal
+      -- and visual mode. With a count: real lines, so 12j lands on relative line 12; in normal mode,
+      -- jumps over 5 go in the jumplist.
       for _, key in ipairs { 'j', 'k' } do
-        vim.keymap.set('n', key, function()
+        vim.keymap.set({ 'n', 'x' }, key, function()
           local count = vim.v.count
           if count == 0 then
             return require('accelerated-jk').move_to('g' .. key)
           end
-          if count > 5 then
+          if count > 5 and vim.fn.mode() == 'n' then
             vim.cmd "normal! m'"
           end
           vim.cmd('normal! ' .. count .. key)

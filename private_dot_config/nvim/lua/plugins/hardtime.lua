@@ -42,7 +42,7 @@ return {
       ['gJ'] = { 'n' },
       ['~'] = { 'n' },
       ['g~'] = { 'n' },
-      ['gu'] = { 'n' },
+      ['gu'] = false, -- leave 'gu' to the open-URL map in keymaps.lua
       ['gU'] = { 'n' },
       ['gq'] = { 'n' },
       ['gw'] = { 'n' },

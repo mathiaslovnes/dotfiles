@@ -27,15 +27,15 @@ return {
   -- stylua: ignore start
   keys = {
     -- Session control
-    { '<leader>Dc',  function() require('dap').continue() end,          desc = 'Debug: Start/Continue' },
-    { '<leader>DR',  function() require('dap').restart() end,           desc = 'Debug: Restart' },
-    { '<leader>Dt',  function() require('dap').terminate() end,         desc = 'Debug: Terminate' },
-    { '<leader>Dl',  function() require('dap').run_last() end,          desc = 'Debug: Run Last' },
+    { '<leader>dc',  function() require('dap').continue() end,          desc = 'Debug: Start/Continue' },
+    { '<leader>dR',  function() require('dap').restart() end,           desc = 'Debug: Restart' },
+    { '<leader>dt',  function() require('dap').terminate() end,         desc = 'Debug: Terminate' },
+    { '<leader>dl',  function() require('dap').run_last() end,          desc = 'Debug: Run Last' },
 
     -- Stepping
-    { '<leader>Di',  function() require('dap').step_into() end,         desc = 'Debug: Step Into' },
-    { '<leader>Do',  function() require('dap').step_over() end,         desc = 'Debug: Step Over' },
-    { '<leader>DO',  function() require('dap').step_out() end,          desc = 'Debug: Step Out' },
+    { '<leader>di',  function() require('dap').step_into() end,         desc = 'Debug: Step Into' },
+    { '<leader>do',  function() require('dap').step_over() end,         desc = 'Debug: Step Over' },
+    { '<leader>dO',  function() require('dap').step_out() end,          desc = 'Debug: Step Out' },
 
     -- Breakpoints
     { '<leader>bp',  function() require('dap').toggle_breakpoint() end, desc = 'Debug: Toggle Breakpoint' },
@@ -45,10 +45,10 @@ return {
     { '<leader>lp',  function() require('dap').set_breakpoint(nil, nil, vim.fn.input 'Log point message: ') end, desc = 'Debug: Log Point' },
 
     -- UI and inspection
-    { '<leader>Dap', function() require('dapui').toggle() end,           desc = 'Debug: Toggle DAP UI' },
-    { '<leader>Dr',  function() require('dap').repl.open() end,          desc = 'Debug: Open REPL' },
-    { '<leader>Dh',  function() require('dap.ui.widgets').hover() end,   desc = 'Debug: Hover Variable', mode = { 'n', 'v' } },
-    { '<leader>Dp',  function() require('dap.ui.widgets').preview() end, desc = 'Debug: Preview', mode = { 'n', 'v' } },
+    { '<leader>dap', function() require('dapui').toggle() end,           desc = 'Debug: Toggle DAP UI' },
+    { '<leader>dr',  function() require('dap').repl.open() end,          desc = 'Debug: Open REPL' },
+    { '<leader>dh',  function() require('dap.ui.widgets').hover() end,   desc = 'Debug: Hover Variable', mode = { 'n', 'v' } },
+    { '<leader>dp',  function() require('dap.ui.widgets').preview() end, desc = 'Debug: Preview', mode = { 'n', 'v' } },
   },
   -- stylua: ignore end
 

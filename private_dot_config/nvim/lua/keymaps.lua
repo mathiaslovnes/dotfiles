@@ -90,7 +90,7 @@ vim.keymap.set({ 'n', 'v' }, 'x', '"_x')
 vim.keymap.set('n', 'ch', '"_ch')
 vim.keymap.set('n', 'cl', '"_cl')
 
-vim.keymap.set({ 'n', 'x' }, '<leader>d', '"_d')
+vim.keymap.set({ 'n', 'x' }, '<leader>D', '"_d') -- not <leader>d: debugger, dadbod and neogen maps start with it
 
 -- Yank to end/beginning of line
 vim.keymap.set('n', 'yL', 'y$', { nowait = true, desc = 'Yank to end of line' })
@@ -117,8 +117,7 @@ vim.keymap.set('n', 'Q', function()
   end
 end, { desc = 'Delete buffer (prompt to save)' })
 
--- Switch to specific buffers by index: kitty sends Esc+digit for Cmd+1..9, which Neovim reads as Alt+digit.
--- (Mapping the raw Esc+digit made every Esc wait 300 ms for a digit.)
+-- Cmd+1..9: go to buffer N (kitty sends Cmd+N as Alt+N)
 for i = 1, 9 do
   vim.keymap.set('n', '<M-' .. i .. '>', '<cmd>BufferLineGoToBuffer ' .. i .. '<cr>', { desc = 'Go to buffer ' .. i })
 end
@@ -144,6 +143,11 @@ vim.keymap.set('n', '<leader>=', '<cmd>wincmd=<CR>', { desc = 'Equalize window s
 -- Mark entire file
 vim.keymap.set({ 'n', 'x' }, '<M-a>', 'ggVG')
 -- vim.keymap.set({ 'n', 'x' }, '<C-s>', 'ggVG')
+
+-- Open link under cursor (gx/gX jump between regexes, treesitter-textobjects)
+vim.keymap.set('n', 'gu', function()
+  vim.ui.open(vim.fn.expand '<cfile>')
+end, { desc = 'Open file or URL under cursor' })
 
 -- Open file under cursor
 vim.keymap.set('n', '<leader>gf', 'gF', { noremap = true, desc = 'Go to file under cursor' })
