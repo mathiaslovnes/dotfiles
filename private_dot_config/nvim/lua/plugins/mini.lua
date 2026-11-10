@@ -83,8 +83,9 @@ return {
 
         custom_textobjects = {
           -- jukit cell: `iC` body, `aC` body plus its opening marker. The marker search is anchored to
-          -- the line start, so a marker line belongs to the cell it opens, and an empty cell gives an
-          -- empty region (diC can't delete markers)
+          -- the line start, so a marker line belongs to the cell it opens. In an empty cell only
+          -- `c` gets an object: a new blank body line (mini.ai can't cancel `c`, which would
+          -- otherwise type into the marker line); d/y/v find nothing
           C = function(ai_type)
             local marker = [[^#\s*|%%--%%|]]
             local above = vim.fn.search(marker, 'bcnW') -- 0 in the first cell
@@ -92,7 +93,11 @@ return {
             local from = (ai_type == 'a' and above > 0) and above or above + 1
             local to = below == 0 and vim.fn.line '$' or below - 1
             if from > to then
-              return { from = { line = from, col = 1 } }
+              if vim.v.operator ~= 'c' then
+                return nil
+              end
+              vim.fn.append(above, '')
+              return { from = { line = above + 1, col = 1 }, to = { line = above + 1, col = 1 }, vis_mode = 'V' }
             end
             return {
               from = { line = from, col = 1 },
