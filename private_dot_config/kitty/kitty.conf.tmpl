@@ -34,8 +34,6 @@ include current-theme.conf
 # Prevent accidental opening of panes
 map cmd+enter no_op
 map kitty_mod+enter no_op
-# Option+Space types a plain space, not a non-breaking one (easy to hit after Option+7/8/9 for | [ ])
-map opt+space send_text all \x20
 
 # Shell commands
 map cmd+shift+n send_text all z ~/.config/nvim && nvim \n
