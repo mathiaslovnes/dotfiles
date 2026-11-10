@@ -23,6 +23,12 @@
 [merge]
   # Show the common ancestor in conflicts, with lines both sides share moved out of the markers
   conflictStyle = zdiff3
+  # git mergetool opens a three-way merge in Neovim
+  tool = nvimdiff
+
+[interactive]
+  # diff-so-fancy hunks in git add -p
+  diffFilter = diff-so-fancy --patch
 
 [push]
   default = current
