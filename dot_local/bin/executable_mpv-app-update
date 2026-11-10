@@ -9,7 +9,8 @@ asset="macos-$(sw_vers -productVersion | cut -d. -f1)-arm.zip"
 notify() { osascript -e "display notification \"$1\" with title \"mpv update\"" || true; }
 trap 'notify "mpv.app update failed, see ~/Library/Logs/mpv-app-update.log"' ERR
 
-release=$(curl -fsSL https://api.github.com/repos/mpv-player/mpv/releases/latest)
+# retries: at login the job can start before Wi-Fi is up
+release=$(curl -fsSL --retry 6 --retry-delay 20 --retry-all-errors https://api.github.com/repos/mpv-player/mpv/releases/latest)
 latest=$($jq -r .tag_name <<<"$release")
 latest=${latest#v}
 installed=$(plutil -extract CFBundleShortVersionString raw "$app/Contents/Info.plist" 2>/dev/null || echo none)
