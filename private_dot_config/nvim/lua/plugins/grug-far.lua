@@ -1,7 +1,51 @@
 return {
   'MagicDuck/grug-far.nvim',
-  -- Note (lazy loading): grug-far.lua defers all it's requires so it's lazy by default
-  -- additional lazy config to defer loading is not really needed...
+  cmd = { 'GrugFar', 'GrugFarWithin' },
+  keys = {
+    -- Search in visually selected block
+    { '<leader>rp', ':GrugFarWithin<CR>', mode = 'x', desc = 'Search & Replace (selection)' },
+    -- Search recursively (only for same filetypes, e.g. .py)
+    {
+      '<leader>rp',
+      function()
+        local ext = vim.fn.expand '%:e'
+        require('grug-far').open { prefills = { filesFilter = ext ~= '' and '*.' .. ext or nil } }
+      end,
+      desc = 'Search & Replace Recursively',
+    },
+    -- Search in current buffer
+    {
+      '<leader>srf',
+      function()
+        require('grug-far').open { prefills = { paths = vim.fn.expand '%' } }
+      end,
+      desc = 'Search & Replace (current filetype)',
+    },
+    -- Search in open buffers
+    {
+      '<leader>srb',
+      function()
+        require('grug-far').open { prefills = { paths = '<buflist>' } }
+      end,
+      desc = 'Search & Replace (open buffers)',
+    },
+    -- Search in buffers within cwd
+    {
+      '<leader>srB',
+      function()
+        require('grug-far').open { prefills = { paths = '<buflist-cwd>' } }
+      end,
+      desc = 'Search & Replace (open buffers only in cwd)',
+    },
+    -- Search in quickfix list
+    {
+      '<leader>srq',
+      function()
+        require('grug-far').open { prefills = { paths = '<qflist>' } }
+      end,
+      desc = 'Search & Replace (quickfix)',
+    },
+  },
   config = function()
     -- optional setup call to override plugin options
     -- alternatively you can set options with vim.g.grug_far = { ... }
@@ -37,55 +81,5 @@ return {
         prevInput = { n = '<C-b>' },
       },
     }
-
-    -- Search in visually selected block
-    vim.keymap.set('x', '<leader>rp', ':GrugFarWithin<CR>', { desc = 'Search & Replace (selection)' })
-
-    -- Search recursively (only for same filetypes, e.g. .py)
-    vim.keymap.set('n', '<leader>rp', function()
-      local ext = vim.fn.expand '%:e'
-      require('grug-far').open {
-        prefills = {
-          filesFilter = ext ~= '' and '*.' .. ext or nil,
-        },
-      }
-    end, { desc = 'Search & Replace Recursively' })
-
-    -- Search in current buffer
-    vim.keymap.set('n', '<leader>srf', function()
-      local ext = vim.fn.expand '%:e'
-      require('grug-far').open {
-        prefills = {
-          paths = vim.fn.expand '%', -- Relative path
-        },
-      }
-    end, { desc = 'Search & Replace (current filetype)' })
-
-    -- Search in open buffers
-    vim.keymap.set('n', '<leader>srb', function()
-      require('grug-far').open {
-        prefills = {
-          paths = '<buflist>',
-        },
-      }
-    end, { desc = 'Search & Replace (open buffers)' })
-
-    -- Search in buffers within cwd
-    vim.keymap.set('n', '<leader>srB', function()
-      require('grug-far').open {
-        prefills = {
-          paths = '<buflist-cwd>',
-        },
-      }
-    end, { desc = 'Search & Replace (open buffers only in cwd)' })
-
-    -- Search in quickfix list
-    vim.keymap.set('n', '<leader>srq', function()
-      require('grug-far').open {
-        prefills = {
-          paths = '<qflist>',
-        },
-      }
-    end, { desc = 'Search & Replace (quickfix)' })
   end,
 }

@@ -20,7 +20,7 @@ return {
     scope = { enabled = true },
     scroll = { enabled = false },
     statuscolumn = { enabled = true },
-    words = { enabled = true },
+    words = { enabled = false }, -- vim-illuminate highlights the word under the cursor
     styles = {
       notification = {
         wo = { wrap = true }, -- Wrap notifications

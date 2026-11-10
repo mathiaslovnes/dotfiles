@@ -42,7 +42,6 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 -- Remove nvim autohighlighting word under cursor - replaced by illuminate.nvim - faster
--- (also keeps snacks.words, which uses LSP document highlights, from highlighting on top of illuminate)
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)

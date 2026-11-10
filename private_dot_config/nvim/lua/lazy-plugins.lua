@@ -146,6 +146,11 @@ require('lazy').setup({
   -- require 'plugins.vim-markdown',   -- Markdown extras (using render-markdown instead)
   -- require 'plugins.markview',       -- Markdown viewer (using render-markdown instead)
   -- require 'plugins.borderline',     -- Window border styling
+  -- require 'plugins.colorizer',      -- Color swatches (using highlight-colors/oklch-color-picker instead)
+  -- require 'plugins.image',          -- Images in buffers (using snacks.image instead)
+  -- require 'plugins.indent-blankline', -- Indentation guides (using snacks.indent instead)
+  -- require 'plugins.pyworks',        -- Notebook workflow (using vim-jukit instead)
+  -- require 'plugins.venv-selector',  -- Pick a Python venv (pyright finds the direnv venv itself)
   -- stylua: ignore end
 }, {
   -- plugins with dev = true load from ~/Dev/<name> and lazy never runs git on them;
