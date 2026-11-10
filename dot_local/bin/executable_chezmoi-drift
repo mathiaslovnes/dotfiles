@@ -1,6 +1,6 @@
 #!/bin/sh
 # tmux status segment: changed managed files (~), new files cum lists (+), unpushed commits (↑)
-n=$(chezmoi status 2>/dev/null | wc -l | tr -d ' ')
+n=$(chezmoi status --exclude=scripts 2>/dev/null | wc -l | tr -d ' ')  # scripts: pending brew bundle runs aren't edits
 u=$(cum 2>/dev/null | wc -l | tr -d ' ')
 a=$(git -C "$HOME/.local/share/chezmoi" rev-list --count '@{u}..HEAD' 2>/dev/null || echo 0)
 [ "$((n + u + a))" -gt 0 ] && printf ' 󰒓 ~%s +%s ↑%s ' "$n" "$u" "$a"
