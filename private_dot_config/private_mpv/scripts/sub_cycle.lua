@@ -104,3 +104,9 @@ mp.add_key_binding(nil, "english", function()
 end)
 mp.add_key_binding(nil, "remove", function() remove("sid", "sub") end)
 mp.add_key_binding(nil, "secondary-remove", function() remove("secondary-sid", "secondary sub") end)
+
+-- Jump to where the current Japanese line ends on screen (sub-end leaves out sub-delay)
+mp.add_key_binding(nil, "line-end", function()
+    local e = mp.get_property_number("sub-end")
+    if e then mp.commandv("seek", e + mp.get_property_number("sub-delay", 0), "absolute+exact") end
+end)
