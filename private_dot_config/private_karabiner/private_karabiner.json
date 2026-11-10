@@ -207,6 +207,47 @@
                         ]
                     },
                     {
+                        "description": "Hyper+H / Hyper+Y: pause mpv / update the newest Anki card from mpv (animecards), from any app",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "h",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_shift",
+                                            "left_control",
+                                            "left_option"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "printf '{\"command\":[\"cycle\",\"pause\"]}\\n' | /usr/bin/nc -U -w 1 /tmp/mpvsocket"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "y",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_shift",
+                                            "left_control",
+                                            "left_option"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "printf '{\"command\":[\"script-binding\",\"update-anki-card\"]}\\n' | /usr/bin/nc -U -w 1 /tmp/mpvsocket"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Caps Lock + W to open Preview",
                         "manipulators": [
                             {
