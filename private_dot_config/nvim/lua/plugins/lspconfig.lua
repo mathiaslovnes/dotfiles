@@ -162,6 +162,7 @@ return {
           -- code, if the language server you are using supports them
           --
           -- This may be unwanted, since they displace some of your code
+          local client = vim.lsp.get_client_by_id(event.data.client_id)
           if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
             map('<leader>ih', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
@@ -216,8 +217,7 @@ return {
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
         --
-        -- But for many setups, the LSP (`ts_ls`) will work just fine
-        ts_ls = {},
+        -- TypeScript: typescript-tools (lua/plugins/typescript-tools.lua), not ts_ls, so .ts files get one server
         svelte = {},
 
         -- CSS
@@ -272,6 +272,15 @@ return {
 
       -- Per-server settings, merged on top of nvim-lspconfig's defaults (mason-lspconfig enables the servers)
       vim.lsp.config('pyright', {
+        -- .envrc: assignment folders have no project file, only a direnv venv
+        root_markers = { 'pyrightconfig.json', 'pyproject.toml', 'setup.py', 'setup.cfg', 'requirements.txt', 'Pipfile', '.envrc', '.git' },
+        -- Use the folder's direnv venv (layout python) when it has one
+        before_init = function(_, config)
+          local py = config.root_dir and vim.fn.glob(config.root_dir .. '/.direnv/*/bin/python', false, true)[1]
+          if py then
+            config.settings.python = vim.tbl_deep_extend('force', config.settings.python or {}, { pythonPath = py })
+          end
+        end,
         settings = {
           pyright = { disableTaggedHints = true }, -- no "is not accessed" hints
           python = {
@@ -311,7 +320,8 @@ return {
 
       require('mason-lspconfig').setup {
         ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-        automatic_installation = true,
+        -- ts_ls: typescript-tools serves TypeScript; jdtls: nvim-java enables it with its own config
+        automatic_enable = { exclude = { 'ts_ls', 'jdtls' } },
       }
     end,
   },
