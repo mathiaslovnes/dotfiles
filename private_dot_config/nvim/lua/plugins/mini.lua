@@ -121,9 +121,9 @@ return {
           around_next = 'an',
           inside_next = 'in',
 
-          -- Move cursor to corresponding edge of `a` textobject
-          goto_left = 'gQ',
-          goto_right = 'gq',
+          -- Move cursor to corresponding edge of `a` textobject (off: f/t do the same jumps)
+          goto_left = '',
+          goto_right = '',
         },
 
         -- Number of lines within which textobject is searched

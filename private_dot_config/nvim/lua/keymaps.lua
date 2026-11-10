@@ -140,10 +140,14 @@ vim.keymap.set('n', '<leader>=', '<cmd>wincmd=<CR>', { desc = 'Equalize window s
 vim.keymap.set({ 'n', 'x' }, '<M-a>', 'ggVG')
 -- vim.keymap.set({ 'n', 'x' }, '<C-s>', 'ggVG')
 
--- Open link under cursor (gx/gX jump between regexes, treesitter-textobjects)
-vim.keymap.set('n', 'gu', function()
-  vim.ui.open(vim.fn.expand '<cfile>')
-end, { desc = 'Open file or URL under cursor' })
+-- gu: Neovim's own gx (open the URL or file under the cursor, a markdown link's target, or the
+-- selection), copied here before treesitter-textobjects puts its regex jump on gx
+for _, mode in ipairs { 'n', 'x' } do
+  local gx = vim.fn.maparg('gx', mode, false, true)
+  if gx.callback then
+    vim.keymap.set(mode, 'gu', gx.callback, { desc = gx.desc })
+  end
+end
 
 -- Open file under cursor
 vim.keymap.set('n', '<leader>gf', 'gF', { noremap = true, desc = 'Go to file under cursor' })

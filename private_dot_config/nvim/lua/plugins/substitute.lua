@@ -17,11 +17,10 @@ return {
       },
     }
 
-    -- Substitute operator (on gz: z and Z would swallow zz/zt/za/z=/ZZ)
-    vim.keymap.set('n', 'gz', require('substitute').operator, { noremap = true, desc = 'Substitute' })
-    vim.keymap.set('n', 'gzz', require('substitute').line, { noremap = true, desc = 'Substitute line' })
-    vim.keymap.set('n', 'gZ', require('substitute').eol, { noremap = true, desc = 'Substitute to EOL' })
-    vim.keymap.set('x', 'gz', require('substitute').visual, { noremap = true, desc = 'Substitute visual' })
+    -- Substitute operator (on <leader>z: plain z and Z would swallow zz/zt/za/z=/ZZ)
+    vim.keymap.set('n', '<leader>z', require('substitute').operator, { noremap = true, desc = 'Substitute' })
+    vim.keymap.set('n', '<leader>zz', require('substitute').line, { noremap = true, desc = 'Substitute line' })
+    vim.keymap.set('x', '<leader>z', require('substitute').visual, { noremap = true, desc = 'Substitute visual' })
 
     -- Exchange (replaces mini.operators exchange)
     vim.keymap.set('n', '<leader>x', require('substitute.exchange').operator, { noremap = true, desc = 'Exchange' })
