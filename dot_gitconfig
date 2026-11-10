@@ -113,12 +113,9 @@
   # Branch related aliases
   br = branch
   co = checkout
-  com = checkout master
-  cod = checkout develop
 
-  # Automatically deletes all local branches that have already been merged into the current branch, except for the current branch, main, master, and develop.
-  # This keeps your branch list clean by removing obsolete branches safely.
-  groom = "!f() { git branch --merged | egrep -v \"(^\\*|main|master|develop)\" | xargs git branch -d; }; f"
+  # Delete local branches merged into the current branch, except the current branch, worktree branches, main, master and develop.
+  groom = "!git branch --merged | grep -vE '^[*+] |^  (main|master|develop)$' | xargs -r git branch -d"
 
   # Rebase related aliases
   ri = rebase -i
@@ -126,21 +123,15 @@
   rc = rebase --continue
   ra = rebase --abort
   rs = rebase --skip
-  re = rebase --exit
-  rod = rebase origin/develop
-  rom = rebase origin/master
 
   # Stash related aliases
   poop = stash pop
   wip = commit -m "WIP" -n
-  stsh = stash save --include-untracked
 
   # Push related aliases
   force = push --force-with-lease
-  fam = "!f() { git add . && git amend && git force; }; f"
 
   # Mistake related aliases
-  abort = checkout -- .
   wait = reset HEAD
   undo = reset --soft HEAD^
   amend = commit --amend --no-edit
