@@ -156,6 +156,7 @@ require('lazy').setup({
   -- plugins with dev = true load from ~/Dev/<name> and lazy never runs git on them;
   -- without that folder (a new machine) lazy clones them from GitHub instead
   dev = { path = '~/Dev', patterns = {}, fallback = true },
+  rocks = { enabled = false }, -- no plugin needs luarocks
   ui = {
     icons = vim.g.have_nerd_font and {} or {
       cmd = '⌘',
