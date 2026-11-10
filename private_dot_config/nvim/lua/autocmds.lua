@@ -49,6 +49,21 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
+-- Reopen files at the last cursor position (ShaDa keeps it for the 100 most recent files)
+vim.api.nvim_create_autocmd('BufReadPost', {
+  group = vim.api.nvim_create_augroup('last-position', { clear = true }),
+  callback = function(a)
+    if vim.bo[a.buf].filetype == 'gitcommit' or vim.b[a.buf].last_loc then
+      return
+    end
+    vim.b[a.buf].last_loc = true
+    local mark = vim.api.nvim_buf_get_mark(a.buf, '"')
+    if mark[1] > 0 and mark[1] <= vim.api.nvim_buf_line_count(a.buf) then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    end
+  end,
+})
+
 -- Reload files changed on disk (Claude Code edits) when moving back into their window
 vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave', 'WinEnter', 'BufEnter' }, {
   group = vim.api.nvim_create_augroup('checktime', { clear = true }),
