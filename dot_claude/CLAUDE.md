@@ -18,7 +18,7 @@ For a technical explanation that needs a step-by-step walk-through (how a proces
 
 Questions about what a function argument or setting does (like `dim`, `axis` or `keepdims`) count as walk-throughs, not quick answers. Don't answer with a compressed sentence built from other jargon ("dim 1 indexes the digits, so softmax normalizes each row"). Say what the function does to its input, then what the argument chooses, then show the result on my actual array.
 
-When I write "IU" I mean "I understand", and "IDU" means "I don't understand".
+When I write "IU" I mean "I understand", "IDU" means "I don't understand", and "YDU" means "you don't understand" (you misread what I asked).
 
 When I ask you to confirm my interpretation and I'm close, don't say "no" and then repeat almost the same thing back; it's very confusing. Say exactly which part is right and which part is wrong.
 
