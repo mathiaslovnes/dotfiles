@@ -102,13 +102,18 @@
 [transfer]
   fsckobjects = true
 
+[tag]
+  # List tags by version (v1.2 before v1.10) instead of alphabetically
+  sort = version:refname
+
 [versionsort]
-  prereleaseSuffix = -pre
-  prereleaseSuffix = .pre
-  prereleaseSuffix = -beta
-  prereleaseSuffix = .beta
-  prereleaseSuffix = -rc
-  prereleaseSuffix = .rc
+  # Pre-release tags sort before their release, in this order
+  suffix = -pre
+  suffix = .pre
+  suffix = -beta
+  suffix = .beta
+  suffix = -rc
+  suffix = .rc
 
 [alias]
   # Discard duplicate leading “git” (e.g. “git git status”)
