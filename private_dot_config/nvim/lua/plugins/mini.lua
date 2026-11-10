@@ -116,8 +116,8 @@ return {
           -- Next/last variants
           -- NOTE: These override built-in LSP selection mappings on Neovim>=0.12
           -- Map LSP selection manually to use it (see `:h MiniAi.config`)
-          around_last = 'aL', -- al/il are treesitter's loop selects
-          inside_last = 'iL',
+          around_last = 'al',
+          inside_last = 'il',
           around_next = 'an',
           inside_next = 'in',
 

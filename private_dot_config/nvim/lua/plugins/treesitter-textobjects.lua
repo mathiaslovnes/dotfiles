@@ -82,11 +82,11 @@ return {
       require('nvim-treesitter-textobjects.move').goto_previous('@conditional.outer', 'textobjects')
     end)
 
-    -- loop (l)
-    vim.keymap.set({ 'n', 'x', 'o' }, 'gl', function()
+    -- loop (o, as in loop; l is mini.ai's "last")
+    vim.keymap.set({ 'n', 'x', 'o' }, 'go', function()
       require('nvim-treesitter-textobjects.move').goto_next('@loop.outer', 'textobjects')
     end)
-    vim.keymap.set({ 'n', 'x', 'o' }, 'gL', function()
+    vim.keymap.set({ 'n', 'x', 'o' }, 'gO', function()
       require('nvim-treesitter-textobjects.move').goto_previous('@loop.outer', 'textobjects')
     end)
 
@@ -148,11 +148,11 @@ return {
       require('nvim-treesitter-textobjects.select').select_textobject('@conditional.inner', 'textobjects')
     end)
 
-    -- loop (l)
-    vim.keymap.set({ 'x', 'o' }, 'al', function()
+    -- loop (o)
+    vim.keymap.set({ 'x', 'o' }, 'ao', function()
       require('nvim-treesitter-textobjects.select').select_textobject('@loop.outer', 'textobjects')
     end)
-    vim.keymap.set({ 'x', 'o' }, 'il', function()
+    vim.keymap.set({ 'x', 'o' }, 'io', function()
       require('nvim-treesitter-textobjects.select').select_textobject('@loop.inner', 'textobjects')
     end)
 
