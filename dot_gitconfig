@@ -80,7 +80,16 @@
 	required = true
 
 [url "git@github.com:"]
-	insteadOf = https://github.com/
+	# Fetch over HTTPS (works without an SSH key), push over SSH
+	pushInsteadOf = https://github.com/
+
+[credential "https://github.com"]
+	# Empty helper skips the keychain for github.com; gh supplies its own login
+	helper =
+	helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !gh auth git-credential
 
 [hook "strip-claude"]
   # Delete Claude co-author trailers in every repo; runs alongside each repo's own hooks
