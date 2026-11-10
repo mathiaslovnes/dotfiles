@@ -28,6 +28,10 @@ local ARROWS = {
 }
 
 local function clean(s)
+    local tags = {}  -- keep ASS override tags ({\an8} puts a line at the top); sub-text hides them anyway
+    s = s:gsub("{\\[^}]*}", function(t) tags[#tags + 1] = t; return "\1" .. #tags .. "\2" end)
+    s = s:gsub("(%d)%.%f[%d]", "%1\3")                                   -- keep decimals (3.5, 1.2.3)
+    s = s:gsub("(\239\188[\144-\153])\239\188\142(\239\188[\144-\153])", "%1\4%2")  -- and ３．５
     s = s:gsub("%(.-%)", "")
     s = s:gsub("%[.-%]", "")
     s = s:gsub("{.-}", "")
@@ -37,6 +41,9 @@ local function clean(s)
     s = s:gsub("&lrm;?", "")
     s = s:gsub("%.", "")
     s = s:gsub("\227\128\128", " ")                                      -- full-width space
+    s = s:gsub("\3", ".")
+    s = s:gsub("\4", "\239\188\142")
+    s = s:gsub("\1(%d+)\2", function(i) return tags[tonumber(i)] end)
     return s
 end
 
@@ -45,7 +52,7 @@ local function clean_lines(text)
     local out = {}
     for line in (clean(text) .. "\n"):gmatch("(.-)\n") do
         line = line:gsub("^%s+", ""):gsub("%s+$", "")
-        if line ~= "" then out[#out + 1] = line end
+        if line:gsub("{\\[^}]*}", ""):match("%S") then out[#out + 1] = line end  -- tags alone count as empty
     end
     return out
 end
@@ -85,7 +92,7 @@ local function clean_ass(text)
     local out = {}
     for line in (text .. "\n"):gmatch("(.-)\n") do
         local prefix, body = line:match("^(Dialogue:[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,)(.*)$")
-        if prefix then
+        if prefix and not body:find("\\p[1-9]") then                     -- vector drawings: leave alone
             local parts = {}
             for _, piece in ipairs(clean_lines((body:gsub("\\[Nn]", "\n")))) do parts[#parts + 1] = piece end
             if #parts > 0 then out[#out + 1] = prefix .. table.concat(parts, "\\N") end
