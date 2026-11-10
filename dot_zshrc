@@ -59,8 +59,8 @@ function zvm_after_init() {
   # Delete word
   bindkey -M viins '^[^?' backward-kill-word
 
-  # Command+backspace: delete entire line
-  bindkey "^[[8;5u" kill-whole-line
+  # Command+backspace (kitty sends Ctrl+U): delete to the start of the line
+  bindkey -M viins '^U' backward-kill-line
 
   # Shift/option+backspace: remove word
   bindkey "^[^?" backward-kill-word
@@ -123,10 +123,13 @@ alias sk='kitten show-key'
 alias kr='pkill -USR1 kitty'
 
 ### Eza (l/ls replacement)
-alias l='eza -l --icons'
-alias ls='eza --icons'
-alias la='eza -la --icons'
-alias lt='eza --tree --icons'
+# clickable file links (kitty, through tmux) only when printing to the terminal; pipes stay plain
+ezah() { if [[ -t 1 ]]; then eza --hyperlink "$@"; else eza "$@"; fi }
+alias l='ezah -l --icons=auto'
+alias ls='ezah --icons=auto'
+alias la='ezah -la --icons=auto'
+alias lt='ezah --tree --icons=auto'
+alias rg='rg --hyperlink-format=kitty'
 
 ### Zsh
 # alias grep='rg'
