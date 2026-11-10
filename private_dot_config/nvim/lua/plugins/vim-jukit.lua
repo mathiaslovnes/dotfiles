@@ -1,5 +1,6 @@
 return {
   'mathiaslovnes/vim-jukit',
+  dev = true, -- your fork, developed in ~/Dev/vim-jukit
   ft = 'python',
   config = function()
     vim.g.jukit_terminal = 'tmux' -- Optional: Set terminal for plotting
@@ -84,8 +85,7 @@ return {
     vim.keymap.set('n', '<leader><space>', '<cmd>call jukit#send#section(0)<CR>', { noremap = true, silent = true })
     vim.keymap.set('n', '!', '<cmd>call jukit#send#section(0)<CR>', { noremap = true, silent = true })
 
-    vim.keymap.set('n', '_', '<cmd>call jukit#send#selection()<cr>')
-    vim.keymap.set('n', '_', '<cmd><C-U>call jukit#send#selection()cr>')
+    vim.keymap.set('n', '_', '<cmd>call jukit#send#selection()<CR>', { desc = 'Re-send last visual selection to IPython' })
 
     -- save to pdf -- rebind to dummy key
     vim.keymap.set('n', '<leader>_pdf', "<cmd>call jukit#convert#save_nb_to_file(0,1,'pdf')<cr>")
