@@ -39,7 +39,7 @@ Each plugin lives in its own file under `lua/plugins/`. To add a plugin, create 
 
 ## Treesitter
 
-nvim-treesitter is on its `main` branch: `plugins/treesitter.lua` only installs parsers. A FileType autocmd in `autocmds.lua` starts the highlighter and sets treesitter indent for every buffer with a parser, except latex, tmux and jukit notebooks (Python files containing `|%%--%%|`), which keep vim syntax. snacks `quickfile` excludes python for the same reason.
+nvim-treesitter is on its `main` branch: `plugins/treesitter.lua` only installs parsers. A FileType autocmd in `autocmds.lua` starts the highlighter and sets treesitter indent for every buffer with a parser except latex and tmux, jukit notebooks included.
 
 ## LSP Servers (auto-installed via Mason)
 
@@ -54,7 +54,7 @@ Both are active. Snacks handles LSP navigation (`gd`, `gr`, `gI`, `gy`), git pic
 ## Python / Jupyter Workflow
 
 Notebooks are vim-jukit `.py` files: cells are split by `# |%%--%%| <id|id>` lines, and markdown cells are `r"""°°° ... °°°"""` strings. jukit (`lua/plugins/vim-jukit.lua`) sends cells to an IPython pane in tmux; its buffer maps only exist in `.py`/`.ipynb` buffers (`g:jukit_mappings_ext_enabled` in init.lua).
-- Markdown in text cells is jukit's vim-syntax region `textcell` (`g:jukit_enable_textcell_syntax`). It only shows while the treesitter highlighter is off, which is why notebooks skip treesitter. vim-jukit.lua re-adds the region after a file reloads from disk (FileChangedShellPost).
+- Markdown in text cells comes from treesitter: `after/queries/python/injections.scm` injects markdown into `°°°` strings, and render-markdown renders it. jukit's own vim-syntax region `textcell` doesn't show, because the treesitter highlighter turns vim syntax off.
 - `lua/jukit_dividers.lua`: a decoration provider (namespace `pyworks_deco`) that draws the cell divider lines and hides the `°°°` lines on the visible lines at redraw time.
 - `autoload/jukit/tmux/layouts.vim` shadows jukit's layout function and calls `lua/jukit_tmux_layout.lua` (output panes at the far right, columns evenly sized).
 
@@ -67,4 +67,4 @@ bt()     -- Snacks.debug.backtrace
 
 ## After/Queries
 
-`after/queries/python/injections.scm` (markdown inside `°°°` strings) and `highlights.scm` (mutes `# |` divider comments and raw docstrings) only apply where the treesitter highlighter runs in a Python buffer: plain `.py` files, not jukit notebooks.
+`after/queries/python/injections.scm` injects markdown inside `°°°` strings (jukit text cells), and `highlights.scm` mutes `# |` divider comments. Don't conceal string contents there: render-markdown sets conceallevel 3 in Python buffers, so concealed text disappears.
