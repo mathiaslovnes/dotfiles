@@ -152,6 +152,9 @@
 
   # Diff related aliases
   changes = diff --name-status
+  # Syntax-aware diff and log with difftastic
+  dft = -c diff.external=difft diff
+  dlog = -c diff.external=difft log -p --ext-diff
   lg = log --pretty=oneline --abbrev-commit --graph --decorate
 
   # Alias related aliases
