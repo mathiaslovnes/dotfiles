@@ -76,6 +76,8 @@
   gh-poi-locked = true
 [branch "develop"]
   gh-poi-locked = true
+[branch "dev"]
+  gh-poi-locked = true
 
 [column]
   ui = auto
@@ -147,8 +149,8 @@
   br = branch
   co = checkout
 
-  # Delete local branches merged into the current branch, except the current branch, worktree branches, main, master and develop.
-  groom = "!git branch --merged | grep -vE '^[*+] |^  (main|master|develop)$' | xargs -r git branch -d"
+  # Delete local branches merged into the current branch, except the current branch, worktree branches, main, master, develop and dev.
+  groom = "!git branch --merged | grep -vE '^[*+] |^  (main|master|develop|dev)$' | xargs -r git branch -d"
 
   # Rebase related aliases
   ri = rebase -i
