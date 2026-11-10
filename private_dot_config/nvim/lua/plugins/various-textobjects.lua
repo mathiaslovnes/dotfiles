@@ -13,8 +13,7 @@ return {
 
     -- stylua: ignore start
     vim.keymap.set({ 'o', 'x' }, 'U', function() require('various-textobjs').url() end, { desc = 'URL textobj' })
-    vim.keymap.set({ 'o', 'x' }, 'as', function()require('various-textobjs').subword 'outer'end, { desc = 'Outer subword' })
-    vim.keymap.set({ 'o', 'x' }, 'is', function()require('various-textobjs').subword 'inner'end, { desc = 'Inner subword' })
+    -- no subword objects: as/is are treesitter's class selects, and spider's w/e/b move by subword
     -- stylua: ignore end
   end,
 }

@@ -196,47 +196,19 @@ return {
       require('nvim-treesitter-textobjects.select').select_textobject('@regex.inner', 'textobjects')
     end)
 
-    -- numbers (n)
-    vim.keymap.set({ 'x', 'o' }, 'an', function()
-      require('nvim-treesitter-textobjects.select').select_textobject('@number.inner', 'textobjects')
-    end)
-
     -- -- You can also pass a list to group multiple queries.
     -- vim.keymap.set({ 'n', 'x', 'o' }, ']o', function()
     --   require('nvim-treesitter-textobjects.move').goto_next_start({ '@loop.inner', '@loop.outer' }, 'textobjects')
     -- end)
 
     ---------------- KEYMAPS FOR SWAPPING ----------------
-    -- === With <leader> ===
-    -- swap (w - n/p for next/previous)
-    vim.keymap.set('n', '<leader>wn', function()
+    -- move the parameter under the cursor right/left
+    vim.keymap.set('n', '<leader>>', function()
       require('nvim-treesitter-textobjects.swap').swap_next '@parameter.inner'
-    end)
-    vim.keymap.set('n', '<leader>wp', function()
+    end, { desc = 'Swap parameter with the next one' })
+    vim.keymap.set('n', '<leader><', function()
       require('nvim-treesitter-textobjects.swap').swap_previous '@parameter.inner'
-    end)
-    -- swap (w for next, W for previous)
-    vim.keymap.set('n', '<leader>w', function()
-      require('nvim-treesitter-textobjects.swap').swap_next '@parameter.inner'
-    end)
-    vim.keymap.set('n', '<leader>W', function()
-      require('nvim-treesitter-textobjects.swap').swap_previous '@parameter.inner'
-    end)
-    -- === With g ===
-    -- swap (w - n/p for next/previous)
-    vim.keymap.set('n', 'gwn', function()
-      require('nvim-treesitter-textobjects.swap').swap_next '@parameter.inner'
-    end)
-    vim.keymap.set('n', 'gwp', function()
-      require('nvim-treesitter-textobjects.swap').swap_previous '@parameter.inner'
-    end)
-    -- swap (w for next, W for previous)
-    vim.keymap.set('n', 'gw', function()
-      require('nvim-treesitter-textobjects.swap').swap_next '@parameter.inner'
-    end)
-    vim.keymap.set('n', 'gW', function()
-      require('nvim-treesitter-textobjects.swap').swap_previous '@parameter.inner'
-    end)
+    end, { desc = 'Swap parameter with the previous one' })
     -- ; and , are left to flash, which repeats f/t with them
   end,
 }

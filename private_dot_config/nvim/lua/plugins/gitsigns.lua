@@ -77,9 +77,6 @@ return {
 
         -- Toggles
         map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = '[T]oggle git show [b]lame line' })
-        -- Shows deleted lines as virtual text in your buffer
-        map('n', '<leader>tD', gitsigns.toggle_deleted, { desc = '[T]oggle git show [D]eleted' })
-
         -- Text object for hunks — lets you do things like vih (select inside hunk)
         map({ 'o', 'x' }, 'ih', gitsigns.select_hunk)
       end,

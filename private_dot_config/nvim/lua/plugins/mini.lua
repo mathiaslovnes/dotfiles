@@ -111,8 +111,8 @@ return {
           -- Next/last variants
           -- NOTE: These override built-in LSP selection mappings on Neovim>=0.12
           -- Map LSP selection manually to use it (see `:h MiniAi.config`)
-          around_last = 'il',
-          inside_last = 'il',
+          around_last = 'aL', -- al/il are treesitter's loop selects
+          inside_last = 'iL',
           around_next = 'an',
           inside_next = 'in',
 
@@ -255,8 +255,8 @@ return {
         -- Module mappings. Use `''` (empty string) to disable one.
         -- Modifiers changing alignment steps and/or options
         mappings = {
-          start = 'ga',
-          start_with_preview = 'gA',
+          start = '', -- ga/gA are treesitter's parameter jumps
+          start_with_preview = '',
 
           -- -- Main option modifiers
           -- ['s'] = --<function: enter split pattern>,

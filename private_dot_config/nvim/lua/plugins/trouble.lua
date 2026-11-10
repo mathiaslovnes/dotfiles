@@ -2,14 +2,15 @@ return {
   'folke/trouble.nvim',
   opts = {}, -- for default options, refer to the configuration section for custom setup.
   cmd = 'Trouble',
+  -- on <leader>X: <leader>x/<leader>xx are substitute's exchange
   keys = {
     {
-      '<leader>xx',
+      '<leader>XX',
       '<cmd>Trouble diagnostics toggle<cr>',
       desc = 'Diagnostics (Trouble)',
     },
     {
-      '<leader>xX',
+      '<leader>Xb',
       '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
       desc = 'Buffer Diagnostics (Trouble)',
     },
@@ -24,12 +25,12 @@ return {
       desc = 'LSP Definitions / references / ... (Trouble)',
     },
     {
-      '<leader>xL',
+      '<leader>XL',
       '<cmd>Trouble loclist toggle<cr>',
       desc = 'Location List (Trouble)',
     },
     {
-      '<leader>xQ',
+      '<leader>XQ',
       '<cmd>Trouble qflist toggle<cr>',
       desc = 'Quickfix List (Trouble)',
     },

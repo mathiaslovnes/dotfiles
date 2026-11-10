@@ -128,7 +128,8 @@ require('lazy').setup({
   require 'plugins.undotree',       -- Visual undo history tree browser
   require 'plugins.grug-far',       -- Project-wide find and replace
   require 'plugins.marks',          -- Visible marks in the gutter with keybindings to manage them
-  require 'plugins.dooing',         -- Simple todo list manager
+  -- require 'plugins.dooing',      -- Todo list in a float (replaced by checkmate)
+  require 'plugins.checkmate',      -- Todo lists as markdown checkboxes in todo.md files
   require 'plugins.stay',           -- Restore cursor position when reopening buffers
   require 'plugins.hardtime',       -- Break bad habits by discouraging repeated hjkl spam
   require 'plugins.claude-code',
