@@ -50,7 +50,6 @@ return { -- You can easily change to a different colorscheme.
       auto_integrations = false,
       integrations = {
         blink_cmp = true,
-        cmp = true,
         gitsigns = true,
         nvimtree = true,
         treesitter = true,

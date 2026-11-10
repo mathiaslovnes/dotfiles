@@ -7,10 +7,8 @@ return {
   config = function()
     local ls = require 'luasnip'
 
-    -- Friendly-snippets
-    require('luasnip.loaders.from_vscode').load {
-      exclude = { '' }, -- Exclude languages you don't want
-    }
+    -- Friendly-snippets, loaded per filetype the first time it's opened (load{} parsed every language at startup)
+    require('luasnip.loaders.from_vscode').lazy_load()
     local s = ls.snippet
     local i = ls.insert_node
     local t = ls.text_node

@@ -76,7 +76,6 @@ require('lazy').setup({
   require 'plugins.vim-visual-multi',    -- Multiple cursors for simultaneous edits
   require 'plugins.various-textobjects', -- Extra textobjects for subwords and other selections
   require 'plugins.mini',                -- Swiss-army kit: surround, trailspace, splitjoin, bufremove, etc.
-  require 'plugins.unimpaired',          -- Bracket-based mappings for jumping between methods, quickfix, etc.
   -- require 'plugins.treesj',           -- Split/join code blocks (replaced by mini.splitjoin)
 
   -- ╔══════════════════════════════════════════════════════════════╗

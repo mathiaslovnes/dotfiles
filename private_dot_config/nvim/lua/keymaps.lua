@@ -38,6 +38,10 @@ vim.keymap.set('i', '<C-BS>', '<C-w>')
 vim.keymap.set('c', '<M-BS>', '<C-w>') -- cmd mode
 vim.keymap.set('c', '<C-BS>', '<C-w>') -- cmd mode
 
+-- Blank line above / below, with a count and . repeat (Neovim's built-in [<Space> and ]<Space>)
+vim.keymap.set('n', '<leader>ø', '[<Space>', { remap = true, desc = 'Blank line above' })
+vim.keymap.set('n', '<leader>Ø', ']<Space>', { remap = true, desc = 'Blank line below' })
+
 -- Insert new lines without entering insert mode
 vim.keymap.set('n', '<CR>', 'o<ESC>')
 vim.keymap.set('n', '<leader><CR>', 'O<ESC>')
