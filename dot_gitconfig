@@ -3,24 +3,13 @@
 	email = mathiaslovnes02@gmail.com
 
 [core]
-	excludesfile = /Users/mathiaslovnes/.gitignore_global
+	excludesfile = ~/.gitignore_global
   # Use nvim as main git editor
   editor = nvim
   ignoreCase = false
   pager = diff-so-fancy | less --tabs=4 -RFX
   # Don’t consider trailing space change as a cause for merge conflicts
   whitespace = -trailing-space
-
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-
-[mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
-
-[commit]
-	template = /Users/mathiaslovnes/.stCommitMsg
 
 [status]
   # Recursively traverse untracked directories to display all contents
