@@ -1,0 +1,5 @@
+git:
+  # Same diff view as git's core.pager
+  diffRenderers:
+    - colorArg: always
+      command: diff-so-fancy
