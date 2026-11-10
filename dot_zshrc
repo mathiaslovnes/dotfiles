@@ -125,6 +125,7 @@ alias kr='pkill -USR1 kitty'
 ### Eza (l/ls replacement)
 # clickable file links (kitty, through tmux) only when printing to the terminal; pipes stay plain
 ezah() { if [[ -t 1 ]]; then eza --hyperlink "$@"; else eza "$@"; fi }
+compdef ezah=eza  # keep eza's tab completion for the aliases below
 alias l='ezah -l --icons=auto'
 alias ls='ezah --icons=auto'
 alias la='ezah -la --icons=auto'
