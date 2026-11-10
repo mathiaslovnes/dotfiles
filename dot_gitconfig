@@ -17,14 +17,53 @@
   # Display submodule rev change summaries in status
   submoduleSummary = true
 
+[commit]
+  # Show the staged diff below the message in the editor
+  verbose = true
+
 [merge]
-# Display common-ancestor blocks in conflict hunks
-conflictstyle = diff3
+  # Show the common ancestor in conflicts, with lines both sides share moved out of the markers
+  conflictStyle = zdiff3
 
 [push]
   default = current
+  # Set the upstream on the first push of a new branch
+  autoSetupRemote = true
   # When pushing, also push tags whose commit-ishs are now reachable upstream
   followTags = true
+
+[pull]
+  rebase = true
+
+[rebase]
+  # Stash uncommitted changes before a rebase and restore them after
+  autoStash = true
+  # Move fixup!/squash! commits next to their target in rebase -i
+  autoSquash = true
+
+[diff]
+  algorithm = histogram
+  # Color moved blocks differently from real additions and deletions
+  colorMoved = default
+
+[rerere]
+  # Remember conflict resolutions and reapply them when the same conflict comes back
+  enabled = true
+  autoupdate = true
+
+[fetch]
+  # Drop remote-tracking branches deleted on the remote
+  prune = true
+
+[branch]
+  sort = -committerdate
+
+[column]
+  ui = auto
+
+[help]
+  # Ask before running the closest command to a typo
+  autocorrect = prompt
 
 [log]
   # Use abbrev SHAs whenever possible/relevant instead of full 40-chars
@@ -80,12 +119,6 @@ conflictstyle = diff3
   # Automatically deletes all local branches that have already been merged into the current branch, except for the current branch, main, master, and develop.
   # This keeps your branch list clean by removing obsolete branches safely.
   groom = "!f() { git branch --merged | egrep -v \"(^\\*|main|master|develop)\" | xargs git branch -d; }; f"
-
-  # Syncing related aliases
-  # Pulls remote changes and re-applies local commits on top, keeping history linear.
-  pur = pull --rebase
-  #   Fetches remote updates and removes local branches that no longer exist on the remote.
-  prune = fetch --prune
 
   # Rebase related aliases
   ri = rebase -i
