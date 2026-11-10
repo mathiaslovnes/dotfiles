@@ -1,0 +1,8 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+# Install whatever the Brewfile lists but the machine lacks; reruns when the Brewfile changes.
+# Brewfile hash: {{ include "private_dot_config/Brewfile" | sha256sum }}
+set -euo pipefail
+eval "$(/opt/homebrew/bin/brew shellenv bash)"
+brew bundle install --no-upgrade --file="$HOME/.config/Brewfile"
+{{ end -}}
