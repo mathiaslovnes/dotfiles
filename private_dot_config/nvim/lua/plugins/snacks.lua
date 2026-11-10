@@ -17,7 +17,7 @@ return {
     },
     picker = { enabled = true },
     quickfile = { enabled = true },
-    scope = { enabled = true },
+    scope = { enabled = true, keys = { textobject = { ii = false, ai = false } } }, -- ai/ii select a conditional (treesitter-textobjects)
     scroll = { enabled = false },
     statuscolumn = { enabled = true },
     words = { enabled = false }, -- vim-illuminate highlights the word under the cursor
@@ -51,7 +51,7 @@ return {
     { "<leader>gL", function() Snacks.picker.git_log_line() end, desc = "Git Log Line" },
     { "<leader>gs", function() Snacks.picker.git_status() end, desc = "Git Status" },
     -- { "<leader>gS", function() Snacks.picker.git_stash() end, desc = "Git Stash" },
-    { "<leader>gd", function() Snacks.picker.git_diff() end, desc = "Git Diff (Hunks)" },
+    { "<leader>gh", function() Snacks.picker.git_diff() end, desc = "Git Diff (Hunks)" }, -- <leader>gd is gitsigns' diff view
     { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Git Browse", mode = { "n", "v" } },
 
     -- { "<leader>glf", function() Snacks.picker.git_log_file() end, desc = "Git Log File" },

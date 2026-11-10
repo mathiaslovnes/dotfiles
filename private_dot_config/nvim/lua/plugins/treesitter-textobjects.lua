@@ -140,11 +140,11 @@ return {
       require('nvim-treesitter-textobjects.select').select_textobject('@function.inner', 'textobjects')
     end)
 
-    -- conditional (c)
-    vim.keymap.set({ 'x', 'o' }, 'ac', function()
+    -- conditional (i for if; ac/ic select a jukit cell, mini.lua)
+    vim.keymap.set({ 'x', 'o' }, 'ai', function()
       require('nvim-treesitter-textobjects.select').select_textobject('@conditional.outer', 'textobjects')
     end)
-    vim.keymap.set({ 'x', 'o' }, 'ic', function()
+    vim.keymap.set({ 'x', 'o' }, 'ii', function()
       require('nvim-treesitter-textobjects.select').select_textobject('@conditional.inner', 'textobjects')
     end)
 

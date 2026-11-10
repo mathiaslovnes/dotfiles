@@ -82,11 +82,11 @@ return {
         -- Also use this to disable builtin textobjects. See |MiniAi.config|.
 
         custom_textobjects = {
-          -- jukit cell: `iC` body, `aC` body plus its opening marker. The marker search is anchored to
+          -- jukit cell: `ic` body, `ac` body plus its opening marker. The marker search is anchored to
           -- the line start, so a marker line belongs to the cell it opens. In an empty cell only
-          -- `c` gets an object: a new blank body line (mini.ai can't cancel `c`, which would
+          -- the `c` operator gets an object: a new blank body line (mini.ai can't cancel `c`, which would
           -- otherwise type into the marker line); d/y/v find nothing
-          C = function(ai_type)
+          c = function(ai_type)
             local marker = [[^#\s*|%%--%%|]]
             local above = vim.fn.search(marker, 'bcnW') -- 0 in the first cell
             local below = vim.fn.search(marker, 'nW') -- 0 in the last cell
