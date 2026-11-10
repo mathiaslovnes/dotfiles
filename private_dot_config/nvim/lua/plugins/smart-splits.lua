@@ -1,7 +1,6 @@
 return {
 
   'mrjones2014/smart-splits.nvim',
-  build = './kitty/install-kittens.bash',
   event = 'VeryLazy', -- tmux finds Neovim through ps (tmux.conf is_vim), not through smart-splits
 
   config = function()

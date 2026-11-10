@@ -46,8 +46,7 @@ return { -- You can easily change to a different colorscheme.
       },
       color_overrides = {},
       custom_highlights = {}, -- Colorscheme-independent overrides live in lua/highlights.lua
-      default_integrations = true,
-      auto_integrations = false,
+      auto_integrations = true, -- colors every installed plugin catppuccin supports (default_integrations was removed)
       integrations = {
         blink_cmp = true,
         gitsigns = true,
