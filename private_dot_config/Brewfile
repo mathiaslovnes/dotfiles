@@ -242,8 +242,6 @@ cask "obsidian"
 cask "omnidisksweeper"
 # Control your smart light system
 cask "philips-hue-sync"
-# Minecraft launcher
-cask "prismlauncher"
 # Control your tools with a few keystrokes
 cask "raycast"
 # Utilise mouse side navigation buttons

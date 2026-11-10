@@ -133,35 +133,6 @@
                         ]
                     },
                     {
-                        "description": "Mouse4 -> F3 in MCSR (Prism)",
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "file_paths": [
-                                            "PrismLauncher/java/[^/]+/bin/java$"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    }
-                                ],
-                                "from": {
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    },
-                                    "pointing_button": "button3"
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "f3"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
                         "description": "Mouse4/5 to undo/bury in Anki",
                         "manipulators": [
                             {
@@ -608,7 +579,7 @@
                         ]
                     },
                     {
-                        "description": "Map Ctrl + WASD to Arrow Keys (except in JetBrains apps, Terminal, kitty and MCSR)",
+                        "description": "Map Ctrl + WASD to Arrow Keys (except in JetBrains apps, Terminal and kitty)",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -617,12 +588,6 @@
                                             "^com\\.jetbrains\\.",
                                             "^com\\.apple\\.Terminal$",
                                             "^net\\.kovidgoyal\\.kitty$"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    },
-                                    {
-                                        "file_paths": [
-                                            "PrismLauncher/java/[^/]+/bin/java$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
@@ -651,12 +616,6 @@
                                             "^net\\.kovidgoyal\\.kitty$"
                                         ],
                                         "type": "frontmost_application_unless"
-                                    },
-                                    {
-                                        "file_paths": [
-                                            "PrismLauncher/java/[^/]+/bin/java$"
-                                        ],
-                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
@@ -683,12 +642,6 @@
                                             "^net\\.kovidgoyal\\.kitty$"
                                         ],
                                         "type": "frontmost_application_unless"
-                                    },
-                                    {
-                                        "file_paths": [
-                                            "PrismLauncher/java/[^/]+/bin/java$"
-                                        ],
-                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
@@ -713,12 +666,6 @@
                                             "^com\\.jetbrains\\.",
                                             "^com\\.apple\\.Terminal$",
                                             "^net\\.kovidgoyal\\.kitty$"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    },
-                                    {
-                                        "file_paths": [
-                                            "PrismLauncher/java/[^/]+/bin/java$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
