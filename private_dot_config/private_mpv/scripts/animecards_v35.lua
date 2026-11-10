@@ -156,7 +156,8 @@ local function linux_set_clipboard(text)
 end
 
 local function macos_set_clipboard(text)
-  os.execute('export LANG=en_US.UTF-8; cat <<EOF | pbcopy\n' .. text .. '\nEOF\n')
+  -- mpv's own clipboard: no shell, so $ and backticks in subtitle lines stay text instead of running
+  mp.set_property("clipboard/text", text)
 end
 
 local function record_sub(_, text)
