@@ -48,8 +48,8 @@ yabai -m rule --add app="^Brain\.fm$" manage=off
 # Menu-bar apps that hide their window instead of closing it; tiled, the hidden window keeps an empty slot
 yabai -m rule --add app="^NordPass$" manage=off
 yabai -m rule --add app="^NordVPN$" manage=off
-# Never tile mpv. mpv's scripts/no_shadow.lua opens it windowed so yabai tracks it (to remove its
-# shadow), then goes fullscreen; without this, yabai would tile it into bsp/stack spaces first.
+# Never tile mpv. mpv's scripts/yabai_track.lua opens it windowed so yabai tracks it, then goes
+# fullscreen; without this, yabai would tile it into bsp/stack spaces first.
 yabai -m rule --add app="^mpv$" manage=off
 # yabai -m signal --add event=window_created app="mpv" \
 #   action='yabai -m window $YABAI_WINDOW_ID --display 2 --grid 1:1:0:0:1:1'
