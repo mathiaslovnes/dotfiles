@@ -30,7 +30,10 @@ vim.api.nvim_create_autocmd('FileType', {
       return
     end
     if pcall(vim.treesitter.start, a.buf, lang) then
-      vim.bo[a.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      -- without an indents query treesitter indents every line to column 0 (vim, diff, vimdoc)
+      if vim.treesitter.query.get(lang, 'indents') then
+        vim.bo[a.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      end
       if lang == 'markdown' then
         vim.bo[a.buf].syntax = 'ON' -- regex syntax too, as additional_vim_regex_highlighting did
       end
