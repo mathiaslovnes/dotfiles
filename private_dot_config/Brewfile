@@ -242,8 +242,6 @@ cask "omnidisksweeper"
 cask "philips-hue-sync"
 # Control your tools with a few keystrokes
 cask "raycast"
-# Utilise mouse side navigation buttons
-cask "sensiblesidebuttons"
 # Tool that provides consistent, highly configurable symbols for apps
 cask "sf-symbols"
 # PDF reader and note-taking application
