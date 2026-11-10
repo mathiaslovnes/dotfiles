@@ -1827,7 +1827,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'Obsidian' && osascript -e 'tell application \"Obsidian\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "md.obsidian"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -2180,7 +2184,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'Anki' && osascript -e 'tell application \"Anki\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "net.ankiweb.anki"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -2203,7 +2211,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'Brave Browser' && osascript -e 'tell application \"Brave Browser\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "com.brave.Browser"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
