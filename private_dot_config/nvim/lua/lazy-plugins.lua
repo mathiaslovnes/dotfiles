@@ -130,6 +130,7 @@ require('lazy').setup({
   require 'plugins.grug-far',       -- Project-wide find and replace
   require 'plugins.marks',          -- Visible marks in the gutter with keybindings to manage them
   require 'plugins.dooing',         -- Simple todo list manager
+  require 'plugins.stay',           -- Restore cursor position when reopening buffers
   require 'plugins.hardtime',       -- Break bad habits by discouraging repeated hjkl spam
   require 'plugins.claude-code',
   -- require 'plugins.claude-tmux', -- Claude in a tmux pane instead of a Neovim split (unused)
