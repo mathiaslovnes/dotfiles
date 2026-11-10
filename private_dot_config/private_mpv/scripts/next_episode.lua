@@ -2,7 +2,8 @@
 -- folder, else the first video of the next season's folder, a sibling whose name matches this one's
 -- apart from its numbers ("Show S01" -> "Show S02"). autocreate-playlist only covers the opened folder.
 local utils = require "mp.utils"
-local VIDEO = {mkv = true, mp4 = true, avi = true, webm = true, mov = true, m4v = true, ts = true}
+local VIDEO = {}  -- the same video extensions autocreate-playlist uses
+for _, e in ipairs(mp.get_property_native("video-exts", {})) do VIDEO[e] = true end
 
 local function key(s)  -- natural sort: "Ep 2" before "Ep 10"
     return (s:lower():gsub("%d+", function(d) return ("%012d"):format(tonumber(d)) end))
@@ -17,7 +18,8 @@ local function videos(dir)
     local out = {}
     for _, f in ipairs(utils.readdir(dir, "files") or {}) do
         local ext = f:match("%.([^.]+)$")
-        if ext and VIDEO[ext:lower()] then out[#out + 1] = f end
+        -- skip hidden files: macOS writes ._ stubs next to videos on external and network drives
+        if ext and VIDEO[ext:lower()] and f:sub(1, 1) ~= "." then out[#out + 1] = f end
     end
     return sorted(out)
 end
