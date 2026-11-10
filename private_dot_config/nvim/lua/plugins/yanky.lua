@@ -41,8 +41,8 @@ return {
     { 'y', '<Plug>(YankyYank)', mode = { 'n', 'x' } },
     { 'p', '<Plug>(YankyPutAfter)', mode = 'n' },
     { 'P', '<Plug>(YankyPutBefore)', mode = 'n' },
-    { 'p', '"_d<Plug>(YankyPutBefore)', mode = 'x' },
-    { 'P', '"_d<Plug>(YankyPutBefore)', mode = 'x' },
+    { 'p', '<Plug>(YankyPutBefore)', mode = 'x' }, -- replace selection, keep register (v_P)
+    { 'P', '<Plug>(YankyPutAfter)', mode = 'x' }, -- replace selection, copy the old text (v_p)
     { '<leader>P', '<Plug>(YankyNextEntry)' },
     { '<leader>p', '<Plug>(YankyPreviousEntry)' },
     {

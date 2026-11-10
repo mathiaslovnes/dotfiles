@@ -5,10 +5,11 @@ return {
     dependencies = { 'kevinhwang91/promise-async' },
     event = 'BufRead',
     keys = {
-      {'zO', function() require('ufo').openAllFolds() end, desc = 'Open all folds',},
-      {'zC', function() require('ufo').closeAllFolds() end, desc = 'Close all folds',},
-      {'zo', function() require('ufo').openFoldsExceptKinds() end, desc = 'Open folds except kinds',},
-      {'zc', function() require('ufo').closeFoldsWith() end, desc = 'Close folds with',},
+      -- whole-buffer fold commands; zo/zc/zO/zC stay Vim's per-fold ones
+      {'zR', function() require('ufo').openAllFolds() end, desc = 'Open all folds',},
+      {'zM', function() require('ufo').closeAllFolds() end, desc = 'Close all folds',},
+      {'zr', function() require('ufo').openFoldsExceptKinds() end, desc = 'Open all folds except excluded kinds',},
+      {'zm', function() require('ufo').closeFoldsWith() end, desc = 'Close folds deeper than [count] (all without count)',},
       {
         'zp',
         function()
