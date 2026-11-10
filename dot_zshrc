@@ -137,25 +137,10 @@ alias -g G='| rg'
 ## Brew (macOS only)
 if [[ "$OSTYPE" == darwin* ]]; then
   alias bs='brew show'
-  # bi, bic and bui also record the change in the chezmoi Brewfile
-  function _brewfile {  # _brewfile add|remove <names>
-    local op=$1 p; shift
-    for p in "$@"; do
-      if [[ $op == remove ]]; then
-        brew bundle remove --file ~/.config/Brewfile "$p"
-      elif ! grep -qF -e "brew \"$p\"" -e "cask \"$p\"" -e "/$p\"" ~/.config/Brewfile; then  # bundle add doesn't dedupe
-        if brew list --cask "$p" &>/dev/null; then
-          brew bundle add --file ~/.config/Brewfile --cask "$p"
-        else
-          brew bundle add --file ~/.config/Brewfile "$p"
-        fi
-      fi
-    done
-    chezmoi re-add ~/.config/Brewfile
-  }
-  function bi { brew install "$@" && _brewfile add ${@:#-*}; }
-  function bic { brew install --cask "$@" && _brewfile add ${@:#-*}; }
-  function bui { brew uninstall "$@" && _brewfile remove ${@:#-*}; }
+  # bi, bic and bui also record the change in the chezmoi Brewfile (apps go through bic)
+  function bi { brew install "$@" && brew bundle add --file ~/.config/Brewfile "$@" && chezmoi re-add ~/.config/Brewfile; }
+  function bic { brew install --cask "$@" && brew bundle add --file ~/.config/Brewfile --cask "$@" && chezmoi re-add ~/.config/Brewfile; }
+  function bui { brew uninstall "$@" && brew bundle remove --file ~/.config/Brewfile "$@" && chezmoi re-add ~/.config/Brewfile; }
   alias bu='brew upgrade'
   alias bucc='brew upgrade claude-code'
   alias b='brew'
