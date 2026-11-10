@@ -1,7 +1,12 @@
 return {
   "coder/claudecode.nvim",
   dependencies = { "folke/snacks.nvim" },
-  config = true,
+  opts = {
+    terminal = {
+      -- Esc Esc reaches Claude (clear input, rewind) instead of leaving terminal mode; leave with <C-\><C-n>
+      snacks_win_opts = { keys = { term_normal = false } },
+    },
+  },
   -- `cmd` lets lazy.nvim create command stubs that load the plugin on first use,
   -- so `:ClaudeCode` and friends work on a fresh start. Without it, a keys-only
   -- spec defers loading until a <leader>a* mapping is pressed and the commands

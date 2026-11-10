@@ -10,10 +10,6 @@ vim.g.mapleader = ' '
 -- Navigation & Motions
 -- ===================================================================
 
--- Accelerated J & K motions
-vim.api.nvim_set_keymap('n', 'j', '<Plug>(accelerated_jk_gj)', {})
-vim.api.nvim_set_keymap('n', 'k', '<Plug>(accelerated_jk_gk)', {})
-
 -- Beginning / end of line
 vim.keymap.set('n', 'H', '^')
 vim.keymap.set('v', 'H', '^')
@@ -117,10 +113,15 @@ vim.keymap.set('n', 'Q', function()
   end
 end, { desc = 'Delete buffer (prompt to save)' })
 
--- Switch to specific buffers by index (cmd+123...)
+-- Switch to specific buffers by index: kitty sends Esc+digit for Cmd+1..9, which Neovim reads as Alt+digit.
+-- (Mapping the raw Esc+digit made every Esc wait 300 ms for a digit.)
 for i = 1, 9 do
-  vim.keymap.set('n', '\x1b' .. i, '<cmd>BufferLineGoToBuffer ' .. i .. '<cr>')
+  vim.keymap.set('n', '<M-' .. i .. '>', '<cmd>BufferLineGoToBuffer ' .. i .. '<cr>', { desc = 'Go to buffer ' .. i })
 end
+
+-- Tabpages: gt/gT jump between comments (treesitter-textobjects)
+vim.keymap.set('n', 'Gt', 'gt', { desc = 'Next tabpage' })
+vim.keymap.set('n', 'GT', 'gT', { desc = 'Previous tabpage' })
 
 -- Cycle through buffers
 vim.keymap.set('n', '<C-q>', '<cmd>BufferLineCyclePrev<CR>', { desc = 'Previous buffer' })
@@ -139,11 +140,6 @@ vim.keymap.set('n', '<leader>=', '<cmd>wincmd=<CR>', { desc = 'Equalize window s
 -- Mark entire file
 vim.keymap.set({ 'n', 'x' }, '<M-a>', 'ggVG')
 -- vim.keymap.set({ 'n', 'x' }, '<C-s>', 'ggVG')
-
--- Open link under cursor with 'gx'
-vim.keymap.set('n', 'gu', function()
-  vim.ui.open(vim.fn.expand '<cfile>')
-end, { desc = 'Open file or URL under cursor' })
 
 -- Open file under cursor
 vim.keymap.set('n', '<leader>gf', 'gF', { noremap = true, desc = 'Go to file under cursor' })
@@ -165,6 +161,3 @@ vim.keymap.set('n', '<leader>cwd', '<cmd>let @+ = getcwd()<CR>')
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
-
--- Exit terminal mode
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })

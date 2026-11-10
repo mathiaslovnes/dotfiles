@@ -2,12 +2,8 @@ return {
   'nvim-treesitter/nvim-treesitter-textobjects',
   branch = 'main',
   init = function()
-    -- Disable entire built-in ftplugin mappings to avoid conflicts.
-    -- See https://github.com/neovim/neovim/tree/master/runtime/ftplugin for built-in ftplugins.
-    vim.g.no_plugin_maps = true
-
-    -- Or, disable per filetype (add as you like)
-    -- vim.g.no_python_maps = true
+    -- Python's ftplugin maps ]m/]] itself; keep other filetypes' maps (git-rebase <C-a>, :Man q)
+    vim.g.no_python_maps = true
     -- vim.g.no_ruby_maps = true
     -- vim.g.no_rust_maps = true
     -- vim.g.no_go_maps = true
@@ -124,14 +120,6 @@ return {
     end)
     vim.keymap.set({ 'n', 'x', 'o' }, 'gT', function()
       require('nvim-treesitter-textobjects.move').goto_previous('@comment.outer', 'textobjects')
-    end)
-
-    -- regex (x)
-    vim.keymap.set({ 'n', 'x', 'o' }, 'gx', function()
-      require('nvim-treesitter-textobjects.move').goto_next('@regex.outer', 'textobjects')
-    end)
-    vim.keymap.set({ 'n', 'x', 'o' }, 'gX', function()
-      require('nvim-treesitter-textobjects.move').goto_previous('@regex.outer', 'textobjects')
     end)
 
     -- number (n)
