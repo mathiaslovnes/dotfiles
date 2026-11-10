@@ -20,6 +20,38 @@ vim.lsp.handlers["$/progress"] = function(err, result, ctx, config)
 end
 
 
+-- Treesitter highlighting and indent for every buffer with a parser. Jukit notebooks keep vim syntax:
+-- jukit's markdown highlighting in text cells only shows while the treesitter highlighter is off.
+vim.api.nvim_create_autocmd('FileType', {
+  group = vim.api.nvim_create_augroup('treesitter-start', { clear = true }),
+  callback = function(a)
+    local lang = vim.treesitter.language.get_lang(a.match)
+    if not lang or lang == 'latex' or lang == 'tmux' then
+      return
+    end
+    if lang == 'python' and vim.fn.search('|%%--%%|', 'nw') ~= 0 then
+      return -- jukit notebook
+    end
+    if pcall(vim.treesitter.start, a.buf, lang) then
+      vim.bo[a.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      if lang == 'markdown' then
+        vim.bo[a.buf].syntax = 'ON' -- regex syntax too, as additional_vim_regex_highlighting did
+      end
+    end
+  end,
+})
+
+-- Remove nvim autohighlighting word under cursor - replaced by illuminate.nvim - faster
+-- (also keeps snacks.words, which uses LSP document highlights, from highlighting on top of illuminate)
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client then
+      client.server_capabilities.documentHighlightProvider = false
+    end
+  end,
+})
+
 -- Reload files changed on disk (Claude Code edits) when moving back into their window
 vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave', 'WinEnter', 'BufEnter' }, {
   group = vim.api.nvim_create_augroup('checktime', { clear = true }),

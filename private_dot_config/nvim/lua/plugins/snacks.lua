@@ -16,7 +16,7 @@ return {
       timeout = 4444,
     },
     picker = { enabled = true },
-    quickfile = { enabled = true },
+    quickfile = { enabled = true, exclude = { 'latex', 'python' } }, -- python: its treesitter would hide jukit's text-cell syntax
     scope = { enabled = true },
     scroll = { enabled = false },
     statuscolumn = { enabled = true },
