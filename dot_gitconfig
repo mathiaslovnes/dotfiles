@@ -6,9 +6,8 @@
 	excludesfile = ~/.gitignore_global
   # Use nvim as main git editor
   editor = nvim
-  ignoreCase = false
   pager = diff-so-fancy | less --tabs=4 -RFX
-  # Don’t consider trailing space change as a cause for merge conflicts
+  # Don't flag trailing whitespace or blank lines at EOF (diff colors, diff --check, apply)
   whitespace = -trailing-space
 
 [status]
@@ -68,7 +67,7 @@
 [log]
   # Use abbrev SHAs whenever possible/relevant instead of full 40-chars
   abbrevCommit = true
-  # Disable decorate for reflog
+  # No branch/tag names in git log or reflog (lg passes --decorate)
   decorate = false
   # Automatically --follow when given a single path
   follow = true
