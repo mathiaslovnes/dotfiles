@@ -95,6 +95,9 @@ return {
 
       sources = {
         default = { 'lsp', 'path', 'snippets', 'lazydev', 'buffer' },
+        per_filetype = {
+          tex = { inherit_defaults = true, 'omni' }, -- vimtex's \ref labels, cite keys and image paths
+        },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
         },
