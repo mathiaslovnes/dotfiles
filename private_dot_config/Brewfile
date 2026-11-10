@@ -283,3 +283,5 @@ vscode "ms-toolsai.vscode-jupyter-slideshow"
 go "github.com/arl/gitmux"
 uv "kaggle"
 npm "corepack"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.15"
