@@ -56,6 +56,13 @@ scrollbar scrolled-and-hovered
 [[ if eq .chezmoi.os "darwin" -]]
 # Right Option sends Alt (Neovim's <M-…> maps, Claude Code's Meta keys); left Option keeps typing [ ] { } | \
 macos_option_as_alt right
+# kitty's own maps see either Option as Alt, so these letters send Alt from left Option too
+# (Snacks picker: p preview, h hidden files, i ignored files, m maximize, r regex)
+map alt+p send_text all \x1bp
+map alt+h send_text all \x1bh
+map alt+i send_text all \x1bi
+map alt+m send_text all \x1bm
+map alt+r send_text all \x1br
 
 # === Keybinds ===
 # Prevent accidental opening of panes

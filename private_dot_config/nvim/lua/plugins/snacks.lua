@@ -125,20 +125,9 @@ return {
     { "<leader>sr", function() Snacks.picker.recent() end, desc = "[S]earch [R]ecent Files" },
     { "<leader>sb", function() Snacks.picker.buffers() end, desc = "[S]earch Existing [B]uffers" },
     { "<leader>sn", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "[S]earch [N]eovim files" },
-    -- centered and a little see-through, like the old telescope version; the file behind scrolls
-    -- to the selected line. Snacks turns winblend off with a transparent colorscheme, so it's set
-    -- after the windows open (and in their options, which Snacks re-applies on updates)
+    -- centered, like telescope's dropdown theme; the file behind scrolls to the selected line
     { "<leader>f", function() Snacks.picker.lines({
       layout = { preset = "select", preview = "main", layout = { width = 0.6, max_width = 120, height = 0.4 } },
-      on_show = function(picker)
-        for _, w in ipairs({ picker.layout.root, picker.input.win, picker.list.win }) do
-          if w and w.win and vim.api.nvim_win_is_valid(w.win) then
-            w.opts.wo = w.opts.wo or {}
-            w.opts.wo.winblend = 10
-            vim.wo[w.win].winblend = 10
-          end
-        end
-      end,
     }) end, desc = "[F]uzzily search in current buffer" },
 
     -- search
