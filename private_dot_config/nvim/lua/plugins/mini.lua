@@ -37,7 +37,7 @@ return {
 
         -- Replace text with register
         replace = {
-          prefix = '<leader>r',
+          prefix = '', -- substitute.nvim replaces on <leader>z
 
           -- Whether to reindent new text to match previous indent
           reindent_linewise = true,
