@@ -10,7 +10,7 @@ return {
       snippet_engine = 'luasnip', -- allows for jumping between annotations with luasnip binds
     }
 
-    vim.keymap.set('n', '<leader>dg', function()
+    vim.keymap.set('n', '<leader>Dg', function()
       require('neogen').generate()
     end, { desc = 'Generate docstring with neogen' })
   end,

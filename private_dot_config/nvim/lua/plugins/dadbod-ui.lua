@@ -11,9 +11,9 @@ return {
     'DBUIFindBuffer',
   },
   keys = {
-    { '<leader>db', '<cmd>DBUIToggle<cr>', desc = 'Toggle Database UI' },
-    { '<leader>da', '<cmd>DBUIAddConnection<cr>', desc = 'Add Database Connection' },
-    { '<leader>df', '<cmd>DBUIFindBuffer<cr>', desc = 'Find Database Buffer' },
+    { '<leader>Db', '<cmd>DBUIToggle<cr>', desc = 'Toggle Database UI' },
+    { '<leader>Da', '<cmd>DBUIAddConnection<cr>', desc = 'Add Database Connection' },
+    { '<leader>Df', '<cmd>DBUIFindBuffer<cr>', desc = 'Find Database Buffer' },
   },
   init = function()
     -- Your DBUI configuration
