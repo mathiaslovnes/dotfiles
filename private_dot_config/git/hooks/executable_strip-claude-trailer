@@ -1,3 +1,4 @@
 #!/bin/sh
 # commit-msg hook: delete Claude co-author and "Generated with Claude Code" lines; $1 = message file
-sed -i.bak -E '/^[Cc]o-[Aa]uthored-[Bb]y: Claude|Generated with \[?Claude Code/d' "$1" && rm -f "$1.bak"
+# LC_ALL=C: with commit.verbose the file holds the staged diff, which can contain non-UTF-8 bytes
+LC_ALL=C sed -i.bak -E '/^[Cc]o-[Aa]uthored-[Bb]y: Claude|Generated with \[?Claude Code/d' "$1" && rm -f "$1.bak"
