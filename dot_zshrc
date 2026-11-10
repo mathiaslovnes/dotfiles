@@ -161,13 +161,7 @@ alias cra='chezmoi re-add'
 alias zc='z chezmoi'
 alias ccd='z chezmoi'
 alias cm='chezmoi managed'
-# new files in folders chezmoi manages whole; custom Anki add-ons are the non-numeric folders
-cum() {
-  chezmoi unmanaged ~/.config/{nvim,kitty,mpv,sketchybar,yabai,skhd,karabiner,fastfetch} \
-    ~/.claude/agents ~/.ipython/profile_default/startup ~/scripts ~/.local/share/sentence-pitch/sentence_pitch \
-    ~/Library/Application\ Support/Anki2/addons21/[^0-9]*(/N)
-}
-# add everything cum lists; (f) splits on newlines so paths with spaces stay whole
+# add everything cum (~/.local/bin/cum) lists; (f) splits on newlines so paths with spaces stay whole
 alias cuma='(cd ~ && chezmoi add ${(f)"$(cum)"})'
 
 ## Yabai/skhd (macOS only)
