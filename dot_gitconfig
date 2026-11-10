@@ -43,6 +43,11 @@ conflictstyle = diff3
 [url "git@github.com:"]
 	insteadOf = https://github.com/
 
+[hook "strip-claude"]
+  # Delete Claude co-author trailers in every repo; runs alongside each repo's own hooks
+  event = commit-msg
+  command = ~/.config/git/hooks/strip-claude-trailer
+
 [receive]
   fsckObjects = true
 
