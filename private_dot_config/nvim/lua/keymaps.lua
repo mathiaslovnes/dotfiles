@@ -122,10 +122,6 @@ for i = 1, 9 do
   vim.keymap.set('n', '<M-' .. i .. '>', '<cmd>BufferLineGoToBuffer ' .. i .. '<cr>', { desc = 'Go to buffer ' .. i })
 end
 
--- Tabpages: gt/gT jump between comments (treesitter-textobjects)
-vim.keymap.set('n', 'Gt', 'gt', { desc = 'Next tabpage' })
-vim.keymap.set('n', 'GT', 'gT', { desc = 'Previous tabpage' })
-
 -- Cycle through buffers
 vim.keymap.set('n', '<C-q>', '<cmd>BufferLineCyclePrev<CR>', { desc = 'Previous buffer' })
 vim.keymap.set('n', '<C-e>', '<cmd>BufferLineCycleNext<CR>', { desc = 'Next buffer' })

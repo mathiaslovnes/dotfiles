@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-This is a personal Neovim configuration. All configuration is written in Lua.
+This is a personal Neovim configuration (Neovim 0.12). All configuration is written in Lua.
 
 ## Architecture
 
@@ -14,6 +14,10 @@ Loading order defined in `init.lua`:
 3. `lua/highlights.lua` — colorscheme-independent highlight overrides, re-applied on every `ColorScheme` event (must load before plugins so it catches the first colorscheme load)
 4. `lua/lazy-bootstrap.lua` — auto-installs lazy.nvim if missing
 5. `lua/lazy-plugins.lua` — registers all plugins with lazy.nvim
+6. `lua/jukit_dividers.lua` — jukit cell dividers (see Python / Jupyter Workflow)
+7. `lua/autocmds.lua` — autocommands, including the one that starts treesitter per buffer
+
+`init.lua` also sets the `vim.g.jukit_*` globals that must exist before vim-jukit loads.
 
 Each plugin lives in its own file under `lua/plugins/`. To add a plugin, create a new file there and `require` it in `lazy-plugins.lua`. To disable a plugin temporarily, comment out its `require` line in `lazy-plugins.lua` (several examples exist in the `UNUSED` block at the bottom).
 
@@ -21,24 +25,27 @@ Each plugin lives in its own file under `lua/plugins/`. To add a plugin, create 
 
 | Category | Plugin(s) |
 |---|---|
-| Completion | `blink-cmp` + `luasnip` |
+| Completion | `blink-cmp` + `luasnip` (friendly-snippets loaded per filetype) |
 | LSP | `lspconfig` + `mason` (auto-installs servers) |
 | Formatting | `conform.nvim` (stylua for Lua; LSP fallback for others) |
-| Linting | `lint.lua` |
+| Linting | none (`plugins/lint.lua` exists but is commented out in lazy-plugins.lua) |
 | Fuzzy finding | `telescope` (file/grep searches) + `snacks.nvim` (LSP nav, git, pickers) |
 | File navigation | `harpoon`, `yazi`, `neo-tree`, `zoxide` |
 | Git | `gitsigns`, `neogit`, `diffview`, `snacks` lazygit integration |
-| Treesitter | `treesitter`, `treesitter-textobjects`, `treesitter-context` |
-| Python/Jupyter | `pyworks.nvim` (molten + jupytext + image.nvim via kitty backend) |
+| Treesitter | `treesitter` (main branch), `treesitter-textobjects`, `treesitter-context` |
+| Python/Jupyter | `vim-jukit` (cells sent to IPython in a tmux pane); `plugins/pyworks.lua` is unused |
 | UI | `catppuccin` (active colorscheme), `bufferline`, `lualine`, `noice`, `snacks` |
 | Surround/text ops | `mini` (surround, comment, bufremove, trailspace, split-join) |
 
+## Treesitter
+
+nvim-treesitter is on its `main` branch: `plugins/treesitter.lua` only installs parsers. A FileType autocmd in `autocmds.lua` starts the highlighter and sets treesitter indent for every buffer with a parser, except latex, tmux and jukit notebooks (Python files containing `|%%--%%|`), which keep vim syntax. snacks `quickfile` excludes python for the same reason.
 
 ## LSP Servers (auto-installed via Mason)
 
-`clangd`, `gopls`, `rust_analyzer`, `pyright`, `sqlls`, `jdtls`, `ts_ls`, `svelte`, `cssls`, `css_variables`, `cssmodules_ls`, `lua_ls`
+`clangd`, `gopls`, `rust_analyzer`, `pyright`, `sqlls`, `jdtls`, `svelte`, `cssls`, `css_variables`, `cssmodules_ls`, `lua_ls`
 
-TypeScript uses `typescript-tools.nvim` (native tsserver protocol, faster than ts_ls).
+TypeScript uses `typescript-tools.nvim` (native tsserver protocol), not ts_ls; mason-lspconfig's `automatic_enable` excludes `ts_ls` and `jdtls` (nvim-java enables jdtls itself). nvim-java and typescript-tools load only for their filetypes. pyright treats `.envrc` as a root marker and uses the folder's direnv venv (`.direnv/*/bin/python`).
 
 ## Snacks vs Telescope
 
@@ -46,7 +53,10 @@ Both are active. Snacks handles LSP navigation (`gd`, `gr`, `gI`, `gy`), git pic
 
 ## Python / Jupyter Workflow
 
-`pyworks.nvim` manages + jupytext + image.nvim. Uses `uv` for package management and the **kitty** terminal for image rendering. Jupyter notebook files are handled via jupytext conversion.
+Notebooks are vim-jukit `.py` files: cells are split by `# |%%--%%| <id|id>` lines, and markdown cells are `r"""°°° ... °°°"""` strings. jukit (`lua/plugins/vim-jukit.lua`) sends cells to an IPython pane in tmux; its buffer maps only exist in `.py`/`.ipynb` buffers (`g:jukit_mappings_ext_enabled` in init.lua).
+- Markdown in text cells is jukit's vim-syntax region `textcell` (`g:jukit_enable_textcell_syntax`). It only shows while the treesitter highlighter is off, which is why notebooks skip treesitter. vim-jukit.lua re-adds the region after a file reloads from disk (FileChangedShellPost).
+- `lua/jukit_dividers.lua`: a decoration provider (namespace `pyworks_deco`) that draws the cell divider lines and hides the `°°°` lines on the visible lines at redraw time.
+- `autoload/jukit/tmux/layouts.vim` shadows jukit's layout function and calls `lua/jukit_tmux_layout.lua` (output panes at the far right, columns evenly sized).
 
 ## Custom Global Helpers (available after `VeryLazy`)
 
@@ -57,4 +67,4 @@ bt()     -- Snacks.debug.backtrace
 
 ## After/Queries
 
-Custom tree-sitter queries for Python live in `after/queries/python/` — `injections.scm` and `highlights.scm` (used by pyworks_divider for section dividers and rainbow bold headers).
+`after/queries/python/injections.scm` (markdown inside `°°°` strings) and `highlights.scm` (mutes `# |` divider comments and raw docstrings) only apply where the treesitter highlighter runs in a Python buffer: plain `.py` files, not jukit notebooks.
