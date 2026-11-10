@@ -1,6 +1,7 @@
 return {
   'gbprod/substitute.nvim',
   dependencies = { 'gbprod/yanky.nvim' },
+  event = 'VeryLazy',
   config = function()
     require('substitute').setup {
       on_substitute = require('yanky.integration').substitute(),

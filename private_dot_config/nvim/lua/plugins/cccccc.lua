@@ -1,5 +1,7 @@
 return {
   'uga-rosa/ccc.nvim',
+  cmd = { 'CccPick', 'CccConvert', 'CccHighlighterToggle', 'CccHighlighterEnable', 'CccHighlighterDisable' },
+  keys = { { '<leader>cp', '<cmd>CccPick<CR>', desc = 'Color picker' } },
   config = function()
     local ccc = require 'ccc'
     local mapping = ccc.mapping

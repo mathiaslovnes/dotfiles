@@ -70,6 +70,9 @@ vim.o.updatetime = 250
 
 -- Decrease mapped sequence wait time
 vim.o.timeoutlen = 300
+-- How long a lone Esc waits in case a key code (arrows, Alt+key) follows; tmux already
+-- groups key codes itself (escape-time 10), so Esc can return almost at once
+vim.o.ttimeoutlen = 10
 
 -- Configure how new splits should be opened
 vim.o.splitright = true

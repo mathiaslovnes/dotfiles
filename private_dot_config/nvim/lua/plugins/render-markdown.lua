@@ -1,5 +1,6 @@
 return {
   'MeanderingProgrammer/render-markdown.nvim',
+  ft = { 'markdown', 'python' }, -- its file_types
   dependencies = {
     'nvim-treesitter/nvim-treesitter',
     'nvim-tree/nvim-web-devicons',

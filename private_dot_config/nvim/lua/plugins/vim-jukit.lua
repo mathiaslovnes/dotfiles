@@ -1,6 +1,6 @@
 return {
   'mathiaslovnes/vim-jukit',
-  lazy = false,
+  ft = 'python',
   config = function()
     vim.g.jukit_terminal = 'tmux' -- Optional: Set terminal for plotting
 
