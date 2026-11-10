@@ -5,15 +5,27 @@ from __future__ import annotations
 import atexit
 import os
 import platform
+import re
 import sys
 import time
 from typing import Any
 
 from aqt import mw
 
+# Values of dict entries like 'api_key': '...' or "elevenlabs_key": "..."
+_SECRET_ENTRY = re.compile(r"""(['"](?:\w+_)?(?:api_?key|key|token|secret)['"]\s*:\s*)(['"])[^'"]*\2""", re.IGNORECASE)
+_ANTHROPIC_KEY = re.compile(r"sk-ant-[A-Za-z0-9_-]+")
+
+
+def redact(text: str) -> str:
+    """Mask API keys so they never reach the log files."""
+    text = _SECRET_ENTRY.sub(r"\1\2***\2", text)
+    return _ANTHROPIC_KEY.sub("sk-ant-***", text)
+
 
 def debug_log(message: Any) -> None:
     """Write debug messages to a dedicated log file."""
+    message = redact(str(message))
     try:
         addon_dir = os.path.dirname(os.path.abspath(__file__))
         # Resolve to the add-on root (one level up from this module)

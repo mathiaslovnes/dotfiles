@@ -15,17 +15,8 @@ import platform
 
 timeout_seconds = 60
 
-# Debug logging
-def debug_log(message):
-    """Write debug messages to a separate log file"""
-    try:
-        addon_dir = os.path.dirname(os.path.abspath(__file__))
-        debug_log_path = os.path.join(addon_dir, "debug_log.txt")
-        
-        with open(debug_log_path, "a", encoding="utf-8") as f:
-            f.write(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] {message}\n")
-    except Exception as e:
-        print(f"Failed to write to debug log: {e}")
+# Debug logging (shared writer, which redacts API keys)
+from .alx.logging import debug_log
 
 # Claude API
 ANTHROPIC_MESSAGES_URL = "https://api.anthropic.com/v1/messages"
