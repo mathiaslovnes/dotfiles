@@ -137,21 +137,23 @@ alias -g G='| rg'
 ## Brew (macOS only)
 if [[ "$OSTYPE" == darwin* ]]; then
   # brew install/uninstall (typed, pasted or through the aliases below) also update the chezmoi Brewfile
+  function _brewfile_entry {  # $1's brew/cask entry as the Brewfile spells it (with any tap prefix), or nothing
+    awk -F'"' -v p="$1" '/^(brew|cask) "/ && ($2 == p || substr($2, length($2) - length(p)) == "/" p) {print $2; exit}' ~/.config/Brewfile
+  }
   function brew {
     command brew "$@" || return
-    local f=~/.config/Brewfile p t
-    case $1 in
-      install)
-        for p in ${${@[2,-1]}:#-*}; do
-          grep -qF -e "brew \"$p\"" -e "cask \"$p\"" -e "/$p\"" $f && continue  # already listed; bundle add doesn't dedupe
-          t=; command brew list --cask $p &>/dev/null && t=--cask  # apps installed without --cask still go in as casks
-          command brew bundle add --file $f $t $p
-        done ;;
-      uninstall|remove|rm)  # --formula also matches tap-qualified entries like asmvik/formulae/yabai
-        command brew bundle remove --file $f --formula ${${@[2,-1]}:#-*} >/dev/null 2>&1
-        command brew bundle remove --file $f --cask ${${@[2,-1]}:#-*} >/dev/null 2>&1 ;;
-      *) return 0 ;;
-    esac
+    [[ $1 == (install|uninstall|remove|rm) && -z ${@[(r)(-n|--dry-run|--only-dependencies)]} ]] || return 0
+    local f=~/.config/Brewfile p e t
+    for p in ${${@[2,-1]}:#-*}; do
+      e=$(_brewfile_entry $p)
+      if [[ $1 == install ]]; then
+        [[ -n $e ]] && continue  # already listed; bundle add doesn't dedupe
+        t=; command brew list --cask $p &>/dev/null && t=--cask  # apps installed without --cask still go in as casks
+        command brew bundle add --file $f $t $p
+      elif [[ -n $e ]]; then
+        command brew bundle remove --file $f $e >/dev/null
+      fi
+    done
     chezmoi re-add $f
   }
   alias bs='brew show'
