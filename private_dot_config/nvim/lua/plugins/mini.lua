@@ -86,14 +86,15 @@ return {
           -- the line start, so a marker line belongs to the cell it opens. In an empty cell only
           -- the `c` operator gets an object: a new blank body line (mini.ai can't cancel `c`, which would
           -- otherwise type into the marker line); d/y/v find nothing
-          c = function(ai_type)
+          c = function(ai_type, _, opts)
             local marker = [[^#\s*|%%--%%|]]
             local above = vim.fn.search(marker, 'bcnW') -- 0 in the first cell
             local below = vim.fn.search(marker, 'nW') -- 0 in the last cell
             local from = (ai_type == 'a' and above > 0) and above or above + 1
             local to = below == 0 and vim.fn.line '$' or below - 1
             if from > to then
-              if vim.v.operator ~= 'c' then
+              -- v:operator keeps the last operator, so also check that one is pending (not Visual)
+              if not (opts and opts.operator_pending and vim.v.operator == 'c') then
                 return nil
               end
               vim.fn.append(above, '')

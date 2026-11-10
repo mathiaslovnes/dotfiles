@@ -20,23 +20,44 @@ return {
       actions = {
         -- open the file in place of the current buffer: the old buffer closes and the new one
         -- takes its spot in the bufferline
-        replace_buffer = function(picker)
-          local original = vim.api.nvim_win_get_buf(picker.main)
-          local listed = vim.tbl_filter(function(b)
-            return vim.bo[b].buflisted
-          end, vim.api.nvim_list_bufs())
-          local pos = vim.fn.index(listed, original) + 1
-          picker:action 'confirm'
-          vim.schedule(function()
-            if vim.api.nvim_get_current_buf() ~= original and vim.api.nvim_buf_is_valid(original) then
-              pcall(vim.api.nvim_buf_delete, original, { force = false })
-              if pos > 0 then
-                pcall(require('bufferline').move_to, pos)
-              end
+        replace_buffer = function(picker, item)
+          if not item then
+            return
+          end
+          local win = picker.main
+          local original = vim.api.nvim_win_get_buf(win)
+          picker:close()
+          vim.api.nvim_set_current_win(win)
+          vim.cmd.edit(vim.fn.fnameescape(Snacks.picker.util.path(item)))
+          if item.pos then
+            pcall(vim.api.nvim_win_set_cursor, win, item.pos)
+          end
+          local new = vim.api.nvim_get_current_buf()
+          if new == original or vim.bo[original].modified then
+            return
+          end
+          -- the new bufferline order: the new buffer where the old one was (bufferline's move_to
+          -- swaps two buffers and only knows buffers it has drawn, hence the redraws)
+          local bufferline = require 'bufferline'
+          vim.cmd.redrawtabline()
+          local rank = {}
+          for _, el in ipairs(bufferline.get_elements().elements) do
+            if el.id ~= new then
+              rank[el.id == original and new or el.id] = vim.tbl_count(rank) + 1
             end
+          end
+          if not pcall(vim.api.nvim_buf_delete, original, {}) then
+            return
+          end
+          vim.cmd.redrawtabline()
+          bufferline.sort_by(function(a, b)
+            return (rank[a.id] or math.huge) < (rank[b.id] or math.huge)
           end)
         end,
       },
+      -- windows under 120 columns get the stacked layout; at its default half width (min 80
+      -- columns) the list columns are cut off
+      layouts = { vertical = { layout = { width = 0.9 } } },
       win = {
         input = {
           keys = {
@@ -104,7 +125,10 @@ return {
     { "<leader>sr", function() Snacks.picker.recent() end, desc = "[S]earch [R]ecent Files" },
     { "<leader>sb", function() Snacks.picker.buffers() end, desc = "[S]earch Existing [B]uffers" },
     { "<leader>sn", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "[S]earch [N]eovim files" },
-    { "<leader>f", function() Snacks.picker.lines() end, desc = "[F]uzzily search in current buffer" },
+    -- centered; the file behind scrolls to the selected line
+    { "<leader>f", function() Snacks.picker.lines({
+      layout = { preset = "select", preview = "main", layout = { width = 0.6, max_width = 120, height = 0.4 } },
+    }) end, desc = "[F]uzzily search in current buffer" },
 
     -- search
     -- { '<leader>s"', function() Snacks.picker.registers() end, desc = "Search Registers" },
