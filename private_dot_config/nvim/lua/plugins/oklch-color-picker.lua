@@ -13,5 +13,8 @@ return {
     },
   },
   ---@type oklch.Opts
-  opts = {},
+  opts = {
+    -- Don't color number tuples like (128, 128, 128)
+    patterns = { numbers_in_brackets = false },
+  },
 }

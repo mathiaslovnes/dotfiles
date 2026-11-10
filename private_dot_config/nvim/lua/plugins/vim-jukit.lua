@@ -31,6 +31,18 @@ return {
         end, { buffer = args.buf, expr = true, desc = 'Next jukit cell' })
       end,
     })
+    -- snacks only renders images and math in filetypes that have an images query, which python doesn't
+    vim.api.nvim_create_autocmd('FileType', {
+      group = vim.api.nvim_create_augroup('jukit-math', { clear = true }),
+      pattern = 'python',
+      callback = function(args)
+        vim.schedule(function()
+          if vim.api.nvim_buf_is_valid(args.buf) then
+            Snacks.image.doc.attach(args.buf)
+          end
+        end)
+      end,
+    })
     -- Replaces jukit's own <leader>cd (jukit skips its default map when one already calls jukit#cells#delete).
     -- Its delete fixes the ids of the wrong marker unless the cursor is in column 1, and in a file without
     -- cells it deletes everything, so jump to column 1 first and do nothing when there are no cells.
@@ -64,6 +76,8 @@ return {
       vim.fn['jukit#util#ipython_info_write'] { cmd_opts = param, cmd = code }
       vim.fn['jukit#tmux#cmd#send_text'](vim.g.jukit_output_title, '%jukit_run_split')
     end, { desc = 'Run jukit cells from here to the end' })
+    -- Replaces jukit's own <leader>cc, which has no description
+    vim.keymap.set('n', '<leader>cc', '<cmd>call jukit#send#until_current_section()<CR>', { desc = 'Run jukit cells from the start to here' })
 
     vim.keymap.set('n', '<leader>J', '<cmd>call jukit#splits#out_hist_scroll(1)<CR>')
     vim.keymap.set('n', '<leader>K', '<cmd>call jukit#splits#out_hist_scroll(0)<CR>')

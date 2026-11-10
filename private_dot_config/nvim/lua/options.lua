@@ -14,6 +14,7 @@ opt.expandtab = true
 opt.smartindent = false -- when on, '>' refuses to shift lines starting with '#' (Python/shell comments)
 opt.autoindent = true
 opt.textwidth = 100
+opt.formatoptions:remove 't' -- don't break lines while typing past textwidth (gq still uses it)
 opt.scrolloff = 15
 opt.cursorline = false
 opt.guicursor = 'n-v-c:block,i:ver25,r-cr:hor20'

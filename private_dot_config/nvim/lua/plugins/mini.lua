@@ -209,6 +209,29 @@ return {
         modes = { insert = true, command = false, terminal = false }, -- Defaults: true, false, false
       }
 
+      -- Only add the closing half before whitespace, at line end, or before a closing bracket that has its
+      -- opener. neigh_pattern only sees one character on each side, so check it in MiniPairs.open,
+      -- which every opening key goes through.
+      local open_pair = MiniPairs.open
+      local brackets = { [')'] = { '(', ')' }, [']'] = { '\\[', '\\]' }, ['}'] = { '{', '}' } }
+      MiniPairs.open = function(pair, neigh_pattern)
+        local line = vim.api.nvim_get_current_line()
+        local col = vim.fn.col '.'
+        local open_char = pair:sub(1, 1)
+        -- A quote with an odd number of unescaped ones before it on the line closes the last of them
+        local _, count_before = line:sub(1, col - 1):gsub('\\.', ''):gsub(vim.pesc(open_char), '')
+        if open_char == pair:sub(2, 2) and count_before % 2 == 1 then
+          return open_char
+        end
+        local right = line:sub(col, col)
+        local bracket = brackets[right]
+        local has_opener = bracket and vim.fn.searchpair(bracket[1], '', bracket[2], 'bnW', '', 0, 50) > 0
+        if right == '' or right:match '%s' or has_opener then
+          return open_pair(pair, neigh_pattern)
+        end
+        return open_char
+      end
+
       require('mini.align').setup {
         -- Module mappings. Use `''` (empty string) to disable one.
         -- Modifiers changing alignment steps and/or options

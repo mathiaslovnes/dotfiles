@@ -273,8 +273,10 @@ return {
       -- Per-server settings, merged on top of nvim-lspconfig's defaults (mason-lspconfig enables the servers)
       vim.lsp.config('pyright', {
         settings = {
+          pyright = { disableTaggedHints = true }, -- no "is not accessed" hints
           python = {
             analysis = {
+              typeCheckingMode = 'off', -- keep only syntax errors, undefined names and failed imports
               -- Global stubs so every env gets proper types:
               --   pandas-stubs: the pip package
               --   sklearn: copied from stubs/sklearn in github.com/microsoft/python-type-stubs (the stubs Pylance

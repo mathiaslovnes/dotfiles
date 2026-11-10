@@ -45,21 +45,48 @@
   "model": "opus[1m]",
   "enabledPlugins": {
     "cc-plugin-you-should-know@builtin": true,
-    "swift-lsp@claude-plugins-official": true
+    "swift-lsp@claude-plugins-official": true,
+    "message-timestamps@zoharbabin-claude-tools": true,
+    "pyright-lsp@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "claude-code-setup@anthropic-plugin-directory": true,
+    "code-simplifier@anthropic-plugin-directory": true,
+    "skill-creator@anthropic-plugin-directory": true,
+    "claude-md-management@anthropic-plugin-directory": true,
+    "time-sense@amilexx": true
   },
+  "extraKnownMarketplaces": {
+    "amilexx": {
+      "source": {
+        "source": "github",
+        "repo": "amilexx/Claude-Time-Sense"
+      }
+    },
+    "zoharbabin-claude-tools": {
+      "source": {
+        "source": "github",
+        "repo": "zoharbabin/claude-code-message-timestamps"
+      }
+    }
+  },
+  "feedbackDrafts": "notify",
   "modelSettings": {
     "claude-opus-5": {
       "effortLevel": "xhigh"
     },
     "claude-opus-5-5": {
-      "effortLevel": "xhigh"
+      "effortLevel": "high"
     }
   },
   "awaySummaryEnabled": false,
+  "askUserQuestionTimeout": "never",
+  "dialogExpiry": "never",
   "tui": "fullscreen",
   "theme": "dark",
   "editorMode": "vim",
   "verbose": false,
+  "preferredNotifChannel": "auto",
   "autoCompactEnabled": true,
-  "inputNeededNotifEnabled": true
+  "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": false
 }

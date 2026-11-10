@@ -149,8 +149,14 @@ fi
 
 ## Tmux
 alias t='tmux'
-alias tk='tmux kill-server'
-alias tks='tmux kill-server'
+alias tls='tmux ls'
+alias ta='tmux attach -t'           # ta <session-name>
+alias tn='tmux new -s'              # tn <session-name>
+alias tk='tmux kill-session -t'     # tk <session-name>
+alias tkall='tmux kill-server'      # kills all sessions
+alias td='tmux detach'              # run inside tmux
+alias trs='tmux rename-session'     # trs <new-name> (current session), or trs -t <session-name> <new-name>
+tt() { tmux new -A -s "${1:-main}"; }   # tt [session-name]: attach, or create if missing; default "main"
 
 ## Chezmoi
 alias cs='chezmoi status'
@@ -207,6 +213,7 @@ alias gam='gc --amend --no-edit'
 ## Python
 # alias ps='pip show' # overwrites ps in ps aux
 alias pi='pip install'
+alias piup='pip install --upgrade pip'
 alias da='direnv allow'
 
 ## System settings (macOS only)

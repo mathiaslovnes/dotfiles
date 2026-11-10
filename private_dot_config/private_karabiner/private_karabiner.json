@@ -1799,6 +1799,29 @@
                         ]
                     },
                     {
+                        "description": "Caps Lock + U to open Activity Monitor",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "u",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_shift",
+                                            "left_control",
+                                            "left_option"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "open -a 'Activity Monitor' && osascript -e 'tell application \"Activity Monitor\" to activate'"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Caps Lock + O to open Obsidian",
                         "manipulators": [
                             {
