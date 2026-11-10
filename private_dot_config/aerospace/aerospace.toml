@@ -13,6 +13,11 @@ accordion-padding = 30
 
 persistent-workspaces = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 
+# sketchybar (yabairc triggered window_focus; the workspace event is for porting the space items)
+on-focus-changed = ['exec-and-forget sketchybar --trigger window_focus']
+exec-on-workspace-change = ['/bin/bash', '-c',
+  'sketchybar --trigger aerospace_workspace_change FOCUSED=$AEROSPACE_FOCUSED_WORKSPACE']
+
 # no padding or gaps, as in yabairc
 [gaps]
 inner.horizontal = 0
@@ -21,11 +26,6 @@ outer.left = 0
 outer.bottom = 0
 outer.top = 0
 outer.right = 0
-
-# sketchybar (yabairc triggered window_focus; the workspace event is for porting the space items)
-on-focus-changed = ['exec-and-forget sketchybar --trigger window_focus']
-exec-on-workspace-change = ['/bin/bash', '-c',
-  'sketchybar --trigger aerospace_workspace_change FOCUSED=$AEROSPACE_FOCUSED_WORKSPACE']
 
 [mode.main.binding]
 # focus window / monitor
