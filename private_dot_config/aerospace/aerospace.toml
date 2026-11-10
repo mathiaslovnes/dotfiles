@@ -1,0 +1,147 @@
+# AeroSpace config, converted from yabairc and skhdrc (same keys where AeroSpace has an equivalent)
+# Commands: https://nikitabobko.github.io/AeroSpace/commands
+
+config-version = 2
+start-at-login = true
+
+# yabai's bsp: each new window splits the focused container
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+accordion-padding = 30
+
+persistent-workspaces = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+
+# no padding or gaps, as in yabairc
+[gaps]
+inner.horizontal = 0
+inner.vertical = 0
+outer.left = 0
+outer.bottom = 0
+outer.top = 0
+outer.right = 0
+
+# sketchybar (yabairc triggered window_focus; the workspace event is for porting the space items)
+on-focus-changed = ['exec-and-forget sketchybar --trigger window_focus']
+exec-on-workspace-change = ['/bin/bash', '-c',
+  'sketchybar --trigger aerospace_workspace_change FOCUSED=$AEROSPACE_FOCUSED_WORKSPACE']
+
+[mode.main.binding]
+# focus window / monitor
+alt-h = 'focus left'
+alt-j = 'focus down'
+alt-k = 'focus up'
+alt-l = 'focus right'
+alt-s = 'focus-monitor left'
+alt-g = 'focus-monitor right'
+
+# swap with the neighbor (yabai --swap)
+alt-shift-h = 'swap left'
+alt-shift-j = 'swap down'
+alt-shift-k = 'swap up'
+alt-shift-l = 'swap right'
+
+# move into the neighbor's spot in the tree (yabai --warp)
+alt-shift-a = 'move left'
+alt-shift-s = 'move down'
+alt-shift-w = 'move up'
+alt-shift-d = 'move right'
+
+# layout
+alt-x = 'layout horizontal vertical' # toggle split direction (yabai --toggle split)
+alt-shift-r = 'layout --root horizontal vertical' # rotate the whole workspace (yabai --rotate)
+alt-shift-x = 'flatten-workspace-tree' # undo nested splits (yabai's mirror has no equivalent)
+alt-shift-t = 'layout tiles accordion' # accordion is AeroSpace's stack
+alt-shift-f = 'layout floating tiling'
+alt-shift-m = 'fullscreen' # fills the workspace, not macOS fullscreen (yabai zoom-fullscreen)
+alt-shift-e = 'balance-sizes'
+alt-c = 'macos-native-minimize'
+
+# resize: shift+cmd grows, ctrl+cmd shrinks (a/d width, s/w height)
+cmd-shift-a = 'resize width +50'
+cmd-shift-d = 'resize width +50'
+cmd-shift-s = 'resize height +50'
+cmd-shift-w = 'resize height +50'
+ctrl-cmd-a = 'resize width -50'
+ctrl-cmd-d = 'resize width -50'
+ctrl-cmd-s = 'resize height -50'
+ctrl-cmd-w = 'resize height -50'
+
+# workspaces: hyper (caps lock) + number goes there
+ctrl-alt-shift-1 = 'workspace 1'
+ctrl-alt-shift-2 = 'workspace 2'
+ctrl-alt-shift-3 = 'workspace 3'
+ctrl-alt-shift-4 = 'workspace 4'
+ctrl-alt-shift-5 = 'workspace 5'
+ctrl-alt-shift-6 = 'workspace 6'
+ctrl-alt-shift-7 = 'workspace 7'
+ctrl-alt-shift-8 = 'workspace 8'
+ctrl-alt-shift-9 = 'workspace 9'
+
+# send the window to a workspace and follow it
+alt-shift-1 = 'move-node-to-workspace --focus-follows-window 1'
+alt-shift-2 = 'move-node-to-workspace --focus-follows-window 2'
+alt-shift-3 = 'move-node-to-workspace --focus-follows-window 3'
+alt-shift-4 = 'move-node-to-workspace --focus-follows-window 4'
+alt-shift-5 = 'move-node-to-workspace --focus-follows-window 5'
+alt-shift-6 = 'move-node-to-workspace --focus-follows-window 6'
+alt-shift-p = 'move-node-to-workspace prev'
+alt-shift-n = 'move-node-to-workspace next'
+
+# turn window management off/on (yabai --stop/--start-service) and reload this file
+ctrl-alt-x = 'enable toggle'
+ctrl-alt-r = 'reload-config'
+
+# ctrl-cmd-m ran ~/scripts/mpv-layout.sh, which still calls yabai; rebind once it's ported
+# ctrl-cmd-m = 'exec-and-forget ~/scripts/mpv-layout.sh'
+
+# workspace 4 floats everything, as in yabairc
+[[on-window-detected]]
+if = 'test %{workspace} = 4'
+run = 'layout floating'
+
+# apps yabai left unmanaged (manage=off)
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = com.apple.systempreferences'
+run = 'layout floating'
+
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = org.pqrs.Karabiner-Elements.Settings'
+run = 'layout floating'
+
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = org.pqrs.Karabiner-EventViewer'
+run = 'layout floating'
+
+[[on-window-detected]]
+if = 'test %{app-name} = oklch-color-picker'
+run = 'layout floating'
+
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = com.nuebling.mac-mouse-fix'
+run = 'layout floating'
+
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = com.lujjjh.LinearMouse'
+run = 'layout floating'
+
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = com.apple.finder'
+run = 'layout floating'
+
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = com.electron.brain.fm'
+run = 'layout floating'
+
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = com.nordsec.nordpass'
+run = 'layout floating'
+
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = com.nordvpn.macos'
+run = 'layout floating'
+
+[[on-window-detected]]
+if = 'test %{app-bundle-id} = io.mpv'
+run = 'layout floating'

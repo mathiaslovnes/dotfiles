@@ -286,3 +286,5 @@ brew "pinentry-mac"
 cask "font-meslo-lg-nerd-font"
 # Select default apps for documents and URL schemes on macOS
 brew "duti"
+# AeroSpace is an i3-like tiling window manager for macOS
+cask "nikitabobko/tap/aerospace"
