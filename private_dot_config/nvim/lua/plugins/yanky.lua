@@ -15,10 +15,6 @@ return {
       select = {
         action = nil,
       },
-      telescope = {
-        use_default_mappings = true,
-        mappings = nil,
-      },
     },
     system_clipboard = {
       sync_with_ring = true,

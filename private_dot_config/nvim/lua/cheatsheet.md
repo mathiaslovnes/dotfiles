@@ -14,7 +14,7 @@
 - gd go to definition, gD go to declaration
 - Use ctrl-c to exit overlay buffers instead of esc-esc or esc-q
 - Use marks: A-Z work across files (use harpoon instead), a-z are buffer-local only
-- use ctrl-v/x/t to open buffers from telescope search in vertical, horizontal or in new tab, respectively
+- use ctrl-v/x/t to open buffers from a picker in vertical, horizontal or in new tab, respectively
 - gv selects previous selection
 - Gi drops you at the last position you were in insert mode
 - <C-o> and <C-i>
@@ -120,9 +120,11 @@ aerial.lua for the side-panel view
 
 
 
-## telescope
+## Pickers (Snacks)
 - ctrl v for vertical split
 - ctrl x for horizontal split
+- ctrl y opens the file in place of the current buffer
+- alt h / alt i toggle hidden / ignored files
 
 ## Neo-tree
 - backspace to view parent dir

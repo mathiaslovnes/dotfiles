@@ -15,7 +15,39 @@ return {
       enabled = true,
       timeout = 4444,
     },
-    picker = { enabled = true },
+    picker = {
+      enabled = true,
+      actions = {
+        -- open the file in place of the current buffer: the old buffer closes and the new one
+        -- takes its spot in the bufferline
+        replace_buffer = function(picker)
+          local original = vim.api.nvim_win_get_buf(picker.main)
+          local listed = vim.tbl_filter(function(b)
+            return vim.bo[b].buflisted
+          end, vim.api.nvim_list_bufs())
+          local pos = vim.fn.index(listed, original) + 1
+          picker:action 'confirm'
+          vim.schedule(function()
+            if vim.api.nvim_get_current_buf() ~= original and vim.api.nvim_buf_is_valid(original) then
+              pcall(vim.api.nvim_buf_delete, original, { force = false })
+              if pos > 0 then
+                pcall(require('bufferline').move_to, pos)
+              end
+            end
+          end)
+        end,
+      },
+      win = {
+        input = {
+          keys = {
+            ['<Esc>'] = { 'close', mode = { 'n', 'i' } }, -- one Esc closes, as telescope did
+            ['<C-y>'] = { 'replace_buffer', mode = { 'n', 'i' } },
+            ['<C-x>'] = { 'edit_split', mode = { 'n', 'i' } }, -- telescope's split key (Snacks' own is <C-s>)
+            ['<M-BS>'] = { '<c-s-w>', mode = { 'i' }, expr = true, desc = 'delete word' },
+          },
+        },
+      },
+    },
     quickfile = { enabled = true },
     scope = { enabled = true, keys = { textobject = { ii = false, ai = false } } }, -- ai/ii select a conditional (treesitter-textobjects)
     scroll = { enabled = false },
@@ -61,24 +93,29 @@ return {
     { "<leader>gp", function() Snacks.picker.gh_pr() end, desc = "GitHub Pull Requests (open)" },
     { "<leader>gP", function() Snacks.picker.gh_pr({ state = "all" }) end, desc = "GitHub Pull Requests (all)" },
 
-    -- Grep - replaced by telescope
-    -- { "<leader>sb", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
-    -- { "<leader>sB", function() Snacks.picker.grep_buffers() end, desc = "Grep Open Buffers" },
-    -- { "<leader>sg", function() Snacks.picker.grep() end, desc = "Grep" },
-    -- { "<leader>sw", function() Snacks.picker.grep_word() end, desc = "Visual selection or word", mode = { "n", "x" } },
+    -- Search (these were telescope's)
+    { "<leader>sf", function() Snacks.picker.files() end, desc = "[S]earch [F]iles" },
+    { "<leader>sg", function() Snacks.picker.grep() end, desc = "[S]earch by [G]rep" },
+    { "<leader>sw", function() Snacks.picker.grep_word() end, desc = "[S]earch current [W]ord", mode = { "n", "x" } },
+    { "<leader>sh", function() Snacks.picker.help() end, desc = "[S]earch [H]elp" },
+    { "<leader>sk", function() Snacks.picker.keymaps() end, desc = "[S]earch [K]eymaps" },
+    { "<leader>sd", function() Snacks.picker.diagnostics() end, desc = "[S]earch [D]iagnostics" },
+    { "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "[S]earch Document [S]ymbols" },
+    { "<leader>sr", function() Snacks.picker.recent() end, desc = "[S]earch [R]ecent Files" },
+    { "<leader>sb", function() Snacks.picker.buffers() end, desc = "[S]earch Existing [B]uffers" },
+    { "<leader>sn", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "[S]earch [N]eovim files" },
+    { "<leader>f", function() Snacks.picker.lines() end, desc = "[F]uzzily search in current buffer" },
 
     -- search
     -- { '<leader>s"', function() Snacks.picker.registers() end, desc = "Search Registers" },
     -- { '<leader>s/', function() Snacks.picker.search_history() end, desc = "Search History" },
     { "<leader>sa", function() Snacks.picker.autocmds() end, desc = "Autocmds" },
-    -- { "<leader>sb", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
     { "<leader>sc", function() Snacks.picker.command_history() end, desc = "Search Command History" },
     -- { "<leader>sC", function() Snacks.picker.commands() end, desc = "Search All Commands" },
     { "<leader>sD", function() Snacks.picker.diagnostics_buffer() end, desc = "Buffer Diagnostics" },
     { "<leader>sH", function() Snacks.picker.highlights() end, desc = "Highlights" },
     { "<leader>si", function() Snacks.picker.icons() end, desc = "Icons" },
     { "<leader>sj", function() Snacks.picker.jumps() end, desc = "Jumps" },
-    -- { "<leader>sk", function() Snacks.picker.keymaps() end, desc = "Keymaps" },
     { "<leader>sl", function() Snacks.picker.loclist() end, desc = "Location List" },
     { "<leader>sm", function() Snacks.picker.marks() end, desc = "Marks" },
     -- { "<leader>sM", function() Snacks.picker.man() end, desc = "Man Pages" },
@@ -95,7 +132,6 @@ return {
     { "gy", function() Snacks.picker.lsp_type_definitions() end, desc = "Goto T[y]pe Definition" },
     -- { "gai", function() Snacks.picker.lsp_incoming_calls() end, desc = "C[a]lls Incoming" },
     -- { "gao", function() Snacks.picker.lsp_outgoing_calls() end, desc = "C[a]lls Outgoing" },
-    -- { "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
     -- { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols" },
 
     -- Other

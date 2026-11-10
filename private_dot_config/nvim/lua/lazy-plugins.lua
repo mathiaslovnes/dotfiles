@@ -56,7 +56,7 @@ require('lazy').setup({
   -- ╔══════════════════════════════════════════════════════════════╗
   -- ║                   File Navigation                          ║
   -- ╚══════════════════════════════════════════════════════════════╝
-  require 'plugins.telescope', -- Fuzzy finder for files, buffers, grep, LSP symbols, and everything
+  -- require 'plugins.telescope', -- (replaced by snacks.picker) Fuzzy finder for files, buffers, grep, LSP symbols, and everything
   require 'plugins.neo-tree',  -- File explorer sidebar with git status
   require 'plugins.harpoon',   -- Pin and quick-switch between a handful of key files
   require 'plugins.yazi',      -- Terminal file manager integration

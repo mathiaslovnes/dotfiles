@@ -29,7 +29,7 @@ Each plugin lives in its own file under `lua/plugins/`. To add a plugin, create 
 | LSP | `lspconfig` + `mason` (auto-installs servers) |
 | Formatting | `conform.nvim` (stylua for Lua, ruff for Python, prettier for JS/TS; LSP fallback for others) |
 | Linting | the ruff language server, narrowed to unused imports/variables and redefinitions (`plugins/lint.lua` is commented out) |
-| Fuzzy finding | `telescope` (file/grep searches) + `snacks.nvim` (LSP nav, git, pickers) |
+| Fuzzy finding | `snacks.picker` (files, grep, LSP lists, git); `plugins/telescope.lua` is commented out |
 | File navigation | `harpoon`, `yazi`, `neo-tree`, `zoxide` |
 | Git | `gitsigns`, `neogit`, `diffview`, `snacks` lazygit integration |
 | Treesitter | `treesitter` (main branch), `treesitter-textobjects`, `treesitter-context` |
@@ -49,9 +49,11 @@ The extra tools Mason installs (formatters) are in the `vim.list_extend(ensure_i
 
 TypeScript uses `typescript-tools.nvim` (native tsserver protocol), not ts_ls; mason-lspconfig's `automatic_enable` excludes `ts_ls` and `jdtls` (nvim-java enables jdtls itself). nvim-java and typescript-tools load only for their filetypes. pyright treats `.envrc` as a root marker and uses the folder's direnv venv (`.direnv/*/bin/python`).
 
-## Snacks vs Telescope
+## Pickers and key scheme
 
-Both are active. Snacks handles LSP navigation (`gd`, `gD`, `gI`, `gy`), git pickers (`<leader>gl`, `<leader>gs`), and general search (`<leader>s*`). `gr` is treesitter-textobjects' jump to the next return: its jumps are `g` + letter (next) and `g` + capital (previous), with `a`/`i` + the same letter selecting that node. Telescope is used for file finding, colorscheme switching, and some LSP actions defined in `lspconfig.lua` (`grr`, `gri`, `grd`, `gW`, `grt`; document symbols on `<leader>ss`).
+Snacks' picker does all fuzzy finding: search (`<leader>s*`, `<leader>f`), LSP navigation (`gd`, `gD`, `gI`, `gy` in snacks.lua; `grr`, `gri`, `grd`, `gW`, `grt` in lspconfig.lua), git (`<leader>g*`) and `vim.ui.select`. Its picker keys (one-Esc close, `<C-x>` split, `<C-y>` replace the current buffer) are in snacks.lua's `picker` opts. Telescope is commented out.
+
+treesitter-textobjects' jumps are `g` + letter (next) and `g` + capital (previous), with `a`/`i` + the same letter selecting that node; `gr` is its jump to the next return. Exceptions: conditionals jump with `gc`/`gC` but select with `ai`/`ii`, because `ac`/`ic` select a jukit cell (mini.ai custom object in mini.lua); loops are `go`/`gO` and `ao`/`io`, because `al`/`il` are mini.ai's "last" objects.
 
 ## Python / Jupyter Workflow
 
