@@ -63,14 +63,14 @@ return {
 
       -- You can provide additional configuration to the handlers,
       -- see mason-nvim-dap README for more information
-      handlers = {},
+      handlers = {
+        python = function() end, -- nvim-dap-python registers the python adapter and configs
+      },
 
-      -- You'll need to check that you have the required things installed
-      -- online, please don't ask me how to install them :)
+      -- nvim-dap adapter names, not Mason package names
       ensure_installed = {
-        -- Update this to ensure that you have the debuggers for the langs you want
         'delve', -- Go
-        'debugpy', -- Python
+        'python', -- installs the Mason package debugpy
       },
     }
 
