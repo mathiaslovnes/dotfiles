@@ -14,6 +14,11 @@
 **/__pycache__
 .local/share/sentence-pitch/sentence_pitch/user_files
 .local/share/sentence-pitch/sentence_pitch/__pycache__
+# Anki add-ons: meta.json holds settings and API keys; user_files and logs are local data
+**/addons21/*/meta.json
+**/addons21/*/user_files
+**/addons21/*/user_files/**
+**/addons21/*/*log*.txt
 
 # Linux-only files — don't create these on macOS
 {{ if ne .chezmoi.os "linux" }}

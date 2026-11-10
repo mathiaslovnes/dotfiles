@@ -1,0 +1,22 @@
+{
+    "rule": "average",
+    "one_day": "auto",
+    "unranked": 50000,
+    "yomitan_url": "http://127.0.0.1:19633",
+    "word_deps": "",
+    "note_types": {
+        "subs2srs": {
+            "order": true,
+            "sentence_field": "sentence",
+            "word_field": "word",
+            "reading_field": "reading",
+            "freq_field": "freq"
+        },
+        "core6k": {
+            "order": false,
+            "word_field": "Vocabulary-Kanji",
+            "reading_field": "Vocabulary-Kana",
+            "freq_field": "freq-harmonic-mean"
+        }
+    }
+}

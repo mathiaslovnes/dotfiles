@@ -1,0 +1,18 @@
+{
+    "note_type": "subs2srs",
+    "sentence_field": "sentence",
+    "audio_field": "sentence-audio",
+    "shortcut": "Ctrl+Meta+X",
+    "python": "~/.local/share/sentence-pitch/cutvenv/bin/python",
+    "model": "small",
+    "ffmpeg": "/opt/homebrew/bin/ffmpeg",
+    "ffprobe": "/opt/homebrew/bin/ffprobe",
+    "pad_start": 0.2,
+    "pad_end": 0.15,
+    "prepare_search": "tag:long-sentence",
+    "font_size": 26,
+    "suggest_max_chars": 40,
+    "suggest_min_chars": 10,
+    "word_field": "word",
+    "written_field": "word-as-written"
+}

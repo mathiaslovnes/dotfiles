@@ -1,0 +1,9 @@
+{
+    "enabled": true,
+    "fields": {
+        "subs2srs": "sentence-card",
+        "core6k": "Sentence-Card"
+    },
+    "graduate_interval_days": 30,
+    "failed_within_days": 90
+}

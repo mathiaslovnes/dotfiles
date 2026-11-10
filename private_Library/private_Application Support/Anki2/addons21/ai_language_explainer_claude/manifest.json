@@ -1,0 +1,6 @@
+{
+  "name": "AI Language Explainer (Claude)",
+  "homepage": "https://github.com/Immersion-Dojo/ai-language-explainer/",
+  "package": "ai_language_explainer_claude",
+  "version": "2.1.0-claude"
+}

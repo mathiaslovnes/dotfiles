@@ -1,0 +1,9 @@
+{
+    "server_url": "http://127.0.0.1:5050/?term={term}&reading={reading}",
+    "word_field": "word",
+    "reading_fields": [
+        "reading-plain",
+        "reading"
+    ],
+    "audio_field": "word-audio"
+}
