@@ -1,0 +1,9 @@
+# Read because MPLCONFIGDIR=$HOME/.matplotlib (set in ~/.zshrc)
+
+# 1.5x the default 6.4x4.8: text and markers are fixed in points, so a larger figure
+# makes them smaller relative to the plot
+figure.figsize: 9.6, 7.2
+
+# Pixels per inch for figures shown in the terminal (9.6 in * 150 = 1440 px wide).
+# jukit's saved copies use g:jukit_savefig_dpi instead.
+figure.dpi: 150

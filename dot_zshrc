@@ -109,12 +109,6 @@ zstyle ':omz:plugins:alias-finder' cheaper yes # disabled by default
 # ALIASES
 # -------------------------
 
-if [[ "$OSTYPE" == darwin* ]]; then
-  alias fix-mpl="sed -i '' -e \"s/, facecolor='#888888'//g\" -e \"s/'--align', 'left'/'--align', 'center'/g\" \$VIRTUAL_ENV/lib/python*/site-packages/matplotlib-backend-kitty/__init__.py && echo '✓ Fixed'"
-else
-  alias fix-mpl="sed -i -e \"s/, facecolor='#888888'//g\" -e \"s/'--align', 'left'/'--align', 'center'/g\" \$VIRTUAL_ENV/lib/python*/site-packages/matplotlib-backend-kitty/__init__.py && echo '✓ Fixed'"
-fi
-
 ## Terminal/shell specific
 alias sz='source ~/.zshrc'
 alias st='tmux source-file ~/.tmux.conf'

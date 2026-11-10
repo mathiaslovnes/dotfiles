@@ -9,16 +9,17 @@ if venv:
     for f in files:
         try:
             with open(f, 'r') as file:
-                content = file.read()
-            
-            # Apply fixes
-            content = content.replace(", facecolor='#888888'", "")
+                original = file.read()
+
+            # Apply fixes: no gray background, centered plots
+            content = original.replace(", facecolor='#888888'", "")
             content = content.replace("'--align', 'left'", "'--align', 'center'")
-            
-            with open(f, 'w') as file:
-                file.write(content)
-            
-            print("✓ matplotlib-backend-kitty auto-patched")
-            break
-        except:
-            pass
+
+            # Write and report only when something changed
+            if content != original:
+                with open(f, 'w') as file:
+                    file.write(content)
+                print("✓ matplotlib-backend-kitty auto-patched")
+        except OSError as e:
+            print(f"matplotlib-backend-kitty patch failed: {e}")
+        break
