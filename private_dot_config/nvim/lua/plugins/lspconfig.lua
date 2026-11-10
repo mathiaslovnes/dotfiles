@@ -210,6 +210,7 @@ return {
         gopls = {},
         rust_analyzer = {},
         pyright = {},
+        ruff = {}, -- lints unused imports/variables and redefinitions (settings below)
         sqlls = {},
         jdtls = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -242,13 +243,10 @@ return {
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
-      -- DOESN'T WORK
       vim.list_extend(ensure_installed, {
         -- formatters used by conform.lua (the list in mason.lua is overridden by this setup call)
-        'black',
-        'isort',
         'prettier',
-        -- 'stylua',
+        'stylua',
         -- 'css-lsp',
         -- 'cssmodules-language-server',
         -- 'tailwindcss-language-server',
@@ -281,8 +279,23 @@ return {
             config.settings.python = vim.tbl_deep_extend('force', config.settings.python or {}, { pythonPath = py })
           end
         end,
+        handlers = {
+          -- pyright applies disableTaggedHints only to pushed diagnostics, and Neovim 0.12 pulls them,
+          -- so drop its tagged hints ("is not accessed", unreachable code) here; ruff flags unused names
+          ['textDocument/diagnostic'] = function(err, result, ctx)
+            if result and result.items then
+              result.items = vim.tbl_filter(function(d)
+                return not (d.severity == vim.lsp.protocol.DiagnosticSeverity.Hint and d.tags)
+              end, result.items)
+            end
+            return vim.lsp.diagnostic.on_diagnostic(err, result, ctx)
+          end,
+        },
         settings = {
-          pyright = { disableTaggedHints = true }, -- no "is not accessed" hints
+          pyright = {
+            disableTaggedHints = true, -- no "is not accessed" hints (pushed diagnostics only, see handlers)
+            disableOrganizeImports = true, -- ruff sorts imports
+          },
           python = {
             analysis = {
               typeCheckingMode = 'off', -- keep only syntax errors, undefined names and failed imports
@@ -293,6 +306,14 @@ return {
               --     completion take seconds in files with a few fit_transform calls.
               extraPaths = { vim.fn.expand '~/.local/share/python-stubs' },
             },
+          },
+        },
+      })
+      vim.lsp.config('ruff', {
+        init_options = {
+          settings = {
+            lineLength = 100,
+            lint = { select = { 'F401', 'F811', 'F841' } }, -- unused imports, redefinitions, unused locals
           },
         },
       })

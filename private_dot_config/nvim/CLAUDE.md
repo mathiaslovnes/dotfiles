@@ -27,8 +27,8 @@ Each plugin lives in its own file under `lua/plugins/`. To add a plugin, create 
 |---|---|
 | Completion | `blink-cmp` + `luasnip` (friendly-snippets loaded per filetype) |
 | LSP | `lspconfig` + `mason` (auto-installs servers) |
-| Formatting | `conform.nvim` (stylua for Lua; LSP fallback for others) |
-| Linting | none (`plugins/lint.lua` exists but is commented out in lazy-plugins.lua) |
+| Formatting | `conform.nvim` (stylua for Lua, ruff for Python, prettier for JS/TS; LSP fallback for others) |
+| Linting | the ruff language server, narrowed to unused imports/variables and redefinitions (`plugins/lint.lua` is commented out) |
 | Fuzzy finding | `telescope` (file/grep searches) + `snacks.nvim` (LSP nav, git, pickers) |
 | File navigation | `harpoon`, `yazi`, `neo-tree`, `zoxide` |
 | Git | `gitsigns`, `neogit`, `diffview`, `snacks` lazygit integration |
@@ -43,7 +43,9 @@ nvim-treesitter is on its `main` branch: `plugins/treesitter.lua` only installs 
 
 ## LSP Servers (auto-installed via Mason)
 
-`clangd`, `gopls`, `rust_analyzer`, `pyright`, `sqlls`, `jdtls`, `svelte`, `cssls`, `css_variables`, `cssmodules_ls`, `lua_ls`
+`clangd`, `gopls`, `rust_analyzer`, `pyright`, `ruff`, `sqlls`, `jdtls`, `svelte`, `cssls`, `css_variables`, `cssmodules_ls`, `lua_ls`
+
+The extra tools Mason installs (formatters) are in the `vim.list_extend(ensure_installed, ...)` list in `lspconfig.lua`; the list in `mason.lua` is overridden and does nothing. pyright's "is not accessed" hints are dropped by a `textDocument/diagnostic` handler in its `vim.lsp.config`, because pyright's `disableTaggedHints` only filters pushed diagnostics and Neovim 0.12 pulls them.
 
 TypeScript uses `typescript-tools.nvim` (native tsserver protocol), not ts_ls; mason-lspconfig's `automatic_enable` excludes `ts_ls` and `jdtls` (nvim-java enables jdtls itself). nvim-java and typescript-tools load only for their filetypes. pyright treats `.envrc` as a root marker and uses the folder's direnv venv (`.direnv/*/bin/python`).
 
@@ -54,6 +56,7 @@ Both are active. Snacks handles LSP navigation (`gd`, `gr`, `gI`, `gy`), git pic
 ## Python / Jupyter Workflow
 
 Notebooks are vim-jukit `.py` files: cells are split by `# |%%--%%| <id|id>` lines, and markdown cells are `r"""°°° ... °°°"""` strings. jukit (`lua/plugins/vim-jukit.lua`) sends cells to an IPython pane in tmux; its buffer maps only exist in `.py`/`.ipynb` buffers (`g:jukit_mappings_ext_enabled` in init.lua).
+- vim-jukit is the user's fork, loaded with lazy.nvim's dev mode from `~/Dev/vim-jukit` (a git clone of the fork; lazy never updates it). Edit and commit the plugin there, not under `~/.local/share/nvim/lazy`.
 - Markdown in text cells comes from treesitter: `after/queries/python/injections.scm` injects markdown into `°°°` strings, and render-markdown renders it. jukit's own vim-syntax region `textcell` doesn't show, because the treesitter highlighter turns vim syntax off.
 - `lua/jukit_dividers.lua`: a decoration provider (namespace `pyworks_deco`) that draws the cell divider lines and hides the `°°°` lines on the visible lines at redraw time.
 - `autoload/jukit/tmux/layouts.vim` shadows jukit's layout function and calls `lua/jukit_tmux_layout.lua` (output panes at the far right, columns evenly sized).

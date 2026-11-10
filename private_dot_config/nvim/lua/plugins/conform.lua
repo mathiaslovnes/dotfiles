@@ -19,13 +19,13 @@ return {
         stylua = {
           args = { '--column-width', '0' },
         },
-        black = {
-          prepend_args = { '--line-length', '100' },
-        },
+        -- --config goes before the subcommand; --line-length there makes ruff exit with an error
+        ruff_format = { prepend_args = { '--config', 'line-length=100' } },
+        ruff_organize_imports = { prepend_args = { '--config', 'line-length=100' } },
       },
       formatters_by_ft = {
         lua = { 'stylua' },
-        python = { 'isort', 'black' },
+        python = { 'ruff_organize_imports', 'ruff_format' },
         javascript = { 'prettier' },
         javascriptreact = { 'prettier' },
         typescript = { 'prettier' },
