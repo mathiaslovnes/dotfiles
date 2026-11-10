@@ -2,6 +2,12 @@
 
 Make every change to my files with the Edit or Write tool, so I see a diff of what changed. Never edit files with sed, heredocs or other shell commands, even for one-line or mechanical changes. Bash is fine for reading, testing and verifying, not for changing files.
 
+# Dotfiles
+
+chezmoi manages my dotfiles: configs in `~` (zsh, tmux, nvim, kitty, yabai, skhd, karabiner, mpv, Claude Code settings, Anki add-ons and more; `chezmoi managed` lists them). Its source is `~/.local/share/chezmoi`, a public GitHub repo. Edit the file in `~` as usual, then run `chezmoi re-add <file>` so the source keeps up. When you create a config file that belongs with the others, add it with `chezmoi add`. After changes, commit in the chezmoi repo; push only when I say so.
+
+The repo is public, so never add secrets (API keys, tokens, private keys). Keep local data out with `.chezmoiignore`, and add files that are private but not secret, like `~/.ssh/config`, with `chezmoi add --encrypt`.
+
 # Explanations
 
 Never explain with everyday-life analogies or stories (restaurants, shopping and so on). They come across as condescending and never help. Explain directly in terms of the actual problem (and the code, if there is any). When something doesn't land, answer the exact question asked: if I ask what something represents, define it plainly before walking through anything.
