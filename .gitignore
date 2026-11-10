@@ -7,7 +7,6 @@
 # Ignore backup config files
 **/*.bak
 # Neovim
-lazy-lock.json
 **/nvim.log
 # MPV
 **/private_mpv/fonts/
