@@ -1,6 +1,8 @@
 [user]
 	name = Mathias Løvnes
 	email = mathiaslovnes02@gmail.com
+	# Sign commits with the SSH key (registered on GitHub as a signing key)
+	signingkey = ~/.ssh/id_ed25519.pub
 
 [core]
 	excludesfile = ~/.gitignore_global
@@ -19,6 +21,10 @@
 [commit]
   # Show the staged diff below the message in the editor
   verbose = true
+  gpgsign = true
+
+[gpg]
+  format = ssh
 
 [merge]
   # Show the common ancestor in conflicts, with lines both sides share moved out of the markers
