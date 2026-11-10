@@ -12,8 +12,12 @@
 **/jgit/**
 **/linearmouse/**
 **/__pycache__
+# vim-jukit per-machine state
+**/.jukit
+**/.jukit/**
 .local/share/sentence-pitch/sentence_pitch/user_files
 .local/share/sentence-pitch/sentence_pitch/__pycache__
+.local/share/sentence-pitch/sentence_pitch/meta.json
 # Anki add-ons: meta.json holds settings and API keys; user_files and logs are local data
 **/addons21/*/meta.json
 **/addons21/*/user_files

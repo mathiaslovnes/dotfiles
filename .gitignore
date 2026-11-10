@@ -8,7 +8,6 @@
 **/*.bak
 # Neovim
 lazy-lock.json
-.jukit
 **/nvim.log
 # MPV
 **/private_mpv/fonts/
