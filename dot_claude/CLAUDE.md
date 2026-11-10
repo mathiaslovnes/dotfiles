@@ -4,7 +4,7 @@ Make every change to my files with the Edit or Write tool, so I see a diff of wh
 
 # Dotfiles
 
-chezmoi manages my dotfiles: configs in `~` (zsh, tmux, nvim, kitty, yabai, skhd, karabiner, mpv, Claude Code settings, Anki add-ons and more; `chezmoi managed` lists them). Its source is `~/.local/share/chezmoi`, a public GitHub repo. Edit the file in `~` as usual, then run `chezmoi re-add <file>` so the source keeps up. When you create a config file that belongs with the others, add it with `chezmoi add`. After changes, commit in the chezmoi repo; push only when I say so.
+chezmoi manages my dotfiles: configs in `~` (zsh, tmux, nvim, kitty, yabai, skhd, karabiner, mpv, Claude Code settings, Anki add-ons and more; `chezmoi managed` lists them). Its source is `~/.local/share/chezmoi`, a public GitHub repo. Edit the file in `~` as usual, then run `chezmoi re-add <file>` so the source keeps up. When you create a config file that belongs with the others, add it with `chezmoi add`. After changes, commit in the chezmoi repo; I push it myself.
 
 The repo is public, so never add secrets (API keys, tokens, private keys). Keep local data out with `.chezmoiignore`, and add files that are private but not secret, like `~/.ssh/config`, with `chezmoi add --encrypt`.
 

@@ -5,6 +5,7 @@
   "permissions": {
     "allow": [
       "Read(**)",
+      "Edit(~/.claude/CLAUDE.md)",
       "WebFetch",
       "Bash(git diff:*)",
       "Bash(git --no-pager diff:*)",
