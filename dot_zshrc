@@ -167,6 +167,8 @@ cum() {
     ~/.claude/agents ~/.ipython/profile_default/startup ~/scripts ~/.local/share/sentence-pitch/sentence_pitch \
     ~/Library/Application\ Support/Anki2/addons21/[^0-9]*(/N)
 }
+# add everything cum lists; (f) splits on newlines so paths with spaces stay whole
+alias cuma='(cd ~ && chezmoi add ${(f)"$(cum)"})'
 
 ## Yabai/skhd (macOS only)
 if [[ "$OSTYPE" == darwin* ]]; then
