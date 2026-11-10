@@ -81,7 +81,26 @@ return {
         -- Table with textobject id as fields, textobject specification as values.
         -- Also use this to disable builtin textobjects. See |MiniAi.config|.
 
-        custom_textobjects = nil,
+        custom_textobjects = {
+          -- jukit cell: `iC` body, `aC` body plus its opening marker. The marker search is anchored to
+          -- the line start, so a marker line belongs to the cell it opens, and an empty cell gives an
+          -- empty region (diC can't delete markers)
+          C = function(ai_type)
+            local marker = [[^#\s*|%%--%%|]]
+            local above = vim.fn.search(marker, 'bcnW') -- 0 in the first cell
+            local below = vim.fn.search(marker, 'nW') -- 0 in the last cell
+            local from = (ai_type == 'a' and above > 0) and above or above + 1
+            local to = below == 0 and vim.fn.line '$' or below - 1
+            if from > to then
+              return { from = { line = from, col = 1 } }
+            end
+            return {
+              from = { line = from, col = 1 },
+              to = { line = to, col = math.max(vim.fn.col { to, '$' } - 1, 1) },
+              vis_mode = 'V',
+            }
+          end,
+        },
 
         -- Module mappings. Use `''` (empty string) to disable one.
         mappings = {

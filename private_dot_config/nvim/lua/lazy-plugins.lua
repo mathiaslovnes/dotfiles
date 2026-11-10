@@ -15,7 +15,7 @@ require('lazy').setup({
   require 'plugins.blink-cmp',        -- Fast completion engine
   require 'plugins.java',             -- Enhanced Java LSP support (nvim-java)
   require 'plugins.typescript-tools', -- Native tsserver protocol (faster than typescript-language-server)
-  require 'plugins.tailwind-tools',   -- Tailwind CSS color hints, class sorting, and utilities
+  -- require 'plugins.tailwind-tools', -- Tailwind CSS color hints (needs the Tailwind language server; archived)
   require 'plugins.fidget',           -- LSP progress notifications
   require 'plugins.inc-rename',       -- Incremental LSP rename with live preview
   -- require 'plugins.lightbulb',       -- Show lightbulb icon for available LSP code actions
@@ -27,7 +27,7 @@ require('lazy').setup({
   require 'plugins.treesitter-textobjects', -- Select, move, swap via treesitter nodes (functions, classes, etc.)
   require 'plugins.treesitter-context',     -- Sticky header showing current function/class scope
   require 'plugins.autotag',                -- Auto-close and auto-rename HTML/JSX tags via treesitter
-  require 'plugins.highlight-colors',       -- Inline color swatches for hex/rgb/hsl values
+  -- require 'plugins.highlight-colors',    -- Inline color swatches (oklch-color-picker draws them)
 
   -- ╔══════════════════════════════════════════════════════════════╗
   -- ║                  Debugging & Testing                       ║
@@ -97,7 +97,7 @@ require('lazy').setup({
   -- ╔══════════════════════════════════════════════════════════════╗
   -- ║                 Color Pickers & Tools                      ║
   -- ╚══════════════════════════════════════════════════════════════╝
-  require 'plugins.cccccc',             -- Inline color picker (ccc.nvim)
+  -- require 'plugins.cccccc',          -- Inline color picker (ccc.nvim; oklch-color-picker picks on <leader>cP)
   require 'plugins.oklch-color-picker', -- Advanced color picker with hue/saturation in a separate OS window
 
   -- ╔══════════════════════════════════════════════════════════════╗
@@ -107,7 +107,6 @@ require('lazy').setup({
   require 'plugins.tmux-navigator', -- Seamless Ctrl/Cmd+hjkl navigation between Neovim and tmux panes
   require 'plugins.smart-splits',   -- Resize and navigate splits across Neovim and tmux
   -- require 'plugins.dbee',           -- Database client (Postgres, MySQL, SQLite, etc.)
-  require 'plugins.dadbod',         -- Database client (Postgres, MySQL, SQLite, etc.)
   require 'plugins.dadbod-ui',      -- Interactive UI for dadbod queries and connections
 
   -- ╔══════════════════════════════════════════════════════════════╗

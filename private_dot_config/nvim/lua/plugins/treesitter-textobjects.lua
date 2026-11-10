@@ -98,14 +98,6 @@ return {
       require('nvim-treesitter-textobjects.move').goto_previous('@parameter.outer', 'textobjects')
     end)
 
-    -- call (e for execute)
-    vim.keymap.set({ 'n', 'x', 'o' }, 'ge', function()
-      require('nvim-treesitter-textobjects.move').goto_next('@call.outer', 'textobjects')
-    end)
-    vim.keymap.set({ 'n', 'x', 'o' }, 'gE', function()
-      require('nvim-treesitter-textobjects.move').goto_previous('@call.outer', 'textobjects')
-    end)
-
     -- return (r)
     vim.keymap.set({ 'n', 'x', 'o' }, 'gr', function()
       require('nvim-treesitter-textobjects.move').goto_next('@return.outer', 'textobjects')
@@ -128,14 +120,6 @@ return {
     end)
     vim.keymap.set({ 'n', 'x', 'o' }, 'gX', function()
       require('nvim-treesitter-textobjects.move').goto_previous('@regex.outer', 'textobjects')
-    end)
-
-    -- number (n)
-    vim.keymap.set({ 'n', 'x', 'o' }, 'gn', function()
-      require('nvim-treesitter-textobjects.move').goto_next('@number.outer', 'textobjects')
-    end)
-    vim.keymap.set({ 'n', 'x', 'o' }, 'gN', function()
-      require('nvim-treesitter-textobjects.move').goto_previous('@number.outer', 'textobjects')
     end)
 
     ---------------- KEYMAPS FOR SELECTING ----------------
@@ -253,15 +237,6 @@ return {
     vim.keymap.set('n', 'gW', function()
       require('nvim-treesitter-textobjects.swap').swap_previous '@parameter.inner'
     end)
-
-    -- Repeat movement with ; and ,
-    -- ensure ; goes forward and , goes backward regardless of the last direction
-    local ts_repeat_move = require 'nvim-treesitter-textobjects.repeatable_move'
-    vim.keymap.set({ 'n', 'x', 'o' }, ';', ts_repeat_move.repeat_last_move_next)
-    vim.keymap.set({ 'n', 'x', 'o' }, ',', ts_repeat_move.repeat_last_move_previous)
-
-    -- vim way: ; goes to the direction you were moving.
-    -- vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
-    -- vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
+    -- ; and , are left to flash, which repeats f/t with them
   end,
 }

@@ -51,7 +51,7 @@ TypeScript uses `typescript-tools.nvim` (native tsserver protocol), not ts_ls; m
 
 ## Snacks vs Telescope
 
-Both are active. Snacks handles LSP navigation (`gd`, `gr`, `gI`, `gy`), git pickers (`<leader>gl`, `<leader>gs`), and general search (`<leader>s*`). Telescope is used for file finding, colorscheme switching, and some LSP actions defined in `lspconfig.lua` (`grr`, `gri`, `grd`, `gO`, `gW`, `grt`).
+Both are active. Snacks handles LSP navigation (`gd`, `gD`, `gI`, `gy`), git pickers (`<leader>gl`, `<leader>gs`), and general search (`<leader>s*`). `gr` is treesitter-textobjects' jump to the next return: its jumps are `g` + letter (next) and `g` + capital (previous), with `a`/`i` + the same letter selecting that node. Telescope is used for file finding, colorscheme switching, and some LSP actions defined in `lspconfig.lua` (`grr`, `gri`, `grd`, `gO`, `gW`, `grt`).
 
 ## Python / Jupyter Workflow
 
