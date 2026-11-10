@@ -36,7 +36,7 @@ return {
         -- Navigation
         map('n', '<leader>gc', function()
           if vim.wo.diff then
-            vim.cmd.normal { '<leader>gc', bang = true }
+            vim.cmd.normal { ']c', bang = true }
           else
             gitsigns.nav_hunk 'next'
           end
@@ -44,7 +44,7 @@ return {
 
         map('n', '<leader>gC', function()
           if vim.wo.diff then
-            vim.cmd.normal { '<leader>gC', bang = true }
+            vim.cmd.normal { '[c', bang = true }
           else
             gitsigns.nav_hunk 'prev'
           end
