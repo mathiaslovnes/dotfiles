@@ -1,0 +1,32 @@
+#!/bin/bash
+# Keeps /Applications/mpv.app on the latest official mpv release: Homebrew's mpv formula installs only
+# the terminal mpv, and the cask that provided the app is disabled.
+# Run daily by ~/Library/LaunchAgents/com.mathiaslovnes.mpv-app-update.plist; log: ~/Library/Logs/mpv-app-update.log
+set -euo pipefail
+app=/Applications/mpv.app
+jq=/opt/homebrew/bin/jq
+asset="macos-$(sw_vers -productVersion | cut -d. -f1)-arm.zip"
+notify() { osascript -e "display notification \"$1\" with title \"mpv update\"" || true; }
+trap 'notify "mpv.app update failed, see ~/Library/Logs/mpv-app-update.log"' ERR
+
+release=$(curl -fsSL https://api.github.com/repos/mpv-player/mpv/releases/latest)
+latest=$($jq -r .tag_name <<<"$release")
+latest=${latest#v}
+installed=$(plutil -extract CFBundleShortVersionString raw "$app/Contents/Info.plist" 2>/dev/null || echo none)
+[[ $installed == "$latest" ]] && exit 0
+if pgrep -f "^$app/" >/dev/null; then
+  echo "$(date '+%F %T') mpv is open, $latest waits for the next run"
+  exit 0
+fi
+
+url=$($jq -r --arg a "$asset" '.assets[] | select(.name | endswith($a)) | .browser_download_url' <<<"$release")
+[[ -n $url ]] || { echo "$(date '+%F %T') no *-$asset in $latest"; false; }
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+curl -fsSL -o "$tmp/mpv.zip" "$url"
+cd "$tmp" && unzip -q mpv.zip && tar xzf mpv.tar.gz  # the zip holds mpv.tar.gz, which holds mpv.app
+[[ $(plutil -extract CFBundleIdentifier raw mpv.app/Contents/Info.plist) == io.mpv ]]
+[[ -d $app ]] && mv "$app" "$tmp/old.app"
+mv mpv.app "$app"
+echo "$(date '+%F %T') mpv.app $installed -> $latest"
+notify "mpv.app updated to $latest"

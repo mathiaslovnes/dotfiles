@@ -284,3 +284,5 @@ brew "python@3.15"
 # Pinentry for GPG on Mac
 brew "pinentry-mac"
 cask "font-meslo-lg-nerd-font"
+# Select default apps for documents and URL schemes on macOS
+brew "duti"
