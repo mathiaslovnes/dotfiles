@@ -8,6 +8,7 @@
 # Ignore backup config files
 **/*.bak
 **/watch_later/**
+**/watch_history.jsonl
 **/github_copilot/**
 **/jgit/**
 **/linearmouse/**
