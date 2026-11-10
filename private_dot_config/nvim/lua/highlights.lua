@@ -24,6 +24,14 @@ local function apply()
   vim.api.nvim_set_hl(0, 'DapStop', { fg = '#ffcc00' })
   -- Jupyter cell dividers
   vim.api.nvim_set_hl(0, 'PyworksDivider', { fg = '#FFFFFF', bold = true })
+  -- Markdown heading colors in jukit text cells (rainbow1..6) bold
+  for i = 1, 6 do
+    local hl = vim.api.nvim_get_hl(0, { name = 'rainbow' .. i })
+    if next(hl) then
+      hl.bold = true
+      vim.api.nvim_set_hl(0, 'rainbow' .. i, hl)
+    end
+  end
 end
 
 vim.api.nvim_create_autocmd('ColorScheme', { callback = apply })

@@ -3,8 +3,6 @@
 local opt = vim.opt
 opt.number = true
 opt.relativenumber = true
-opt.number = true
-opt.clipboard = 'unnamedplus'
 opt.hlsearch = true
 opt.incsearch = true
 opt.termguicolors = true
@@ -13,14 +11,11 @@ opt.shiftwidth = 2
 opt.expandtab = true
 opt.smartindent = false -- when on, '>' refuses to shift lines starting with '#' (Python/shell comments)
 opt.autoindent = true
-opt.textwidth = 100
-opt.formatoptions:remove 't' -- don't break lines while typing past textwidth (gq still uses it)
+opt.textwidth = 100 -- for gq and the virt-column guide; autocmds.lua stops wrapping while typing
 opt.scrolloff = 15
 opt.cursorline = false
 opt.guicursor = 'n-v-c:block,i:ver25,r-cr:hor20'
-opt.foldenable = false    -- don't fold automatically
 opt.foldmethod = 'manual' -- only fold manually
-opt.foldlevel = 99        -- open all folds
 
 opt.wildmenu = true
 opt.wildoptions = 'pum'
@@ -71,7 +66,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 
 -- Decrease update time
-vim.o.updatetime = 50
+vim.o.updatetime = 250
 
 -- Decrease mapped sequence wait time
 vim.o.timeoutlen = 300

@@ -20,20 +20,27 @@ vim.lsp.handlers["$/progress"] = function(err, result, ctx, config)
 end
 
 
--- Regenerates helptags on startup
-vim.api.nvim_create_autocmd('VimEnter', {
+-- Reload files changed on disk (Claude Code edits) when moving back into their window
+vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave', 'WinEnter', 'BufEnter' }, {
+  group = vim.api.nvim_create_augroup('checktime', { clear = true }),
   callback = function()
-    vim.cmd 'silent! helptags ALL'
+    if vim.o.buftype ~= 'nofile' and vim.fn.getcmdwintype() == '' then
+      vim.cmd 'checktime'
+    end
   end,
 })
 
--- Remove nvim autohighlighting word under cursor - replaced by illuminate.nvim - faster
-vim.api.nvim_create_autocmd('LspAttach', {
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if client then
-      client.server_capabilities.documentHighlightProvider = false
-    end
+-- No hard-wrapping while typing past textwidth (filetype plugins like markdown add 't' back per buffer)
+vim.api.nvim_create_autocmd('FileType', {
+  callback = function()
+    vim.opt_local.formatoptions:remove 't'
+  end,
+})
+
+-- The command-line window (q:, <C-f>) runs a line with <CR>, not the global o<Esc> map
+vim.api.nvim_create_autocmd('CmdwinEnter', {
+  callback = function(a)
+    vim.keymap.set('n', '<CR>', '<CR>', { buffer = a.buf, remap = false })
   end,
 })
 
@@ -55,17 +62,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- vim.api.nvim_set_hl(0, 'TelescopeNormal', { bg = 'NONE' })
 -- vim.api.nvim_set_hl(0, 'TelescopeBorder', { bg = 'NONE' })
 
--- Make rainbow highlights bold
-local function make_rainbows_bold()
-  for i = 1, 6 do
-    local rainbow = vim.api.nvim_get_hl(0, { name = 'rainbow' .. i })
-    if rainbow and next(rainbow) ~= nil then
-      rainbow.bold = true
-      vim.api.nvim_set_hl(0, 'rainbow' .. i, rainbow)
-    end
-  end
-end
-
 -- === Python ===
 -- Disable all concealment in Python files
 vim.api.nvim_create_autocmd('FileType', {
@@ -74,16 +70,3 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.opt_local.conceallevel = 0
   end,
 })
-
--- Force bold headers - runs on multiple events
-vim.api.nvim_create_autocmd({ 'BufEnter', 'FileType', 'BufWritePost', 'TextChanged', 'InsertLeave' }, {
-  pattern = 'python',
-  callback = function()
-    vim.schedule(make_rainbows_bold)
-  end,
-})
-
--- Run it immediately for already-open buffers
-if vim.bo.filetype == 'python' then
-  vim.schedule(make_rainbows_bold)
-end
