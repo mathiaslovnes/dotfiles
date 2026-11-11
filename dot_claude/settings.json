@@ -1,6 +1,12 @@
 {
+  "cleanupPeriodDays": 365,
   "env": {
     "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1"
+  },
+  "attribution": {
+    "commit": "",
+    "pr": "",
+    "sessionUrl": false
   },
   "permissions": {
     "allow": [
@@ -44,6 +50,19 @@
     "defaultMode": "auto"
   },
   "model": "opus[1m]",
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "permission_prompt|idle_prompt|elicitation_dialog|elicitation_url_dialog|agent_needs_input",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh ~/.claude/hooks/notify.sh"
+          }
+        ]
+      }
+    ]
+  },
   "enabledPlugins": {
     "cc-plugin-you-should-know@builtin": true,
     "swift-lsp@claude-plugins-official": true,
@@ -91,22 +110,10 @@
   "autoCompactEnabled": true,
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": false,
-  "attribution": { "commit": "", "pr": "", "sessionUrl": false },
-  "cleanupPeriodDays": 365,
   "autoMode": {
     "soft_deny": [
       "$defaults",
       "Writing or changing file contents outside /tmp and /private/tmp with shell text tools (sed -i, perl -i, heredocs, echo/printf/cat redirection, tee) instead of the Edit or Write tool, which shows the user a diff. Programs that manage their own files (git, chezmoi, brew, formatters, build tools) are fine."
-    ]
-  },
-  "hooks": {
-    "Notification": [
-      {
-        "matcher": "permission_prompt|idle_prompt|elicitation_dialog|elicitation_url_dialog|agent_needs_input",
-        "hooks": [
-          { "type": "command", "command": "sh ~/.claude/hooks/notify.sh" }
-        ]
-      }
     ]
   }
 }
