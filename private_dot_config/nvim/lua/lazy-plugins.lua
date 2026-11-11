@@ -131,6 +131,7 @@ require('lazy').setup({
   require 'plugins.checkmate',      -- Todo lists as markdown checkboxes in todo.md files
   require 'plugins.stay',           -- Restore cursor position when reopening buffers
   require 'plugins.hardtime',       -- Break bad habits by discouraging repeated hjkl spam
+  require 'plugins.claude-code',    -- Claude Code in a Neovim split, and Neovim as the IDE for a claude in tmux
   -- require 'plugins.quick-todo',  -- Quick inline todo (disabled)
 
   -- ╔══════════════════════════════════════════════════════════════╗

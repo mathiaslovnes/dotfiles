@@ -162,10 +162,8 @@ brew "zsh-vi-mode"
 brew "asmvik/formulae/skhd", trusted: true
 # A tiling window manager for macOS based on binary space partitioning (fork that works on macOS 27).
 brew "christian-sc26/formulae/yabai", trusted: true
-# A window border system for macOS
+# A window border system for macOS (started from yabairc)
 brew "felixkratz/formulae/borders"
-# Custom macOS statusbar with shell plugin, interaction and graph support
-brew "felixkratz/formulae/sketchybar"
 # Play, record, convert, and stream audio and video
 brew "homebrew-ffmpeg/ffmpeg/ffmpeg", args: ["with-webp"], trusted: true
 # Menu bar tool to limit maximum charging percentage

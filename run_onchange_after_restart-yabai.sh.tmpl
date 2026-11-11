@@ -1,0 +1,9 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+# yabai reads yabairc only when it starts, so restart it whenever chezmoi changes yabairc or refocus.sh
+# (skhd reloads skhdrc by itself). chezmoi reruns this script when its contents, and so these hashes, change.
+# yabairc hash: {{ include "private_dot_config/yabai/yabairc" | sha256sum }}
+# refocus.sh hash: {{ include "private_dot_config/yabai/refocus.sh" | sha256sum }}
+pgrep -x yabai >/dev/null && yabai --restart-service
+exit 0
+{{ end -}}

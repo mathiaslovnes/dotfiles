@@ -1,21 +1,14 @@
-# launch scripting additions
-yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
-sudo yabai --load-sa
+# launch scripting additions (the path matches the sudoers rule, see ~/scripts/yabai-sudoers.sh)
+yabai -m signal --add event=dock_did_restart action="sudo /opt/homebrew/bin/yabai --load-sa"
 sudo /opt/homebrew/bin/yabai --load-sa
 
-yabai -m config window_topmost off
-yabai -m window --topmost off
 # yabai -m config window_shadow off
 
 # layout - bsp, stack, or float
 yabai -m config layout bsp
-yabai -m window --toggle float
 yabai -m config --space 4 layout float
 
 yabai -m rule --add app=".*" sub-layer=normal
-yabai -m config window_opacity off
-yabai -m config active_window_opacity 1.0
-yabai -m config normal_window_opacity 1.0
 
 # padding
 yabai -m config top_padding 0
@@ -29,33 +22,41 @@ yabai -m config mouse_modifier alt
 yabai -m config mouse_action1 move
 yabai -m config mouse_action2 resize
 
-yabai -m mouse_drop_action swap
+yabai -m config mouse_drop_action swap
 
-# sketchybar
-# yabai -m config menubar_opacity 0.0 # Hide MacOS native menubar
-yabai -m signal --add event=window_focused action="sketchybar --trigger window_focus"
+# refocus after a close, minimize, hide or quit leaves nothing focused (so skhd's window keys keep working);
+# application_hidden without active=yes: macOS has usually switched the front app before yabai sees the hide
+for ev in window_destroyed window_minimized application_terminated; do
+  yabai -m signal --add label="refocus_$ev" event=$ev active=yes action="sh $HOME/.config/yabai/refocus.sh"
+done
+yabai -m signal --add label=refocus_application_hidden event=application_hidden action="sh $HOME/.config/yabai/refocus.sh"
 
 # App-specifics
-yabai -m rule --add app="^kitty$" manage=on layer=normal # Prevent starting in floating mode
+yabai -m rule --add app="^kitty$" manage=on # Prevent starting in floating mode
 yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --add app="^Karabiner-Elements$" manage=off
 yabai -m rule --add app="^Karabiner-EventViewer$" manage=off
 yabai -m rule --add app="^oklch-color-picker$" manage=off
 yabai -m rule --add app="^Mac Mouse Fix$" manage=off
-yabai -m rule --add app="^Linearmouse$" manage=off
+yabai -m rule --add app="^LinearMouse$" manage=off
 yabai -m rule --add app="^Finder$" manage=off
 yabai -m rule --add app="^Brain\.fm$" manage=off
 # Menu-bar apps that hide their window instead of closing it; tiled, the hidden window keeps an empty slot
 yabai -m rule --add app="^NordPass$" manage=off
 yabai -m rule --add app="^NordVPN$" manage=off
+yabai -m rule --add app="^AivisSpeech$" manage=off
+# Jisho as a scratchpad: Caps+F (Karabiner) shows and hides it, floating, on the current space
+yabai -m rule --add app="^Jisho\.org$" scratchpad=jisho grid=10:4:1:1:2:8
 # Never tile mpv. mpv's scripts/yabai_track.lua opens it windowed so yabai tracks it, then goes
 # fullscreen; without this, yabai would tile it into bsp/stack spaces first.
 yabai -m rule --add app="^mpv$" manage=off
 # yabai -m signal --add event=window_created app="mpv" \
 #   action='yabai -m window $YABAI_WINDOW_ID --display 2 --grid 1:1:0:0:1:1'
 
-yabai -m rule --add app=".*" sub-layer=normal
 yabai -m rule --apply
+
+# outline the focused window (JankyBorders; a second start updates the running one)
+borders active_color=0xffb4befe inactive_color=0x00000000 width=3.0 style=round &
 
 # Hide menu-bar when MPV is open
 # yabai -m signal --add event=window_focused app="mpv" \

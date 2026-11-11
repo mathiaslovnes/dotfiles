@@ -1,10 +1,10 @@
 # -- Changing Window Focus --
 
-# change window focus within space
-alt - j : yabai -m window --focus south
-alt - k : yabai -m window --focus north
-alt - h : yabai -m window --focus west
-alt - l : yabai -m window --focus east
+# change window focus within space; j/k cycle a stacked space first, h/l continue to the next display
+alt - j : yabai -m window --focus stack.next || yabai -m window --focus south
+alt - k : yabai -m window --focus stack.prev || yabai -m window --focus north
+alt - h : yabai -m window --focus west || yabai -m display --focus west
+alt - l : yabai -m window --focus east || yabai -m display --focus east
 
 #change focus between external displays (left and right)
 alt - s: yabai -m display --focus west
@@ -21,8 +21,9 @@ shift + alt - y : yabai -m space --mirror y-axis
 # flip along x-axis
 shift + alt - x : yabai -m space --mirror x-axis
 
-# toggle window float
-shift + alt - f : yabai -m window --toggle float --grid 10:4:1:1:2:8
+# toggle window float (the grid only applies once it floats; a tiled window rejects it)
+shift + alt - f : yabai -m window --toggle float; \
+    [ "$(yabai -m query --windows --window | jq '."is-floating"')" = true ] && yabai -m window --grid 10:4:1:1:2:8
 
 # Toggle Space Float/BSP
 ctrl + cmd - f : yabai -m space --layout $(yabai -m query --spaces --space | jq -r 'if .type == "bsp" then "float" else "bsp" end')
@@ -79,8 +80,8 @@ ctrl + cmd - s : yabai -m window --resize bottom:0:-50
 ctrl + cmd - w : yabai -m window --resize top:0:50
 ctrl + cmd - d : yabai -m window --resize right:-50:0 
 
-# Minimize window
-alt - c : yabai -m window --minimize; skhd -k "cmd - tab"
+# Minimize window (yabai's refocus signal picks the next window)
+alt - c : yabai -m window --minimize
 
 # move window to prev and next space
 shift + alt - p : yabai -m window --space prev;

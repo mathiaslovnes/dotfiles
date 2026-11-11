@@ -54,7 +54,8 @@
     "code-simplifier@anthropic-plugin-directory": true,
     "skill-creator@anthropic-plugin-directory": true,
     "claude-md-management@anthropic-plugin-directory": true,
-    "time-sense@amilexx": true
+    "time-sense@amilexx": true,
+    "lua-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "amilexx": {

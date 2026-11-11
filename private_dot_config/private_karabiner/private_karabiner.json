@@ -1888,11 +1888,7 @@
                                 },
                                 "to": [
                                     {
-                                        "software_function": {
-                                            "open_application": {
-                                                "file_path": "/Users/mathiaslovnes/Applications/Brave Browser Apps.localized/Jisho.org.app"
-                                            }
-                                        }
+                                        "shell_command": "/opt/homebrew/bin/yabai -m window --toggle jisho || open '/Users/mathiaslovnes/Applications/Brave Browser Apps.localized/Jisho.org.app'"
                                     }
                                 ],
                                 "type": "basic"
@@ -2074,7 +2070,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "id=$(/opt/homebrew/bin/yabai -m query --windows | /opt/homebrew/bin/jq 'first(.[] | select(.app == \"mpv\" and .\"has-ax-reference\")).id'); if [ -n \"$id\" ]; then /opt/homebrew/bin/yabai -m window --focus \"$id\"; else open -a 'MPV' && osascript -e 'tell application \"MPV\" to activate'; fi"
+                                        "shell_command": "/Users/mathiaslovnes/scripts/focus-mpv.sh"
                                     }
                                 ],
                                 "type": "basic"
