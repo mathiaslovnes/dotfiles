@@ -7,9 +7,8 @@ pane=$1
 footer=$(tmux capture-pane -p -t "$pane" | grep -v '^[[:space:]]*$' | tail -n 6)
 case $footer in
   *"-- VISUAL"*) exit 0 ;;
-  *"-- INSERT --"*) tmux send-keys -t "$pane" Escape; sleep 0.1 ;;
+  *"-- INSERT --"*) tmux send-keys -t "$pane" Escape; sleep 0.05 ;;   # 0.03 is too short
 esac
-for k in g g V G; do   # one at a time: sent together, Claude dropped the G
+for k in g g V G; do   # one send-keys each: sent together, Claude dropped the G
   tmux send-keys -t "$pane" "$k"
-  sleep 0.03
 done
