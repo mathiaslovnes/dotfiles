@@ -1,6 +1,6 @@
-# launch scripting additions (the path matches the sudoers rule, see ~/scripts/yabai-sudoers.sh)
-yabai -m signal --add event=dock_did_restart action="sudo /opt/homebrew/bin/yabai --load-sa"
-sudo /opt/homebrew/bin/yabai --load-sa
+# launch scripting additions (load-sa.sh notifies when the sudoers rule no longer matches)
+yabai -m signal --add event=dock_did_restart action="sh $HOME/.config/yabai/load-sa.sh"
+sh "$HOME/.config/yabai/load-sa.sh"
 
 # yabai -m config window_shadow off
 
@@ -56,7 +56,7 @@ yabai -m rule --add app="^mpv$" manage=off
 yabai -m rule --apply
 
 # outline the focused window (JankyBorders; a second start updates the running one)
-borders active_color='gradient(top_left=0xffb4befe,bottom_right=0xfff5c2e7)' inactive_color=0x00000000 width=5.0 style=round &
+borders active_color='glow(0xffb4befe)' inactive_color=0x00000000 width=5.0 style=round &
 
 # Hide menu-bar when MPV is open
 # yabai -m signal --add event=window_focused app="mpv" \
