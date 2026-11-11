@@ -1,4 +1,4 @@
-# launch scripting additions (load-sa.sh notifies when the sudoers rule no longer matches)
+# launch scripting additions (load-sa.sh notifies when it can't)
 yabai -m signal --add event=dock_did_restart action="sh $HOME/.config/yabai/load-sa.sh"
 sh "$HOME/.config/yabai/load-sa.sh"
 
