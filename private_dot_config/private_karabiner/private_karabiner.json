@@ -837,9 +837,17 @@
                         ]
                     },
                     {
-                        "description": "Map Option + w to Command + H",
+                        "description": "Map Option + w to Command + H (except in kitty, where Cmd+H resizes and kitty.conf hides on Option+W)",
                         "manipulators": [
                             {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^net\\.kovidgoyal\\.kitty$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
                                 "from": {
                                     "key_code": "w",
                                     "modifiers": {
@@ -1888,7 +1896,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "/opt/homebrew/bin/yabai -m window --toggle jisho || open '/Users/mathiaslovnes/Applications/Brave Browser Apps.localized/Jisho.org.app'"
+                                        "shell_command": "/Users/mathiaslovnes/scripts/jisho.sh"
                                     }
                                 ],
                                 "type": "basic"
