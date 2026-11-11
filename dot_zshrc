@@ -65,10 +65,6 @@ bindkey -M viins '^s' sudo-command-line
 bindkey -M viins "^[[1;3D" backward-word
 bindkey -M viins "^[[1;3C" forward-word
 
-# Command+left/right: jump to line start/end
-bindkey -M viins "^[[1;5D" beginning-of-line
-bindkey -M viins "^[[1;5C" end-of-line
-
 # Option+backspace: delete word
 bindkey -M viins '^[^?' backward-kill-word
 
