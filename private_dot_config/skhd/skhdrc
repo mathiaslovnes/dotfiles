@@ -35,14 +35,12 @@ shift + alt - m : yabai -m window --toggle zoom-fullscreen
 shift + alt - e : yabai -m space --balance
 
 # Center floating window on screen (maintains size)
+# (in the area macOS leaves for windows, below the menu bar and beside the Dock, as the float grid is; yabai
+# only reports the whole display, which put the window half a menu bar too high)
 shift + alt - c : \
-    is_floating=$(yabai -m query --windows --window | jq '."is-floating"'); \
-    [ "$is_floating" = "false" ] && yabai -m window --toggle float; \
-    win=$(yabai -m query --windows --window); \
-    display=$(yabai -m query --displays --display); \
-    nx=$(echo "$display $win" | jq -s '.[0].frame.x + (.[0].frame.w - .[1].frame.w) / 2' | cut -d. -f1); \
-    ny=$(echo "$display $win" | jq -s '.[0].frame.y + (.[0].frame.h - .[1].frame.h) / 2' | cut -d. -f1); \
-    yabai -m window --move abs:${nx}:${ny}
+    [ "$(yabai -m query --windows --window | jq '."is-floating"')" = false ] && yabai -m window --toggle float; \
+    area=$(osascript -l JavaScript -e 'ObjC.import("AppKit"); const v = $.NSScreen.mainScreen.visibleFrame, p = $.NSScreen.screens.objectAtIndex(0).frame; JSON.stringify({x: v.origin.x, y: p.size.height - v.origin.y - v.size.height, w: v.size.width, h: v.size.height})'); \
+    yabai -m window --move "abs:$(yabai -m query --windows --window | jq -r --argjson a "$area" '"\($a.x + ($a.w - .frame.w) / 2 | floor):\($a.y + ($a.h - .frame.h) / 2 | floor)"')"
 
 # Cycle layout: bsp → stack → bsp -- T for Toggle
 shift + alt - t : yabai -m space --layout $(yabai -m query --spaces --space | jq -r \
@@ -67,12 +65,19 @@ shift + cmd - l : yabai -m window --warp east
 # shift + cmd - s : yabai -m window --display west; yabai -m display --focus west;
 # shift + cmd - g : yabai -m window --display east; yabai -m display --focus east;
 
-## Change Window Size: the edge between the window and its neighbor moves 50 px in that direction
-## (a floating window grows right/down, shrinks left/up); Option+right-drag resizes too (yabairc)
-shift + alt - a : yabai -m window --resize right:-50:0 || yabai -m window --resize left:-50:0
-shift + alt - d : yabai -m window --resize right:50:0 || yabai -m window --resize left:50:0
-shift + alt - w : yabai -m window --resize bottom:0:-50 || yabai -m window --resize top:0:-50
-shift + alt - s : yabai -m window --resize bottom:0:50 || yabai -m window --resize top:0:50
+## Change Window Size: yabai --resize edge:dx:dy, through yabai/resize.sh, which stops where an app won't get
+## any smaller (Option+right-drag resizes too, see yabairc)
+# increase window size
+shift + alt - a : sh ~/.config/yabai/resize.sh left -50 0
+shift + alt - s : sh ~/.config/yabai/resize.sh bottom 0 50
+shift + alt - w : sh ~/.config/yabai/resize.sh top 0 -50
+shift + alt - d : sh ~/.config/yabai/resize.sh right 50 0
+
+# decrease window size
+ctrl + alt - a : sh ~/.config/yabai/resize.sh left 50 0
+ctrl + alt - s : sh ~/.config/yabai/resize.sh bottom 0 -50
+ctrl + alt - w : sh ~/.config/yabai/resize.sh top 0 50
+ctrl + alt - d : sh ~/.config/yabai/resize.sh right -50 0
 
 # Minimize window (yabai's refocus signal picks the next window)
 alt - c : yabai -m window --minimize
@@ -116,6 +121,5 @@ ctrl + cmd - m : ~/scripts/mpv-layout.sh
 # -- StartingmStopping/Restarting Yabai --
 # x, not q: Karabiner turns Ctrl+Opt+Q into "move tab left" before skhd sees it
 ctrl + alt - x : yabai --stop-service
-ctrl + alt - s : yabai --start-service
-ctrl + alt - r : yabai --restart-service
+ctrl + alt - r : yabai --restart-service || yabai --start-service   # restart fails once stopped, so start
 
