@@ -1,6 +1,9 @@
-# Oh My Zsh's cache inside the .chezmoiexternal.toml download
+# Oh My Zsh's cache and custom folder inside the .chezmoiexternal.toml download, so the exact
+# download doesn't delete them (plugin install guides clone into custom/plugins)
 .oh-my-zsh/cache
 .oh-my-zsh/cache/**
+.oh-my-zsh/custom
+.oh-my-zsh/custom/**
 # Ignore Karabiner automatic backups
 **/karabiner/automatic_backups/**
 **/karabiner/private_assets/**
