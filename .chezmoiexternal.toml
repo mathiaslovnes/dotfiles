@@ -1,0 +1,37 @@
+# Downloaded into ~ by chezmoi and refreshed weekly (chezmoi -R apply forces it). Read as a template.
+
+# Oh My Zsh; its own updater is off in .zshrc so the two don't fight
+[".oh-my-zsh"]
+    type = "archive"
+    url = "https://github.com/ohmyzsh/ohmyzsh/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+
+{{ if eq .chezmoi.os "linux" -}}
+# zsh plugins on Linux; macOS gets them from Homebrew (Brewfile). .zshrc sources them from ~/.zsh
+[".zsh/zsh-vi-mode"]
+    type = "archive"
+    url = "https://github.com/jeffreytse/zsh-vi-mode/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+[".zsh/zsh-syntax-highlighting"]
+    type = "archive"
+    url = "https://github.com/zsh-users/zsh-syntax-highlighting/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+[".zsh/zsh-autosuggestions"]
+    type = "archive"
+    url = "https://github.com/zsh-users/zsh-autosuggestions/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+[".zsh/zsh-autocomplete"]
+    type = "archive"
+    url = "https://github.com/marlonrichert/zsh-autocomplete/archive/main.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+{{ end -}}
