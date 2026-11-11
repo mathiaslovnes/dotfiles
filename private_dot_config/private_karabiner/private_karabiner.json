@@ -869,31 +869,6 @@
                         ]
                     },
                     {
-                        "description": "Shift + Option + left-drag resizes a window: it becomes Option + right-drag, which yabai resizes with (mouse_action2)",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "pointing_button": "button1",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "shift",
-                                            "option"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "pointing_button": "button2",
-                                        "modifiers": [
-                                            "option"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
                         "description": "Remap Left Command + Left Shift + 9 to Right Curly Bracket",
                         "manipulators": [
                             {

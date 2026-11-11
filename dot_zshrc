@@ -65,6 +65,20 @@ bindkey -M viins '^s' sudo-command-line
 bindkey -M viins "^[[1;3D" backward-word
 bindkey -M viins "^[[1;3C" forward-word
 
+# Command+up/down (Ctrl+Home/End from kitty): first/last line of a multi-line command
+buffer-start() { CURSOR=0 }
+buffer-end() {
+  CURSOR=$#BUFFER
+  [[ $KEYMAP == vicmd && $CURSOR -gt 0 ]] && CURSOR=$(( CURSOR - 1 ))   # normal mode stays on the last character
+  return 0
+}
+zle -N buffer-start
+zle -N buffer-end
+bindkey -M viins "^[[1;5H" buffer-start
+bindkey -M viins "^[[1;5F" buffer-end
+bindkey -M vicmd "^[[1;5H" buffer-start
+bindkey -M vicmd "^[[1;5F" buffer-end
+
 # Option+backspace: delete word
 bindkey -M viins '^[^?' backward-kill-word
 

@@ -81,6 +81,10 @@ map cmd+shift+b send_text all nvim ~/.config/skhd/skhdrc \n
 # Command+left/right (and Ctrl+Cmd+H/L via Karabiner): Home/End, line start/end in zsh, Neovim and Claude Code
 map cmd+left send_text all \x1b[H
 map cmd+right send_text all \x1b[F
+# Command+up/down (and Ctrl+Cmd+K/J): Ctrl+Home/End, first/last line in Neovim and zsh (.zshrc), top/bottom of
+# the conversation in Claude Code
+map cmd+up send_text all \x1b[1;5H
+map cmd+down send_text all \x1b[1;5F
 
 # Command+backspace: Ctrl+U (delete to line start in zsh, Neovim insert mode and Claude Code), which tmux passes through
 map cmd+backspace send_text all \x15
