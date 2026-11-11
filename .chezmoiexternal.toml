@@ -8,6 +8,14 @@
     stripComponents = 1
     refreshPeriod = "168h"
 
+# notifications for long commands; not in Homebrew, so downloaded on both OSes
+[".zsh/zsh-auto-notify"]
+    type = "archive"
+    url = "https://github.com/MichaelAquilina/zsh-auto-notify/archive/master.tar.gz"
+    exact = true
+    stripComponents = 1
+    refreshPeriod = "168h"
+
 {{ if eq .chezmoi.os "linux" -}}
 # zsh plugins on Linux; macOS gets them from Homebrew (Brewfile). .zshrc sources them from ~/.zsh
 [".zsh/zsh-vi-mode"]

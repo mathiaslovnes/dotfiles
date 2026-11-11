@@ -7,7 +7,7 @@ export VISUAL="nvim"
 if [[ "$OSTYPE" == darwin* ]]; then
   export PATH="/opt/homebrew/opt/postgresql@18/bin:$PATH"
 fi
-export MPLBACKEND='module://matplotlib-backend-kitty'
+# MPLBACKEND (kitty inline plots) is set per prompt by _mpl_kitty_backend at the bottom
 export MPLCONFIGDIR="$HOME/.matplotlib"
 # manual: show figures at their own size (figure.figsize in ~/.matplotlib/matplotlibrc) instead of
 # resizing them to the terminal, so text is the same size as in jukit's saved output history
@@ -267,6 +267,23 @@ eval "$(fzf --zsh)"
 bindkey -M viins '^I' complete-word  # fzf --zsh takes over Tab; give it back to zsh-autocomplete
 eval "$(direnv hook zsh)"
 
+# kitty plot backend only when the python3 on PATH has it installed; elsewhere matplotlib would fail
+# to import it at the first figure. Added after direnv's hook, so it sees the folder's venv
+_mpl_kitty_backend() {
+  local -a hit=( ${commands[python3]:h:h}/lib/python3*/site-packages/matplotlib-backend-kitty(N) )
+  if (( $#hit )); then
+    export MPLBACKEND='module://matplotlib-backend-kitty'
+  else
+    unset MPLBACKEND
+  fi
+}
+precmd_functions+=(_mpl_kitty_backend)
+
+# notify when a command took over 45 s, except interactive programs (starship's notifications are off)
+AUTO_NOTIFY_THRESHOLD=45
+AUTO_NOTIFY_IGNORE=(vim nvim less more man tig watch 'git commit' top htop btop ssh nano mpv claude tmux tt lazygit yazi fzf ipython)
+[[ -f ~/.zsh/zsh-auto-notify/auto-notify.plugin.zsh ]] && source ~/.zsh/zsh-auto-notify/auto-notify.plugin.zsh
+
 # Run neofetch on terminal start
 # if command -v neofetch &> /dev/null; then
 #     neofetch
@@ -382,21 +399,6 @@ if [[ "$OSTYPE" == darwin* ]]; then
   # shell start (~0.4 s). Don't rerun `conda init zsh`: it writes the slow block back.
   [ -f /opt/homebrew/anaconda3/etc/profile.d/conda.sh ] && . /opt/homebrew/anaconda3/etc/profile.d/conda.sh
 fi
-
-# Fix: clear ghost autosuggestion text after tab completion
-# Off while testing whether zsh-autocomplete 26.08.04 (#798) makes it unnecessary; delete it if no ghost text sticks
-# typeset -g _pd_fix_last_buf=""
-# _fix_stale_postdisplay() {
-#   if [[ -n "$POSTDISPLAY" ]]; then
-#     local len_diff=$(( ${#BUFFER} - ${#_pd_fix_last_buf} ))
-#     if (( len_diff > 1 || len_diff < 0 )); then
-#       unset POSTDISPLAY
-#     fi
-#   fi
-#   _pd_fix_last_buf="$BUFFER"
-# }
-# autoload -Uz add-zle-hook-widget
-# add-zle-hook-widget line-pre-redraw _fix_stale_postdisplay
 
 ## LM Studio CLI (macOS only)
 if [[ "$OSTYPE" == darwin* ]]; then
