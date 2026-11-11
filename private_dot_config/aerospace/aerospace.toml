@@ -2,7 +2,7 @@
 # Commands: https://nikitabobko.github.io/AeroSpace/commands
 
 config-version = 2
-start-at-login = true
+start-at-login = false # yabai (Christian-SC26 fork) is the window manager again
 
 # yabai's bsp: each new window splits the focused container
 default-root-container-layout = 'tiles'

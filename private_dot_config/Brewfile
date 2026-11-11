@@ -1,4 +1,5 @@
 tap "asmvik/formulae", "https://github.com/asmvik/homebrew-formulae.git", trusted: true
+tap "christian-sc26/formulae", trusted: true
 tap "domt4/autoupdate", "https://github.com/DomT4/homebrew-autoupdate.git", trusted: { commands: ["autoupdate"] }
 tap "felixkratz/formulae", trusted: true
 tap "homebrew-ffmpeg/ffmpeg"
@@ -159,8 +160,8 @@ brew "zsh-syntax-highlighting"
 brew "zsh-vi-mode"
 # Simple hotkey-daemon for macOS.
 brew "asmvik/formulae/skhd", trusted: true
-# A tiling window manager for macOS based on binary space partitioning.
-brew "asmvik/formulae/yabai", trusted: true
+# A tiling window manager for macOS based on binary space partitioning (fork that works on macOS 27).
+brew "christian-sc26/formulae/yabai", trusted: true
 # A window border system for macOS
 brew "felixkratz/formulae/borders"
 # Custom macOS statusbar with shell plugin, interaction and graph support
