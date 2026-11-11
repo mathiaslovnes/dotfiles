@@ -1,0 +1,122 @@
+# tmux-which-key menu, opened with prefix Space. ~/.tmux.conf links this file into the plugin's folder as
+# config.yaml. Submenu keys match the real prefix bindings in ~/.tmux.conf; the menu doesn't read them, so
+# keep the two in sync by hand. No single quotes in names or commands: the plugin wraps each menu in them.
+command_alias_start_index: 200
+keybindings:
+  prefix_table: Space
+title:
+  style: align=centre,bold
+  prefix: tmux
+  prefix_style: fg=green,align=centre,bold
+position:
+  x: C
+  y: C
+custom_variables: []
+macros: []
+items:
+  - name: +Windows
+    key: w
+    menu:
+      - name: New window
+        key: C-n
+        command: new-window
+      - name: Kill window
+        key: C-t
+        command: kill-window
+      - name: Rename window
+        key: r
+        command: command-prompt -I "#W" { rename-window -- "%%" }
+      - separator: true
+      - name: Previous window
+        key: C-q
+        command: previous-window
+        transient: true
+      - name: Next window
+        key: C-e
+        command: next-window
+        transient: true
+      - name: Move window left
+        key: C-a
+        command: swap-window -t -1 ; select-window -t -1
+        transient: true
+      - name: Move window right
+        key: C-d
+        command: swap-window -t +1 ; select-window -t +1
+        transient: true
+  - name: +Panes
+    key: p
+    menu:
+      - name: Split top/bottom
+        key: h
+        command: split-window -v
+      - name: Split side by side
+        key: v
+        command: split-window -h
+      - name: Kill pane
+        key: C-b
+        command: kill-pane
+      - name: Zoom pane
+        key: z
+        command: resize-pane -Z
+      - name: Break pane into a window
+        key: "!"
+        command: break-pane
+      - name: Equalize sizes
+        key: "="
+        command: select-layout -E
+      - separator: true
+      - name: Swap with left pane
+        key: H
+        command: swap-pane -s "{left-of}"
+        transient: true
+      - name: Swap with pane below
+        key: J
+        command: swap-pane -s "{down-of}"
+        transient: true
+      - name: Swap with pane above
+        key: K
+        command: swap-pane -s "{up-of}"
+        transient: true
+      - name: Swap with right pane
+        key: L
+        command: swap-pane -s "{right-of}"
+        transient: true
+  - name: +Sessions
+    key: s
+    menu:
+      - name: Session picker
+        key: C-s
+        command: choose-tree -Zs
+      - name: Detach
+        key: C-x
+        command: detach-client
+      - separator: true
+      - name: Save sessions
+        key: S
+        command: run-shell ~/.tmux/plugins/tmux-resurrect/scripts/save.sh
+      - name: Restore sessions
+        key: R
+        command: run-shell ~/.tmux/plugins/tmux-resurrect/scripts/restore.sh
+  - name: Copy mode
+    key: C-c
+    command: copy-mode
+  - separator: true
+  - name: +tmux
+    key: t
+    menu:
+      - name: Reload config
+        key: s
+        command: source-file ~/.tmux.conf ; display "Config reloaded!"
+      - name: List key bindings
+        key: "?"
+        command: list-keys -N
+      - separator: true
+      - name: Install plugins
+        key: I
+        command: run-shell /opt/homebrew/opt/tpm/share/tpm/bindings/install_plugins
+      - name: Update plugins
+        key: U
+        command: run-shell /opt/homebrew/opt/tpm/share/tpm/bindings/update_plugins
+      - name: Remove unlisted plugins
+        key: M-u
+        command: run-shell /opt/homebrew/opt/tpm/share/tpm/bindings/clean_plugins
