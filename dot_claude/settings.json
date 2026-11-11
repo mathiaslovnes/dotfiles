@@ -103,7 +103,7 @@
       {
         "matcher": "permission_prompt|idle_prompt|elicitation_dialog|elicitation_url_dialog|agent_needs_input",
         "hooks": [
-          { "type": "command", "command": "if [ -n \"$TMUX_PANE\" ]; then printf '\\a' > \"$(tmux display-message -p -t \"$TMUX_PANE\" '#{pane_tty}')\"; fi" }
+          { "type": "command", "command": "sh ~/.claude/hooks/notify.sh" }
         ]
       }
     ]

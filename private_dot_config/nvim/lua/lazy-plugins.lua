@@ -104,8 +104,7 @@ require('lazy').setup({
   -- ║                  Terminals & Databases                     ║
   -- ╚══════════════════════════════════════════════════════════════╝
   require 'plugins.betterterm',     -- Improved floating/split terminal management
-  require 'plugins.tmux-navigator', -- Seamless Ctrl/Cmd+hjkl navigation between Neovim and tmux panes
-  require 'plugins.smart-splits',   -- Resize and navigate splits across Neovim and tmux
+  require 'plugins.smart-splits',   -- Move between, resize and swap splits across Neovim and tmux
   -- require 'plugins.dbee',           -- Database client (Postgres, MySQL, SQLite, etc.)
   require 'plugins.dadbod-ui',      -- Interactive UI for dadbod queries and connections
 
@@ -132,8 +131,6 @@ require('lazy').setup({
   require 'plugins.checkmate',      -- Todo lists as markdown checkboxes in todo.md files
   require 'plugins.stay',           -- Restore cursor position when reopening buffers
   require 'plugins.hardtime',       -- Break bad habits by discouraging repeated hjkl spam
-  require 'plugins.claude-code',
-  -- require 'plugins.claude-tmux', -- Claude in a tmux pane instead of a Neovim split (unused)
   -- require 'plugins.quick-todo',  -- Quick inline todo (disabled)
 
   -- ╔══════════════════════════════════════════════════════════════╗

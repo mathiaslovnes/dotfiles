@@ -60,7 +60,6 @@ return {
 
       -- Document existing key chains
       spec = {
-        { '<leader>a', group = 'AI/Claude Code' }, -- here, not in claude-code.lua: a lazy key there deletes harpoon's <leader>a
         { '<leader>s', group = '[S]earch' },
         { '<leader>t', group = '[T]oggle File Tree' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },

@@ -153,6 +153,11 @@ if [[ "$OSTYPE" == darwin* ]]; then
 fi
 
 ## Tmux
+# start tmux outside any direnv env, so a project venv doesn't end up in the server's global environment
+# (a function, unlike an alias, keeps zsh's tmux completion)
+if (( $+commands[direnv] )); then
+  tmux() { direnv exec / tmux "$@"; }
+fi
 alias t='tmux'
 alias tls='tmux ls'
 alias ta='tmux attach -t'           # ta <session-name>
