@@ -2,7 +2,8 @@
 yabai -m signal --add event=dock_did_restart action="sh $HOME/.config/yabai/load-sa.sh"
 sh "$HOME/.config/yabai/load-sa.sh"
 
-# yabai -m config window_shadow off
+# no window shadows: a shadow covers the focus border below its window, dimming it at the bottom and sides
+yabai -m config window_shadow off
 
 # layout - bsp, stack, or float
 yabai -m config layout bsp
@@ -55,9 +56,9 @@ yabai -m rule --add app="^mpv$" manage=off
 
 yabai -m rule --apply
 
-# outline the focused window (JankyBorders; a second start updates the running one); above the window, since
-# below it macOS's window shadow, which sits lower than the window, dims the glow at the bottom and sides
-borders active_color='glow(0xff787fa9)' inactive_color=0x00000000 width=5.0 style=round order=above &
+# outline the focused window (JankyBorders; a second start updates the running one); below the window, since
+# above it every click on the window briefly covers it and it flickers
+borders active_color='glow(0xff787fa9)' inactive_color=0x00000000 width=5.0 style=round order=below &
 
 # Hide menu-bar when MPV is open
 # yabai -m signal --add event=window_focused app="mpv" \

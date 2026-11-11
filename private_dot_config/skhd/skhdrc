@@ -21,9 +21,11 @@ shift + alt - y : yabai -m space --mirror y-axis
 # flip along x-axis
 shift + alt - x : yabai -m space --mirror x-axis
 
-# toggle window float (the grid only applies once it floats; a tiled window rejects it)
+# toggle window float (the grid only applies once it floats; a tiled window rejects it). The grid sets the size;
+# center.sh then places it where Shift+Opt+C would, since apps round the grid's position differently
 shift + alt - f : yabai -m window --toggle float; \
-    [ "$(yabai -m query --windows --window | jq '."is-floating"')" = true ] && yabai -m window --grid 10:4:1:1:2:8
+    [ "$(yabai -m query --windows --window | jq '."is-floating"')" = true ] && yabai -m window --grid 10:4:1:1:2:8 && \
+    sh ~/.config/yabai/center.sh
 
 # Toggle Space Float/BSP
 ctrl + cmd - f : yabai -m space --layout $(yabai -m query --spaces --space | jq -r 'if .type == "bsp" then "float" else "bsp" end')
@@ -34,13 +36,8 @@ shift + alt - m : yabai -m window --toggle zoom-fullscreen
 # balance out tree of windows (resize to occupy same area)
 shift + alt - e : yabai -m space --balance
 
-# Center floating window on screen (maintains size)
-# (in the area macOS leaves for windows, below the menu bar and beside the Dock, as the float grid is; yabai
-# only reports the whole display, which put the window half a menu bar too high)
-shift + alt - c : \
-    [ "$(yabai -m query --windows --window | jq '."is-floating"')" = false ] && yabai -m window --toggle float; \
-    area=$(osascript -l JavaScript -e 'ObjC.import("AppKit"); const v = $.NSScreen.mainScreen.visibleFrame, p = $.NSScreen.screens.objectAtIndex(0).frame; JSON.stringify({x: v.origin.x, y: p.size.height - v.origin.y - v.size.height, w: v.size.width, h: v.size.height})'); \
-    yabai -m window --move "abs:$(yabai -m query --windows --window | jq -r --argjson a "$area" '"\($a.x + ($a.w - .frame.w) / 2 | floor):\($a.y + ($a.h - .frame.h) / 2 | floor)"')"
+# Center floating window on screen (maintains size; floats a tiled window first)
+shift + alt - c : sh ~/.config/yabai/center.sh
 
 # Cycle layout: bsp → stack → bsp -- T for Toggle
 shift + alt - t : yabai -m space --layout $(yabai -m query --spaces --space | jq -r \
