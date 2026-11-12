@@ -8,6 +8,13 @@ chezmoi manages my dotfiles: configs in `~` (zsh, tmux, nvim, kitty, yabai, skhd
 
 The repo is public, so never add secrets (API keys, tokens, private keys). Keep local data out with `.chezmoiignore`, and add files that are private but not secret, like `~/.ssh/config`, with `chezmoi add --encrypt`.
 
+# LaTeX
+
+LaTeX compiles locally (MacTeX), so after changing a LaTeX document, compile it and check the result yourself instead of asking me to check it on Overleaf.
+- Compile from the main file's folder into your scratchpad directory: `latexmk -pdf -interaction=nonstopmode -outdir=<scratchpad>/tex <main>.tex`. The scratchpad keeps build files out of the repo and away from `.texfiles/`, where my Neovim builds.
+- Check the `.log` for errors (lines starting with `!`) and undefined references, then look at the changed pages by reading the PDF with the Read tool's `pages` parameter.
+- In Overleaf clones, `\input` and `\usepackage` paths are relative to the project root, as on Overleaf. An empty `.texlabroot` at that root (listed in the clone's `.git/info/exclude`, so it never reaches Overleaf) and `~/.config/latexmk/latexmkrc` make them resolve locally. Add that marker to a new clone, and don't change the paths or add a `.latexmkrc`.
+
 # Explanations
 
 Never explain with everyday-life analogies or stories (restaurants, shopping and so on). They come across as condescending and never help. Explain directly in terms of the actual problem (and the code, if there is any). When something doesn't land, answer the exact question asked: if I ask what something represents, define it plainly before walking through anything.
