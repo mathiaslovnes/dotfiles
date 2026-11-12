@@ -1,0 +1,10 @@
+# Overleaf compiles from the project root, so \input and \usepackage paths are relative to it.
+# In Overleaf clones a .texlabroot file marks that root (texlab reads it too): add it to TeX's search path.
+use Cwd qw(getcwd);
+use File::Basename qw(dirname);
+for (my $dir = getcwd(); $dir ne '/'; $dir = dirname($dir)) {
+    if (-e "$dir/.texlabroot") {
+        ensure_path('TEXINPUTS', $dir);
+        last;
+    }
+}

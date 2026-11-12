@@ -43,7 +43,7 @@ nvim-treesitter is on its `main` branch: `plugins/treesitter.lua` only installs 
 
 ## LSP Servers (auto-installed via Mason)
 
-`clangd`, `gopls`, `rust_analyzer`, `pyright`, `ruff`, `sqlls`, `jdtls`, `svelte`, `cssls`, `css_variables`, `cssmodules_ls`, `lua_ls`
+`clangd`, `gopls`, `rust_analyzer`, `pyright`, `ruff`, `sqlls`, `jdtls`, `svelte`, `cssls`, `css_variables`, `cssmodules_ls`, `lua_ls`, `texlab`
 
 The extra tools Mason installs (formatters) are in the `vim.list_extend(ensure_installed, ...)` list in `lspconfig.lua`; the list in `mason.lua` is overridden and does nothing. pyright's "is not accessed" hints are dropped by a `textDocument/diagnostic` handler in its `vim.lsp.config`, because pyright's `disableTaggedHints` only filters pushed diagnostics and Neovim 0.12 pulls them.
 
@@ -62,6 +62,13 @@ Notebooks are vim-jukit `.py` files: cells are split by `# |%%--%%| <id|id>` lin
 - Markdown in text cells comes from treesitter: `after/queries/python/injections.scm` injects markdown into `°°°` strings, and render-markdown renders it. jukit's own vim-syntax region `textcell` doesn't show, because the treesitter highlighter turns vim syntax off.
 - `lua/jukit_dividers.lua`: a decoration provider (namespace `pyworks_deco`) that draws the cell divider lines and hides the `°°°` lines on the visible lines at redraw time.
 - `autoload/jukit/tmux/layouts.vim` shadows jukit's layout function and calls `lua/jukit_tmux_layout.lua` (output panes at the far right, columns evenly sized).
+
+## LaTeX
+
+vimtex compiles with latexmk into `.texfiles/` and views in Skim; texlab is the language server (completion, labels, outline). The LaTeX `FileType` autocmd in `autocmds.lua` sets conceal (snacks.image hides the source behind rendered math), spell and the `<leader>wc` word count.
+- Overleaf clones resolve `\input`/`\usepackage` paths from the project root, not the main file's folder. A local-only `.texlabroot` at that root (listed in the repo's `.git/info/exclude`) makes latexmk (`~/.config/latexmk/latexmkrc` adds it to `TEXINPUTS`), texlab and the word count resolve paths from there.
+- texlab stops at the nearest `.latexmkrc` before reaching `.texlabroot`, so don't put a `.latexmkrc` in an assignment folder.
+- vimtex's own file parser (its table of contents) doesn't follow root-relative `\input`s.
 
 ## Custom Global Helpers (available after `VeryLazy`)
 

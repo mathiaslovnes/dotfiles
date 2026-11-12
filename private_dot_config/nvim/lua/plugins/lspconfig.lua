@@ -225,6 +225,7 @@ return {
         cssls = {},
 
         lua_ls = {},
+        texlab = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -324,6 +325,15 @@ return {
             },
             -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
             -- diagnostics = { disable = { 'missing-fields' } },
+          },
+        },
+      })
+
+      -- vimtex builds into .texfiles (vimtex.lua); texlab reads label numbers and build errors from there
+      vim.lsp.config('texlab', {
+        settings = {
+          texlab = {
+            build = { auxDirectory = '.texfiles', logDirectory = '.texfiles', pdfDirectory = '.texfiles' },
           },
         },
       })

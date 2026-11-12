@@ -103,10 +103,32 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 -- === LaTeX ===
--- snacks.image hides the source behind rendered math only when conceal is on
+-- vimtex's word count, with texcount resolving \input paths from the folder TeX compiles in.
+-- Overleaf compiles from the project root, which .texlabroot marks in Overleaf clones (texlab reads it too).
+local function tex_word_count(range)
+  local root = vim.fs.root(0, '.texlabroot')
+  local arg = vim.g.vimtex_texcount_custom_arg or ''
+  if root then
+    vim.g.vimtex_texcount_custom_arg = arg .. ' ' .. vim.fn.shellescape('-dir=' .. root .. '/')
+  end
+  local ok, err = pcall(vim.fn['vimtex#misc#wordcount_display'], range and { range = range } or vim.empty_dict())
+  vim.g.vimtex_texcount_custom_arg = arg
+  if not ok then
+    error(err)
+  end
+end
+
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'tex',
-  callback = function()
-    vim.opt_local.conceallevel = 2
+  callback = function(a)
+    vim.opt_local.conceallevel = 2 -- snacks.image hides the source behind rendered math only when conceal is on
+    vim.opt_local.spell = true
+    vim.opt_local.spelllang = 'en_us'
+    vim.keymap.set('n', '<leader>wc', tex_word_count, { buffer = a.buf, desc = 'Word count (document)' })
+    vim.keymap.set('x', '<leader>wc', function()
+      local from, to = vim.fn.line 'v', vim.fn.line '.'
+      vim.api.nvim_feedkeys(vim.keycode '<Esc>', 'nx', false)
+      tex_word_count { math.min(from, to), math.max(from, to) }
+    end, { buffer = a.buf, desc = 'Word count (selection)' })
   end,
 })
