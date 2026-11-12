@@ -11,4 +11,4 @@ code=$(kitten notify --only-print-escape-code --sound-name silent \
 esc=$(printf '\033')
 # tmux passthrough: \ePtmux; + the code with every Esc doubled + \e\\
 printf '%sPtmux;%s%s\\' "$esc" "$(printf '%s' "$code" | sed "s/$esc/$esc$esc/g")" "$esc" > "$tty"
-afplay /System/Library/Sounds/Glass.aiff > /dev/null 2>&1 &
+afplay -v 0.3 /System/Library/Sounds/Glass.aiff > /dev/null 2>&1 &   # -v: 1 is full volume
