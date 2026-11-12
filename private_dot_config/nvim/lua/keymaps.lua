@@ -26,6 +26,10 @@ vim.keymap.set('n', 'gg', 'ggzz')
 -- Center
 vim.keymap.set('n', 'S', 'zz')
 
+-- - and + for [ and ] (Option+8/9 on a Norwegian keyboard); remap so -d reaches the [d mapping
+vim.keymap.set({ 'n', 'x', 'o' }, '-', '[', { remap = true })
+vim.keymap.set({ 'n', 'x', 'o' }, '+', ']', { remap = true })
+
 -- ===================================================================
 -- Editing
 -- ===================================================================

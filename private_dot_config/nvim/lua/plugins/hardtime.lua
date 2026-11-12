@@ -58,7 +58,7 @@ return {
       ['<Down>'] = { 'n', 'x' },
       ['<Left>'] = { 'n', 'x' },
       ['<Right>'] = { 'n', 'x' },
-      ['+'] = { 'n', 'x' },
+      ['+'] = false, -- + stands in for ] (keymaps.lua)
       -- ['gj'] = { 'n', 'x' },
       -- ['gk'] = { 'n', 'x' },
       ['<C-M>'] = { 'n', 'x' },

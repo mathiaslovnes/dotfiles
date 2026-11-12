@@ -53,6 +53,8 @@ TypeScript uses `typescript-tools.nvim` (native tsserver protocol), not ts_ls; m
 
 Snacks' picker does all fuzzy finding: search (`<leader>s*`, `<leader>f`), LSP navigation (`gd`, `gD`, `gI`, `gy` in snacks.lua; `grr`, `gri`, `grd`, `gW`, `grt` in lspconfig.lua), git (`<leader>g*`) and `vim.ui.select`. Its picker keys (one-Esc close, `<C-x>` split, `<C-y>` replace the current buffer) are in snacks.lua's `picker` opts. Telescope is commented out.
 
+`-` and `+` stand in for `[` and `]` (keymaps.lua, with remap so they reach `[d`, `]s` and the like; hardtime's `+` restriction is turned off for this). vim-visual-multi also uses `-` as its leader, so its `--`, `-A`, `-/` and `-gS` win over the bracket commands they shadow.
+
 treesitter-textobjects' jumps are `g` + letter (next) and `g` + capital (previous), with `a`/`i` + the same letter selecting that node; `gr` is its jump to the next return. Exceptions: conditionals jump with `gc`/`gC` but select with `ai`/`ii`, because `ac`/`ic` select a jukit cell (mini.ai custom object in mini.lua); loops are `go`/`gO` and `ao`/`io`, because `al`/`il` are mini.ai's "last" objects.
 
 ## Python / Jupyter Workflow
