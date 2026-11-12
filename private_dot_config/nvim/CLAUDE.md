@@ -53,7 +53,7 @@ TypeScript uses `typescript-tools.nvim` (native tsserver protocol), not ts_ls; m
 
 Snacks' picker does all fuzzy finding: search (`<leader>s*`, `<leader>f`), LSP navigation (`gd`, `gD`, `gI`, `gy` in snacks.lua; `grr`, `gri`, `grd`, `gW`, `grt` in lspconfig.lua), git (`<leader>g*`) and `vim.ui.select`. Its picker keys (one-Esc close, `<C-x>` split, `<C-y>` replace the current buffer) are in snacks.lua's `picker` opts. Telescope is commented out.
 
-`-` and `+` stand in for `[` and `]` (keymaps.lua, with remap so they reach `[d`, `]s` and the like; hardtime's `+` restriction is turned off for this). vim-visual-multi also uses `-` as its leader, so its `--`, `-A`, `-/` and `-gS` win over the bracket commands they shadow.
+`-` and `+` stand in for `[` and `]` (keymaps.lua, with remap so they reach `[d`, `]s` and the like; hardtime's `+` restriction is turned off for this, and vim-visual-multi, whose leader was `-`, is disabled).
 
 treesitter-textobjects' jumps are `g` + letter (next) and `g` + capital (previous), with `a`/`i` + the same letter selecting that node; `gr` is its jump to the next return. Exceptions: conditionals jump with `gc`/`gC` but select with `ai`/`ii`, because `ac`/`ic` select a jukit cell (mini.ai custom object in mini.lua); loops are `go`/`gO` and `ao`/`io`, because `al`/`il` are mini.ai's "last" objects.
 
@@ -67,10 +67,10 @@ Notebooks are vim-jukit `.py` files: cells are split by `# |%%--%%| <id|id>` lin
 
 ## LaTeX
 
-vimtex compiles with latexmk into `.texfiles/` and views in Skim; texlab is the language server (completion, labels, outline). The LaTeX `FileType` autocmd in `autocmds.lua` sets conceal (snacks.image hides the source behind rendered math), spell and the `<leader>wc` word count.
-- Overleaf clones resolve `\input`/`\usepackage` paths from the project root, not the main file's folder. A local-only `.texlabroot` at that root (listed in the repo's `.git/info/exclude`) makes latexmk (`~/.config/latexmk/latexmkrc` adds it to `TEXINPUTS`), texlab and the word count resolve paths from there.
+vimtex compiles with latexmk into `.texfiles/` and views in Skim; texlab is the language server (completion, labels, outline). The LaTeX `FileType` autocmd in `autocmds.lua` sets conceal (snacks.image hides the source behind rendered math), spell and `<leader>wc` (`:VimtexCountWords!`).
+- Overleaf clones resolve `\input`/`\usepackage` paths from the project root, but vimtex always uses the main file's folder as its root. A local-only `.texlabroot` at the project root (listed in the repo's `.git/info/exclude`) marks it: texlab reads it natively, latexmk gets it from `~/.config/latexmk/latexmkrc` (adds it to `TEXINPUTS`), and a `BufEnter` autocmd in `autocmds.lua` points vimtex's kpsewhich lookups (`TEXINPUTS`) and texcount (`-dir=`) at it.
 - texlab stops at the nearest `.latexmkrc` before reaching `.texlabroot`, so don't put a `.latexmkrc` in an assignment folder.
-- vimtex's own file parser (its table of contents) doesn't follow root-relative `\input`s.
+- vimtex caches failed kpsewhich lookups; if `\input`s stop resolving, run `:VimtexClearCache kpsewhich`.
 
 ## Custom Global Helpers (available after `VeryLazy`)
 

@@ -73,7 +73,7 @@ require('lazy').setup({
   require 'plugins.dial',                -- Increment/decrement dates, booleans, hex, and more with <C-a>/<C-x>
   require 'plugins.substitute',          -- Operator for substituting text with register contents
   require 'plugins.yanky',               -- Paste history ring you can cycle through and search
-  require 'plugins.vim-visual-multi',    -- Multiple cursors for simultaneous edits
+  -- require 'plugins.vim-visual-multi', -- Multiple cursors for simultaneous edits (its - leader clashed with - for [)
   require 'plugins.various-textobjects', -- Extra textobjects for subwords and other selections
   require 'plugins.mini',                -- Swiss-army kit: surround, trailspace, splitjoin, bufremove, etc.
   -- require 'plugins.treesj',           -- Split/join code blocks (replaced by mini.splitjoin)

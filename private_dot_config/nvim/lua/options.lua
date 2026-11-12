@@ -28,8 +28,8 @@ opt.foldlevelstart = 99 -- Keep all folds open on file open
 opt.foldenable = true   -- Enable folding
 opt.fillchars = { eob = ' ', fold = ' ', foldopen = '▼', foldsep = ' ', foldclose = '▶' }
 
--- Prevent vim-visual-multi artifacts from appearing in statusline
-vim.g.VM_set_statusline = 0
+-- Prevent vim-visual-multi artifacts from appearing in statusline (plugin disabled in lazy-plugins.lua)
+-- vim.g.VM_set_statusline = 0
 
 -- This keeps it always 1 column wide regardless of signs appearing/disappearing, so it won't jump around.
 -- opt.signcolumn = 'yes'
