@@ -106,7 +106,7 @@
   "theme": "dark",
   "editorMode": "vim",
   "verbose": false,
-  "preferredNotifChannel": "kitty",
+  "preferredNotifChannel": "notifications_disabled",
   "autoCompactEnabled": true,
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": false,
