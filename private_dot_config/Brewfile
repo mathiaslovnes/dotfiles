@@ -176,8 +176,6 @@ cask "anaconda"
 cask "anki"
 # Application uninstaller
 cask "appcleaner"
-# Compact TeX distribution as alternative to the full TeX Live / MacTeX
-cask "basictex"
 # Desktop client for brain.fm
 cask "brainfm"
 # Web browser focusing on privacy
