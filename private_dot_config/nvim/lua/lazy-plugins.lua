@@ -16,7 +16,7 @@ require('lazy').setup({
   require 'plugins.java',             -- Enhanced Java LSP support (nvim-java)
   require 'plugins.typescript-tools', -- Native tsserver protocol (faster than typescript-language-server)
   -- require 'plugins.tailwind-tools', -- Tailwind CSS color hints (needs the Tailwind language server; archived)
-  require 'plugins.fidget',           -- LSP progress notifications
+  -- require 'plugins.fidget',        -- LSP progress notifications (noice shows them)
   require 'plugins.inc-rename',       -- Incremental LSP rename with live preview
   -- require 'plugins.lightbulb',       -- Show lightbulb icon for available LSP code actions
 

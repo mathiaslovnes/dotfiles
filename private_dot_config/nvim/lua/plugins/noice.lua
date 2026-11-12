@@ -3,7 +3,6 @@ return {
   event = 'VeryLazy',
   opts = {
     presets = { inc_rename = true },
-    lsp = { progress = { enabled = false } }, -- fidget shows LSP progress
     cmdline = {
       enabled = true,
       view = 'cmdline_popup',
