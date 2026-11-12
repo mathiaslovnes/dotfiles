@@ -112,7 +112,7 @@ return {
           map('grt', function() Snacks.picker.lsp_type_definitions() end, '[G]oto [T]ype Definition')
 
           -- Restart language servers, e.g. after installing a new package
-          map('<leader>lr', '<cmd>LspRestart<CR>', '[L]SP [R]estart')
+          map('<leader>lr', '<cmd>lsp restart<CR>', '[L]SP [R]estart')
 
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client
