@@ -2218,11 +2218,11 @@
                         ]
                     },
                     {
-                        "description": "Caps Lock + C to open Chrome",
+                        "description": "Caps Lock + ' to open Skim",
                         "manipulators": [
                             {
                                 "from": {
-                                    "key_code": "c",
+                                    "key_code": "grave_accent_and_tilde",
                                     "modifiers": {
                                         "mandatory": [
                                             "left_shift",
@@ -2233,7 +2233,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'Google Chrome' && osascript -e 'tell application \"Google Chrome\" to activate'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "net.sourceforge.skim-app.skim"
+                                            }
+                                        }
                                     }
                                 ],
                                 "type": "basic"
