@@ -101,3 +101,12 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.opt_local.conceallevel = 0
   end,
 })
+
+-- === LaTeX ===
+-- snacks.image hides the source behind rendered math only when conceal is on
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'tex',
+  callback = function()
+    vim.opt_local.conceallevel = 2
+  end,
+})
