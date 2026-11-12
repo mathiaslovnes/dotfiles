@@ -127,3 +127,32 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.keymap.set('x', '<leader>wc', ':VimtexCountWords<CR>', { buffer = a.buf, desc = 'Word count (selection)' })
   end,
 })
+
+-- latexmk only rebuilds when a file's contents change, so a save without edits gets no compile message:
+-- while vimtex's compiler is watching, report the last build's result instead
+vim.api.nvim_create_autocmd('BufWritePre', {
+  pattern = '*.tex',
+  callback = function(a)
+    vim.b[a.buf].tex_save_unchanged = not vim.bo[a.buf].modified
+  end,
+})
+vim.api.nvim_create_autocmd('BufWritePost', {
+  pattern = '*.tex',
+  callback = function(a)
+    if not vim.b[a.buf].tex_save_unchanged then
+      return
+    end
+    vim.api.nvim_buf_call(a.buf, function()
+      local ok, running = pcall(vim.fn.eval, 'b:vimtex.compiler.is_running()')
+      if not ok or running == 0 then
+        return
+      end
+      local status = vim.fn.eval 'b:vimtex.compiler.status' -- 1 building, 2 succeeded, 3 failed
+      if status == 2 then
+        vim.notify('No changes: PDF is up to date', vim.log.levels.INFO, { title = 'VimTeX' })
+      elseif status == 3 then
+        vim.notify('No changes: last build failed (<Space>le lists the errors)', vim.log.levels.WARN, { title = 'VimTeX' })
+      end
+    end)
+  end,
+})
