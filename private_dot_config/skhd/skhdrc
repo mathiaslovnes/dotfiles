@@ -79,8 +79,16 @@ ctrl + alt - d : sh ~/.config/yabai/resize.sh right -50 0
 # Minimize window (yabai's refocus signal picks the next window)
 alt - c : yabai -m window --minimize
 
-# Cmd+Q still quits (-> passes it on); the app's windows leave the layout right away instead of when it closes them
-cmd - q -> : sh ~/.config/yabai/quit.sh
+# Cmd+Q hides the app before quitting it, so its windows leave the layout at once (quit.sh). Left alone (~): browsers
+# (a short Cmd+Q only shows "Hold ⌘Q to quit"), kitty (it asks to confirm inside its own window) and Finder (Cmd+Q
+# doesn't quit it, so it would only hide)
+cmd - q [
+    "brave browser" ~
+    "google chrome" ~
+    "kitty"         ~
+    "finder"        ~
+    *               : sh ~/.config/yabai/quit.sh
+]
 
 # move window to prev and next space
 shift + alt - p : yabai -m window --space prev;

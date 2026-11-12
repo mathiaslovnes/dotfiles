@@ -1,17 +1,17 @@
 #!/bin/sh
-# skhd runs this on Cmd+Q and passes the key on to the app. The app's tiled windows leave the layout at once
-# (floating), instead of when the app gets round to closing them, which takes Electron apps like Slack half a
-# second or more. If the app is still running 2 s later (it asked to confirm, or the quit was canceled), they're
-# tiled again. Browsers are left alone: a short Cmd+Q there only shows "Hold ⌘Q to quit".
-w=$(yabai -m query --windows --window) || exit 0
-case $(echo "$w" | jq -r .app) in "Brave Browser"|"Google Chrome") exit 0 ;; esac
-pid=$(echo "$w" | jq .pid)
-ids=$(yabai -m query --windows | jq --argjson p "$pid" '.[] | select(.pid == $p and ."is-visible" and (."is-floating" | not)) | .id')
-[ -n "$ids" ] || exit 0
-for id in $ids; do yabai -m window "$id" --toggle float; done
+# skhd runs this on Cmd+Q in place of passing the key on (skhdrc lists the apps it leaves alone). It hides the
+# frontmost app, as Cmd+H does, so its windows leave the layout at once instead of when the app gets round to
+# closing them (half a second or more for Electron apps like Slack), then sends it Cmd+Q. If the app is still
+# running 2 s later (it asks to confirm, is saving or syncing, or the quit was canceled), it's shown again.
+pid=$(osascript -l JavaScript -e 'ObjC.import("AppKit"); ObjC.import("CoreGraphics");
+  const app = $.NSWorkspace.sharedWorkspace.frontmostApplication;
+  app.hide;
+  for (const down of [true, false]) {
+    const e = $.CGEventCreateKeyboardEvent(null, 12, down);   // 12: the Q key
+    $.CGEventSetFlags(e, $.kCGEventFlagMaskCommand);
+    $.CGEventPostToPid(app.processIdentifier, e);
+  }
+  app.processIdentifier')
 sleep 2
-kill -0 "$pid" 2>/dev/null || exit 0
-for id in $ids; do
-  [ "$(yabai -m query --windows --window "$id" 2>/dev/null | jq '."is-floating" and ."is-visible"')" = true ] &&
-    yabai -m window "$id" --toggle float
-done
+kill -0 "$pid" 2>/dev/null &&
+  osascript -l JavaScript -e "ObjC.import('AppKit'); \$.NSRunningApplication.runningApplicationWithProcessIdentifier($pid).unhide" >/dev/null
