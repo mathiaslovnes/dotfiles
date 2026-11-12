@@ -284,3 +284,5 @@ cask "font-meslo-lg-nerd-font"
 brew "duti"
 # AeroSpace is an i3-like tiling window manager for macOS
 cask "nikitabobko/tap/aerospace"
+# Full TeX Live distribution without GUI applications
+cask "mactex-no-gui"
