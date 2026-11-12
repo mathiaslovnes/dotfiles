@@ -5,6 +5,8 @@
 [ -n "$TMUX_PANE" ] || exit 0
 tty=$(tmux display-message -p -t "$TMUX_PANE" '#{pane_tty}')
 printf '\a' > "$tty"
+# while kitty is the app in front, the bell icon is enough
+lsappinfo info -only bundleid "$(lsappinfo front)" | grep -q '"net.kovidgoyal.kitty"' && exit 0
 msg=$(jq -r '.message // "Claude Code needs you"')
 code=$(kitten notify --only-print-escape-code --sound-name silent \
   "Claude Code · $(tmux display-message -p -t "$TMUX_PANE" '#S:#I')" "$msg")
