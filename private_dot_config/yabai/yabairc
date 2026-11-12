@@ -31,6 +31,8 @@ for ev in window_destroyed window_minimized application_terminated; do
   yabai -m signal --add label="refocus_$ev" event=$ev active=yes action="sh $HOME/.config/yabai/refocus.sh"
 done
 yabai -m signal --add label=refocus_application_hidden event=application_hidden action="sh $HOME/.config/yabai/refocus.sh"
+# windows an app only hides when you close them leave no hole (closed-windows.sh; replaces the one already running)
+pkill -f yabai/closed-windows.sh; sh "$HOME/.config/yabai/closed-windows.sh" &
 
 # App-specifics
 yabai -m rule --add app="^kitty$" manage=on # Prevent starting in floating mode
