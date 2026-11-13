@@ -35,8 +35,8 @@ shift + alt - m : sh ~/.config/yabai/maximize.sh
 
 # balance out tree of windows (resize to occupy same area)
 shift + alt - e : yabai -m space --balance
-# focused window takes 2/3 of the display's width (g for grow)
-shift + alt - g : sh ~/.config/yabai/two-thirds.sh
+# focused window's width cycles through 1/2, 2/3 and 3/4 of the display (g for grow)
+shift + alt - g : sh ~/.config/yabai/width-cycle.sh
 
 # Center floating window on screen (maintains size; floats a tiled window first)
 shift + alt - c : sh ~/.config/yabai/center.sh
