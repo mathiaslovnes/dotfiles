@@ -1,2 +1,4 @@
 [mgr]
 show_hidden = false # . toggles hidden files
+sort_by = "natural" # 2.png before 10.png
+linemode = "mtime" # last-modified time at the right of each row
