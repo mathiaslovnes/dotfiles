@@ -55,6 +55,20 @@ local function choose_main()
   end)
 end
 
+-- Restart compiling on save: vimtex's stop only asks latexmk to exit, and starting before it has gone fails
+local function restart_compiler()
+  local running = function()
+    return vim.fn.eval 'b:vimtex.compiler.is_running()' == 1
+  end
+  if running() then
+    vim.fn['vimtex#compiler#stop']()
+    vim.wait(3000, function()
+      return not running()
+    end, 50)
+  end
+  vim.fn['vimtex#compiler#start']()
+end
+
 return {
   'lervag/vimtex',
   lazy = false, -- we don't want to lazy load VimTeX
@@ -78,6 +92,7 @@ return {
           vim.keymap.set('n', '<localleader>' .. lhs, rhs, { buffer = 0, remap = true, desc = desc })
         end
         map('lc', '<plug>(vimtex-compile)', 'LaTeX: start/stop compiling on save')
+        map('lC', restart_compiler, 'LaTeX: restart compiling on save')
         map('lb', '<plug>(vimtex-compile-ss)', 'LaTeX: build once')
         map('ld', '<plug>(vimtex-clean)', 'LaTeX: delete build files')
         map('lD', '<plug>(vimtex-clean-full)', 'LaTeX: delete build files and the PDF')

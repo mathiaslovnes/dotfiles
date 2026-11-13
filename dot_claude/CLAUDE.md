@@ -8,6 +8,10 @@ chezmoi manages my dotfiles: configs in `~` (zsh, tmux, nvim, kitty, yabai, skhd
 
 The repo is public, so never add secrets (API keys, tokens, private keys). Keep local data out with `.chezmoiignore`, and add files that are private but not secret, like `~/.ssh/config`, with `chezmoi add --encrypt`.
 
+# Neovim
+
+For any question about Neovim or my Neovim setup, read `~/.config/nvim/CLAUDE.md` and the relevant config in `~/.config/nvim` before answering, so the answer matches my actual plugins and keys.
+
 # LaTeX
 
 LaTeX compiles locally (MacTeX), so after changing a LaTeX document, compile it and check the result yourself instead of asking me to check it on Overleaf.
