@@ -63,7 +63,7 @@ items:
         command: break-pane
       - name: Equalize sizes
         key: "="
-        command: select-layout -E
+        command: 'run-shell "~/.config/tmux/equalize.py #{window_id}"'
       - separator: true
       - name: Swap with left pane
         key: H
