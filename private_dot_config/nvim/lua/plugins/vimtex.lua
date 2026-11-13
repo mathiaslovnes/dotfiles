@@ -70,17 +70,20 @@ return {
       out_dir = '.texfiles',
     }
 
-    -- Own keys, mapped before vimtex sets its defaults so it skips the ones they replace (ll, lS, lT, lm)
+    -- Own keys, mapped before vimtex sets its defaults so it skips the ones they replace (ll, lS, lc, lC, lT, lm)
     vim.api.nvim_create_autocmd('User', {
       pattern = 'VimtexEventInitPre',
       callback = function()
         local function map(lhs, rhs, desc)
           vim.keymap.set('n', '<localleader>' .. lhs, rhs, { buffer = 0, remap = true, desc = desc })
         end
-        map('ls', '<plug>(vimtex-compile)', 'LaTeX: start/stop compiling on save')
+        map('lc', '<plug>(vimtex-compile)', 'LaTeX: start/stop compiling on save')
         map('lb', '<plug>(vimtex-compile-ss)', 'LaTeX: build once')
+        map('ld', '<plug>(vimtex-clean)', 'LaTeX: delete build files')
+        map('lD', '<plug>(vimtex-clean-full)', 'LaTeX: delete build files and the PDF')
         map('lt', '<plug>(vimtex-toc-toggle)', 'LaTeX: toggle table of contents')
         map('lm', choose_main, 'LaTeX: choose main document')
+        map('lM', '<plug>(vimtex-imaps-list)', 'LaTeX: list insert-mode shortcuts')
       end,
     })
   end,
