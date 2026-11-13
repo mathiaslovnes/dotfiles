@@ -9,6 +9,32 @@ return {
       snacks_win_opts = { keys = { term_normal = false } },
     },
   },
+  -- /ide lists every Neovim as "Neovim" plus its folder, so two Neovims in one folder look the same. Add the
+  -- tmux window to the name; the plugin hard-codes it, so rewrite it in each lock file it writes.
+  config = function(_, opts)
+    local window = vim.env.TMUX_PANE
+      and vim.trim(vim.fn.system { 'tmux', 'display-message', '-p', '-t', vim.env.TMUX_PANE, '#{session_name}:#{window_index} #{window_name}' })
+    if window and window ~= '' and vim.v.shell_error == 0 then
+      local lockfile = require 'claudecode.lockfile'
+      local create = lockfile.create
+      lockfile.create = function(...)
+        local ok, path, token = create(...)
+        if ok then
+          -- edit the text rather than re-encode it (an empty workspaceFolders [] would come back as {}),
+          -- and never let a failure here stop the server
+          pcall(function()
+            local name = '"ideName":' .. vim.json.encode(('Neovim (tmux %s)'):format(window))
+            local text = table.concat(vim.fn.readfile(path), '\n'):gsub('"ideName":"Neovim"', function()
+              return name
+            end)
+            vim.fn.writefile({ text }, path)
+          end)
+        end
+        return ok, path, token
+      end
+    end
+    require('claudecode').setup(opts)
+  end,
   -- `cmd` lets lazy.nvim create command stubs that load the plugin on first use,
   -- so `:ClaudeCode` and friends work on a fresh start. Without it, a keys-only
   -- spec defers loading until a <leader>a* mapping is pressed and the commands
