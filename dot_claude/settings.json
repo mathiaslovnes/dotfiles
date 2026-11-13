@@ -41,7 +41,8 @@
       "Bash(head:*)",
       "WebFetch(domain:www.confident-ai.com)",
       "Bash(uv run *)",
-      "Bash(gh search *)"
+      "Bash(gh search *)",
+      "Bash(git -C /Users/mathiaslovnes/.local/share/chezmoi push)"
     ],
     "deny": [
       "Read(~/.config/chezmoi/key.txt)",
