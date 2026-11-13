@@ -104,5 +104,42 @@ return {
         vim.keymap.set({ 'n', 'x', 'o' }, '[[', '<plug>(vimtex-[[)', { buffer = 0, desc = 'LaTeX: previous section' })
       end,
     })
+
+    -- <localleader>lv shows the PDF in Skim without focusing it. When Skim's window for this PDF isn't on a
+    -- visible space (another space, minimized or hidden), focus it with yabai so it comes into view.
+    vim.api.nvim_create_autocmd('User', {
+      pattern = 'VimtexEventView',
+      callback = function()
+        local ok, pdf = pcall(vim.fn.eval, 'b:vimtex.viewer.out()')
+        if not ok or pdf == '' or vim.fn.executable 'yabai' == 0 then
+          return
+        end
+        pdf = vim.fn.fnamemodify(pdf, ':t')
+        vim.defer_fn(function() -- give a Skim that is just starting time to open the PDF
+          vim.system({ 'yabai', '-m', 'query', '--windows' }, { text = true }, function(res)
+            local decoded, windows = pcall(vim.json.decode, res.stdout or '')
+            if res.code ~= 0 or not decoded then
+              return
+            end
+            local win
+            for _, w in ipairs(windows) do
+              if w.app == 'Skim' and vim.startswith(w.title or '', pdf) then
+                if w['is-visible'] then
+                  return
+                end
+                win = win or w
+              end
+            end
+            if not win then
+              return
+            end
+            -- a hidden app's windows can't be focused; activating Skim unhides it and switches to its space
+            local cmd = win['is-hidden'] and 'open -a Skim'
+              or ('yabai -m window %d --deminimize 2>/dev/null; yabai -m window --focus %d'):format(win.id, win.id)
+            vim.system { 'sh', '-c', cmd }
+          end)
+        end, 300)
+      end,
+    })
   end,
 }
