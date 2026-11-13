@@ -69,14 +69,14 @@ map alt+r send_text all \x1br
 map cmd+enter no_op
 map kitty_mod+enter no_op
 
-# Shell commands
-map cmd+shift+n send_text all z ~/.config/nvim && nvim \n
-map cmd+shift+x send_text all nvim ~/.tmux.conf \n
-map cmd+shift+z send_text all nvim ~/.zshrc \n
-map cmd+shift+t send_text all nvim ~/.config/kitty/kitty.conf \n
-map cmd+shift+y send_text all nvim ~/.config/yabai/yabairc \n
+# Shell commands (\r is Enter; \n is Ctrl+J, which tmux takes for moving to the pane below)
+map cmd+shift+n send_text all z ~/.config/nvim && nvim \r
+map cmd+shift+x send_text all nvim ~/.tmux.conf \r
+map cmd+shift+z send_text all nvim ~/.zshrc \r
+map cmd+shift+t send_text all nvim ~/.config/kitty/kitty.conf \r
+map cmd+shift+y send_text all nvim ~/.config/yabai/yabairc \r
 # B for binds
-map cmd+shift+b send_text all nvim ~/.config/skhd/skhdrc \n
+map cmd+shift+b send_text all nvim ~/.config/skhd/skhdrc \r
 
 # Command+left/right (and Ctrl+Cmd+H/L via Karabiner): Home/End, line start/end in zsh, Neovim and Claude Code
 map cmd+left send_text all \x1b[H
@@ -120,11 +120,11 @@ map cmd+9 send_text all \x1b9
 #                so Command+X is bound here as ctrl+X) ===
 
 # Open config files (Command+Shift+letter -> Ctrl+Shift+letter)
-map ctrl+shift+n send_text all z ~/.config/nvim && nvim \n
-map ctrl+shift+t send_text all nvim ~/.tmux.conf \n
-map ctrl+shift+z send_text all nvim ~/.zshrc \n
-map ctrl+shift+k send_text all nvim ~/.config/kitty/kitty.conf \n
-map ctrl+shift+b send_text all sudoedit /etc/keyd/default.conf \n
+map ctrl+shift+n send_text all z ~/.config/nvim && nvim \r
+map ctrl+shift+t send_text all nvim ~/.tmux.conf \r
+map ctrl+shift+z send_text all nvim ~/.zshrc \r
+map ctrl+shift+k send_text all nvim ~/.config/kitty/kitty.conf \r
+map ctrl+shift+b send_text all sudoedit /etc/keyd/default.conf \r
 
 # Resize hjkl (Command+hjkl -> plain Alt+hjkl, after the keyd edit above)
 map alt+h send_text all \x1bh
