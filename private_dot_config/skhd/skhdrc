@@ -115,8 +115,9 @@ alt - x : yabai -m window --toggle split
 # Launch script for mpv/japanese
 ctrl + cmd - m : ~/scripts/mpv-layout.sh
 
-# Screenshot of the focused window to the clipboard, without its shadow (macOS's own shortcuts are shift+cmd 1-5)
-shift + cmd - 6 : screencapture -c -o -l "$(yabai -m query --windows --window | jq '.id')"
+# Screenshot of the focused window to the clipboard, without its shadow (macOS's own shortcuts are shift+cmd 1-5).
+# Replaces apps' "Close Window" on this key.
+shift + cmd - w : screencapture -c -o -l "$(yabai -m query --windows --window | jq '.id')"
 
 # -- StartingmStopping/Restarting Yabai --
 # x, not q: Karabiner turns Ctrl+Opt+Q into "move tab left" before skhd sees it
