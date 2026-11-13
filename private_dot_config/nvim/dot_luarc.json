@@ -1,8 +1,13 @@
 {
+    "runtime.version": "LuaJIT",
+    "workspace.library": [
+        "/opt/homebrew/share/nvim/runtime/lua",
+        "${3rd}/luv/library",
+        "~/.local/share/nvim/lazy/lazy.nvim/lua",
+        "~/.local/share/nvim/lazy/snacks.nvim/lua",
+        "~/.local/share/nvim/lazy/mini.nvim/lua"
+    ],
     "diagnostics.disable": [
         "unused-local"
-    ],
-    "diagnostics.globals": [
-        "vim"
     ]
 }
