@@ -3,5 +3,6 @@
 .jukit/
 .ipynb_checkpoints/
 __pycache__/
+*.latexmain
 
 **/.claude/settings.local.json
