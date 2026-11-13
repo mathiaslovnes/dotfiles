@@ -49,78 +49,25 @@ return {
 
     ---@diagnostic disable: undefined-global
     ---------------- KEYMAPS FOR MOVING ----------------
-    -- You can use the capture groups defined in `textobjects.scm`
-    -- class (s for structure)
-    vim.keymap.set({ 'n', 'x', 'o' }, 'gs', function()
-      require('nvim-treesitter-textobjects.move').goto_next('@class.outer', 'textobjects')
-    end)
-    vim.keymap.set({ 'n', 'x', 'o' }, 'gS', function()
-      require('nvim-treesitter-textobjects.move').goto_previous('@class.outer', 'textobjects')
-    end)
-
-    -- function (f)
-    vim.keymap.set({ 'n', 'x', 'o' }, 'gf', function()
-      require('nvim-treesitter-textobjects.move').goto_next('@function.outer', 'textobjects')
-    end)
-    vim.keymap.set({ 'n', 'x', 'o' }, 'gF', function()
-      require('nvim-treesitter-textobjects.move').goto_previous('@function.outer', 'textobjects')
-    end)
-
-    -- conditional (c)
-    vim.api.nvim_create_autocmd('VimEnter', {
-      callback = function()
-        pcall(vim.keymap.del, 'n', 'gcc')
-        pcall(vim.keymap.del, 'n', 'gc')
-        pcall(vim.keymap.del, 'x', 'gc')
-
-        vim.keymap.set({ 'n', 'x', 'o' }, 'gc', function()
-          require('nvim-treesitter-textobjects.move').goto_next('@conditional.outer', 'textobjects')
-        end, { noremap = true, nowait = true })
-      end,
-    })
-    vim.keymap.set({ 'n', 'x', 'o' }, 'gC', function()
-      require('nvim-treesitter-textobjects.move').goto_previous('@conditional.outer', 'textobjects')
-    end)
-
-    -- loop (o, as in loop; l is mini.ai's "last")
-    vim.keymap.set({ 'n', 'x', 'o' }, 'go', function()
-      require('nvim-treesitter-textobjects.move').goto_next('@loop.outer', 'textobjects')
-    end)
-    vim.keymap.set({ 'n', 'x', 'o' }, 'gO', function()
-      require('nvim-treesitter-textobjects.move').goto_previous('@loop.outer', 'textobjects')
-    end)
-
-    -- parameter (a for argument)
-    vim.keymap.set({ 'n', 'x', 'o' }, 'ga', function()
-      require('nvim-treesitter-textobjects.move').goto_next('@parameter.outer', 'textobjects')
-    end)
-    vim.keymap.set({ 'n', 'x', 'o' }, 'gA', function()
-      require('nvim-treesitter-textobjects.move').goto_previous('@parameter.outer', 'textobjects')
-    end)
-
-    -- return (r)
-    vim.keymap.set({ 'n', 'x', 'o' }, 'gr', function()
-      require('nvim-treesitter-textobjects.move').goto_next('@return.outer', 'textobjects')
-    end, { nowait = true })
-    vim.keymap.set({ 'n', 'x', 'o' }, 'gR', function()
-      require('nvim-treesitter-textobjects.move').goto_previous('@return.outer', 'textobjects')
-    end)
-
-    -- comment (t for text)
-    vim.keymap.set({ 'n', 'x', 'o' }, 'gt', function()
-      require('nvim-treesitter-textobjects.move').goto_next('@comment.outer', 'textobjects')
-    end)
-    vim.keymap.set({ 'n', 'x', 'o' }, 'gT', function()
-      require('nvim-treesitter-textobjects.move').goto_previous('@comment.outer', 'textobjects')
-    end)
-
-    -- regex (x)
-    vim.keymap.set({ 'n', 'x', 'o' }, 'gx', function()
-      require('nvim-treesitter-textobjects.move').goto_next('@regex.outer', 'textobjects')
-    end)
-    vim.keymap.set({ 'n', 'x', 'o' }, 'gX', function()
-      require('nvim-treesitter-textobjects.move').goto_previous('@regex.outer', 'textobjects')
-    end)
+    -- ] + letter jumps to the next node, [ + letter to the previous one (typed + and -, keymaps.lua), with the
+    -- letter of the node's select below. Class is ]]/[[, since ]s/[s jump between misspellings (spell is on in tex).
+    local move = require 'nvim-treesitter-textobjects.move'
+    local function jumps(next_key, prev_key, query, name)
+      vim.keymap.set({ 'n', 'x', 'o' }, next_key, function()
+        move.goto_next(query, 'textobjects')
+      end, { desc = 'Next ' .. name })
+      vim.keymap.set({ 'n', 'x', 'o' }, prev_key, function()
+        move.goto_previous(query, 'textobjects')
+      end, { desc = 'Previous ' .. name })
+    end
+    jumps(']]', '[[', '@class.outer', 'class')
+    jumps(']f', '[f', '@function.outer', 'function')
+    jumps(']i', '[i', '@conditional.outer', 'conditional')
+    jumps(']o', '[o', '@loop.outer', 'loop')
+    jumps(']a', '[a', '@parameter.outer', 'parameter')
+    jumps(']r', '[r', '@return.outer', 'return')
+    jumps(']t', '[t', '@comment.outer', 'comment')
+    jumps(']x', '[x', '@regex.outer', 'regex')
 
     ---------------- KEYMAPS FOR SELECTING ----------------
     -- You can use the capture groups defined in `textobjects.scm`

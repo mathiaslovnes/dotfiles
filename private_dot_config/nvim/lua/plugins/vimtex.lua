@@ -99,6 +99,9 @@ return {
         map('lt', '<plug>(vimtex-toc-toggle)', 'LaTeX: toggle table of contents')
         map('lm', choose_main, 'LaTeX: choose main document')
         map('lM', '<plug>(vimtex-imaps-list)', 'LaTeX: list insert-mode shortcuts')
+        -- vimtex skips ]]/[[ because treesitter-textobjects' class jumps already hold them globally
+        vim.keymap.set({ 'n', 'x', 'o' }, ']]', '<plug>(vimtex-]])', { buffer = 0, desc = 'LaTeX: next section' })
+        vim.keymap.set({ 'n', 'x', 'o' }, '[[', '<plug>(vimtex-[[)', { buffer = 0, desc = 'LaTeX: previous section' })
       end,
     })
   end,

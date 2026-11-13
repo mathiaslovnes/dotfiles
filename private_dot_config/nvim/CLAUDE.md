@@ -55,7 +55,7 @@ Snacks' picker does all fuzzy finding: search (`<leader>s*`, `<leader>f`), LSP n
 
 `-` and `+` stand in for `[` and `]` (keymaps.lua, with remap so they reach `[d`, `]s` and the like; hardtime's `+` restriction is turned off for this, and vim-visual-multi, whose leader was `-`, is disabled).
 
-treesitter-textobjects' jumps are `g` + letter (next) and `g` + capital (previous), with `a`/`i` + the same letter selecting that node; `gr` is its jump to the next return. Exceptions: conditionals jump with `gc`/`gC` but select with `ai`/`ii`, because `ac`/`ic` select a jukit cell (mini.ai custom object in mini.lua); loops are `go`/`gO` and `ao`/`io`, because `al`/`il` are mini.ai's "last" objects.
+treesitter-textobjects' jumps are `]` + letter (next) and `[` + letter (previous), with `a`/`i` + the same letter selecting that node: `f` function, `i` conditional, `o` loop, `a` parameter, `r` return, `t` comment, `x` regex. Class jumps with `]]`/`[[` (`]s` stays spell's next misspelling) and selects with `as`/`is`; in tex buffers `]]`/`[[` are vimtex's section jumps, mapped in vimtex.lua because vimtex skips keys that are already mapped. Conditionals use `i` because `ac`/`ic` select a jukit cell (mini.ai custom object in mini.lua); loops use `o` because `al`/`il` are mini.ai's "last" objects. The g-keys are Neovim's own (`gc` comment, `gx` open URL, `gf` file, `gt` tabs, `gO` symbols). gitsigns' hunk jumps are `]c`/`[c`.
 
 ## Python / Jupyter Workflow
 

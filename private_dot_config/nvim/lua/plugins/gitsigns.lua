@@ -34,21 +34,21 @@ return {
         end
 
         -- Navigation
-        map('n', '<leader>gc', function()
+        map('n', ']c', function()
           if vim.wo.diff then
             vim.cmd.normal { ']c', bang = true }
           else
             gitsigns.nav_hunk 'next'
           end
-        end, { desc = 'Jump to next [G]it [C]hange' })
+        end, { desc = 'Next git change' })
 
-        map('n', '<leader>gC', function()
+        map('n', '[c', function()
           if vim.wo.diff then
             vim.cmd.normal { '[c', bang = true }
           else
             gitsigns.nav_hunk 'prev'
           end
-        end, { desc = 'Jump to previous [G]it [C]hange' })
+        end, { desc = 'Previous git change' })
 
         -- Actions
         -- visual mode
