@@ -34,6 +34,27 @@ return {
       end
     end
     require('claudecode').setup(opts)
+
+    -- Sends (<leader>as, <leader>ab) reach the connected Claude, but the plugin then opens a Claude split in Neovim
+    -- even when that Claude runs in a tmux pane (/ide). Without a Claude split, send only to a connected Claude.
+    local claudecode, terminal = require 'claudecode', require 'claudecode.terminal'
+    local send = claudecode.send_at_mention
+    claudecode.send_at_mention = function(...)
+      if terminal.get_active_terminal_bufnr() then
+        return send(...)
+      end
+      if not claudecode.is_claude_connected() then
+        return false, 'no Claude connected: run /ide in your Claude pane, or start one here with <Space>ac'
+      end
+      local ensure_visible, open = terminal.ensure_visible, terminal.open
+      terminal.ensure_visible, terminal.open = function() end, function() end
+      local ok, success, err = pcall(send, ...)
+      terminal.ensure_visible, terminal.open = ensure_visible, open
+      if not ok then
+        error(success)
+      end
+      return success, err
+    end
   end,
   -- `cmd` lets lazy.nvim create command stubs that load the plugin on first use,
   -- so `:ClaudeCode` and friends work on a fresh start. Without it, a keys-only
