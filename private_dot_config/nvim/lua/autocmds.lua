@@ -61,6 +61,20 @@ vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave', 'WinEnter
   end,
 })
 
+-- Claude Code also edits while you stay in its pane, so check every second too. Only buffers without unsaved
+-- changes: those reload silently (autoread), while a changed one would interrupt typing with a prompt
+vim.uv.new_timer():start(1000, 1000, vim.schedule_wrap(function()
+  if vim.fn.mode():match '^[cr]' or vim.fn.getcmdwintype() ~= '' then
+    return
+  end
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buftype == '' and not vim.bo[buf].modified
+      and vim.api.nvim_buf_get_name(buf) ~= '' then
+      vim.cmd('silent! checktime ' .. buf)
+    end
+  end
+end))
+
 -- No hard-wrapping while typing past textwidth (filetype plugins like markdown add 't' back per buffer)
 vim.api.nvim_create_autocmd('FileType', {
   callback = function()
