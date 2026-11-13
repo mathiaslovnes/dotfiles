@@ -1,3 +1,18 @@
+-- Switch tmux to the pane running claude in this tmux window (the Claude in a pane next to Neovim)
+local function focus_claude_pane()
+  if not vim.env.TMUX_PANE then
+    return
+  end
+  for _, line in ipairs(vim.fn.systemlist { 'tmux', 'list-panes', '-t', vim.env.TMUX_PANE, '-F', '#{pane_id} #{pane_current_command}' }) do
+    local id, cmd = line:match '^(%S+) (%S+)$'
+    if cmd == 'claude' then
+      vim.fn.system { 'tmux', 'select-pane', '-t', id }
+      return
+    end
+  end
+  vim.notify('No pane running claude in this tmux window', vim.log.levels.WARN)
+end
+
 return {
   "coder/claudecode.nvim",
   dependencies = { "folke/snacks.nvim" },
@@ -84,6 +99,18 @@ return {
     { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
     { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>",       desc = "Add current buffer" },
     { "<leader>as", "<cmd>ClaudeCodeSend<cr>",        mode = "v",                  desc = "Send to Claude" },
+    {
+      "<leader>aS",
+      function()
+        vim.api.nvim_feedkeys(vim.keycode "<Esc>", "nx", false) -- leave visual mode so '< and '> mark the selection
+        vim.cmd "'<,'>ClaudeCodeSend"
+        if require("claudecode").is_claude_connected() then
+          focus_claude_pane()
+        end
+      end,
+      mode = "v",
+      desc = "Send to Claude and jump to its pane",
+    },
     {
       "<leader>as",
       "<cmd>ClaudeCodeTreeAdd<cr>",
