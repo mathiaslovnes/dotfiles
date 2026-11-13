@@ -49,15 +49,16 @@ return {
 
     ---@diagnostic disable: undefined-global
     ---------------- KEYMAPS FOR MOVING ----------------
-    -- ] + letter jumps to the next node, [ + letter to the previous one (typed + and -, keymaps.lua), with the
-    -- letter of the node's select below. Class is ]]/[[, since ]s/[s jump between misspellings (spell is on in tex).
+    -- ] + letter jumps to the start of the next node, [ + letter to the start of the previous one (typed + and -,
+    -- keymaps.lua), with the letter of the node's select below. Class is ]]/[[, since ]s/[s jump between
+    -- misspellings (spell is on in tex).
     local move = require 'nvim-treesitter-textobjects.move'
     local function jumps(next_key, prev_key, query, name)
       vim.keymap.set({ 'n', 'x', 'o' }, next_key, function()
-        move.goto_next(query, 'textobjects')
+        move.goto_next_start(query, 'textobjects')
       end, { desc = 'Next ' .. name })
       vim.keymap.set({ 'n', 'x', 'o' }, prev_key, function()
-        move.goto_previous(query, 'textobjects')
+        move.goto_previous_start(query, 'textobjects')
       end, { desc = 'Previous ' .. name })
     end
     jumps(']]', '[[', '@class.outer', 'class')
