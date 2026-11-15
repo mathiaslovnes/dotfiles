@@ -64,6 +64,8 @@ When explaining or writing up why something is done (a training weight, a settin
 
 Any preference I give that isn't specific to one project (how to explain things, how to work with me) goes in this file, not in project memory.
 
+When running work in parallel on my Mac (18 cores), use at most 15 processes, so the machine stays usable for other things.
+
 I write notebooks as vim-jukit `.py` files and convert them to `.ipynb` myself. Never remind me to convert them.
 
 Never remind me of hand-in or submission steps (selecting submissions, exporting, uploading). I track those myself.
