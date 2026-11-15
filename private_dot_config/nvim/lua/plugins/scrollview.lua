@@ -16,8 +16,24 @@ return {
 
       -- Which sign groups are enabled on startup
       -- Default is {'diagnostics', 'search'} (and 'marks' for nvim>=0.10)
-      -- Set to {'all'} to enable all sign groups
-      signs_on_startup = { 'all' },
+      -- {'all'} enables all sign groups; this is all of them except spell, which checked the line on every
+      -- keystroke in insert mode, even with 'spell' off
+      signs_on_startup = {
+        'changelist',
+        'conflicts',
+        'cursor',
+        'diagnostics',
+        'folds',
+        'indent',
+        'keywords',
+        'latestchange',
+        'loclist',
+        'marks',
+        'quickfix',
+        'search',
+        'textwidth',
+        'trail',
+      },
 
       -- Diagnostic severities to show (leave empty for all)
       -- Example: {vim.diagnostic.severity.ERROR} for errors only
