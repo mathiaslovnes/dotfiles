@@ -8,7 +8,24 @@ return {
     bigfile = { enabled = true },
     dashboard = { enabled = true },
     explorer = { enabled = false },
-    image = { enabled = true },
+    image = {
+      enabled = true,
+      -- snacks' math template, except that varwidth gets a width: on its own it caps the formula's box at the
+      -- line width (about 12 cm), which cut long display equations off on the right. The image is trimmed after.
+      math = {
+        latex = {
+          tpl = [[
+        \documentclass[preview,border=0pt,varwidth=50cm,12pt]{standalone}
+        \usepackage{${packages}}
+        \begin{document}
+        ${header}
+        { \${font_size} \selectfont
+          \color[HTML]{${color}}
+        ${content}}
+        \end{document}]],
+        },
+      },
+    },
     indent = { enabled = true },
     input = { enabled = false },
     notifier = {

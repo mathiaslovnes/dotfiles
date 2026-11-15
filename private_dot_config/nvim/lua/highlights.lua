@@ -24,6 +24,8 @@ local function apply()
   vim.api.nvim_set_hl(0, 'DapStop', { fg = '#ffcc00' })
   -- Jupyter cell dividers
   vim.api.nvim_set_hl(0, 'PyworksDivider', { fg = '#FFFFFF', bold = true })
+  -- Plain text in jukit text cells (after/queries/python/highlights.scm) in the normal text color
+  vim.api.nvim_set_hl(0, '@jukit.text', { fg = vim.api.nvim_get_hl(0, { name = 'Normal', link = false }).fg })
   -- Markdown heading colors in jukit text cells (rainbow1..6) bold
   for i = 1, 6 do
     local hl = vim.api.nvim_get_hl(0, { name = 'rainbow' .. i })
