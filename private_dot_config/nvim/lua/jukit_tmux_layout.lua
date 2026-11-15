@@ -1,7 +1,7 @@
 -- Replaces vim-jukit's tmux layout. The plugin moves nvim with `move-pane -f`, which sends nvim to
 -- the far left of the tmux window and pushes any other pane (e.g. claude) into the middle.
 -- This version leaves nvim where it is, puts the jukit panes at the far right (arranged as in
--- g:jukit_layout) and then gives every column in the window the same width.
+-- g:jukit_layout) and then evens out the window's panes with ~/.config/tmux/equalize.py.
 -- Called from autoload/jukit/tmux/layouts.vim.
 local M = {}
 
@@ -61,8 +61,8 @@ function M.set_layout(layout)
     tmux('move-pane', '-d', inner_flag, '-s', panes[2], '-t', panes[1])
   end
 
-  -- -E spreads nvim and its neighbours evenly, e.g. three columns get a third each
-  tmux('select-layout', '-E', '-t', nvim)
+  -- Even out every pane in the window, as prefix = does (select-layout -E skips columns that hold a split)
+  vim.fn.system { vim.fn.expand '~/.config/tmux/equalize.py', nvim }
 
   -- Split the jukit column between output and history using the inner p1
   if panes[2] then
