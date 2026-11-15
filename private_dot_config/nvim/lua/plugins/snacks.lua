@@ -14,6 +14,7 @@ return {
       -- line width (about 12 cm), which cut long display equations off on the right. The image is trimmed after.
       math = {
         latex = {
+          font_size = 'normalsize', -- 12 pt; snacks' default \Large (17 pt) drew formulas far bigger than the text
           tpl = [[
         \documentclass[preview,border=0pt,varwidth=50cm,12pt]{standalone}
         \usepackage{${packages}}
