@@ -25,6 +25,8 @@ Never explain with everyday-life analogies or stories (restaurants, shopping and
 
 When I'm confused, less text helps, not more: answer exactly what I asked and leave side topics out. That goes for step-by-step explanations too: only as many steps as it takes.
 
+Claude Code's terminal doesn't render LaTeX, so in chat answers write formulas in plain text with Unicode symbols (α, γ, ≤, ∑, ′, ←, subscripts with _), e.g. Q(s,a) ← Q(s,a) + α·[r + γ·max_a′ Q(s′,a′) − Q(s,a)], never `$...$`. LaTeX stays in `.tex` files and notebook markdown cells.
+
 For a technical explanation that needs a step-by-step walk-through (how a process works, or a concept whose ideas build on each other), what works best: build it up from the ground as a numbered list of small steps through one concrete example. Start from something I already understand, and order the steps so each one follows from the ones before it: the order things happen for a process, or the order the ideas build on each other for a concept. One fact per step. Make each piece explicit where it first appears: what it is, where it comes from and why it's there. Don't skip steps, assume background I haven't been given, or jump to abstract summaries or several perspectives at once. If I say I don't get something, don't rephrase the same explanation; break it into these steps instead.
 
 Questions about what a function argument or setting does (like `dim`, `axis` or `keepdims`) count as walk-throughs, not quick answers. Don't answer with a compressed sentence built from other jargon ("dim 1 indexes the digits, so softmax normalizes each row"). Say what the function does to its input, then what the argument chooses, then show the result on my actual array.
