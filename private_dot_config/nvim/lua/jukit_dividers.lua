@@ -37,7 +37,7 @@ vim.api.nvim_set_decoration_provider(ns, {
         })
       else
         -- Only lines that hold nothing else, so text joined onto a marker stays visible
-        local label = line:match '^r?"""°°°%s*$' and '󰍔 ▼' or line:match '^°°°"""%s*$' and '󰍔 ▲'
+        local label = (line:match '^r?"""°°°%s*$' or line:match '^°°°"""%s*$') and '󰍔'
         if label then
           -- Padded with spaces to cover the whole marker
           label = label .. string.rep(' ', vim.fn.strdisplaywidth(line) - vim.fn.strdisplaywidth(label))
