@@ -79,6 +79,8 @@ return {
     end, { desc = 'Run jukit cells from here to the end' })
     -- Replaces jukit's own <leader>cc, which has no description
     vim.keymap.set('n', '<leader>cc', '<cmd>call jukit#send#until_current_section()<CR>', { desc = 'Run jukit cells from the start to here' })
+    -- Replaces jukit's own <leader>all
+    vim.keymap.set('n', '<leader>ca', '<cmd>call jukit#send#all()<CR>', { desc = 'Run all jukit cells' })
 
     vim.keymap.set('n', '<leader>J', '<cmd>call jukit#splits#out_hist_scroll(1)<CR>')
     vim.keymap.set('n', '<leader>K', '<cmd>call jukit#splits#out_hist_scroll(0)<CR>')

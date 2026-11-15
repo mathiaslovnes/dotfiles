@@ -22,11 +22,5 @@ return {
       -- disable background highlights
       backgrounds = {},
     },
-
-    -- jukit notebooks: conceal stays on in insert and visual mode too, so the hidden r"""°°° / °°°""" lines
-    -- (jukit_dividers.lua) don't reappear there and shift the lines below them
-    overrides = {
-      filetype = { python = { win_options = { conceallevel = { default = 3 } } } },
-    },
   },
 }
