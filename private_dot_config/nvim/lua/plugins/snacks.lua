@@ -10,8 +10,13 @@ return {
     explorer = { enabled = false },
     image = {
       enabled = true,
-      -- snacks' math template, except that varwidth gets a width: on its own it caps the formula's box at the
-      -- line width (about 12 cm), which cut long display equations off on the right. The image is trimmed after.
+      -- snacks' math template, except:
+      -- - varwidth gets a width: on its own it caps the formula's box at the line width (about 12 cm), which cut
+      --   long display equations off on the right. The image is trimmed after.
+      -- - snacks wraps every formula in \[ \]; the template sets that content on a plain line in display style
+      --   with a \strut, and images are trimmed only at the sides (convert below). snacks scales an inline
+      --   formula's image to one text row, so cropped to its ink, α was blown up twice as much as N(s, a); now
+      --   every one-line formula is a strut tall. (A real display also put an empty line above each formula.)
       math = {
         latex = {
           font_size = 'normalsize', -- 12 pt; snacks' default \Large (17 pt) drew formulas far bigger than the text
@@ -21,9 +26,15 @@ return {
         \begin{document}
         ${header}
         { \${font_size} \selectfont
+          \def\[#1\]{\noindent$\displaystyle\strut #1$}
           \color[HTML]{${color}}
         ${content}}
         \end{document}]],
+        },
+      },
+      convert = {
+        magick = {
+          math = { '-density', 192, '{src}[{page}]', '-define', 'trim:edges=west,east', '-trim' },
         },
       },
     },
