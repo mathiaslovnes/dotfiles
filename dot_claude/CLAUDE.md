@@ -2,6 +2,8 @@
 
 Make every change to my files with the Edit or Write tool, so I see a diff of what changed. Never edit files with sed, heredocs or other shell commands, even for one-line or mechanical changes. Bash is fine for reading, testing and verifying, not for changing files.
 
+When code has to move, move it unchanged in its own edit, and change it in a separate edit afterwards. Never put new code where moved code used to be in the same edit: the diff then shows the old code deleted and the new code inserted, and I can't see what changed.
+
 # Dotfiles
 
 chezmoi manages my dotfiles: configs in `~` (zsh, tmux, nvim, kitty, yabai, skhd, karabiner, mpv, Claude Code settings, Anki add-ons and more; `chezmoi managed` lists them). Its source is `~/.local/share/chezmoi`, a public GitHub repo. Edit the file in `~` as usual, then run `chezmoi re-add <file>` so the source keeps up. When you create a config file that belongs with the others, add it with `chezmoi add`. After changes, commit in the chezmoi repo and push; you don't need to ask before pushing it.
