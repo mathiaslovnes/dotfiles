@@ -20,8 +20,8 @@ return {
           args = { '--column-width', '0' },
         },
         -- --config goes before the subcommand; --line-length there makes ruff exit with an error
-        ruff_format = { prepend_args = { '--config', 'line-length=100' } },
-        ruff_organize_imports = { prepend_args = { '--config', 'line-length=100' } },
+        ruff_format = { prepend_args = { '--config', 'line-length=120' } },
+        ruff_organize_imports = { prepend_args = { '--config', 'line-length=120' } },
       },
       formatters_by_ft = {
         lua = { 'stylua' },
