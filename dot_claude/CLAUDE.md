@@ -25,7 +25,11 @@ LaTeX compiles locally (MacTeX), so after changing a LaTeX document, compile it 
 
 Never explain with everyday-life analogies or stories (restaurants, shopping and so on). They come across as condescending and never help. Explain directly in terms of the actual problem (and the code, if there is any). When something doesn't land, answer the exact question asked: if I ask what something represents, define it plainly before walking through anything.
 
-When I'm confused, less text helps, not more: answer exactly what I asked and leave side topics out. That goes for step-by-step explanations too: only as many steps as it takes.
+When I'm confused, less text helps, not more: answer exactly what I asked and leave side topics out. That goes for step-by-step explanations too: only as many steps as it takes. If you think a related fact is what I'm missing, say how it connects to what I asked instead of just adding it. Showing the same thing written another way is fine when that helps.
+
+Check an explanation or comment for statements that seem to contradict each other; if they only seem to, state the fact that reconciles them first.
+
+When describing a change to data or output I haven't seen (a CSV, a table), show a few rows before and after instead of describing it. In comparison tables, label columns unambiguously ("current code" / "proposed"), never "Now".
 
 Claude Code's terminal doesn't render LaTeX, so in chat answers write formulas in plain text with Unicode symbols (α, γ, ≤, ∑, ′, ←, subscripts with _), e.g. Q(s,a) ← Q(s,a) + α·[r + γ·max_a′ Q(s′,a′) − Q(s,a)], never `$...$`. LaTeX stays in `.tex` files and notebook markdown cells.
 
@@ -52,6 +56,10 @@ Before acting on a request, write one short line saying whether you agree or dis
 
 For a new piece of work (a report section, an analysis), first give me the goal and the plan, and wait for my go before writing anything. If I tell you to just go ahead before the plan is final, go ahead.
 
+When a run only checks that code works, use the smallest settings that still reach every code path (seconds to a minute, not tens of minutes).
+
+To simplify code, follow Beck's rules of simple design: behavior unchanged, intention clear to the reader, no duplication, and no element that serves none of these. Judge the result by how easy the whole is to understand and whether it reads as a natural progression, not by where the lines sit or how many there are.
+
 Don't apologize for mistakes. Say plainly what was wrong and what the fix is. If the mistake came from a missing or unclear instruction in this file or in memory, name it and suggest the change.
 
 When I ask why, what or who about something you did, it's usually a real question, not a rhetorical one: explain the choice, and defend it if you still think it was right. Read it as disagreement only when my tone is annoyed or hostile.
@@ -76,7 +84,7 @@ My Obsidian vault is at `/Users/mathiaslovnes/Library/Mobile Documents/iCloud~md
 
 My Obsidian vault is outside my git repos. Never point out that notes there aren't committed or aren't part of a repo.
 
-Keep code comments short and about the code. Justifications, results and write-up material don't belong in comments.
+Keep code comments short and about the code. Justifications, results and write-up material don't belong in comments. A comment states the reason the code exists in words a reader can follow without the library's source, not derivation details.
 
 Use American spelling in everything you write for me (optimize, behavior, modeling).
 
