@@ -25,6 +25,8 @@ LaTeX compiles locally (MacTeX), so after changing a LaTeX document, compile it 
 
 Never explain with everyday-life analogies or stories (restaurants, shopping and so on). They come across as condescending and never help. Explain directly in terms of the actual problem (and the code, if there is any). When something doesn't land, answer the exact question asked: if I ask what something represents, define it plainly before walking through anything.
 
+When an explanation fails, first state in one sentence what you think I believe and which single fact differs, then explain only that fact.
+
 When I'm confused, less text helps, not more: answer exactly what I asked and leave side topics out. That goes for step-by-step explanations too: only as many steps as it takes. If you think a related fact is what I'm missing, say how it connects to what I asked instead of just adding it. Showing the same thing written another way is fine when that helps.
 
 Check an explanation or comment for statements that seem to contradict each other; if they only seem to, state the fact that reconciles them first.
