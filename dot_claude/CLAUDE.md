@@ -84,6 +84,8 @@ My Obsidian vault is at `/Users/mathiaslovnes/Library/Mobile Documents/iCloud~md
 
 My Obsidian vault is outside my git repos. Never point out that notes there aren't committed or aren't part of a repo.
 
+Wrap code, comments and markdown at 120 columns, the line length in my global ruff config (`~/.config/ruff/ruff.toml`).
+
 Keep code comments short and about the code. Justifications, results and write-up material don't belong in comments. A comment states the reason the code exists in words a reader can follow without the library's source, not derivation details.
 
 Use American spelling in everything you write for me (optimize, behavior, modeling).
