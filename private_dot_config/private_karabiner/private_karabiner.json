@@ -971,6 +971,13 @@
                         "description": "Bind Hyper + J to Japanese",
                         "manipulators": [
                             {
+                                "conditions": [
+                                    {
+                                        "name": "hyper",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
                                 "from": {
                                     "key_code": "j",
                                     "modifiers": {
@@ -991,16 +998,27 @@
                         ]
                     },
                     {
-                        "description": "Map Ctrl + HJKL to Arrow Keys (with separate Shift/Option/Command combos)",
+                        "description": "Map Ctrl + HJKL to Arrow Keys (any Shift/Option/Command held carries over; not with Caps Lock, which sends Ctrl too)",
                         "manipulators": [
                             {
+                                "conditions": [
+                                    {
+                                        "name": "hyper",
+                                        "type": "variable_unless",
+                                        "value": 1
+                                    }
+                                ],
                                 "from": {
                                     "key_code": "h",
                                     "modifiers": {
                                         "mandatory": [
                                             "control"
                                         ],
-                                        "optional": []
+                                        "optional": [
+                                            "shift",
+                                            "option",
+                                            "command"
+                                        ]
                                     }
                                 },
                                 "to": [
@@ -1011,76 +1029,24 @@
                                 "type": "basic"
                             },
                             {
-                                "from": {
-                                    "key_code": "h",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "control",
-                                            "shift"
-                                        ],
-                                        "optional": []
-                                    }
-                                },
-                                "to": [
+                                "conditions": [
                                     {
-                                        "key_code": "left_arrow",
-                                        "modifiers": [
-                                            "shift"
-                                        ]
+                                        "name": "hyper",
+                                        "type": "variable_unless",
+                                        "value": 1
                                     }
                                 ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "h",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "control",
-                                            "option"
-                                        ],
-                                        "optional": []
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_arrow",
-                                        "modifiers": [
-                                            "option"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "h",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "control",
-                                            "command"
-                                        ],
-                                        "optional": []
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_arrow",
-                                        "modifiers": [
-                                            "command"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
                                 "from": {
                                     "key_code": "j",
                                     "modifiers": {
                                         "mandatory": [
                                             "control"
                                         ],
-                                        "optional": []
+                                        "optional": [
+                                            "shift",
+                                            "option",
+                                            "command"
+                                        ]
                                     }
                                 },
                                 "to": [
@@ -1091,76 +1057,24 @@
                                 "type": "basic"
                             },
                             {
-                                "from": {
-                                    "key_code": "j",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "control",
-                                            "shift"
-                                        ],
-                                        "optional": []
-                                    }
-                                },
-                                "to": [
+                                "conditions": [
                                     {
-                                        "key_code": "down_arrow",
-                                        "modifiers": [
-                                            "shift"
-                                        ]
+                                        "name": "hyper",
+                                        "type": "variable_unless",
+                                        "value": 1
                                     }
                                 ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "j",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "control",
-                                            "option"
-                                        ],
-                                        "optional": []
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "down_arrow",
-                                        "modifiers": [
-                                            "option"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "j",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "control",
-                                            "command"
-                                        ],
-                                        "optional": []
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "down_arrow",
-                                        "modifiers": [
-                                            "command"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
                                 "from": {
                                     "key_code": "k",
                                     "modifiers": {
                                         "mandatory": [
                                             "control"
                                         ],
-                                        "optional": []
+                                        "optional": [
+                                            "shift",
+                                            "option",
+                                            "command"
+                                        ]
                                     }
                                 },
                                 "to": [
@@ -1171,144 +1085,29 @@
                                 "type": "basic"
                             },
                             {
-                                "from": {
-                                    "key_code": "k",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "control",
-                                            "shift"
-                                        ],
-                                        "optional": []
-                                    }
-                                },
-                                "to": [
+                                "conditions": [
                                     {
-                                        "key_code": "up_arrow",
-                                        "modifiers": [
-                                            "shift"
-                                        ]
+                                        "name": "hyper",
+                                        "type": "variable_unless",
+                                        "value": 1
                                     }
                                 ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "k",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "control",
-                                            "option"
-                                        ],
-                                        "optional": []
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "up_arrow",
-                                        "modifiers": [
-                                            "option"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "k",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "control",
-                                            "command"
-                                        ],
-                                        "optional": []
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "up_arrow",
-                                        "modifiers": [
-                                            "command"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
                                 "from": {
                                     "key_code": "l",
                                     "modifiers": {
                                         "mandatory": [
                                             "control"
                                         ],
-                                        "optional": []
+                                        "optional": [
+                                            "shift",
+                                            "option",
+                                            "command"
+                                        ]
                                     }
                                 },
                                 "to": [
                                     {
                                         "key_code": "right_arrow"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "l",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "control",
-                                            "shift"
-                                        ],
-                                        "optional": []
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "right_arrow",
-                                        "modifiers": [
-                                            "shift"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "l",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "control",
-                                            "option"
-                                        ],
-                                        "optional": []
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "right_arrow",
-                                        "modifiers": [
-                                            "option"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "l",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "control",
-                                            "command"
-                                        ],
-                                        "optional": []
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "right_arrow",
-                                        "modifiers": [
-                                            "command"
-                                        ]
                                     }
                                 ],
                                 "type": "basic"
@@ -2501,7 +2300,7 @@
                     {
                         "manipulators": [
                             {
-                                "description": "Caps Lock → Hyper",
+                                "description": "Caps Lock → Hyper (hyper variable set while held)",
                                 "from": {
                                     "key_code": "caps_lock",
                                     "modifiers": {
@@ -2517,6 +2316,20 @@
                                             "left_control",
                                             "left_option"
                                         ]
+                                    },
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 1
+                                        }
+                                    }
+                                ],
+                                "to_after_key_up": [
+                                    {
+                                        "set_variable": {
+                                            "name": "hyper",
+                                            "value": 0
+                                        }
                                     }
                                 ],
                                 "type": "basic"
