@@ -4,6 +4,10 @@ Make every change to my files with the Edit or Write tool, so I see a diff of wh
 
 When code has to move, move it unchanged in its own edit, and change it in a separate edit afterwards. Never put new code where moved code used to be in the same edit: the diff then shows the old code deleted and the new code inserted, and I can't see what changed.
 
+# Code
+
+Write the simplest code that does the job, by Beck's rules of simple design: correct behavior, intention clear to the reader, no duplication, and no element that serves none of these. This applies to all code you write, not only when I ask for a simplification: no variable, helper or abstraction for something used once unless it makes the code easier to read. Accept extra complexity only for a real gain in speed or correctness. Judge the result by how easy the whole is to understand and whether it reads as a natural progression, not by where the lines sit or how many there are.
+
 # Dotfiles
 
 chezmoi manages my dotfiles: configs in `~` (zsh, tmux, nvim, kitty, yabai, skhd, karabiner, mpv, Claude Code settings, Anki add-ons and more; `chezmoi managed` lists them). Its source is `~/.local/share/chezmoi`, a public GitHub repo. Edit the file in `~` as usual, then run `chezmoi re-add <file>` so the source keeps up. When you create a config file that belongs with the others, add it with `chezmoi add`. After changes, commit in the chezmoi repo and push; you don't need to ask before pushing it.
@@ -31,6 +35,8 @@ Check an explanation or comment for statements that seem to contradict each othe
 
 When describing a change to data or output I haven't seen (a CSV, a table), show a few rows before and after instead of describing it. In comparison tables, label columns unambiguously ("current code" / "proposed"), never "Now".
 
+Keep tables narrow, at most about 80 characters per row, so they fit in a third of my screen: keep cells short, and split long text over several rows of the table (or use a list instead).
+
 Claude Code's terminal doesn't render LaTeX, so in chat answers write formulas in plain text with Unicode symbols (α, γ, ≤, ∑, ′, ←, subscripts with _), e.g. Q(s,a) ← Q(s,a) + α·[r + γ·max_a′ Q(s′,a′) − Q(s,a)], never `$...$`. LaTeX stays in `.tex` files and notebook markdown cells.
 
 For a technical explanation that needs a step-by-step walk-through (how a process works, or a concept whose ideas build on each other), what works best: build it up from the ground as a numbered list of small steps through one concrete example. Start from something I already understand, and order the steps so each one follows from the ones before it: the order things happen for a process, or the order the ideas build on each other for a concept. One fact per step. Make each piece explicit where it first appears: what it is, where it comes from and why it's there. Don't skip steps, assume background I haven't been given, or jump to abstract summaries or several perspectives at once.
@@ -55,8 +61,6 @@ Before acting on a request, write one short line saying whether you agree or dis
 For a new piece of work (a report section, an analysis), first give me the goal and the plan, and wait for my go before writing anything. If I tell you to just go ahead before the plan is final, go ahead.
 
 When a run only checks that code works, use the smallest settings that still reach every code path (seconds to a minute, not tens of minutes).
-
-To simplify code, follow Beck's rules of simple design: behavior unchanged, intention clear to the reader, no duplication, and no element that serves none of these. Judge the result by how easy the whole is to understand and whether it reads as a natural progression, not by where the lines sit or how many there are.
 
 Don't apologize for mistakes. Say plainly what was wrong and what the fix is. If the mistake came from a missing or unclear instruction in this file or in memory, name it and suggest the change.
 
