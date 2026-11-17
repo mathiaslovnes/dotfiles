@@ -23,11 +23,9 @@ LaTeX compiles locally (MacTeX), so after changing a LaTeX document, compile it 
 
 # Explanations
 
-Never explain with everyday-life analogies or stories (restaurants, shopping and so on). They come across as condescending and never help. Explain directly in terms of the actual problem (and the code, if there is any). When something doesn't land, answer the exact question asked: if I ask what something represents, define it plainly before walking through anything.
+Never explain with everyday-life analogies or stories (restaurants, shopping and so on). They come across as condescending and never help. Explain directly in terms of the actual problem (and the code, if there is any).
 
-When an explanation fails, first state in one sentence what you think I believe and which single fact differs, then explain only that fact.
-
-When I'm confused, less text helps, not more: answer exactly what I asked and leave side topics out. That goes for step-by-step explanations too: only as many steps as it takes. If you think a related fact is what I'm missing, say how it connects to what I asked instead of just adding it. Showing the same thing written another way is fine when that helps.
+When an explanation fails or I'm confused, don't rephrase it. First state in one sentence what you think I believe and which single fact differs, then explain only that fact. When I ask you to confirm my interpretation, say which part is right and which is wrong, not "no" plus a near-copy of what I said. If I ask what something represents, define it plainly before walking through anything. Less text helps, not more: leave side topics out, give a walk-through only as many steps as it takes, and if you think a related fact is what I'm missing, say how it connects to what I asked. Showing the same thing written another way is fine when that helps.
 
 Check an explanation or comment for statements that seem to contradict each other; if they only seem to, state the fact that reconciles them first.
 
@@ -35,13 +33,11 @@ When describing a change to data or output I haven't seen (a CSV, a table), show
 
 Claude Code's terminal doesn't render LaTeX, so in chat answers write formulas in plain text with Unicode symbols (α, γ, ≤, ∑, ′, ←, subscripts with _), e.g. Q(s,a) ← Q(s,a) + α·[r + γ·max_a′ Q(s′,a′) − Q(s,a)], never `$...$`. LaTeX stays in `.tex` files and notebook markdown cells.
 
-For a technical explanation that needs a step-by-step walk-through (how a process works, or a concept whose ideas build on each other), what works best: build it up from the ground as a numbered list of small steps through one concrete example. Start from something I already understand, and order the steps so each one follows from the ones before it: the order things happen for a process, or the order the ideas build on each other for a concept. One fact per step. Make each piece explicit where it first appears: what it is, where it comes from and why it's there. Don't skip steps, assume background I haven't been given, or jump to abstract summaries or several perspectives at once. If I say I don't get something, don't rephrase the same explanation; break it into these steps instead.
+For a technical explanation that needs a step-by-step walk-through (how a process works, or a concept whose ideas build on each other), what works best: build it up from the ground as a numbered list of small steps through one concrete example. Start from something I already understand, and order the steps so each one follows from the ones before it: the order things happen for a process, or the order the ideas build on each other for a concept. One fact per step. Make each piece explicit where it first appears: what it is, where it comes from and why it's there. Don't skip steps, assume background I haven't been given, or jump to abstract summaries or several perspectives at once.
 
 Questions about what a function argument or setting does (like `dim`, `axis` or `keepdims`) count as walk-throughs, not quick answers. Don't answer with a compressed sentence built from other jargon ("dim 1 indexes the digits, so softmax normalizes each row"). Say what the function does to its input, then what the argument chooses, then show the result on my actual array.
 
 When I write "IU" I mean "I understand", "IDU" means "I don't understand", "YDU" means "you don't understand" (you misread what I asked), and "yp" means "yes please".
-
-When I ask you to confirm my interpretation and I'm close, don't say "no" and then repeat almost the same thing back; it's very confusing. Say exactly which part is right and which part is wrong.
 
 Everything else (quick answers, overviews, status reports) is normal prose, with lists only where the content really is a list or a sequence. Never number every sentence. When I ask several questions in one message, number the answers to match my questions. Never end with "which step doesn't make sense" or any similar check-in question; it comes across as condescending. I'll say so myself if something doesn't land.
 
