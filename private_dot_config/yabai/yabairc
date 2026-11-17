@@ -44,6 +44,7 @@ yabai -m rule --add app="^Mac Mouse Fix$" manage=off
 yabai -m rule --add app="^LinearMouse$" manage=off
 yabai -m rule --add app="^Finder$" manage=off
 yabai -m rule --add app="^Brain\.fm$" manage=off
+yabai -m rule --add app="^Calendar$" manage=off
 # Floating in the middle of the screen, two thirds of its width and height
 yabai -m rule --add app="^Activity Monitor$" manage=off grid=6:6:1:1:4:4
 # Menu-bar apps that hide their window instead of closing it; tiled, the hidden window keeps an empty slot
