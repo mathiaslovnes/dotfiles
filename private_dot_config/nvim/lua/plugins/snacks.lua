@@ -25,6 +25,12 @@ return {
         \end{document}]],
         },
       },
+      -- Lays render-markdown's tables out again once their math is drawn (table_math.lua)
+      doc = {
+        on_update_pre = function(placement)
+          require('table_math').image_updated(placement)
+        end,
+      },
     },
     indent = { enabled = true },
     input = { enabled = false },
@@ -226,6 +232,13 @@ return {
           end
         else
           vim.print = _G.dd
+        end
+
+        -- snacks.image shows a formula's LaTeX source while the cursor is on its line, but the line range it checks
+        -- (inline.lua's get) runs one line too far, so math on the line below the cursor showed its source too
+        local get = Snacks.image.inline.get
+        Snacks.image.inline.get = function(self, from, to)
+          return get(self, from, to - 1)
         end
 
         -- Create some toggle mappings

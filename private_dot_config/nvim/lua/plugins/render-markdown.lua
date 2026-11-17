@@ -22,5 +22,14 @@ return {
       -- disable background highlights
       backgrounds = {},
     },
+
+    pipe_table = {
+      -- Pads cells with math by the width snacks.image draws it at, not its LaTeX source (table_math.lua). Wrapping
+      -- tables wider than the window is off: it redraws any row whose width differs from its source text as raw text
+      wrap = false,
+      cell_offset = function(ctx)
+        return require('table_math').cell_offset(ctx)
+      end,
+    },
   },
 }
