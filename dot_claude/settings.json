@@ -63,6 +63,16 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh ~/.claude/hooks/reply-seen.sh"
+          }
+        ]
+      }
     ]
   },
   "enabledPlugins": {

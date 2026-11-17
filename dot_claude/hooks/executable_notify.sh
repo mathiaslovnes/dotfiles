@@ -3,11 +3,15 @@
 # show a desktop notification, passed through tmux (allow-passthrough all). kitty on macOS can only play the
 # default sound, the system alert sound, so the notification is silent and Glass plays instead.
 [ -n "$TMUX_PANE" ] || exit 0
+input=$(cat)
+# no reminder that Claude is waiting if you've seen the reply since it ended (reply-seen.sh)
+[ "$(printf '%s' "$input" | jq -r .notification_type)" = idle_prompt ] &&
+  [ "$(tmux display-message -p -t "$TMUX_PANE" '#{@claude-seen}')" = 1 ] && exit 0
 tty=$(tmux display-message -p -t "$TMUX_PANE" '#{pane_tty}')
 printf '\a' > "$tty"
 # while kitty is the app in front, the bell icon is enough
 lsappinfo info -only bundleid "$(lsappinfo front)" | grep -q '"net.kovidgoyal.kitty"' && exit 0
-msg=$(jq -r '.message // "Claude Code needs you"')
+msg=$(printf '%s' "$input" | jq -r '.message // "Claude Code needs you"')
 code=$(kitten notify --only-print-escape-code --sound-name silent \
   "Claude Code · $(tmux display-message -p -t "$TMUX_PANE" '#S:#I')" "$msg")
 esc=$(printf '\033')
