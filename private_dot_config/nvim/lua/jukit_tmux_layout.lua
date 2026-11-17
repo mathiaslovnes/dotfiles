@@ -9,13 +9,13 @@ local function tmux(...)
   return vim.trim(vim.fn.system { 'tmux', ... })
 end
 
--- Pane id if the pane is still open, nil otherwise
+-- Pane id if the pane is still open, nil otherwise. For a closed pane, tmux 3.8's display prints an empty line and
+-- exits without an error, so its answer is compared to the id.
 local function live_pane(id)
   if not id or id == '' then
     return nil
   end
-  tmux('display', '-p', '-t', id, '#{pane_id}')
-  return vim.v.shell_error == 0 and id or nil
+  return tmux('display', '-p', '-t', id, '#{pane_id}') == id and id or nil
 end
 
 -- left, top, right, bottom cell of a pane
