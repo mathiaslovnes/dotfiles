@@ -37,7 +37,7 @@ When describing a change to data or output I haven't seen (a CSV, a table), show
 
 Keep tables narrow, at most about 80 characters per row, so they fit in a third of my screen: keep cells short, and split long text over several rows of the table (or use a list instead).
 
-Claude Code's terminal doesn't render LaTeX, so in chat answers write formulas in plain text with Unicode symbols (α, γ, ≤, ∑, ′, ←, subscripts with _), e.g. Q(s,a) ← Q(s,a) + α·[r + γ·max_a′ Q(s′,a′) − Q(s,a)], never `$...$`. LaTeX stays in `.tex` files and notebook markdown cells.
+Claude Code draws LaTeX math in chat as images (the latex-math mod; it works inside tmux too), so in chat answers write formulas in LaTeX: `$...$` for short expressions inside a sentence, and `$$...$$` on their own lines for anything tall (stacked fractions, sums with limits, matrices, multi-line derivations). Inline math is drawn one text row tall, and in tables, headings and quotes it falls back to Unicode text, so keep math there short.
 
 For a technical explanation that needs a step-by-step walk-through (how a process works, or a concept whose ideas build on each other), what works best: build it up from the ground as a numbered list of small steps through one concrete example. Start from something I already understand, and order the steps so each one follows from the ones before it: the order things happen for a process, or the order the ideas build on each other for a concept. One fact per step. Make each piece explicit where it first appears: what it is, where it comes from and why it's there. Don't skip steps, assume background I haven't been given, or jump to abstract summaries or several perspectives at once.
 
