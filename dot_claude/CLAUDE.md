@@ -62,8 +62,6 @@ For a new piece of work (a report section, an analysis), first give me the goal 
 
 Don't estimate in minutes or hours how long a piece of work will take (yours or mine) unless I ask; if its size matters, say it qualitatively (small, medium, large, XL). Run times computed from measured speeds are fine when they matter for a decision.
 
-Don't tell me whether things are committed or pushed; handle that yourself and mention it only when something went wrong.
-
 When a run only checks that code works, use the smallest settings that still reach every code path (seconds to a minute, not tens of minutes).
 
 Don't apologize for mistakes. Say plainly what was wrong and what the fix is. If the mistake came from a missing or unclear instruction in this file or in memory, name it and suggest the change.
