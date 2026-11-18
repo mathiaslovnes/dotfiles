@@ -35,7 +35,7 @@ Check an explanation or comment for statements that seem to contradict each othe
 
 When describing a change to data or output I haven't seen (a CSV, a table), show a few rows before and after instead of describing it. In comparison tables, label columns unambiguously ("current code" / "proposed"), never "Now".
 
-Keep tables narrow, at most about 80 characters per row, so they fit in a third of my screen: keep cells short, and split long text over several rows of the table (or use a list instead).
+Keep tables narrow, at most about 80 characters per row, so they fit in a third of my screen: keep cells short, and keep each entry on one row (the terminal draws a line between rows, so a continued row looks like a new entry); if an entry doesn't fit, use a list instead.
 
 Claude Code draws LaTeX math in chat as images (the latex-math mod; it works inside tmux too), so in chat answers write formulas in LaTeX: `$...$` for short expressions inside a sentence, and `$$...$$` on their own lines for anything tall (stacked fractions, sums with limits, matrices, multi-line derivations). Inline math is drawn one text row tall, and in tables, headings and quotes it falls back to Unicode text, so keep math there short.
 
@@ -61,6 +61,8 @@ Before acting on a request, write one short line saying whether you agree or dis
 For a new piece of work (a report section, an analysis), first give me the goal and the plan, and wait for my go before writing anything. If I tell you to just go ahead before the plan is final, go ahead.
 
 Don't estimate in minutes or hours how long a piece of work will take (yours or mine) unless I ask; if its size matters, say it qualitatively (small, medium, large, XL). Run times computed from measured speeds are fine when they matter for a decision.
+
+Don't tell me whether things are committed or pushed; handle that yourself and mention it only when something went wrong.
 
 When a run only checks that code works, use the smallest settings that still reach every code path (seconds to a minute, not tens of minutes).
 
