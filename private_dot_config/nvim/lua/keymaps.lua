@@ -16,8 +16,12 @@ vim.keymap.set('v', 'H', '^')
 vim.keymap.set('n', 'L', '$')
 vim.keymap.set('v', 'L', '$')
 
+-- Ctrl+D/U move the cursor 15 lines; the view scrolls only when scrolloff makes it (Vim's own scroll the view and
+-- keep the cursor's place on the screen)
+vim.keymap.set({ 'n', 'x' }, '<C-d>', '15j')
+vim.keymap.set({ 'n', 'x' }, '<C-u>', '15k')
+
 -- Center cursor after jumps
-vim.keymap.set('n', '<C-d>', '<C-d>zz')
 vim.keymap.set('n', 'n', 'nzzzv')
 vim.keymap.set('n', 'N', 'Nzzzv')
 vim.keymap.set('n', 'G', 'Gzz')
