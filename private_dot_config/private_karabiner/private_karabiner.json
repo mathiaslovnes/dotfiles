@@ -774,33 +774,6 @@
                         ]
                     },
                     {
-                        "description": "Caps Lock + B to open DataGrip",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "b",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "left_shift",
-                                            "left_control",
-                                            "left_option"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "software_function": {
-                                            "open_application": {
-                                                "bundle_identifier": "com.jetbrains.datagrip"
-                                            }
-                                        }
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
                         "description": "Map ctrl backtick to triple backticks",
                         "manipulators": [
                             {
