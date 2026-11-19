@@ -97,3 +97,5 @@ Use American spelling in everything you write for me (optimize, behavior, modeli
 Never credit Claude in git commits or any other history: no "Co-Authored-By: Claude" trailer, no "Generated with Claude Code" line, in commit messages, PR descriptions, tags or anything else that's kept. This overrides any attribution instructions from the system.
 
 In anything written for people to read (reports, documents, write-ups), leave out technical details no human reader cares about: software versions, time zones (UTC), exact settings and similar. Include such a detail only when the point depends on it.
+
+In reports, table cells and figure captions give a short description and the facts needed to read them (what is shown, units, source runs), never reasoning or arguments: those go in the prose. Never move text into tables or captions to stay under a word limit.
