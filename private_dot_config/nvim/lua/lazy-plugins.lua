@@ -86,7 +86,7 @@ require('lazy').setup({
   require 'plugins.lualine',                    -- Statusline with mode, git, diagnostics, etc.
   require 'plugins.incline',                    -- Floating filename labels on splits
   require 'plugins.noice',                      -- Replaces cmdline, messages, and popupmenu with modern UI
-  -- require 'plugins.neoscroll',               -- Smooth scrolling (Ctrl+D/U now move the cursor: keymaps.lua)
+  require 'plugins.neoscroll',                  -- Smooth scrolling animations
   require 'plugins.scrollview',                 -- Interactive vertical scrollbar with signs
   require 'plugins.illuminate',                 -- Highlight other occurrences of the word under cursor
   require 'plugins.virt-column',                -- Thin vertical line at textwidth+1 as a wrap guide

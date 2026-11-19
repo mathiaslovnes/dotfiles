@@ -21,13 +21,12 @@ return {
       ignored_events = { 'WinScrolled', 'CursorMoved' },
     }
 
-    -- Remap <C-d> and <C-u> using the new signature. Only the view moves: the cursor stays on its line of text
-    -- (Vim's own moves the cursor along, so it keeps its place on the screen)
+    -- Remap <C-d> and <C-u> using the new signature
     vim.keymap.set({ 'n', 'v', 'x' }, '<C-d>', function()
-      neoscroll.scroll(15, { move_cursor = false, duration = 83 })
+      neoscroll.scroll(15, { move_cursor = true, duration = 83 })
     end)
     vim.keymap.set({ 'n', 'v', 'x' }, '<C-u>', function()
-      neoscroll.scroll(-15, { move_cursor = false, duration = 83 })
+      neoscroll.scroll(-15, { move_cursor = true, duration = 83 })
     end)
   end,
 }
