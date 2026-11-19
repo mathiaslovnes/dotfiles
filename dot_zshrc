@@ -114,6 +114,10 @@ alias n='nvim'
 alias sk='kitten show-key'
 alias kr='pkill -USR1 kitty'
 
+## Claude-code
+alias cc='claude'
+alias cr='claude --resume'
+
 ### Eza (l/ls replacement)
 # clickable file links (kitty, through tmux) only when printing to the terminal; pipes stay plain
 ezah() { if [[ -t 1 ]]; then eza --hyperlink "$@"; else eza "$@"; fi }
