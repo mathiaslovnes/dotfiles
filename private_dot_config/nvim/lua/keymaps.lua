@@ -126,9 +126,10 @@ for i = 1, 9 do
   vim.keymap.set('n', '<M-' .. i .. '>', '<cmd>BufferLineGoToBuffer ' .. i .. '<cr>', { desc = 'Go to buffer ' .. i })
 end
 
--- Cycle through buffers
-vim.keymap.set('n', '<C-q>', '<cmd>BufferLineCyclePrev<CR>', { desc = 'Previous buffer' })
-vim.keymap.set('n', '<C-e>', '<cmd>BufferLineCycleNext<CR>', { desc = 'Next buffer' })
+-- Cycle through buffers. Karabiner sends Ctrl+H/L as Left/Right, so those keys do it too; Ctrl+Q/E are tmux's
+-- window keys (.tmux.conf)
+vim.keymap.set('n', '<Left>', '<cmd>BufferLineCyclePrev<CR>', { desc = 'Previous buffer' })
+vim.keymap.set('n', '<Right>', '<cmd>BufferLineCycleNext<CR>', { desc = 'Next buffer' })
 
 -- Split windows
 vim.keymap.set('n', '<leader>hs', '<cmd>split<CR>', { desc = 'Horizontal split' })

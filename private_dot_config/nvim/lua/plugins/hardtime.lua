@@ -56,8 +56,8 @@ return {
       ['l'] = {},
       ['<Up>'] = { 'n', 'x' },
       ['<Down>'] = { 'n', 'x' },
-      ['<Left>'] = { 'n', 'x' },
-      ['<Right>'] = { 'n', 'x' },
+      ['<Left>'] = { 'x' }, -- in normal mode they switch buffers (keymaps.lua)
+      ['<Right>'] = { 'x' },
       ['+'] = false, -- + stands in for ] (keymaps.lua)
       -- ['gj'] = { 'n', 'x' },
       -- ['gk'] = { 'n', 'x' },
