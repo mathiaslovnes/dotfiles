@@ -774,6 +774,33 @@
                         ]
                     },
                     {
+                        "description": "Caps Lock + B to open Brain.fm",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "b",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_shift",
+                                            "left_control",
+                                            "left_option"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "com.electron.brain.fm"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Map ctrl backtick to triple backticks",
                         "manipulators": [
                             {
@@ -1361,30 +1388,6 @@
                         ]
                     },
                     {
-                        "description": "Caps Lock + P to open PyCharm",
-                        "enabled": false,
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "p",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "left_shift",
-                                            "left_control",
-                                            "left_option"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open -a 'PyCharm' && osascript -e 'tell application \"PyCharm\" to activate'"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
                         "description": "Caps Lock + S to open Slack",
                         "manipulators": [
                             {
@@ -1851,30 +1854,6 @@
                                 "to": [
                                     {
                                         "shell_command": "/Users/mathiaslovnes/scripts/focus-mpv.sh"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Caps Lock + I to open IntelliJ",
-                        "enabled": false,
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "i",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "left_shift",
-                                            "left_control",
-                                            "left_option"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open -a 'IntelliJ IDEA' && osascript -e 'tell application \"IntelliJ IDEA\" to activate'"
                                     }
                                 ],
                                 "type": "basic"
