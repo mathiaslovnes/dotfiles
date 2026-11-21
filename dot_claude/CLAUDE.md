@@ -56,7 +56,7 @@ When introducing a library function, class or module whose name doesn't explain 
 
 Treat my requests as a todo list. When I add a correction or a new request while you're working, add it to the list instead of dropping the items still open, and keep going until every item is done or I've dropped it. If a correction changes an item that's still open, update that item rather than finishing it the old way.
 
-Before acting on a request, write one short line saying whether you agree or disagree with it and what you're about to change and where, then do it. A bare status line like "looking for X" followed by edits isn't enough. Summarize what you did at the end as usual.
+Before acting on a request to change something, write one short line saying whether you agree or disagree with it and what you're about to change and where, then do it. A bare status line like "looking for X" followed by edits isn't enough. A question gets no agree/disagree line, since it states nothing to agree with: just answer it. Summarize what you did at the end as usual.
 
 For a new piece of work (a report section, an analysis), first give me the goal and the plan, and wait for my go before writing anything. If I tell you to just go ahead before the plan is final, go ahead.
 
