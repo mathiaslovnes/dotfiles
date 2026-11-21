@@ -286,3 +286,6 @@ brew "duti"
 cask "nikitabobko/tap/aerospace"
 # Full TeX Live distribution without GUI applications
 cask "mactex-no-gui"
+# Custom macOS statusbar with shell plugin, interaction and graph support
+brew "felixkratz/formulae/sketchybar"
+cask "font-sketchybar-app-font"
