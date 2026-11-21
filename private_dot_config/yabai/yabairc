@@ -63,9 +63,9 @@ yabai -m rule --add app="^mpv$" manage=off
 
 yabai -m rule --apply
 
-# outline the focused window, except mpv (JankyBorders; a second start updates the running one); below the window,
-# since above it every click on the window briefly covers it and it flickers
-borders active_color='glow(0xff787fa9)' inactive_color=0x00000000 width=5.0 style=round order=below blacklist="mpv" &
+# outline the focused window, except mpv (JankyBorders; a second start updates the running one); above the window,
+# since with no window gaps the neighbors cover a border below it (a click makes it flicker for a moment)
+borders active_color='glow(0xff787fa9)' inactive_color=0x00000000 width=5.0 style=round order=above blacklist="mpv" &
 
 # Hide menu-bar when MPV is open
 # yabai -m signal --add event=window_focused app="mpv" \
