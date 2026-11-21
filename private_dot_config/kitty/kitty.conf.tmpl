@@ -6,8 +6,8 @@
 # Remote control only over the socket (smart-splits.nvim uses it); text printed in a pane can't drive kitty
 allow_remote_control socket-only
 listen_on unix:/tmp/kitty
-# The default 10 ms between redraws caps kitty at ~100 fps; 6 ms lets it keep up with the 144 Hz monitor
-repaint_delay 6
+# The default 10 ms between redraws caps kitty at ~100 fps; with none, sync_to_monitor caps it at the monitor's rate
+repaint_delay 0
 
 # Background (relative paths resolve against ~/.config/kitty)
 background_image background-pics/ghostInTheShellCity4k.jpg
