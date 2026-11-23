@@ -108,7 +108,6 @@
       }
     }
   },
-  "outputStyle": "Explanatory",
   "feedbackDrafts": "notify",
   "modelSettings": {
     "claude-opus-5": {
