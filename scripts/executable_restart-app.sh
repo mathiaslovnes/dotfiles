@@ -1,5 +1,5 @@
 #!/bin/bash
-# Quit the frontmost app the way Cmd+Q does and open it again once it has exited (Karabiner Right Cmd+Shift+Q).
+# Quit the frontmost app the way Cmd+Q does and open it again once it has exited (Karabiner Right Cmd+Q).
 # The app can still ask to save; if the quit is canceled, the script gives up after 30 seconds.
 
 read -r pid app <<< "$(osascript -l JavaScript -e '

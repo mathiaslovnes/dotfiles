@@ -1165,15 +1165,14 @@
                         ]
                     },
                     {
-                        "description": "Right Command + Shift + Q to restart the frontmost app",
+                        "description": "Right Command + Q to restart the frontmost app",
                         "manipulators": [
                             {
                                 "from": {
                                     "key_code": "q",
                                     "modifiers": {
                                         "mandatory": [
-                                            "right_command",
-                                            "shift"
+                                            "right_command"
                                         ]
                                     }
                                 },
