@@ -1165,6 +1165,28 @@
                         ]
                     },
                     {
+                        "description": "Right Command + Shift + Q to restart the frontmost app",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "q",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "right_command",
+                                            "shift"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/Users/mathiaslovnes/scripts/restart-app.sh"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Remap Left Command + Escape to Shift + Tab",
                         "manipulators": [
                             {
