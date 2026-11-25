@@ -1811,7 +1811,7 @@
                         ]
                     },
                     {
-                        "description": "Caps Lock + P to open NordPass (P for Password)",
+                        "description": "Caps Lock + P to open 1Password (P for Password)",
                         "manipulators": [
                             {
                                 "from": {
@@ -1828,7 +1828,7 @@
                                     {
                                         "software_function": {
                                             "open_application": {
-                                                "bundle_identifier": "com.nordsec.nordpass"
+                                                "bundle_identifier": "com.1password.1password"
                                             }
                                         }
                                     }
